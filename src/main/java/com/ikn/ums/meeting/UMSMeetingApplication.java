@@ -1,13 +1,13 @@
-package com.ikn.ums.meetings;
+package com.ikn.ums.meeting;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UmsMeetingsApplication {
+public class UMSMeetingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UmsMeetingsApplication.class, args);
+		SpringApplication.run(UMSMeetingApplication.class, args);
 	}
 
 }
