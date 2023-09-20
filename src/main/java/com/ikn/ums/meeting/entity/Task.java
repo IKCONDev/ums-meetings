@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name="tasks_tab")
+@Table(name="task_tab")
 public class Task {
 	
 	@Id

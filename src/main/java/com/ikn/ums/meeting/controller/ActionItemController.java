@@ -24,10 +24,8 @@ import com.ikn.ums.meeting.service.ActionItemService;
 @RequestMapping("/api/actions/")
 public class ActionItemController {
 
-	
     @Autowired 
-	
-    private ActionItemService service;
+    private ActionItemService actionItemService;
     
     //Saving the Action Item in Database
     
@@ -37,7 +35,7 @@ public class ActionItemController {
 		//ActionsDto str= service.createActionItem(actionModel.getEventid(),actionModel.getActionTitle(),actionModel.getDescription(),actionModel.getActionPriority(),
 				//actionModel.getActionStatus(),actionModel.getStartDate(),actionModel.getEndDate());
 		try {
-			ActionItem str= service.createActionItem(actions);
+			ActionItem str= actionItemService.createActionItem(actions);
 			System.out.println(str);
 			return new ResponseEntity<>(str,HttpStatus.OK);
 		}catch (Exception e) {
@@ -54,7 +52,7 @@ public class ActionItemController {
 	public ResponseEntity<?> generateActionItems(@RequestBody List<ActionItem> actionItems){
 		
 		try {
-			boolean value = service.generateActions(actionItems);
+			boolean value = actionItemService.generateActions(actionItems);
 			
 			return new ResponseEntity<>(value,HttpStatus.OK);
 			
@@ -72,7 +70,7 @@ public class ActionItemController {
 	public ResponseEntity<?> getActionItem(){
 		try {
 		
-			return new ResponseEntity<>(service.fetchActionItemList(),HttpStatus.OK);
+			return new ResponseEntity<>(actionItemService.fetchActionItemList(),HttpStatus.OK);
 			
 		}catch(Exception e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
@@ -83,7 +81,7 @@ public class ActionItemController {
 	@GetMapping("/get-action-item/{id}")
 	public ResponseEntity<?> getSingleActionItem(@PathVariable Integer id){
 		try {
-			return new ResponseEntity<>(service.getSingleActionItem(id),HttpStatus.OK);
+			return new ResponseEntity<>(actionItemService.getSingleActionItem(id),HttpStatus.OK);
 		}catch (Exception e) {
 			// TODO: handle exception
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
@@ -99,7 +97,7 @@ public class ActionItemController {
 		
 		try {
 			
-			List<ActionItem> list = service.fetchActionItemsByEmail(email);
+			List<ActionItem> list = actionItemService.fetchActionItemsByEmail(email);
 			return new ResponseEntity<>(list,HttpStatus.OK);
 			
 		}catch (Exception e) {
@@ -114,7 +112,7 @@ public class ActionItemController {
 	public ResponseEntity<?> updateActionItem(@PathVariable("id") Integer actionItemid, @RequestBody ActionItem actionItem){ 
 		try {
 			actionItem.setId(actionItemid);
-			return new ResponseEntity<>(service.updateActionItem(actionItem),HttpStatus.OK);
+			return new ResponseEntity<>(actionItemService.updateActionItem(actionItem),HttpStatus.OK);
 			
 		}catch(Exception e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
@@ -126,7 +124,7 @@ public class ActionItemController {
 	public ResponseEntity<?> deleteActionItem(@PathVariable("id") Integer actionItemid){
 		
 		try { 
-			Integer s= service.deleteActionItem(actionItemid);
+			Integer s= actionItemService.deleteActionItem(actionItemid);
 			//String str="ActionItem Deleted Successfully";
 			return new ResponseEntity<>(s,HttpStatus.OK);
 		}catch (Exception e) {
@@ -143,7 +141,7 @@ public class ActionItemController {
 	 */
 	@GetMapping("/ac-items/{eventId}")
 	public ResponseEntity<?> getActionItemsByEventId(@PathVariable Integer eventId){
-		ActionItemListVO acItemsListVO = service.fetchActionItemsOfEvent(eventId);
+		ActionItemListVO acItemsListVO = actionItemService.fetchActionItemsOfEvent(eventId);
 		return new ResponseEntity<>(acItemsListVO, HttpStatus.OK);
 	}
 	
@@ -153,7 +151,7 @@ public class ActionItemController {
 	 */
 	@GetMapping("/ac-items")
 	public ResponseEntity<?> getAllActionItems(){
-		ActionItemListVO acItemsListVO = service.fetchActionItems();
+		ActionItemListVO acItemsListVO = actionItemService.fetchActionItems();
 		return new ResponseEntity<>(acItemsListVO, HttpStatus.OK);
 	}
 	
@@ -170,7 +168,7 @@ public class ActionItemController {
                      .collect(Collectors.toList());
 		}
 		try {
-			boolean isAllDeleted = service.deleteAllActionItemsById(actualAcIds);
+			boolean isAllDeleted = actionItemService.deleteAllActionItemsById(actualAcIds);
 			return new ResponseEntity<>(isAllDeleted, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>("error while deleting, please try later", HttpStatus.OK);
@@ -184,7 +182,7 @@ public class ActionItemController {
 		System.out.println("ActionsController.conversionOfTask() entered");
 		try {
 			
-			return new  ResponseEntity<>(service.sendToTasks(actionItemList),HttpStatus.OK);			
+			return new  ResponseEntity<>(actionItemService.sendToTasks(actionItemList),HttpStatus.OK);			
 		}catch (Exception e) {
 			// TODO: handle exception
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);

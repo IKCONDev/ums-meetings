@@ -14,7 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="actionItem_tab")
+@Table(name="actionItems_tab")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -48,4 +48,7 @@ public class ActionItem {
 	
 	@Column(name = "user_id")
 	private String userId;
+	
+	@Column(name = "act_owner")
+	private String actionOwner;
 }

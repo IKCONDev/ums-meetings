@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ikn.ums.meeting.VO.ActionItemVO;
+import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Task;
 
 public interface TaskService {
@@ -19,7 +20,7 @@ public interface TaskService {
 	
 	Integer deleteTaskDetails(Integer taskId);
 	
-	List<Task> convertToTask(List<ActionItemVO> actionItemList);
+	List<Task> convertToTask(List<ActionItem> actionItemList);
 	
 	//List<TaskListVO> converTOTask(List<ActionItemVO> actionItemList);
 	

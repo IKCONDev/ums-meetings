@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ikn.ums.meeting.VO.ActionItemVO;
+import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.service.TaskService;
 
@@ -41,7 +42,7 @@ public class TaskController {
 	}
 	
 	@PostMapping("/convert-task")
-	public ResponseEntity<?> autoTaskCreation(@RequestBody List<ActionItemVO> actionItemList){
+	public ResponseEntity<?> autoTaskCreation(@RequestBody List<ActionItem> actionItemList){
 		System.out.println("TaskController.autoTaskCreation() entered");
 		try {
 			List<Task> task= taskService.convertToTask(actionItemList);

@@ -7,16 +7,16 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.ikn.ums.meeting.VO.ActionItemVO;
+import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.repository.TaskRepository;
 import com.ikn.ums.meeting.service.TaskService;
 
+@Service
 public class TaskServiceImpl implements  TaskService{
 
-
-	
 	@Autowired
 	private TaskRepository taskRepo;
 
@@ -71,7 +71,7 @@ public class TaskServiceImpl implements  TaskService{
 
 	@Override
 	@Transactional
-	public List<Task> convertToTask(List<ActionItemVO> actionItemList) {
+	public List<Task> convertToTask(List<ActionItem> actionItemList) {
 		// TODO Auto-generated method stub
 		System.out.println(actionItemList);
 		List<Task> taskList = new ArrayList<>();

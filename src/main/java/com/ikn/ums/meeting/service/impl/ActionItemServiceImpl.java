@@ -7,25 +7,24 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
-import com.ikn.ums.meeting.VO.TaskVO;
 import com.ikn.ums.meeting.entity.ActionItem;
+import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.BusinessException;
 import com.ikn.ums.meeting.repository.ActionItemRepository;
+import com.ikn.ums.meeting.service.TaskService;
 
+@Service
 public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.ActionItemService {
 
 	@Autowired
 	private ActionItemRepository actionItemRepository;
 	
 	@Autowired
-	private RestTemplate restTemplate;
+	private TaskService taskService;
 	
 	@Override
 	@Transactional
@@ -109,10 +108,11 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	
 	@Transactional
 	@Override
-	public List<TaskVO> sendToTasks(List<ActionItem> actionItems) {
+	public List<Task> sendToTasks(List<ActionItem> actionItems) {
 		try {
 			System.out.println("ActionsServiceImpl.sendToTasks() entered "+actionItems);
 			
+			/*
 			String URL="http://localhost:8012/task/convert-task";
 			HttpEntity<?> httpEntity = new HttpEntity<>(actionItems,null);
 			
@@ -120,7 +120,8 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 			        URL, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<List<TaskVO>>() {});
 			List<TaskVO> taskList = responseEntity.getBody();
 			System.out.println(responseEntity.getBody());
-			
+			*/
+			List<Task> taskList = taskService.convertToTask(actionItems);
 			//change the action item status to Converted
 			actionItems.stream().forEach(action ->{
 				action.setActionStatus("Converted");
