@@ -18,19 +18,19 @@ public class TaskServiceImpl implements  TaskService{
 
 	
 	@Autowired
-	private TaskRepository repo;
+	private TaskRepository taskRepo;
 
 	@Override
 	@Transactional
 	public Task SaveTasks(Task task) {
 		
-		return repo.save(task);
+		return taskRepo.save(task);
 	}
 
 	@Override
 	public List<Task> fetchTaskDetails() {
 		// TODO Auto-generated method stub
-		List<Task> task= repo.findAll();
+		List<Task> task= taskRepo.findAll();
 		return task;
 	}
 
@@ -38,7 +38,7 @@ public class TaskServiceImpl implements  TaskService{
 	public Task updateTask(Task task) {
 		// TODO Auto-generated method stub
 	   
-	    Task updatetask = repo.findById(task.getId()).get();
+	    Task updatetask = taskRepo.findById(task.getId()).get();
 	    updatetask.setTaskTitle(task.getTaskTitle());
 	    updatetask.setTaskDescription(task.getTaskDescription());
 	    updatetask.setStartDate(task.getStartDate());
@@ -48,7 +48,7 @@ public class TaskServiceImpl implements  TaskService{
 	    updatetask.setActionItemId(task.getActionItemId());
 	    updatetask.setAssignee(task.getAssignee());
 	    updatetask.setStatus(task.getStatus());
-	    Task modifiedtask = repo.save(updatetask );
+	    Task modifiedtask = taskRepo.save(updatetask );
 	    return modifiedtask;
 		
 	}
@@ -56,7 +56,7 @@ public class TaskServiceImpl implements  TaskService{
 	@Override
 	public Optional<Task> singleTaskDetails(Integer id) {
 		// TODO Auto-generated method stub
-		Optional<Task>   task = repo.findById(id);
+		Optional<Task>   task = taskRepo.findById(id);
 		return task;
 	}
 
@@ -64,7 +64,7 @@ public class TaskServiceImpl implements  TaskService{
 	@Transactional
 	public Integer deleteTaskDetails(Integer taskId) {
 		// TODO Auto-generated method stub
-		repo.deleteById(taskId);
+		taskRepo.deleteById(taskId);
 		return 1;
 
 	}
@@ -93,14 +93,14 @@ public class TaskServiceImpl implements  TaskService{
 		
 		});
 		
-	    return repo.saveAll(taskList);
+	    return taskRepo.saveAll(taskList);
 	}
     
 	@Override
 	public boolean deleteAllTasksById(List<Integer> ids) {
 		boolean isAllDeleted = false;
 		try {
-			repo.deleteAllById(ids);
+			taskRepo.deleteAllById(ids);
 			isAllDeleted = true;
 		}catch (Exception e) {
 			isAllDeleted = false;
@@ -112,7 +112,7 @@ public class TaskServiceImpl implements  TaskService{
 	@Override
 	public List<Task> fetchUserTasks(String email) {
 		// TODO Auto-generated method stub
-		List<Task> list = repo.findByUserId(email);
+		List<Task> list = taskRepo.findByUserId(email);
 		return list;
 	}
 	
