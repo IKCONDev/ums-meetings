@@ -1,12 +1,22 @@
 package com.ikn.ums.meeting.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
+import com.ikn.ums.meeting.VO.TaskVO;
 import com.ikn.ums.meeting.entity.ActionItem;
+import com.ikn.ums.meeting.exception.BusinessException;
 import com.ikn.ums.meeting.repository.ActionItemRepository;
 
 public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.ActionItemService {
@@ -14,25 +24,37 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	@Autowired
 	private ActionItemRepository actionItemRepository;
 	
+	@Autowired
+	private RestTemplate restTemplate;
+	
 	@Override
+	@Transactional
 	public ActionItem createActionItem(ActionItem actions) {
+		// TODO Auto-generated method stub
+		//ActionsEntity entity =repo.saveAll(actionmodel);
+		//ModelMapper mapper =new ModelMapper();
+		//mapper.map(entity,ActionsDto.class);
+		
 		return actionItemRepository.save(actions);
 	}
 
 	@Override
 	public List<ActionItem> fetchActionItemList() {
-		List<ActionItem>actions = actionItemRepository.findAll();
+		// TODO Auto-generated method stub
+		List<ActionItem>actions =actionItemRepository.findAll();
 		return actions;
 	}
 
 	@Override
 	public Optional<ActionItem> getSingleActionItem(Integer id) {
+		// TODO Auto-generated method stub
 		Optional<ActionItem> actionItem = actionItemRepository.findById(id);
 		return actionItem;
 	}
 
 	@Override
 	public ActionItem updateActionItem(ActionItem action) {
+		// TODO Auto-generated method stub
 		ActionItem existingAction = actionItemRepository.findById(action.getId()).get();
 		existingAction.setEventid(action.getEventid());
 		existingAction.setActionTitle(action.getActionTitle());
@@ -41,16 +63,21 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		existingAction.setActionStatus(action.getActionStatus());
 		existingAction.setStartDate(action.getStartDate());
 		existingAction.setEndDate(action.getEndDate());
-		ActionItem updateAction = actionItemRepository.save(existingAction);
+		ActionItem updateAction= actionItemRepository.save(existingAction);
 		return updateAction;
 	}
 
 	@Override
+	@Transactional
 	public Integer deleteActionItem(Integer actionId) {
+		// TODO Auto-generated method stub
+	
 		actionItemRepository.deleteById(actionId);
 		return 1;
+		
 	}
 
+	//fetches action items based on event id
 	@Override
 	public ActionItemListVO fetchActionItemsOfEvent(Integer eventId) {
 		ActionItemListVO acItemsVO = new ActionItemListVO();
@@ -67,4 +94,75 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		return acItemsVO;
 	}
 
+	@Override
+	public boolean deleteAllActionItemsById(List<Integer> ids) {
+		boolean isAllDeleted = false;
+		try {
+			actionItemRepository.deleteAllById(ids);
+			isAllDeleted = true;
+		}catch (Exception e) {
+			isAllDeleted = false;
+		}
+		System.out.println(isAllDeleted);
+		return isAllDeleted;
+	}
+	
+	@Transactional
+	@Override
+	public List<TaskVO> sendToTasks(List<ActionItem> actionItems) {
+		try {
+			System.out.println("ActionsServiceImpl.sendToTasks() entered "+actionItems);
+			
+			String URL="http://localhost:8012/task/convert-task";
+			HttpEntity<?> httpEntity = new HttpEntity<>(actionItems,null);
+			
+			ResponseEntity<List<TaskVO>> responseEntity = restTemplate.exchange(
+			        URL, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<List<TaskVO>>() {});
+			List<TaskVO> taskList = responseEntity.getBody();
+			System.out.println(responseEntity.getBody());
+			
+			//change the action item status to Converted
+			actionItems.stream().forEach(action ->{
+				action.setActionStatus("Converted");
+			});
+			
+			//updates only the status of action item in db
+            actionItemRepository.saveAll(actionItems);
+			return taskList;
+		}catch (Exception e) {
+			throw new BusinessException("error code", "Service Exception");
+		}
+	}
+
+	@Override
+	public boolean generateActions(List<ActionItem> actionItems) {
+		// TODO Auto-generated method stub
+		List<ActionItem> actionList = new ArrayList<>();
+		actionItems.forEach(actions->{
+			ActionItem ac = new ActionItem();
+		    ac.setActionTitle(actions.getActionTitle());
+		    ac.setDescription(actions.getDescription());
+		    ac.setStartDate(actions.getStartDate());
+		    ac.setActionPriority(actions.getActionPriority());
+		    ac.setActionStatus(actions.getActionStatus());
+		    ac.setEndDate(actions.getEndDate());
+		    ac.setEventid(actions.getEventid());
+		    ac.setUserId(actions.getUserId());
+		    actionList.add(ac);
+			
+		});
+		actionItemRepository.saveAll(actionList);
+		System.out.println(actionList);
+		return true;
+	}
+
+	@Override
+	public List<ActionItem> fetchActionItemsByEmail(String email) {
+		// TODO Auto-generated method stub
+	    System.out.println(email);
+		List<ActionItem> list =actionItemRepository.findByUserId(email);
+		System.out.println(list);
+		return list;
+	}
+	
 }

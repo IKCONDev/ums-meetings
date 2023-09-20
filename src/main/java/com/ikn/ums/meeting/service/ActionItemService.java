@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
+import com.ikn.ums.meeting.VO.TaskVO;
 import com.ikn.ums.meeting.entity.ActionItem;
 
 public interface ActionItemService {
@@ -27,5 +28,14 @@ public interface ActionItemService {
 	ActionItemListVO fetchActionItemsOfEvent(Integer eventId);
 
 	ActionItemListVO fetchActionItems();
+	
+    List<TaskVO> sendToTasks(List<ActionItem> actionItem);
+	
+	boolean deleteAllActionItemsById(List<Integer> ids);
+	
+	boolean generateActions(List<ActionItem> actionItems);
+	
+	List<ActionItem> fetchActionItemsByEmail(String email);
+	
 
 }
