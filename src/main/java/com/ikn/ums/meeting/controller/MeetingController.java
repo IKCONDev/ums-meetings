@@ -32,11 +32,6 @@ public class MeetingController {
 		return null;
 	}
 	
-	/*
-	 *  Get all user Events based on Login
-	 */
-	
-	
 	
 	/**
 	 * delete the action items of an event by commnunicating with action items microservice
@@ -105,4 +100,29 @@ public class MeetingController {
 		
 	}
 
+    /*
+     * Get Organized Meeting Details of logged-in user
+     * @param email id
+     */
+	@GetMapping("/organized/{emailid})")
+	public ResponseEntity<?> getUserOrganizedEvents(@PathVariable String userEmailId){
+		log.info("MeetingController.getUserEventsByEmailId() entered with args: userEmailId"+userEmailId);
+		if(userEmailId.equals("")) {
+			log.info("MeetingController.getUserEventsByEmailId() userEmailId: isEmpty");
+		}
+		log.info("MeetingController.getUserEventsByEmailId() under execution ");
+		try {
+			
+			List<EventVO> meetingList=meetingService.getUserEventsByEmailId(userEmailId);
+			log.info("MeetingController.getUserEvnetsByEmailId() exited Successfully");
+			return new ResponseEntity<>(meetingList,HttpStatus.OK);
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.info("MeetingController.getUserEventsByEmailId() exited with Exception: Exception occured while getting user organized meetings"
+					+e.getMessage());
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
+	}
 }

@@ -11,7 +11,7 @@ public interface MeetingService {
 	//get user attended meetings count
 	List<EventVO> getUserAttendedMeetings(String email);
 	
-	
+	List<EventVO> getUserEventsByEmailId(String userPrincipalName);
 
 	
 }
