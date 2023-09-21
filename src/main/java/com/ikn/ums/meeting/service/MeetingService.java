@@ -8,6 +8,9 @@ public interface MeetingService {
 	
 	boolean removeActionItemsOfEvent(String acItemIds, Integer eventId);
 	
+	//get user attended meetings count
+	List<EventVO> getUserAttendedMeetings(String email);
+	
 	
 
 	

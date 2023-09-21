@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ikn.ums.meeting.VO.EventVO;
 import com.ikn.ums.meeting.exception.ControllerException;
+import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.service.MeetingService;
-
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -75,6 +76,32 @@ public class MeetingController {
 	@GetMapping("")
 	public ResponseEntity<?> editActionItemOfEvent(Integer id){
 		return null;
+		
+	}
+	
+	/**
+	 * get all organized events of a user based on userId(email)
+	 * 
+	 * @param username
+	 * @return list of user organized events
+	 */
+	@GetMapping(path = "/attended/{userEmailId}")
+	public ResponseEntity<?> getUserAttendedMeetings(@PathVariable String userEmailId) {
+		if(userEmailId == "" || userEmailId == null) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USER_EMPTY_EXCEPTION_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_USER_EMPTY_EXCEPTION_MSG);
+		}
+		log.info("MeetingController.getUserAttendedMeetings() entered with args : "+userEmailId);
+		try {
+			log.info("MeetingController.getUserAttendedMeetings() is under excution...");
+			List<EventVO> eventList =  meetingService.getUserAttendedMeetings(userEmailId);
+			log.info("MeetingController.getUserAttendedMeetings() is executed successfully...");
+			return new ResponseEntity<>(eventList, HttpStatus.OK);
+		}catch (Exception e) {
+			log.info("MeetingController.getUserAttendedMeetings() exited with exception : "+e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG);
+		}
 		
 	}
 
