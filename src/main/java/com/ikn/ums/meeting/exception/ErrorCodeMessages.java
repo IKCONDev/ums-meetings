@@ -56,4 +56,10 @@ public class ErrorCodeMessages {
 	 public static final String ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_CODE = "DEPARTMENT-REST-CLIENT-EXCEPTION-1018";
 	 public static final String ERR_EMP_DEPT_REST_CLIENT_EXCEPTION_MSG = "Error Occured While Calling Department Microservice !"; 
 	 
+	// public static final String ERR_MEETING_REST_CLIENT_EXCEPTION_CODE = "MEETINGS_REST_CLIENT_EXCEPTION_CODE-1001";
+	// public static final String ERR_MEETING_REST_CLIENT_EXCEPTION_MSG = "Action Item microservice returned a http error response";
+	 
+	 public static final String ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE = "EMEETINGS_CONTROLLER_EXCEPTION_CODE-1003";
+	 public static final String ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG = "An Exception occured in Meetings controller";
+	 
 }
