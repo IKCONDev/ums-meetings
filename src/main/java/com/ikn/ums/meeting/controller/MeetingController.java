@@ -1,5 +1,7 @@
 package com.ikn.ums.meeting.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.service.MeetingService;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +30,12 @@ public class MeetingController {
 		//TODO: create event
 		return null;
 	}
+	
+	/*
+	 *  Get all user Events based on Login
+	 */
+	
+	
 	
 	/**
 	 * delete the action items of an event by commnunicating with action items microservice

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.ikn.ums.meeting.VO.EventVO;
 import com.ikn.ums.meeting.exception.BusinessException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.service.ActionItemService;
@@ -25,6 +26,7 @@ public class MeetingsServiceImpl implements MeetingService {
 	
 	@Autowired
 	private ActionItemService actionItemService;
+
 
 	@Override
 	public boolean removeActionItemsOfEvent(String acItemIds, Integer eventId) {
@@ -46,5 +48,7 @@ public class MeetingsServiceImpl implements MeetingService {
 		log.info("EventServiceImpl.removeActionItemsOfEvent() exited sucessfully by returning "+isDeleted);
 		return isDeleted;
 	}
+
+	
 
 }
