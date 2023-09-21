@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -47,6 +50,24 @@ public class MeetingsServiceImpl implements MeetingService {
 			isDeleted = true;
 		log.info("EventServiceImpl.removeActionItemsOfEvent() exited sucessfully by returning "+isDeleted);
 		return isDeleted;
+	}
+
+	
+
+	@Override
+	public List<EventVO> getUserEventsByEmailId(String userPrincipalName) {
+		log.info("getUserEventsByEmailId(): entered");
+		try {
+			String url ="http://UMS-BATCH-SERVICE/events/organized/"+userPrincipalName;
+			ResponseEntity<List<EventVO>> response= restTemplate.exchange(url,HttpMethod.GET,null, new ParameterizedTypeReference<List<EventVO>>() {});
+			return response.getBody();
+		}catch (Exception e) {
+			// TODO: handle exception
+			return null;
+			
+		}
+		// TODO Auto-generated method stub
+		
 	}
 
 	

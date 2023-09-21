@@ -8,7 +8,7 @@ public interface MeetingService {
 	
 	boolean removeActionItemsOfEvent(String acItemIds, Integer eventId);
 	
-	
+	List<EventVO> getUserEventsByEmailId(String userPrincipalName);
 
 	
 }

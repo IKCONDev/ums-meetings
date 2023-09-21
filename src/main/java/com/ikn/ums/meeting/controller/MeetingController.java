@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ikn.ums.meeting.VO.EventVO;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.service.MeetingService;
@@ -30,11 +31,6 @@ public class MeetingController {
 		//TODO: create event
 		return null;
 	}
-	
-	/*
-	 *  Get all user Events based on Login
-	 */
-	
 	
 	
 	/**
@@ -77,5 +73,32 @@ public class MeetingController {
 		return null;
 		
 	}
-
+	
+    /*
+     * Get Organized Meeting Details of logged-in user
+     * @param email id
+     */
+	@GetMapping("/organized/{emailid})")
+	public ResponseEntity<?> getUserEventsByEmailId(@PathVariable String userEmailId){
+		log.info("MeetingController.getUserEventsByEmailId() entered with args: userEmailId"+userEmailId);
+		if(userEmailId.equals("")) {
+			log.info("MeetingController.getUserEventsByEmailId() userEmailId: isEmpty");
+		}
+		log.info("MeetingController.getUserEventsByEmailId() under execution ");
+		try {
+			
+			List<EventVO> meetingList=meetingService.getUserEventsByEmailId(userEmailId);
+			log.info("MeetingController.getUserEvnetsByEmailId() exited Successfully");
+			return new ResponseEntity<>(meetingList,HttpStatus.OK);
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.info("MeetingController.getUserEventsByEmailId() exited with Exception: Exception occured while getting user organized meetings"
+					+e.getMessage());
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
+	}
+	
+	
 }
