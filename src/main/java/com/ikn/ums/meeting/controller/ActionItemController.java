@@ -111,7 +111,7 @@ public class ActionItemController {
 	@PutMapping("/update-action/{id}")
 	public ResponseEntity<?> updateActionItem(@PathVariable("id") Integer actionItemid, @RequestBody ActionItem actionItem){ 
 		try {
-			actionItem.setId(actionItemid);
+			actionItem.setActionItemId(actionItemid);
 			return new ResponseEntity<>(actionItemService.updateActionItem(actionItem),HttpStatus.OK);
 			
 		}catch(Exception e) {

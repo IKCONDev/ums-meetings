@@ -23,32 +23,36 @@ public class ActionItem {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	@Column(name="id")
-	private Integer id;
+	private Integer actionItemId;
 	
 	@Column(name="event_id")
-	private Integer eventid;
+	private String eventId;
 	
-	@Column(name="act_title")
-	private String actionTitle;
+	@Column(name="meeting_id")
+	private String meetingId;
+
+	@Column(name="user_id")
+	private String emailId;
 	
-	@Column(name="act_desc")
-	private String description;
+	@Column(name="actionItemOwner")
+	private String actionItemOwner;
+	
+	@Column(name="actionItemTitle")
+	private String actionItemTitle;
+	
+	@Column(name="actionItemDescription")
+	private String actionItemDescription;
 		
-	@Column(name="act_prty")
+	@Column(name="actionPriority")
 	private String actionPriority;
 	
-	@Column(name="act_status")
+	@Column(name="actionStatus")
 	private String actionStatus;
 	
-	@Column(name="strt_date")
+	@Column(name="startDate")
 	private LocalDateTime startDate;
 	
-	@Column(name="end_date")
+	@Column(name="endDate")
 	private LocalDateTime endDate;
 	
-	@Column(name = "user_id")
-	private String userId;
-	
-	@Column(name = "act_owner")
-	private String actionOwner;
 }

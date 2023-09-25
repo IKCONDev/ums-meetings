@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.entity.ActionItem;
@@ -54,10 +53,10 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	@Override
 	public ActionItem updateActionItem(ActionItem action) {
 		// TODO Auto-generated method stub
-		ActionItem existingAction = actionItemRepository.findById(action.getId()).get();
-		existingAction.setEventid(action.getEventid());
-		existingAction.setActionTitle(action.getActionTitle());
-		existingAction.setDescription(action.getDescription());
+		ActionItem existingAction = actionItemRepository.findById(action.getActionItemId()).get();
+		existingAction.setMeetingId(action.getMeetingId());
+		existingAction.setActionItemTitle(action.getActionItemTitle());
+		existingAction.setActionItemDescription(action.getActionItemDescription());
 		existingAction.setActionPriority(action.getActionPriority());
 		existingAction.setActionStatus(action.getActionStatus());
 		existingAction.setStartDate(action.getStartDate());
@@ -141,14 +140,14 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		List<ActionItem> actionList = new ArrayList<>();
 		actionItems.forEach(actions->{
 			ActionItem ac = new ActionItem();
-		    ac.setActionTitle(actions.getActionTitle());
-		    ac.setDescription(actions.getDescription());
+		    ac.setActionItemTitle(actions.getActionItemTitle());
+		    ac.setActionItemDescription(actions.getActionItemDescription());
 		    ac.setStartDate(actions.getStartDate());
 		    ac.setActionPriority(actions.getActionPriority());
 		    ac.setActionStatus(actions.getActionStatus());
 		    ac.setEndDate(actions.getEndDate());
-		    ac.setEventid(actions.getEventid());
-		    ac.setUserId(actions.getUserId());
+		    ac.setEventId(actions.getEventId());
+		    ac.setEmailId(actions.getEmailId()); //User ID Details
 		    actionList.add(ac);
 			
 		});

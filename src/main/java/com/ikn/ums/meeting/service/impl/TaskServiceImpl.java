@@ -79,15 +79,15 @@ public class TaskServiceImpl implements  TaskService{
 		List<Task> taskList = new ArrayList<>();
 		actionItemList.forEach(actionitem ->{
 			Task task = new Task();
-			task.setId(actionitem.getId());
-			task.setTaskTitle(actionitem.getActionTitle());
-			task.setActionItemId(actionitem.getId());
-			task.setAssignee(actionitem.getActionOwner());
+			//task.setId(actionitem.getId());
+			task.setTaskTitle(actionitem.getActionItemTitle());
+			task.setActionItemId(actionitem.getActionItemId());
+			task.setAssignee(actionitem.getActionItemOwner());
 			task.setStartDate(actionitem.getStartDate());
 			task.setDueDate(actionitem.getEndDate());
-			task.setTaskDescription(actionitem.getDescription());
+			task.setTaskDescription(actionitem.getActionItemDescription());
 			task.setTaskPriority(actionitem.getActionPriority());
-			task.setUserId(actionitem.getUserId());
+			task.setUserId(actionitem.getEmailId());
 			//task.setStatus(actionitem.getActionStatus());
 			task.setStatus("Yet to Start");
 			taskList.add(task);
