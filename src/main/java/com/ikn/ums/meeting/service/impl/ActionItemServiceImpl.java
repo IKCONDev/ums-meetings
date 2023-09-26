@@ -107,9 +107,9 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	
 	@Transactional
 	@Override
-	public List<Task> sendToTasks(List<ActionItem> actionItems) {
+	public List<Task> sendToTasks(List<ActionItem> actionItemList) {
 		try {
-			System.out.println("ActionsServiceImpl.sendToTasks() entered "+actionItems);
+			System.out.println("ActionsServiceImpl.sendToTasks() entered "+actionItemList);
 			
 			/*
 			String URL="http://localhost:8012/task/convert-task";
@@ -120,14 +120,14 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 			List<TaskVO> taskList = responseEntity.getBody();
 			System.out.println(responseEntity.getBody());
 			*/
-			List<Task> taskList = taskService.convertToTask(actionItems);
+			List<Task> taskList = taskService.convertToTask(actionItemList);
 			//change the action item status to Converted
-			actionItems.stream().forEach(action ->{
+			actionItemList.stream().forEach(action ->{
 				action.setActionStatus("Converted");
 			});
 			
 			//updates only the status of action item in db
-            actionItemRepository.saveAll(actionItems);
+            actionItemRepository.saveAll(actionItemList);
 			return taskList;
 		}catch (Exception e) {
 			throw new BusinessException("error code", "Service Exception");
@@ -137,30 +137,30 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	@Override
 	public boolean generateActions(List<ActionItem> actionItems) {
 		// TODO Auto-generated method stub
-		List<ActionItem> actionList = new ArrayList<>();
-		actionItems.forEach(actions->{
-			ActionItem ac = new ActionItem();
-		    ac.setActionItemTitle(actions.getActionItemTitle());
-		    ac.setActionItemDescription(actions.getActionItemDescription());
-		    ac.setStartDate(actions.getStartDate());
-		    ac.setActionPriority(actions.getActionPriority());
-		    ac.setActionStatus(actions.getActionStatus());
-		    ac.setEndDate(actions.getEndDate());
-		    ac.setEventId(actions.getEventId());
-		    ac.setEmailId(actions.getEmailId()); //User ID Details
-		    actionList.add(ac);
+		List<ActionItem> actionItemList = new ArrayList<>();
+		actionItems.forEach(actionItem->{
+			ActionItem newActionItem = new ActionItem();
+			newActionItem.setActionItemTitle(actionItem.getActionItemTitle());
+			newActionItem.setActionItemDescription(actionItem.getActionItemDescription());
+			newActionItem.setStartDate(actionItem.getStartDate());
+			newActionItem.setActionPriority(actionItem.getActionPriority());
+			newActionItem.setActionStatus(actionItem.getActionStatus());
+			newActionItem.setEndDate(actionItem.getEndDate());
+			newActionItem.setMeetingId(actionItem.getMeetingId());
+			newActionItem.setEmailId(actionItem.getEmailId()); //UserId details
+			actionItemList.add(newActionItem);
 			
 		});
-		actionItemRepository.saveAll(actionList);
-		System.out.println(actionList);
+		actionItemRepository.saveAll(actionItemList);
+		System.out.println(actionItemList);
 		return true;
 	}
 
 	@Override
-	public List<ActionItem> fetchActionItemsByEmail(String email) {
+	public List<ActionItem> fetchActionItemsByEmail(String emailId) {
 		// TODO Auto-generated method stub
-	    System.out.println(email);
-		List<ActionItem> list =actionItemRepository.findByUserId(email);
+	    System.out.println(emailId);
+		List<ActionItem> list =actionItemRepository.findByUserId(emailId);
 		System.out.println(list);
 		return list;
 	}

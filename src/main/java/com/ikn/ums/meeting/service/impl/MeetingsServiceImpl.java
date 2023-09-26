@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -13,9 +15,12 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.ikn.ums.meeting.VO.EventVO;
+import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.exception.BusinessException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
+import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
+import com.ikn.ums.meeting.repository.MeetingRepository;
 import com.ikn.ums.meeting.service.ActionItemService;
 import com.ikn.ums.meeting.service.MeetingService;
 
@@ -30,6 +35,9 @@ public class MeetingsServiceImpl implements MeetingService {
 	
 	@Autowired
 	private ActionItemService actionItemService;
+	
+	@Autowired
+	private MeetingRepository meetingRepository;
 
 
 	@Override
@@ -84,8 +92,22 @@ public class MeetingsServiceImpl implements MeetingService {
 			return null;
 			
 		}
-		// TODO Auto-generated method stub
-		
+	}
+
+	@Transactional
+	@Override
+	public void saveAllUserMeetingsListOfCurrentBatchProcess(List<List<Meeting>> currentBatchProcessingUsersMeetingList) {
+		log.info("MeetingsServiceImpl.saveAllUserMeetingsList() entered with args : currentBatchProcessingUsersMeetingList ");
+		if(currentBatchProcessingUsersMeetingList.size() < 0) {
+			log.info("Empty meetings list from current batch processing ");
+			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_LIST_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_LIST_EMPTY_MESSAGE);
+		}
+		//save each users meetings into db
+		currentBatchProcessingUsersMeetingList.forEach(userMeetingList -> {
+			meetingRepository.saveAll(userMeetingList);
+		});
+		log.info("MeetingsServiceImpl.saveAllUserMeetingsList() exiting successfully");
 	}
 
 	

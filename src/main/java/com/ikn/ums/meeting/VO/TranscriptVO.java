@@ -12,24 +12,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity
-@Table(name = "transcripts_tab")
 @AllArgsConstructor
 @NoArgsConstructor
 public class TranscriptVO {
-	
-	@Id
-	@SequenceGenerator(name = "transcripts_gen", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(generator = "transcripts_gen")
-	private Integer id;
+
+	private Long id;
 	private String transcriptId;
 	private String meetingId;
 	private String meetingOrganizerId;
-	@Column(length = 500)
 	private String transcriptContentUrl;
 	private String createdDateTime;
 	private String transcriptFilePath;
-	@Column(length = 6000)
 	private String transcriptContent;
 	
 }
