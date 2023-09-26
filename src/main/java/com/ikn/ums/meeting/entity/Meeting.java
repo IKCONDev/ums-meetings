@@ -36,7 +36,7 @@ public class Meeting {
 	private String eventId;
 
 	@Column(name = "user_Id", nullable = false)
-	private Integer emailId;
+	private String emailId;
 
 	@Column(name = "originalStartTimeZone")
 	private String originalStartTimeZone;

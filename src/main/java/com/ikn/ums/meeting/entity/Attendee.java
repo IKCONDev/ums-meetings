@@ -35,6 +35,6 @@ public class Attendee {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_fk_id",nullable = true)
 	*/
-	private Integer emailId; //userId
+	private String emailId; //userId
 
 }

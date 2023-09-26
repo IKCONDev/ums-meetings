@@ -7,12 +7,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ikn.ums.meeting.VO.EventVO;
+import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
+import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.service.MeetingService;
 
@@ -122,7 +126,29 @@ public class MeetingController {
 					+e.getMessage());
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
-		
 	}
+	
+	@PostMapping("/")
+	public ResponseEntity<?> processCurrentBatchProcessingSourceData(@RequestBody List<List<Meeting>> currentBatchProcessUserMeetingsList){
+		log.info("MeetingController.processCurrentBatchProcessingSourceData() entered with args : currentBatchProcessUserMeetingsList");
+		if(currentBatchProcessUserMeetingsList.size() < 0) {
+			log.info("Empty meetings list from current batch processing");
+			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_LIST_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_LIST_EMPTY_MESSAGE);
+		}
+		log.info("MeetingController.processCurrentBatchProcessingSourceData() is under execution");
+		try {
+			String message = "";
+			meetingService.saveAllUserMeetingsListOfCurrentBatchProcess(currentBatchProcessUserMeetingsList);
+			message = "Current batch meeting details saved sucessfully";
+			log.info("MeetingController.processCurrentBatchProcessingSourceData() exiting sucessfully");
+			return new ResponseEntity<>(message, HttpStatus.CREATED);
+		}catch (Exception e) {
+			log.info("Exception occured while saving current batch process meetings : "+e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG);
+		}
+	}
+	
+	
 }

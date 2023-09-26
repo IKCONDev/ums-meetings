@@ -25,11 +25,8 @@ public class ActionItem {
 	@Column(name="id")
 	private Integer actionItemId;
 	
-	@Column(name="event_id")
-	private String eventId;
-	
-	@Column(name="meeting_id")
-	private String meetingId;
+	@Column(name="meetingId")
+	private Integer meetingId;
 
 	@Column(name="user_id")
 	private String emailId;

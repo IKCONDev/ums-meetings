@@ -28,7 +28,6 @@ public class AttendeeVO {
 	private String status;
 	private String email;
     private EventVO event;
-	
-	private Integer userId;
+	private String emailId;
 
 }

@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class EventVO {
 
-	private Integer id;
+	private Integer meetingId;
 	
 	private String eventId;
 	
@@ -76,7 +76,7 @@ public class EventVO {
     
     private String insertedDate = LocalDateTime.now().toString();
     
-    private Integer userId;
+    private String emailId;
     
     private boolean isActionItemsGenerated = false;
 
