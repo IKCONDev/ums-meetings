@@ -22,14 +22,14 @@ import lombok.NoArgsConstructor;
 public class Attendee {
 	
 	@Id
-	@SequenceGenerator(name = "attendess_gen", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(generator = "attendess_gen")
+	@SequenceGenerator(name = "attendeeId_gen", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(generator = "attendeeId_gen")
 	private Integer id;
 	private String type;
 	private String status;
 	private String email;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "meetingId", referencedColumnName = "meetingId", nullable = false)
+	@JoinColumn(name = "meet_Id", referencedColumnName = "meetingId", nullable = false)
     private Meeting meeting;
 	/*
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

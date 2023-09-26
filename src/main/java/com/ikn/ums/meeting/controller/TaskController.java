@@ -98,7 +98,7 @@ public class TaskController {
 	@PutMapping("/update-task/{id}")
 	public ResponseEntity<?> updateTaskDetails(@RequestBody Task task,@PathVariable("id") Integer id){
 		try {
-			task.setId(id);
+			task.setTaskId(id);
 			Task update = taskService.updateTask(task);
 			return new ResponseEntity<>(update, HttpStatus.OK);
 		}catch (Exception e) {

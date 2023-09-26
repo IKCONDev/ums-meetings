@@ -40,7 +40,7 @@ public class TaskServiceImpl implements  TaskService{
 	public Task updateTask(Task task) {
 		// TODO Auto-generated method stub
 	   
-	    Task updatetask = taskRepo.findById(task.getId()).get();
+	    Task updatetask = taskRepo.findById( task.getTaskId() ).get();
 	    updatetask.setTaskTitle(task.getTaskTitle());
 	    updatetask.setTaskDescription(task.getTaskDescription());
 	    updatetask.setStartDate(task.getStartDate());

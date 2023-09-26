@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
 public class Transcript {
 	
 	@Id
-	@SequenceGenerator(name = "transcripts_gen", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(generator = "transcripts_gen")
+	@SequenceGenerator(name = "transcriptId_gen", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(generator = "transcriptId_gen")
 	private Integer id;
 	private String transcriptId;
 	private String meetingId;

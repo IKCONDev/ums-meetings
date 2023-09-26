@@ -30,7 +30,7 @@ public class Meeting {
 	@SequenceGenerator(name = "meetingId_gen", initialValue = 1, allocationSize = 1)
 	@GeneratedValue(generator = "meetingId_gen")
 	@Column(name = "meetingId", nullable = false)
-	private Integer meetingId;
+	private Long meetingId;
 	
 	@Column(name = "eventId", nullable = false)
 	private String eventId;
@@ -45,19 +45,19 @@ public class Meeting {
 	private String originalEndTimeZone;
 	
 	@Column(name = "meetingSubject")
-	private String meetingSubject;
+	private String subject;
 	
 	@Column(name = "meetingType")
-	private String meetingType;
+	private String type;
 	
 	@Column(name = "meetingOccurrenceId")
-	private String meetingOccurrenceId;
+	private String occurrenceId;
 	
 	@Column(name = "meetingActualStartDateTime")
-	private LocalDateTime meetingActualstartDateTime;
+	private LocalDateTime actualstartDateTime;
 	
 	@Column(name = "meetingActualEndDateTime")
-	private LocalDateTime meetingActualEndDateTime;
+	private LocalDateTime actualEndDateTime;
 	
 	@Column(name = "startTimeZone")
 	private String startTimeZone;
