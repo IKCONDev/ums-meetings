@@ -104,7 +104,7 @@ public class MeetingController {
      * Get Organized Meeting Details of logged-in user
      * @param email id
      */
-	@GetMapping("/organized/{emailid})")
+	@GetMapping("/organized/{userEmailId}")
 	public ResponseEntity<?> getUserOrganizedEvents(@PathVariable String userEmailId){
 		log.info("MeetingController.getUserEventsByEmailId() entered with args: userEmailId"+userEmailId);
 		if(userEmailId.equals("")) {

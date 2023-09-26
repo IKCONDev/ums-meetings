@@ -4191,3 +4191,700 @@ java.lang.Error: Unresolved compilation problem:
 18:02:04.468 [RMI TCP Connection(73)-127.0.0.1] INFO  c.netflix.discovery.DiscoveryClient - Unregistering ...
 18:02:04.476 [RMI TCP Connection(73)-127.0.0.1] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1049:UMS-MEETING-SERVICE:9021 - deregister  status: 200
 18:02:04.485 [RMI TCP Connection(73)-127.0.0.1] INFO  c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+18:22:18.567 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+18:22:19.256 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Fetching config from server at : http://localhost:9296
+18:22:20.846 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Located environment: name=UMS-MEETING-SERVICE, profiles=[default], label=null, version=abc948351d8765c2e5a2691c8f7f75664420de7d, state=null
+18:22:20.847 [restartedMain] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/IKCONDev/ums-config-server/application.yaml'}]
+18:22:20.852 [restartedMain] INFO  c.i.u.meeting.UMSMeetingApplication - No active profile set, falling back to 1 default profile: "default"
+18:22:21.769 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+18:22:22.003 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 223 ms. Found 2 JPA repository interfaces.
+18:22:22.229 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=bcda9878-6654-3ea3-9815-c092f69364a0
+18:22:22.809 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9021 (http)
+18:22:22.817 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9021"]
+18:22:22.818 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+18:22:22.820 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.79]
+18:22:23.032 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+18:22:23.033 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2172 ms
+18:22:23.315 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+18:22:23.405 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+18:22:23.594 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+18:22:23.695 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+18:22:23.965 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+18:22:23.985 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+18:22:25.290 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+18:22:25.313 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+18:22:26.146 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+18:22:27.244 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+18:22:27.438 [restartedMain] INFO  o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+18:22:27.565 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+18:22:27.576 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+18:22:27.714 [restartedMain] INFO  o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+18:22:27.757 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+18:22:27.764 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+18:22:27.790 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+18:22:27.791 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+18:22:27.791 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+18:22:27.792 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+18:22:27.792 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+18:22:27.792 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+18:22:27.792 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+18:22:28.098 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+18:22:28.101 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+18:22:28.105 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+18:22:28.111 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1695300748110 with initial instances count: 6
+18:22:28.113 [restartedMain] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Registering application UMS-MEETING-SERVICE with eureka with status UP
+18:22:28.114 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1695300748114, current=UP, previous=STARTING]
+18:22:28.115 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021: registering service...
+18:22:28.116 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9021"]
+18:22:28.156 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9021 (http) with context path ''
+18:22:28.157 [restartedMain] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 9021
+18:22:28.184 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - registration status: 204
+18:22:28.323 [restartedMain] INFO  c.i.u.meeting.UMSMeetingApplication - Started UMSMeetingApplication in 10.575 seconds (JVM running for 12.069)
+18:22:29.933 [RMI TCP Connection(9)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+18:22:29.934 [RMI TCP Connection(9)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+18:22:29.938 [RMI TCP Connection(9)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+18:22:49.937 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() entered with args : Bharat@ikcontech.com
+18:22:49.937 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is under excution...
+18:22:49.937 [http-nio-9021-exec-1] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() entered with args : Bharat@ikcontech.com
+18:22:49.937 [http-nio-9021-exec-1] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() calling batch process microservice to get user attended meetings
+18:22:50.059 [http-nio-9021-exec-1] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() exiting sucessfully to controller
+18:22:50.059 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is executed successfully...
+18:23:26.023 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() entered with args : Bharat@ikcontech.com
+18:23:26.023 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is under excution...
+18:23:26.024 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() entered with args : Bharat@ikcontech.com
+18:23:26.024 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() calling batch process microservice to get user attended meetings
+18:23:26.045 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() exiting sucessfully to controller
+18:23:26.045 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is executed successfully...
+18:23:39.181 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() entered with args : Bharat@ikcontech.com
+18:23:39.182 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is under excution...
+18:23:39.182 [http-nio-9021-exec-7] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() entered with args : Bharat@ikcontech.com
+18:23:39.182 [http-nio-9021-exec-7] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() calling batch process microservice to get user attended meetings
+18:23:39.192 [http-nio-9021-exec-7] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() exiting sucessfully to controller
+18:23:39.192 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is executed successfully...
+18:23:46.120 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() entered with args : Bharat@ikcontech.com
+18:23:46.120 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is under excution...
+18:23:46.121 [http-nio-9021-exec-8] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() entered with args : Bharat@ikcontech.com
+18:23:46.121 [http-nio-9021-exec-8] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() calling batch process microservice to get user attended meetings
+18:23:46.142 [http-nio-9021-exec-8] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() exiting sucessfully to controller
+18:23:46.142 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is executed successfully...
+18:27:27.803 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+18:30:17.243 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+18:30:17.454 [Thread-1] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Unregistering application UMS-MEETING-SERVICE with eureka with status DOWN
+18:30:17.462 [Thread-1] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1695301217462, current=DOWN, previous=UP]
+18:30:17.471 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021: registering service...
+18:30:17.964 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - registration status: 204
+18:30:18.066 [Thread-1] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9021"]
+18:30:18.067 [Thread-1] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+18:30:18.084 [Thread-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+18:30:18.125 [Thread-1] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [boundedElastic-evictor-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+18:30:18.127 [Thread-1] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [pool-10-thread-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.park(LockSupport.java:341)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block(AbstractQueuedSynchronizer.java:506)
+ java.base@17.0.7/java.util.concurrent.ForkJoinPool.unmanagedBlock(ForkJoinPool.java:3463)
+ java.base@17.0.7/java.util.concurrent.ForkJoinPool.managedBlock(ForkJoinPool.java:3434)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1623)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1170)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+18:30:18.139 [Thread-1] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9021"]
+18:30:18.162 [Thread-1] INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-9021"]
+18:30:18.196 [Thread-1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+18:30:18.270 [Thread-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+18:30:18.287 [Thread-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+18:30:18.298 [Thread-1] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+18:30:21.314 [Thread-1] INFO  c.netflix.discovery.DiscoveryClient - Unregistering ...
+18:30:21.329 [Thread-1] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - deregister  status: 200
+18:30:21.349 [Thread-1] INFO  c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+18:30:22.067 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Fetching config from server at : http://localhost:9296
+18:30:25.432 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Located environment: name=UMS-MEETING-SERVICE, profiles=[default], label=null, version=abc948351d8765c2e5a2691c8f7f75664420de7d, state=null
+18:30:25.432 [restartedMain] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/IKCONDev/ums-config-server/application.yaml'}]
+18:30:25.434 [restartedMain] INFO  c.i.u.meeting.UMSMeetingApplication - No active profile set, falling back to 1 default profile: "default"
+18:30:25.994 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+18:30:26.027 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 33 ms. Found 2 JPA repository interfaces.
+18:30:26.107 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=bcda9878-6654-3ea3-9815-c092f69364a0
+18:30:26.187 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9021 (http)
+18:30:26.188 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9021"]
+18:30:26.188 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+18:30:26.188 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.79]
+18:30:26.230 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+18:30:26.230 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 794 ms
+18:30:26.284 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+18:30:26.292 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+18:30:26.416 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+18:30:26.418 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+18:30:26.634 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+18:30:26.635 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+18:30:26.765 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+18:30:27.065 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+18:30:27.150 [restartedMain] INFO  o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+18:30:27.172 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+18:30:27.176 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+18:30:27.210 [restartedMain] INFO  o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+18:30:27.214 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+18:30:27.214 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+18:30:27.231 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+18:30:27.231 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+18:30:27.231 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+18:30:27.231 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+18:30:27.231 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+18:30:27.231 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+18:30:27.231 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+18:30:27.255 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+18:30:27.256 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+18:30:27.257 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+18:30:27.259 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1695301227259 with initial instances count: 7
+18:30:27.260 [restartedMain] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Registering application UMS-MEETING-SERVICE with eureka with status UP
+18:30:27.260 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1695301227260, current=UP, previous=STARTING]
+18:30:27.261 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021: registering service...
+18:30:27.262 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9021"]
+18:30:27.272 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9021 (http) with context path ''
+18:30:27.272 [restartedMain] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 9021
+18:30:27.275 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - registration status: 204
+18:30:27.390 [restartedMain] INFO  c.i.u.meeting.UMSMeetingApplication - Started UMSMeetingApplication in 5.629 seconds (JVM running for 491.136)
+18:30:27.395 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+18:30:36.652 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+18:30:36.653 [Thread-8] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Unregistering application UMS-MEETING-SERVICE with eureka with status DOWN
+18:30:36.654 [Thread-8] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1695301236654, current=DOWN, previous=UP]
+18:30:36.654 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021: registering service...
+18:30:36.662 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - registration status: 204
+18:30:36.672 [Thread-8] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9021"]
+18:30:36.672 [Thread-8] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+18:30:36.674 [Thread-8] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9021"]
+18:30:36.676 [Thread-8] INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-9021"]
+18:30:36.678 [Thread-8] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+18:30:36.679 [Thread-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+18:30:36.682 [Thread-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+18:30:36.682 [Thread-8] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+18:30:39.684 [Thread-8] INFO  c.netflix.discovery.DiscoveryClient - Unregistering ...
+18:30:39.689 [Thread-8] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - deregister  status: 200
+18:30:39.693 [Thread-8] INFO  c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+18:30:39.990 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Fetching config from server at : http://localhost:9296
+18:30:40.729 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Located environment: name=UMS-MEETING-SERVICE, profiles=[default], label=null, version=abc948351d8765c2e5a2691c8f7f75664420de7d, state=null
+18:30:40.729 [restartedMain] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/IKCONDev/ums-config-server/application.yaml'}]
+18:30:40.732 [restartedMain] INFO  c.i.u.meeting.UMSMeetingApplication - No active profile set, falling back to 1 default profile: "default"
+18:30:41.088 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+18:30:41.115 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 26 ms. Found 2 JPA repository interfaces.
+18:30:41.170 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=bcda9878-6654-3ea3-9815-c092f69364a0
+18:30:41.239 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9021 (http)
+18:30:41.243 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9021"]
+18:30:41.243 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+18:30:41.243 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.79]
+18:30:41.280 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+18:30:41.280 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 546 ms
+18:30:41.335 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+18:30:41.340 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+18:30:41.455 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+18:30:41.455 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+18:30:41.659 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+18:30:41.659 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+18:30:41.776 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+18:30:42.049 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+18:30:42.122 [restartedMain] INFO  o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+18:30:42.140 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+18:30:42.150 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+18:30:42.178 [restartedMain] INFO  o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+18:30:42.180 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+18:30:42.180 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+18:30:42.181 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+18:30:42.181 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+18:30:42.181 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+18:30:42.182 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+18:30:42.182 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+18:30:42.182 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+18:30:42.182 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+18:30:42.198 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+18:30:42.200 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+18:30:42.201 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+18:30:42.202 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1695301242202 with initial instances count: 7
+18:30:42.203 [restartedMain] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Registering application UMS-MEETING-SERVICE with eureka with status UP
+18:30:42.204 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1695301242204, current=UP, previous=STARTING]
+18:30:42.204 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021: registering service...
+18:30:42.204 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9021"]
+18:30:42.211 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9021 (http) with context path ''
+18:30:42.213 [restartedMain] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 9021
+18:30:42.214 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - registration status: 204
+18:30:42.297 [restartedMain] INFO  c.i.u.meeting.UMSMeetingApplication - Started UMSMeetingApplication in 2.548 seconds (JVM running for 506.043)
+18:30:42.299 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+18:30:52.621 [http-nio-9021-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+18:30:52.621 [http-nio-9021-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+18:30:52.624 [http-nio-9021-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+18:30:52.629 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+18:30:52.629 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+18:30:52.629 [http-nio-9021-exec-1] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+18:30:53.329 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+18:30:58.767 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+18:30:58.767 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+18:30:58.768 [http-nio-9021-exec-2] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+18:30:58.844 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+18:31:00.775 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+18:31:00.775 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+18:31:00.776 [http-nio-9021-exec-3] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+18:31:00.786 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+18:31:01.828 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+18:31:01.828 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+18:31:01.828 [http-nio-9021-exec-4] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+18:31:01.844 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+18:31:34.989 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 3 class path changes (0 additions, 0 deletions, 3 modifications)
+18:31:35.029 [Thread-15] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Unregistering application UMS-MEETING-SERVICE with eureka with status DOWN
+18:31:35.030 [Thread-15] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1695301295030, current=DOWN, previous=UP]
+18:31:35.035 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021: registering service...
+18:31:35.075 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - registration status: 204
+18:31:35.360 [Thread-15] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9021"]
+18:31:35.361 [Thread-15] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+18:31:35.593 [Thread-15] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+18:31:35.681 [Thread-15] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [boundedElastic-2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.park(LockSupport.java:341)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block(AbstractQueuedSynchronizer.java:506)
+ java.base@17.0.7/java.util.concurrent.ForkJoinPool.unmanagedBlock(ForkJoinPool.java:3463)
+ java.base@17.0.7/java.util.concurrent.ForkJoinPool.managedBlock(ForkJoinPool.java:3434)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1623)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1170)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+18:31:35.682 [Thread-15] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [pool-23-thread-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.park(LockSupport.java:341)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block(AbstractQueuedSynchronizer.java:506)
+ java.base@17.0.7/java.util.concurrent.ForkJoinPool.unmanagedBlock(ForkJoinPool.java:3463)
+ java.base@17.0.7/java.util.concurrent.ForkJoinPool.managedBlock(ForkJoinPool.java:3434)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1623)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1170)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+18:31:35.683 [Thread-15] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9021"]
+18:31:35.689 [Thread-15] INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-9021"]
+18:31:35.704 [Thread-15] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+18:31:35.718 [Thread-15] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+18:31:35.758 [Thread-15] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+18:31:35.917 [Thread-15] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+18:31:38.948 [Thread-15] INFO  c.netflix.discovery.DiscoveryClient - Unregistering ...
+18:31:38.954 [Thread-15] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - deregister  status: 200
+18:31:38.966 [Thread-15] INFO  c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+18:31:39.611 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Fetching config from server at : http://localhost:9296
+18:31:41.151 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Located environment: name=UMS-MEETING-SERVICE, profiles=[default], label=null, version=abc948351d8765c2e5a2691c8f7f75664420de7d, state=null
+18:31:41.151 [restartedMain] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/IKCONDev/ums-config-server/application.yaml'}]
+18:31:41.154 [restartedMain] INFO  c.i.u.meeting.UMSMeetingApplication - No active profile set, falling back to 1 default profile: "default"
+18:31:41.654 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+18:31:41.684 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 2 JPA repository interfaces.
+18:31:41.771 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=bcda9878-6654-3ea3-9815-c092f69364a0
+18:31:41.871 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9021 (http)
+18:31:41.871 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9021"]
+18:31:41.871 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+18:31:41.871 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.79]
+18:31:41.905 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+18:31:41.905 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 749 ms
+18:31:41.964 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+18:31:41.968 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+18:31:42.092 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+18:31:42.092 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+18:31:42.329 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+18:31:42.330 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+18:31:42.456 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+18:31:42.765 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+18:31:42.875 [restartedMain] INFO  o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+18:31:42.938 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+18:31:42.941 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+18:31:42.959 [restartedMain] INFO  o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+18:31:42.961 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+18:31:42.961 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+18:31:42.962 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+18:31:42.962 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+18:31:42.962 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+18:31:42.962 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+18:31:42.962 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+18:31:42.962 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+18:31:42.962 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+18:31:42.978 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+18:31:42.979 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+18:31:42.980 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+18:31:42.981 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1695301302981 with initial instances count: 7
+18:31:42.983 [restartedMain] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Registering application UMS-MEETING-SERVICE with eureka with status UP
+18:31:42.983 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1695301302983, current=UP, previous=STARTING]
+18:31:42.983 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021: registering service...
+18:31:42.983 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9021"]
+18:31:42.991 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9021 (http) with context path ''
+18:31:42.992 [restartedMain] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 9021
+18:31:42.994 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - registration status: 204
+18:31:43.074 [restartedMain] INFO  c.i.u.meeting.UMSMeetingApplication - Started UMSMeetingApplication in 3.723 seconds (JVM running for 566.82)
+18:31:43.076 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+18:32:08.867 [http-nio-9021-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+18:32:08.867 [http-nio-9021-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+18:32:08.869 [http-nio-9021-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+18:32:08.874 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+18:32:08.874 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+18:32:08.874 [http-nio-9021-exec-1] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+18:32:09.085 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+18:33:20.665 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() entered with args : Bharat@ikcontech.com
+18:33:20.666 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is under excution...
+18:33:20.666 [http-nio-9021-exec-2] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() entered with args : Bharat@ikcontech.com
+18:33:20.666 [http-nio-9021-exec-2] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() calling batch process microservice to get user attended meetings
+18:33:20.718 [http-nio-9021-exec-2] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() exiting sucessfully to controller
+18:33:20.718 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is executed successfully...
+18:33:51.897 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() entered with args : Bharat@ikcontech.com
+18:33:51.898 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is under excution...
+18:33:51.898 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() entered with args : Bharat@ikcontech.com
+18:33:51.898 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() calling batch process microservice to get user attended meetings
+18:33:51.913 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() exiting sucessfully to controller
+18:33:51.913 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is executed successfully...
+18:34:20.442 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+18:34:20.442 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+18:34:20.443 [http-nio-9021-exec-7] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+18:34:20.493 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+18:34:27.075 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() entered with args : Bharat@ikcontech.com
+18:34:27.075 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is under excution...
+18:34:27.075 [http-nio-9021-exec-5] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() entered with args : Bharat@ikcontech.com
+18:34:27.075 [http-nio-9021-exec-5] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() calling batch process microservice to get user attended meetings
+18:34:27.086 [http-nio-9021-exec-5] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() exiting sucessfully to controller
+18:34:27.087 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is executed successfully...
+18:34:28.484 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+18:34:28.485 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+18:34:28.485 [http-nio-9021-exec-9] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+18:34:28.552 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+18:34:44.494 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+18:34:44.494 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+18:34:44.494 [http-nio-9021-exec-3] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+18:34:44.512 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+18:36:43.007 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+18:36:46.687 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() entered with args : Bharat@ikcontech.com
+18:36:46.689 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is under excution...
+18:36:46.689 [http-nio-9021-exec-5] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() entered with args : Bharat@ikcontech.com
+18:36:46.689 [http-nio-9021-exec-5] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() calling batch process microservice to get user attended meetings
+18:36:46.830 [http-nio-9021-exec-5] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() exiting sucessfully to controller
+18:36:46.830 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is executed successfully...
+18:37:05.993 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+18:37:05.994 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+18:37:05.994 [http-nio-9021-exec-9] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+18:37:06.063 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+18:41:43.033 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+18:43:10.001 [http-nio-9021-exec-10] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+18:43:10.001 [http-nio-9021-exec-10] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+18:43:10.001 [http-nio-9021-exec-10] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+18:43:10.075 [http-nio-9021-exec-10] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+18:45:05.963 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+18:45:05.970 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+18:45:05.970 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+18:45:06.090 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+18:46:43.050 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+18:51:43.065 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+18:56:43.079 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+18:57:28.215 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+18:57:28.215 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+18:57:28.216 [http-nio-9021-exec-4] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+18:57:28.541 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:01:36.787 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:01:36.793 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:01:36.794 [http-nio-9021-exec-9] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:01:37.146 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:01:39.163 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:01:39.163 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:01:39.163 [http-nio-9021-exec-8] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:01:39.194 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:01:43.087 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+19:03:14.418 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:03:14.419 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:03:14.419 [http-nio-9021-exec-1] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:03:14.453 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:03:38.400 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:03:38.401 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:03:38.401 [http-nio-9021-exec-3] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:03:38.422 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:04:08.840 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:04:08.841 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:04:08.841 [http-nio-9021-exec-2] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:04:08.872 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:04:11.175 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:04:11.175 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:04:11.175 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:04:11.214 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:05:05.890 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:05:05.891 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:05:05.891 [http-nio-9021-exec-7] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:05:06.023 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:05:08.746 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:05:08.746 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:05:08.746 [http-nio-9021-exec-4] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:05:08.989 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:05:27.256 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:05:27.256 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:05:27.256 [http-nio-9021-exec-5] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:05:27.278 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:05:43.314 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:05:43.314 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:05:43.314 [http-nio-9021-exec-9] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:05:43.352 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:05:45.497 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:05:45.497 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:05:45.497 [http-nio-9021-exec-8] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:05:45.511 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:05:46.089 [http-nio-9021-exec-10] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:05:46.089 [http-nio-9021-exec-10] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:05:46.089 [http-nio-9021-exec-10] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:05:46.111 [http-nio-9021-exec-10] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:05:46.557 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:05:46.558 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:05:46.558 [http-nio-9021-exec-1] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:05:46.579 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:05:46.938 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:05:46.938 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:05:46.938 [http-nio-9021-exec-3] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:05:46.964 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:05:47.137 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:05:47.138 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:05:47.138 [http-nio-9021-exec-2] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:05:47.161 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:05:47.295 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:05:47.295 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:05:47.295 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:05:47.309 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:05:47.520 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:05:47.520 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:05:47.520 [http-nio-9021-exec-7] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:05:47.540 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:06:12.071 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:06:12.071 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:06:12.071 [http-nio-9021-exec-4] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:06:12.094 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:06:13.205 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:06:13.206 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:06:13.206 [http-nio-9021-exec-5] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:06:13.214 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:06:14.456 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:06:14.456 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:06:14.456 [http-nio-9021-exec-9] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:06:14.471 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:06:43.104 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+19:07:31.200 [http-nio-9021-exec-10] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:07:31.200 [http-nio-9021-exec-10] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:07:31.200 [http-nio-9021-exec-10] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:07:31.408 [http-nio-9021-exec-10] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:07:33.674 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:07:33.674 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:07:33.674 [http-nio-9021-exec-1] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:07:33.693 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:07:41.750 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:07:41.750 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:07:41.751 [http-nio-9021-exec-2] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:07:41.774 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:07:44.225 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:07:44.225 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:07:44.226 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:07:44.247 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:07:45.421 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:07:45.421 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:07:45.422 [http-nio-9021-exec-7] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:07:45.446 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:08:07.123 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:08:07.124 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:08:07.125 [http-nio-9021-exec-4] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:08:07.232 [http-nio-9021-exec-4] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:08:46.530 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:08:46.530 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:08:46.530 [http-nio-9021-exec-1] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:08:46.553 [http-nio-9021-exec-1] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:09:04.082 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:09:04.082 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:09:04.082 [http-nio-9021-exec-2] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:09:04.107 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:09:14.412 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() entered with args : Bharat@ikcontech.com
+19:09:14.413 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is under excution...
+19:09:14.413 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() entered with args : Bharat@ikcontech.com
+19:09:14.413 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() calling batch process microservice to get user attended meetings
+19:09:14.434 [http-nio-9021-exec-6] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - MeetingsServiceImpl.getUserAttendedEvents() exiting sucessfully to controller
+19:09:14.436 [http-nio-9021-exec-6] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserAttendedMeetings() is executed successfully...
+19:09:15.932 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:09:15.932 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:09:15.932 [http-nio-9021-exec-7] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:09:15.944 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:09:26.795 [http-nio-9021-exec-10] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:09:26.795 [http-nio-9021-exec-10] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:09:26.796 [http-nio-9021-exec-10] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:09:26.809 [http-nio-9021-exec-10] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:11:43.123 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+19:12:30.421 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:12:30.421 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:12:30.421 [http-nio-9021-exec-5] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:12:30.775 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:13:27.459 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:13:27.459 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:13:27.461 [http-nio-9021-exec-8] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:13:27.506 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:13:35.231 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:13:35.231 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:13:35.231 [http-nio-9021-exec-3] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:13:35.253 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:13:45.849 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:13:45.849 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:13:45.849 [http-nio-9021-exec-7] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:13:45.876 [http-nio-9021-exec-7] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:16:43.157 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+19:19:24.183 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+19:19:24.353 [Thread-22] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Unregistering application UMS-MEETING-SERVICE with eureka with status DOWN
+19:19:24.354 [Thread-22] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1695304164353, current=DOWN, previous=UP]
+19:19:24.357 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021: registering service...
+19:19:24.534 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - registration status: 204
+19:19:24.537 [Thread-22] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9021"]
+19:19:24.537 [Thread-22] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+19:19:24.547 [Thread-22] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+19:19:24.649 [Thread-22] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [pool-30-thread-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.park(LockSupport.java:341)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block(AbstractQueuedSynchronizer.java:506)
+ java.base@17.0.7/java.util.concurrent.ForkJoinPool.unmanagedBlock(ForkJoinPool.java:3463)
+ java.base@17.0.7/java.util.concurrent.ForkJoinPool.managedBlock(ForkJoinPool.java:3434)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1623)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1170)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+19:19:24.659 [Thread-22] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9021"]
+19:19:24.677 [Thread-22] INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-9021"]
+19:19:24.751 [Thread-22] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+19:19:24.820 [Thread-22] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+19:19:24.850 [Thread-22] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
+19:19:24.874 [Thread-22] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+19:19:28.351 [Thread-22] INFO  c.netflix.discovery.DiscoveryClient - Unregistering ...
+19:19:28.363 [Thread-22] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - deregister  status: 200
+19:19:28.447 [Thread-22] INFO  c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+19:19:29.716 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Fetching config from server at : http://localhost:9296
+19:19:31.536 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Located environment: name=UMS-MEETING-SERVICE, profiles=[default], label=null, version=abc948351d8765c2e5a2691c8f7f75664420de7d, state=null
+19:19:31.536 [restartedMain] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/IKCONDev/ums-config-server/application.yaml'}]
+19:19:31.539 [restartedMain] INFO  c.i.u.meeting.UMSMeetingApplication - No active profile set, falling back to 1 default profile: "default"
+19:19:32.599 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+19:19:32.663 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 63 ms. Found 2 JPA repository interfaces.
+19:19:32.888 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=bcda9878-6654-3ea3-9815-c092f69364a0
+19:19:33.105 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9021 (http)
+19:19:33.106 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9021"]
+19:19:33.106 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+19:19:33.106 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.79]
+19:19:33.174 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+19:19:33.174 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1632 ms
+19:19:33.303 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+19:19:33.317 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
+19:19:33.428 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
+19:19:33.430 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+19:19:33.715 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+19:19:33.717 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+19:19:33.952 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+19:19:34.492 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+19:19:34.650 [restartedMain] INFO  o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+19:19:34.680 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+19:19:34.686 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+19:19:34.724 [restartedMain] INFO  o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+19:19:34.727 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+19:19:34.727 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+19:19:34.728 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+19:19:34.728 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+19:19:34.728 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+19:19:34.728 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+19:19:34.728 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+19:19:34.728 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+19:19:34.728 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+19:19:34.751 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+19:19:34.752 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+19:19:34.752 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+19:19:34.754 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1695304174754 with initial instances count: 6
+19:19:34.755 [restartedMain] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Registering application UMS-MEETING-SERVICE with eureka with status UP
+19:19:34.755 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1695304174755, current=UP, previous=STARTING]
+19:19:34.756 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021: registering service...
+19:19:34.757 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9021"]
+19:19:34.765 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - registration status: 204
+19:19:34.768 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9021 (http) with context path ''
+19:19:34.768 [restartedMain] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 9021
+19:19:34.897 [restartedMain] INFO  c.i.u.meeting.UMSMeetingApplication - Started UMSMeetingApplication in 5.823 seconds (JVM running for 3438.643)
+19:19:34.900 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+19:19:36.614 [http-nio-9021-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+19:19:36.614 [http-nio-9021-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+19:19:36.617 [http-nio-9021-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+19:19:37.965 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:19:37.965 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:19:37.965 [http-nio-9021-exec-2] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:19:38.284 [http-nio-9021-exec-2] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:23:01.004 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:23:01.010 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:23:01.011 [http-nio-9021-exec-5] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:23:01.265 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:24:34.766 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+19:25:37.642 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+19:25:37.642 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+19:25:37.642 [http-nio-9021-exec-9] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+19:25:37.687 [http-nio-9021-exec-9] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+19:29:34.776 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+19:34:34.785 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+19:39:34.795 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+19:44:34.804 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+19:49:34.824 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+19:54:34.837 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+19:59:34.863 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:04:34.886 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:09:34.935 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:14:34.983 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:14:58.702 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+20:14:58.703 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+20:14:58.704 [http-nio-9021-exec-3] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+20:14:59.236 [http-nio-9021-exec-3] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+20:16:11.640 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+20:16:11.642 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+20:16:11.642 [http-nio-9021-exec-5] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+20:16:11.680 [http-nio-9021-exec-5] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+20:19:35.037 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:24:35.080 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:26:02.541 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() entered with args: userEmailIdBharat@ikcontech.com
+20:26:02.541 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEventsByEmailId() under execution 
+20:26:02.541 [http-nio-9021-exec-8] INFO  c.i.u.m.s.impl.MeetingsServiceImpl - getUserEventsByEmailId(): entered
+20:26:02.820 [http-nio-9021-exec-8] INFO  c.i.u.m.controller.MeetingController - MeetingController.getUserEvnetsByEmailId() exited Successfully
+20:29:35.136 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:34:35.180 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:39:35.226 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:42:14.080 [RMI TCP Connection(187)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+20:42:14.111 [RMI TCP Connection(184)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+20:42:14.111 [RMI TCP Connection(185)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+20:42:14.139 [RMI TCP Connection(188)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+20:42:14.163 [RMI TCP Connection(187)-127.0.0.1] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Unregistering application UMS-MEETING-SERVICE with eureka with status DOWN
+20:42:14.165 [RMI TCP Connection(187)-127.0.0.1] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1695309134165, current=DOWN, previous=UP]
+20:42:14.168 [RMI TCP Connection(186)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+20:42:14.176 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021: registering service...
+20:42:14.310 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-MEETING-SERVICE/IKCON1052:UMS-MEETING-SERVICE:9021 - registration status: 204
+20:42:14.359 [RMI TCP Connection(187)-127.0.0.1] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9021"]
+20:42:14.361 [RMI TCP Connection(187)-127.0.0.1] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+20:42:14.379 [RMI TCP Connection(187)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+20:42:14.482 [RMI TCP Connection(187)-127.0.0.1] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [pool-37-thread-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.park(LockSupport.java:341)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block(AbstractQueuedSynchronizer.java:506)
+ java.base@17.0.7/java.util.concurrent.ForkJoinPool.unmanagedBlock(ForkJoinPool.java:3463)
+ java.base@17.0.7/java.util.concurrent.ForkJoinPool.managedBlock(ForkJoinPool.java:3434)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1623)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1170)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+20:42:14.495 [RMI TCP Connection(187)-127.0.0.1] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9021"]
+20:42:14.517 [RMI TCP Connection(187)-127.0.0.1] INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-9021"]
+20:42:14.565 [RMI TCP Connection(187)-127.0.0.1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+20:42:14.636 [RMI TCP Connection(187)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+20:42:14.658 [RMI TCP Connection(187)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+20:42:14.673 [RMI TCP Connection(187)-127.0.0.1] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...

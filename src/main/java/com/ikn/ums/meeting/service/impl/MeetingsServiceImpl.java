@@ -76,7 +76,7 @@ public class MeetingsServiceImpl implements MeetingService {
 	public List<EventVO> getUserEventsByEmailId(String userPrincipalName) {
 		log.info("getUserEventsByEmailId(): entered");
 		try {
-			String url ="http://UMS-BATCH-SERVICE/events/organized/"+userPrincipalName;
+			String url ="http://UMS-BATCH-SERVICE/teams/events/organized/"+userPrincipalName;
 			ResponseEntity<List<EventVO>> response= restTemplate.exchange(url,HttpMethod.GET,null, new ParameterizedTypeReference<List<EventVO>>() {});
 			return response.getBody();
 		}catch (Exception e) {
