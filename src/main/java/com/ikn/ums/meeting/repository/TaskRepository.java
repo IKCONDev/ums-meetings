@@ -10,6 +10,6 @@ import com.ikn.ums.meeting.entity.Task;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer>{
-	@Query("FROM Task WHERE userId=:userId")
-	List<Task> findByUserId(String userId);
+	@Query("FROM Task WHERE emailId=:emailId")
+	List<Task> findByUserId(String emailId);
 }
