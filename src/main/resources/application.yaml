@@ -6,7 +6,7 @@ spring:
     name: UMS-MEETING-SERVICE
   datasource:
     driver-class-name: org.postgresql.Driver
-    password: root
+    password: manager
     url: jdbc:postgresql://localhost:5432/meetings
     username: postgres
   devtools:

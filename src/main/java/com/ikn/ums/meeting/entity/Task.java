@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name="task_tab")
+@Table(name="tasks_tab")
 public class Task {
 	
 	@Id
@@ -25,38 +25,32 @@ public class Task {
 	@Column(name="taskId")
 	private Integer taskId;
 	
-	@Column(name="tsk_title")
+	@Column(name="taskTitle")
 	private String taskTitle;
 	
-	@Column(name="tsk_desc")
+	@Column(name="taskDescription")
 	private String taskDescription;
 	
-	@Column(name="tsk_priority")
+	@Column(name="taskPriority")
 	private String taskPriority;
 	
-	@Column(name="tsk_startdt")
+	@Column(name="startDate")
 	private LocalDateTime startDate;
 	
-	@Column(name="tsk_duedt")
+	@Column(name="dueDate")
 	private LocalDateTime dueDate;
 	
-	@Column(name="tsk_assign")
-	private String assignee;
-	
-	@Column(name="organizer")
-	private String organizer;
+	@Column(name="taskOwner")
+	private String taskOwner;
 	
 	@Column(name="status")
 	private String status;	
 	
-	@Column(name="act_id")
+	@Column(name="actionItemId")
 	private Integer actionItemId;
 	
-	@Column(name="actn_title")
-	private String actionTitle;
-	
-	@Column(name="user_email")
-	private String userId;
+	@Column(name="user_id")
+	private String emailId;
 	
 
 

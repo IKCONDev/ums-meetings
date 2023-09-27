@@ -46,9 +46,8 @@ public class TaskServiceImpl implements  TaskService{
 	    updatetask.setStartDate(task.getStartDate());
 	    updatetask.setDueDate(task.getDueDate());
 	    updatetask.setTaskPriority(task.getTaskPriority());
-	    updatetask.setOrganizer(task.getOrganizer());
 	    updatetask.setActionItemId(task.getActionItemId());
-	    updatetask.setAssignee(task.getAssignee());
+	    updatetask.setTaskOwner(task.getTaskOwner());
 	    updatetask.setStatus(task.getStatus());
 	    Task modifiedtask = taskRepo.save(updatetask );
 	    return modifiedtask;
@@ -82,12 +81,12 @@ public class TaskServiceImpl implements  TaskService{
 			//task.setId(actionitem.getId());
 			task.setTaskTitle(actionitem.getActionItemTitle());
 			task.setActionItemId(actionitem.getActionItemId());
-			task.setAssignee(actionitem.getActionItemOwner());
+			task.setTaskOwner(actionitem.getActionItemOwner());
 			task.setStartDate(actionitem.getStartDate());
 			task.setDueDate(actionitem.getEndDate());
 			task.setTaskDescription(actionitem.getActionItemDescription());
 			task.setTaskPriority(actionitem.getActionPriority());
-			task.setUserId(actionitem.getEmailId());
+			task.setEmailId(actionitem.getEmailId());
 			//task.setStatus(actionitem.getActionStatus());
 			task.setStatus("Yet to Start");
 			taskList.add(task);

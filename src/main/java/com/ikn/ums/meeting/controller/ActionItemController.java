@@ -20,8 +20,11 @@ import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.service.ActionItemService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/actions")
+@Slf4j
 public class ActionItemController {
 
     @Autowired 
@@ -172,7 +175,7 @@ public class ActionItemController {
 	
 	@PostMapping("/convert-task")
 	public ResponseEntity<?> conversionOfTask(@RequestBody List<ActionItem> actionItemList ){
-		System.out.println("ActionsController.conversionOfTask() entered");
+		log.info("ActionsController.conversionOfTask() entered");
 		try {
 			
 			return new  ResponseEntity<>(actionItemService.sendToTasks(actionItemList),HttpStatus.OK);			
