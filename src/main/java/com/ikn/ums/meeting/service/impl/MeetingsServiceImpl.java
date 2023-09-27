@@ -67,8 +67,8 @@ public class MeetingsServiceImpl implements MeetingService {
 		log.info("MeetingsServiceImpl.getUserAttendedEvents() entered with args : "+email);
 		if(email.equals("") || email == null) {
 			log.info("Exception occured while getting user attended meetings : user email is empty or null");
-			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USER_EMPTY_EXCEPTION_CODE,
-			ErrorCodeMessages.ERR_MEETINGS_USER_EMPTY_EXCEPTION_MSG);
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
+			ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		log.info("MeetingsServiceImpl.getUserAttendedEvents() calling batch process microservice to get user attended meetings");
 		ResponseEntity<List<EventVO>> response = restTemplate
@@ -108,6 +108,21 @@ public class MeetingsServiceImpl implements MeetingService {
 			meetingRepository.saveAll(userMeetingList);
 		});
 		log.info("MeetingsServiceImpl.saveAllUserMeetingsList() exiting successfully");
+	}
+
+
+	@Override
+	public List<Meeting> getAllMeetingsByUserId(String emailId) {
+		log.info("MeetingsServiceImpl.getAllMeetingsByUserId() entered with args : " + emailId);
+		if(emailId.equalsIgnoreCase("") || emailId == null) {
+			log.info("MeetingsServiceImpl.getAllMeetingsByUserId() : userId/emailId is empty");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
+		}
+		log.info("MeetingsServiceImpl.getAllMeetingsByUserId() is under execution");
+		List<Meeting> meetingList = meetingRepository.findAllMeetingsByUserId(emailId);
+		log.info("MeetingsServiceImpl.getAllMeetingsByUserId() exiting successfully");
+		return meetingList;
 	}
 
 	

@@ -21,7 +21,7 @@ import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.service.ActionItemService;
 
 @RestController
-@RequestMapping("/api/actions/")
+@RequestMapping("/actions")
 public class ActionItemController {
 
     @Autowired 
@@ -66,7 +66,7 @@ public class ActionItemController {
 	
 	//Fetch all Action items
 	
-	@GetMapping("/get-actions")
+	@GetMapping("/all")
 	public ResponseEntity<?> getActionItem(){
 		try {
 		
@@ -77,8 +77,9 @@ public class ActionItemController {
 		}
 	}
 	
+	
 	//Fetching the Single action item
-	@GetMapping("/get-action-item/{id}")
+	@GetMapping("/one/{id}")
 	public ResponseEntity<?> getSingleActionItem(@PathVariable Integer id){
 		try {
 			return new ResponseEntity<>(actionItemService.getSingleActionItem(id),HttpStatus.OK);
@@ -92,7 +93,7 @@ public class ActionItemController {
 	/*
 	 *   Fetch the Action Items Based on the user Id 
 	 */
-	@GetMapping("/fetch-actions/{email}")
+	@GetMapping("/all/{email}")
 	public ResponseEntity<?> FetchActionItemsByEmailId(@PathVariable ("email") String email){
 		
 		try {
@@ -108,7 +109,7 @@ public class ActionItemController {
 		
 	}
 	
-	@PutMapping("/update-action/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateActionItem(@PathVariable("id") Integer actionItemid, @RequestBody ActionItem actionItem){ 
 		try {
 			actionItem.setActionItemId(actionItemid);
@@ -120,7 +121,7 @@ public class ActionItemController {
 		
 	}
 	
-	@DeleteMapping("delete-action/{id}")
+	@DeleteMapping("delete/{id}")
 	public ResponseEntity<?> deleteActionItem(@PathVariable("id") Integer actionItemid){
 		
 		try { 
@@ -139,23 +140,15 @@ public class ActionItemController {
 	 * @param eventId
 	 * @return
 	 */
-	@GetMapping("/ac-items/{eventId}")
-	public ResponseEntity<?> getActionItemsByEventId(@PathVariable Integer eventId){
-		ActionItemListVO acItemsListVO = actionItemService.fetchActionItemsOfEvent(eventId);
+	@GetMapping("/ac-items/{meetingId}")
+	public ResponseEntity<?> getActionItemsByEventId(@PathVariable Integer meetingId){
+		ActionItemListVO acItemsListVO = actionItemService.fetchActionItemsOfEvent(meetingId);
 		return new ResponseEntity<>(acItemsListVO, HttpStatus.OK);
 	}
 	
-	/**
-	 * 
-	 * @return all action items
-	 */
-	@GetMapping("/ac-items")
-	public ResponseEntity<?> getAllActionItems(){
-		ActionItemListVO acItemsListVO = actionItemService.fetchActionItems();
-		return new ResponseEntity<>(acItemsListVO, HttpStatus.OK);
-	}
 	
-	@DeleteMapping("/ac-items/delete/{acItemIds}")
+	
+	@DeleteMapping("/delete/{acItemIds}")
 	public ResponseEntity<?> deleteActionItemsById(@PathVariable String acItemIds){
 		System.out.println(acItemIds);
 		List<Integer> actualAcIds = null;

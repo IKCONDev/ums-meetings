@@ -30,7 +30,7 @@ public class ActionItemVO {
 	
 	private LocalDateTime endDate;
 	
-	private String userId;
+	private String emailId;
 
 	
 

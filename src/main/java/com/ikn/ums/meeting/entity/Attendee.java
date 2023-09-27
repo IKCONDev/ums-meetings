@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "attendee_sourcedata_tab")
+@Table(name = "attendee_tab")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Attendee {
@@ -29,7 +29,7 @@ public class Attendee {
 	private String status;
 	private String email;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "meet_Id", referencedColumnName = "meetingId", nullable = false)
+	@JoinColumn(name = "meet_Id", referencedColumnName = "meetingId", nullable = true)
     private Meeting meeting;
 	/*
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

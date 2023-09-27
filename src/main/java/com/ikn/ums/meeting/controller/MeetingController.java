@@ -87,8 +87,8 @@ public class MeetingController {
 	@GetMapping(path = "/attended/{userEmailId}")
 	public ResponseEntity<?> getUserAttendedMeetings(@PathVariable String userEmailId) {
 		if(userEmailId == "" || userEmailId == null) {
-			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USER_EMPTY_EXCEPTION_CODE, 
-					ErrorCodeMessages.ERR_MEETINGS_USER_EMPTY_EXCEPTION_MSG);
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		log.info("MeetingController.getUserAttendedMeetings() entered with args : "+userEmailId);
 		try {
@@ -141,10 +141,30 @@ public class MeetingController {
 			String message = "";
 			meetingService.saveAllUserMeetingsListOfCurrentBatchProcess(currentBatchProcessUserMeetingsList);
 			message = "Current batch meeting details saved sucessfully";
-			log.info("MeetingController.processCurrentBatchProcessingSourceData() exiting sucessfully");
+			log.info("MeetingController.processCurrentBatchProcessingSourceData() executed successfully");
 			return new ResponseEntity<>(message, HttpStatus.CREATED);
 		}catch (Exception e) {
 			log.info("Exception occured while saving current batch process meetings : "+e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG);
+		}
+	}
+	
+	@GetMapping("/all/{emailId}")
+	public ResponseEntity<?> getAllMeetingsOfUserId(@PathVariable String emailId){
+		log.info("MeetingController.getAllMeetingsOfUserId() entered with args : "+emailId);
+		if(emailId.equalsIgnoreCase("") || emailId == null) {
+			log.info("MeetingsServiceImpl.getAllMeetingsOfUserId() : userId/emailId is empty");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
+		}
+		try {
+			log.info("MeetingsServiceImpl.getAllMeetingsOfUserId() is under execution...");
+			List<Meeting> userMeetingList = meetingService.getAllMeetingsByUserId(emailId);
+			log.info("MeetingsServiceImpl.getAllMeetingsOfUserId() is executed successfully");
+			return new ResponseEntity<>(userMeetingList, HttpStatus.OK);
+		}catch (Exception e) {
+			log.info("Exception occured while fetching user meetings : "+e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG);
 		}

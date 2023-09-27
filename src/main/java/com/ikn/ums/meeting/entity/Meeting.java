@@ -113,5 +113,11 @@ public class Meeting {
     
 	@Column(name = "createdDateTime", nullable = false)
 	private String createdDateTime;
+	
+	//other relations
+	//@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	//@JoinColumn(name = "meeting_fk_id", nullable = false)
+	//private Set<ActionItem> actionItems;
+	
 
 }

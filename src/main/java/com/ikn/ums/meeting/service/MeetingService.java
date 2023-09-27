@@ -15,6 +15,8 @@ public interface MeetingService {
 	List<EventVO> getUserEventsByEmailId(String userPrincipalName);
 	
 	void saveAllUserMeetingsListOfCurrentBatchProcess(List<List<Meeting>> currentBatchProcessingUsersMeetingList);
+	
+	List<Meeting> getAllMeetingsByUserId(String emailId);
 
 	
 }
