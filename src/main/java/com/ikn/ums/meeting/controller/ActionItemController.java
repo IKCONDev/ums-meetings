@@ -29,7 +29,7 @@ public class ActionItemController {
     
     //Saving the Action Item in Database
     
-    @PostMapping("/create")
+    @PostMapping("/save")
 	public ResponseEntity<?> createActionItem(@RequestBody ActionItem actions ) {
 		
 		//ActionsDto str= service.createActionItem(actionModel.getEventid(),actionModel.getActionTitle(),actionModel.getDescription(),actionModel.getActionPriority(),
@@ -79,7 +79,7 @@ public class ActionItemController {
 	
 	
 	//Fetching the Single action item
-	@GetMapping("/one/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> getSingleActionItem(@PathVariable Integer id){
 		try {
 			return new ResponseEntity<>(actionItemService.getSingleActionItem(id),HttpStatus.OK);

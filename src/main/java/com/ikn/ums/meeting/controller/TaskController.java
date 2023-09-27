@@ -29,7 +29,7 @@ public class TaskController {
 	@Autowired
 	private TaskService taskService;
 
-	@PostMapping("/create")
+	@PostMapping("/save")
 	public ResponseEntity<?> createTasks(@RequestBody Task task){
 		Task res = taskService.SaveTasks(task);
 		try {
@@ -56,7 +56,7 @@ public class TaskController {
 		}
 	}
 	
-	@GetMapping("/get-tasks")
+	@GetMapping("/all")
 	public ResponseEntity<?> fetchAllTaskDetails(){
 		
 		try {
@@ -70,7 +70,7 @@ public class TaskController {
 		
 	}
 	
-	@GetMapping("getuser-task/{email}")
+	@GetMapping("/get/{email}")
 	public ResponseEntity<?> fetchUserTasks(@PathVariable String email){
 		
 		try {
@@ -84,7 +84,7 @@ public class TaskController {
 		
 	}
 	
-	@GetMapping("get-task/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> fetchSingleTask(@PathVariable Integer id){
 		try {
 			
@@ -95,7 +95,7 @@ public class TaskController {
 		}
 		
 	}
-	@PutMapping("/update-task/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateTaskDetails(@RequestBody Task task,@PathVariable("id") Integer id){
 		try {
 			task.setTaskId(id);
@@ -119,8 +119,8 @@ public class TaskController {
 		
 	}
 	
-	@DeleteMapping("/task/delete/{taskId}")
-	public ResponseEntity<?> deleteActionItemsById(@PathVariable String taskId){
+	@DeleteMapping("/deleteAll/{taskId}")
+	public ResponseEntity<?> deleteTasksById(@PathVariable String taskId){
 		System.out.println(taskId);
 		List<Integer> taskIds = null;
 		if(taskId != "") {
