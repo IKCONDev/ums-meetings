@@ -54,10 +54,10 @@ public class Meeting {
 	private String occurrenceId;
 	
 	@Column(name = "meetingActualStartDateTime")
-	private LocalDateTime actualstartDateTime;
+	private LocalDateTime startDateTime;
 	
 	@Column(name = "meetingActualEndDateTime")
-	private LocalDateTime actualEndDateTime;
+	private LocalDateTime endDateTime;
 	
 	@Column(name = "startTimeZone")
 	private String startTimeZone;

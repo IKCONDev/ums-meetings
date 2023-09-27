@@ -119,8 +119,8 @@ public class TaskController {
 		
 	}
 	
-	@DeleteMapping("/deleteAll/{taskId}")
-	public ResponseEntity<?> deleteTasksById(@PathVariable String taskId){
+	@DeleteMapping("/deleteAll/{ids}")
+	public ResponseEntity<?> deleteTasksById(@PathVariable("ids")String taskId){
 		System.out.println(taskId);
 		List<Integer> taskIds = null;
 		if(taskId != "") {
