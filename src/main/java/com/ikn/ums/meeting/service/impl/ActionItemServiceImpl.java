@@ -13,9 +13,15 @@ import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.BusinessException;
+import com.ikn.ums.meeting.exception.EmptyInputException;
+import com.ikn.ums.meeting.exception.EmptyListException;
+import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.repository.ActionItemRepository;
 import com.ikn.ums.meeting.service.TaskService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.ActionItemService {
 
@@ -27,118 +33,153 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	
 	@Override
 	@Transactional
-	public ActionItem createActionItem(ActionItem actions) {
-		// TODO Auto-generated method stub
-		//ActionsEntity entity =repo.saveAll(actionmodel);
-		//ModelMapper mapper =new ModelMapper();
-		//mapper.map(entity,ActionsDto.class);
-		
-		return actionItemRepository.save(actions);
+	public ActionItem saveActionItem(ActionItem actionItem) {	
+		log.info("ActionItemServiceImpl.saveActionItem() entered with args - actionItem object");
+		if (actionItem == null) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MESSAGE);
+		}
+		log.info("ActionItemServiceImpl.saveActionItem() is under execution...");
+		ActionItem savedActionItem = actionItemRepository.save(actionItem);
+		log.info("ActionItemServiceImpl.saveActionItem() executed successfully...");
+		return savedActionItem;
+	}
+	
+	@Transactional
+	@Override
+	public ActionItem updateActionItem(ActionItem actionItem) {
+		log.info("ActionItemServiceImpl.updateActionItem() entered with args - actionItem");
+		if (actionItem == null) {
+			log.info(
+					"ActionItemService.updateActionItem() Empty Input Exception : ActionItem object is null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MESSAGE);
+		}
+		log.info("ActionItemServiceImpl.updateActionItem() is under execution...");
+		ActionItem dbActionItem = actionItemRepository.findById(actionItem.getActionItemId()).get();
+		dbActionItem.setMeetingId(actionItem.getMeetingId());
+		dbActionItem.setActionItemTitle(actionItem.getActionItemTitle());
+		dbActionItem.setActionItemDescription(actionItem.getActionItemDescription());
+		dbActionItem.setActionPriority(actionItem.getActionPriority());
+		dbActionItem.setActionStatus(actionItem.getActionStatus());
+		dbActionItem.setStartDate(actionItem.getStartDate());
+		dbActionItem.setEndDate(actionItem.getEndDate());
+		ActionItem updateAction= actionItemRepository.save(dbActionItem);
+		log.info("ActionItemServiceImpl.updateActionItem() executed successfully...");
+		return updateAction;
+	}
+	
+	@Override
+	@Transactional
+	public Integer deleteActionItemById(Integer actionItemId) {
+		log.info("ActionItemServiceImpl.deleteActionItemById() entered with args - actionItemId : "+actionItemId);
+		if (actionItemId == null || actionItemId < 0) {
+			log.info(
+					"ActionItemService.deleteActionItemById() Empty Input Exception : Action Item Id is empty or invalid.");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MESSAGE);
+		}
+		log.info("ActionItemServiceImpl.deleteActionItemById() is under execution...");
+		actionItemRepository.deleteById(actionItemId);
+		log.info("ActionItemServiceImpl.deleteActionItemById() executed successfully");
+		return 1;
+	}
+	
+	@Override
+	public boolean deleteAllActionItemsById(List<Integer> actionItemIds) {
+		log.info("ActionItemServiceImpl.deleteAllActionItemsById() entered with args - actionItemIds");
+		if(actionItemIds.size() == 0 || actionItemIds == null) {
+			log.info(
+					"ActionItemService.deleteAllActionItemsById() Empty List Exception : Action Item Ids List is empty.");
+			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_IDLIST_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_IDLIST_EMPTY_MESSAGE);
+		}
+		log.info("ActionItemService.deleteAllActionItemsById() is under execution...");
+		boolean isAllDeleted = false;
+		actionItemRepository.deleteAllById(actionItemIds);
+		isAllDeleted = true;
+		log.info("ActionItemService.deleteAllActionItemsById() executed successfully");
+		return isAllDeleted;
 	}
 
 	@Override
-	public List<ActionItem> fetchActionItemList() {
-		// TODO Auto-generated method stub
-		List<ActionItem>actions =actionItemRepository.findAll();
-		return actions;
+	public List<ActionItem> getActionItemList() {
+		log.info("ActionItemServiceImpl.getActionItemList() entered");
+		log.info("ActionItemServiceImpl.getActionItemList() is under execution...");
+		List<ActionItem> actionItemList =actionItemRepository.findAll();
+		log.info("ActionItemServiceImpl.getActionItemList() executed succesfully");
+		return actionItemList;
 	}
 
 	@Override
-	public Optional<ActionItem> getSingleActionItem(Integer id) {
-		// TODO Auto-generated method stub
-		Optional<ActionItem> actionItem = actionItemRepository.findById(id);
+	public Optional<ActionItem> getActionItemById(Integer actionItemId) {
+		log.info("ActionItemServiceImpl.getActionItemById() entered with args - actionItemId : "+actionItemId);
+		if (actionItemId == null || actionItemId < 0) {
+			log.info(
+					"ActionItemService.getActionItemById() Empty Input Exception : Action Item Id is empty or invalid.");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MESSAGE);
+		}
+		log.info("ActionItemServiceImpl.getActionItemById() is under execution...");
+		Optional<ActionItem> actionItem = actionItemRepository.findById(actionItemId);
+		log.info("ActionItemServiceImpl.getActionItemById() executed successfully.");
 		return actionItem;
 	}
 
 	@Override
-	public ActionItem updateActionItem(ActionItem action) {
-		// TODO Auto-generated method stub
-		ActionItem existingAction = actionItemRepository.findById(action.getActionItemId()).get();
-		existingAction.setMeetingId(action.getMeetingId());
-		existingAction.setActionItemTitle(action.getActionItemTitle());
-		existingAction.setActionItemDescription(action.getActionItemDescription());
-		existingAction.setActionPriority(action.getActionPriority());
-		existingAction.setActionStatus(action.getActionStatus());
-		existingAction.setStartDate(action.getStartDate());
-		existingAction.setEndDate(action.getEndDate());
-		ActionItem updateAction= actionItemRepository.save(existingAction);
-		return updateAction;
-	}
-
-	@Override
-	@Transactional
-	public Integer deleteActionItem(Integer actionId) {
-		// TODO Auto-generated method stub
-	
-		actionItemRepository.deleteById(actionId);
-		return 1;
-		
-	}
-
-	//fetches action items based on event id
-	@Override
-	public ActionItemListVO fetchActionItemsOfEvent(Integer eventId) {
+	public ActionItemListVO getActionItemsByMeetingId(Integer meetingId) {
+		log.info("ActionItemServiceImpl.getActionItemsByMeetingId() entered with args - meetingId : "+meetingId);
+		if(meetingId < 1 || meetingId == null) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MESSAGE);
+		}
+		log.info("ActionItemServiceImpl.getActionItemsByMeetingId() is under execution...");
 		ActionItemListVO acItemsVO = new ActionItemListVO();
-		List<ActionItem> actionItemsList = actionItemRepository.findActionItemsByEventId(eventId);
+		List<ActionItem> actionItemsList = actionItemRepository.findActionItemsByEventId(meetingId);
 		acItemsVO.setActionItemList(actionItemsList);
+		log.info("ActionItemServiceImpl.getActionItemsByMeetingId() executed succesfully");
 		return acItemsVO;
 	}
 
 	@Override
-	public ActionItemListVO fetchActionItems() {
+	public ActionItemListVO getActionItems() {
+		log.info("ActionItemServiceImpl.getActionItems() entered");
 		ActionItemListVO acItemsVO = new ActionItemListVO();
+		log.info("ActionItemServiceImpl.getActionItems() is under execution...");
 		List<ActionItem> actionItemsList = actionItemRepository.findAll();
 		acItemsVO.setActionItemList(actionItemsList);
+		log.info("ActionItemServiceImpl.getActionItems() executed successfully");
 		return acItemsVO;
-	}
-
-	@Override
-	public boolean deleteAllActionItemsById(List<Integer> ids) {
-		boolean isAllDeleted = false;
-		try {
-			actionItemRepository.deleteAllById(ids);
-			isAllDeleted = true;
-		}catch (Exception e) {
-			isAllDeleted = false;
-		}
-		System.out.println(isAllDeleted);
-		return isAllDeleted;
 	}
 	
 	@Transactional
 	@Override
-	public List<Task> sendToTasks(List<ActionItem> actionItemList) {
-		try {
-			System.out.println("ActionsServiceImpl.sendToTasks() entered "+actionItemList);
+	public List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList) {
+		log.info("ActionItemServiceImpl.convertActionItemsToTasks() entered with args : actionItemList");
+		if(actionItemList == null || actionItemList.size()<1) {
 			
-			/*
-			String URL="http://localhost:8012/task/convert-task";
-			HttpEntity<?> httpEntity = new HttpEntity<>(actionItems,null);
-			
-			ResponseEntity<List<TaskVO>> responseEntity = restTemplate.exchange(
-			        URL, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<List<TaskVO>>() {});
-			List<TaskVO> taskList = responseEntity.getBody();
-			System.out.println(responseEntity.getBody());
-			*/
-			List<Task> taskList = taskService.convertActionItemsToTasks(actionItemList);
-			//change the action item status to Converted
-			actionItemList.stream().forEach(action ->{
-				action.setActionStatus("Converted");
-			});
-			
-			//updates only the status of action item in db
-            actionItemRepository.saveAll(actionItemList);
-			return taskList;
-		}catch (Exception e) {
-			throw new BusinessException("error code", "Service Exception");
 		}
+		log.info("ActionItemServiceImpl.convertActionItemsToTasks() is under execution...");
+		List<Task> taskList = taskService.convertActionItemsToTasks(actionItemList);
+		actionItemList.stream().forEach(action ->{
+			action.setActionStatus("Converted");
+		});
+        actionItemRepository.saveAll(actionItemList);
+        log.info("ActionItemServiceImpl.convertActionItemsToTasks() executed succesfully");
+		return taskList;
 	}
 
 	@Override
-	public boolean generateActions(List<ActionItem> actionItems) {
-		// TODO Auto-generated method stub
-		List<ActionItem> actionItemList = new ArrayList<>();
-		actionItems.forEach(actionItem->{
+	public boolean generateActionItems(List<ActionItem> actionItemList) {
+		log.info("ActionItemServiceImpl.generateActionItems() entered with args - actionItemList");
+		if (actionItemList.size() < 1 || actionItemList == null) {
+			log.info("ActionItemServiceImpl.generateActionItems() EmptyListException : Action Items list is empty or null");
+			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MESSAGE);
+		}
+		log.info("ActionItemServiceImpl.generateActionItems() is under execution...");
+		List<ActionItem> newActionItemList = new ArrayList<>();
+		actionItemList.forEach(actionItem->{
 			ActionItem newActionItem = new ActionItem();
 			newActionItem.setActionItemTitle(actionItem.getActionItemTitle());
 			newActionItem.setActionItemDescription(actionItem.getActionItemDescription());
@@ -148,21 +189,26 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 			newActionItem.setEndDate(actionItem.getEndDate());
 			newActionItem.setMeetingId(actionItem.getMeetingId());
 			newActionItem.setEmailId(actionItem.getEmailId()); //UserId details
-			actionItemList.add(newActionItem);
+			newActionItemList.add(newActionItem);
 			
 		});
-		actionItemRepository.saveAll(actionItemList);
-		System.out.println(actionItemList);
+		actionItemRepository.saveAll(newActionItemList);
+		log.info("ActionItemServiceImpl.generateActionItems() executed successfully");
 		return true;
 	}
 
 	@Override
-	public List<ActionItem> fetchActionItemsByEmail(String emailId) {
-		// TODO Auto-generated method stub
-	    System.out.println(emailId);
-		List<ActionItem> list =actionItemRepository.findByUserId(emailId);
-		System.out.println(list);
-		return list;
+	public List<ActionItem> getActionItemsByUserId(String emailId) {
+		log.info("ActionItemServiceImpl.getActionItemsByUserId() entered with args - emailId : "+emailId);
+		if(emailId == null || emailId.equals("")) {
+			log.info("ActionItemServiceImpl.generateActionItems() EmptyInputException : UserId/EmailId is empty or null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
+		}
+		log.info("ActionItemServiceImpl.getActionItemsByUserId() is under execution...");
+		List<ActionItem> actionItemList =actionItemRepository.findByUserId(emailId);
+		log.info("ActionItemServiceImpl.getActionItemsByUserId() executed successfully");
+		return actionItemList;
 	}
 	
 }

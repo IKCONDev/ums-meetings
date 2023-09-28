@@ -8,16 +8,16 @@ import com.ikn.ums.meeting.entity.Task;
 
 public interface ActionItemService {
 
-	ActionItem createActionItem(ActionItem actions);
-	Optional<ActionItem> getSingleActionItem(Integer id);
+	ActionItem saveActionItem(ActionItem actions);
+	Optional<ActionItem> getActionItemById(Integer actionItemId);
 	ActionItem updateActionItem(ActionItem action);
-	Integer deleteActionItem(Integer actionId);
-	boolean deleteAllActionItemsById(List<Integer> ids);
-	ActionItemListVO fetchActionItems();
-	List<ActionItem> fetchActionItemList();
-	List<ActionItem> fetchActionItemsByEmail(String email);
-	ActionItemListVO fetchActionItemsOfEvent(Integer eventId);
-    List<Task> sendToTasks(List<ActionItem> actionItem);
-	boolean generateActions(List<ActionItem> actionItems);
+	Integer deleteActionItemById(Integer actionItemId);
+	boolean deleteAllActionItemsById(List<Integer> actionItemIds);
+	ActionItemListVO getActionItems();
+	List<ActionItem> getActionItemList();
+	List<ActionItem> getActionItemsByUserId(String emailId);
+	ActionItemListVO getActionItemsByMeetingId(Integer meetingId);
+    List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList);
+	boolean generateActionItems(List<ActionItem> actionItemList);
 
 }

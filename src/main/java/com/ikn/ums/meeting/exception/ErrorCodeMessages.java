@@ -33,10 +33,16 @@ public class ErrorCodeMessages {
 	 public static final String ERR_MEETINGS_ACTIONITEMS_UPDATE_MESSAGE = "Exception occured while updating action item's";
 	
 	 public static final String ERR_MEETINGS_ACTIONITEMS_SAVE_CODE = "ERR_MEETINGS_ACTIONITEMS_GET_CODE-1011";
-	 public static final String ERR_MEETINGS_ACTIONITEMS_SAVE_MESSAGE = "Exception occured while updating action item's";
+	 public static final String ERR_MEETINGS_ACTIONITEMS_SAVE_MESSAGE = "Exception occured while saving action item's";
 	 
 	 public static final String ERR_MEETINGS_ACTIONITEMS_EMPTY_CODE = "ERR_MEETINGS_ACTIONITEMS_EMPTY_CODE-1012";
 	 public static final String ERR_MEETINGS_ACTIONITEMS_EMPTY_MESSAGE = "ActionItem is empty or null";
+	 
+	 public static final String ERR_MEETINGS_ACTIONITEMS_IDLIST_EMPTY_CODE = "ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_CODE-1013";
+	 public static final String ERR_MEETINGS_ACTIONITEMS_IDLIST_EMPTY_MESSAGE = "ActionItem id's list is empty or null";
+	 
+	 public static final String ERR_MEETINGS_ACTIONITEMS_GENERATE_CODE = "ERR_MEETINGS_ACTIONITEMS_GENERATE_CODE-1010";
+	 public static final String ERR_MEETINGS_ACTIONITEMS_GENERATE_MESSAGE = "Exception occured while generating action items";
 
 	 public static final String ERR_MEETINGS_TASKS_LIST_EMPTY_CODE ="ERR_MEETINGS_TASKS_LIST_EMPTY_CODE-1013";
 	 public static final String ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE="Tasks list is empty";

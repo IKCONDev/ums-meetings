@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.entity.ActionItem;
+import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
@@ -43,13 +44,13 @@ public class ActionItemController {
 	@PostMapping("/save")
 	public ResponseEntity<?> createActionItem(@RequestBody ActionItem actionItem) {
 		log.info("ActionItemController.createActionItem() entered with args : actionItem");
-		try {
 			if (actionItem == null) {
 				throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_CODE,
 						ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MESSAGE);
 			}
+		try {
 			log.info("ActionItemController.createActionItem() is under execution...");
-			ActionItem savedActionItem = actionItemService.createActionItem(actionItem);
+			ActionItem savedActionItem = actionItemService.saveActionItem(actionItem);
 			log.info("ActionItemController.createActionItem() executed successfully");
 			return new ResponseEntity<>(savedActionItem, HttpStatus.OK);
 		} catch (Exception e) {
@@ -62,26 +63,26 @@ public class ActionItemController {
 	}
 
 	/**
-	 * \
 	 * 
 	 * @param actionItemid
 	 * @param actionItem
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateActionItem(@PathVariable("id") Integer actionItemid,
+	public ResponseEntity<?> updateActionItem(@PathVariable("id") Integer actionItemId,
 			@RequestBody ActionItem actionItem) {
-		log.info("ActionItemController.updateActionItem() entered with args : actionItemid " + actionItemid);
-		if (actionItemid < 1 || actionItemid == null) {
+		log.info("ActionItemController.updateActionItem() entered with args : actionItemid " + actionItemId);
+		if (actionItemId < 1 || actionItemId == null) {
 			log.info("ActionItemController.updateActionItem() EmptyInputException : Empty or invalid actionItemId");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MESSAGE);
 		}
 		try {
 			log.info("ActionItemController.updateActionItem() is under execution...");
-			actionItem.setActionItemId(actionItemid);
+			actionItem.setActionItemId(actionItemId);
+			ActionItem updatedActionItem = actionItemService.updateActionItem(actionItem);
 			log.info("ActionItemController.updateActionItem() executed successfully");
-			return new ResponseEntity<>(actionItemService.updateActionItem(actionItem), HttpStatus.OK);
+			return new ResponseEntity<>(updatedActionItem, HttpStatus.OK);
 		} catch (Exception e) {
 			log.info(
 					"ActionItemController.updateActionItem() exited with exception : Exception occured while upadating action item "
@@ -108,7 +109,7 @@ public class ActionItemController {
 		}
 		try {
 			log.info("ActionItemController.getSingleActionItem() is under execution...");
-			Optional<ActionItem> optActionItem = actionItemService.getSingleActionItem(actionItemId);
+			Optional<ActionItem> optActionItem = actionItemService.getActionItemById(actionItemId);
 			ActionItem actionItem = optActionItem.get();
 			log.info("ActionItemController.getSingleActionItem() executed successfully.");
 			return new ResponseEntity<>(actionItem, HttpStatus.OK);
@@ -138,7 +139,7 @@ public class ActionItemController {
 		}
 		try {
 			log.info("ActionItemController.deleteActionItem() is under execution... ");
-			Integer result = actionItemService.deleteActionItem(actionItemid);
+			Integer result = actionItemService.deleteActionItemById(actionItemid);
 			log.info("ActionItemController.deleteActionItem() executed successfully.");
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
@@ -200,12 +201,13 @@ public class ActionItemController {
 		}
 		try {
 			log.info("ActionItemController.generateActionItems() is under execution...");
-			boolean isGenerated = actionItemService.generateActions(actionItemList);
+			boolean isGenerated = actionItemService.generateActionItems(actionItemList);
 			log.info("ActionItemController.generateActionItems() executed sucessfully");
 			return new ResponseEntity<>(isGenerated, HttpStatus.OK);
 		} catch (Exception e) {
 			log.info("ActionItemController.generateActionItems() exited with exception : " + e.getMessage());
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GENERATE_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GENERATE_MESSAGE);
 		}
 	}
 
@@ -217,10 +219,14 @@ public class ActionItemController {
 	public ResponseEntity<?> getActionItems() {
 		log.info("ActionItemController.getActionItems() entered");
 		try {
-			return new ResponseEntity<>(actionItemService.fetchActionItemList(), HttpStatus.OK);
-
+			log.info("ActionItemController.getActionItems() is under excecution...");
+			List<ActionItem> actionItemList =  actionItemService.getActionItemList();
+			log.info("ActionItemController.getActionItems() is executed successfully");
+			return new ResponseEntity<>(actionItemList, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			log.info("ActionItemController.getActionItems() exited with exception: Exception occurred while getting action items : "+e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MESSAGE);
 		}
 	}
 
@@ -238,7 +244,7 @@ public class ActionItemController {
 		}
 		try {
 			log.info("ActionItemController.FetchActionItemsByEmailId() is under execution...");
-			List<ActionItem> actionItemList = actionItemService.fetchActionItemsByEmail(email);
+			List<ActionItem> actionItemList = actionItemService.getActionItemsByUserId(email);
 			log.info("ActionItemController.FetchActionItemsByEmailId() executed succesfully");
 			return new ResponseEntity<>(actionItemList, HttpStatus.OK);
 		} catch (Exception e) {
@@ -267,7 +273,7 @@ public class ActionItemController {
 		}
 		try {
 			log.info("ActionItemController.getActionItemsByMeetingId() is under execution");
-			ActionItemListVO acItemsListVO = actionItemService.fetchActionItemsOfEvent(meetingId);
+			ActionItemListVO acItemsListVO = actionItemService.getActionItemsByMeetingId(meetingId);
 			log.info("ActionItemController.getActionItemsByMeetingId() executed sucessfully");
 			return new ResponseEntity<>(acItemsListVO, HttpStatus.OK);
 		} catch (Exception e) {
@@ -283,20 +289,22 @@ public class ActionItemController {
 	 * @return
 	 */
 	@PostMapping("/convert-task")
-	public ResponseEntity<?> convertActionItemsToTasks(@RequestBody List<ActionItem> actionItemList) {
-		log.info("ActionsController.convertActionItemsToTasks() entered with args : actionItemsList");
+	public ResponseEntity<?> processActionItemsToTasks(@RequestBody List<ActionItem> actionItemList) {
+		log.info("ActionsController.processActionItemsToTasks() entered with args : actionItemsList");
 		if (actionItemList.size() < 1 || actionItemList == null) {
 			log.info(
-					"ActionItemController.convertActionItemsToTasks() Empty List Exception : Action Items list is empty or null");
+					"ActionItemController.processActionItemsToTasks() Empty List Exception : Action Items list is empty or null");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MESSAGE);
 		}
 		try {
-			log.info("ActionsController.convertActionItemsToTasks() is under execution");
-			return new ResponseEntity<>(actionItemService.sendToTasks(actionItemList), HttpStatus.OK);
+			log.info("ActionsController.processActionItemsToTasks() is under execution...");
+			List<Task> taskList = actionItemService.convertActionItemsToTasks(actionItemList);
+			log.info("ActionsController.processActionItemsToTasks() executed successfully");
+			return new ResponseEntity<>(taskList, HttpStatus.OK);
 		} catch (Exception e) {
 			log.info(
-					"ActionsController.convertActionItemsToTasks() exited with exception : An Exception occurred while converting action items to tasks "
+					"ActionsController.processActionItemsToTasks() exited with exception : An Exception occurred while converting action items to tasks "
 							+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_CONVERTTOTASK_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_CONVERTTOTASK_MESSAGE);
