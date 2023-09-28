@@ -120,7 +120,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 			List<TaskVO> taskList = responseEntity.getBody();
 			System.out.println(responseEntity.getBody());
 			*/
-			List<Task> taskList = taskService.convertToTask(actionItemList);
+			List<Task> taskList = taskService.convertActionItemsToTasks(actionItemList);
 			//change the action item status to Converted
 			actionItemList.stream().forEach(action ->{
 				action.setActionStatus("Converted");

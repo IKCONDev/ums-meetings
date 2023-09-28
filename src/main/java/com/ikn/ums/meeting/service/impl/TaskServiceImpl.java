@@ -24,13 +24,12 @@ public class TaskServiceImpl implements  TaskService{
 
 	@Override
 	@Transactional
-	public Task SaveTasks(Task task) {
-		
+	public Task saveTask(Task task) {
 		return taskRepo.save(task);
 	}
 
 	@Override
-	public List<Task> fetchTaskDetails() {
+	public List<Task> getTasks() {
 		// TODO Auto-generated method stub
 		List<Task> task= taskRepo.findAll();
 		return task;
@@ -55,7 +54,7 @@ public class TaskServiceImpl implements  TaskService{
 	}
 
 	@Override
-	public Optional<Task> singleTaskDetails(Integer id) {
+	public Optional<Task> getTaskById(Integer id) {
 		// TODO Auto-generated method stub
 		Optional<Task>   task = taskRepo.findById(id);
 		return task;
@@ -63,7 +62,7 @@ public class TaskServiceImpl implements  TaskService{
 
 	@Override
 	@Transactional
-	public Integer deleteTaskDetails(Integer taskId) {
+	public Integer deleteTaskById(Integer taskId) {
 		// TODO Auto-generated method stub
 		taskRepo.deleteById(taskId);
 		return 1;
@@ -72,7 +71,7 @@ public class TaskServiceImpl implements  TaskService{
 
 	@Override
 	@Transactional
-	public List<Task> convertToTask(List<ActionItem> actionItemList) {
+	public List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList) {
 		// TODO Auto-generated method stub
 		System.out.println(actionItemList);
 		List<Task> taskList = new ArrayList<>();
@@ -111,7 +110,7 @@ public class TaskServiceImpl implements  TaskService{
 	}
 
 	@Override
-	public List<Task> fetchUserTasks(String email) {
+	public List<Task> getTasksByUserId(String email) {
 		// TODO Auto-generated method stub
 		List<Task> list = taskRepo.findByUserId(email);
 		return list;
