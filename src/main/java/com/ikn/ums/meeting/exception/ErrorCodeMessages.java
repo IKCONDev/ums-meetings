@@ -29,4 +29,12 @@ public class ErrorCodeMessages {
 	 public static final String ERR_MEETINGS_ACTIONITEMS_GET_CODE = "ERR_MEETINGS_ACTIONITEMS_GET_CODE-1009";
 	 public static final String ERR_MEETINGS_ACTIONITEMS_GET_MESSAGE = "Exception occured while getting action items";
 	 
+	 public static final String ERR_MEETINGS_TASKS_LIST_EMPTY_CODE ="ERR_MEETINGS_TASKS_LIST_EMPTY_CODE-1018";
+	 public static final String ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE="Tasks list ie empty";
+	 
+	 public static final String ERR_MEETINGS_TASKS_CONTROLLER_EXCEPTION_CODE = "ERR_TASKS_CONTROLLER_EXCEPTION_CODE-1019";
+	 public static final String ERR_MEETINGS_TASKS_CONTROLLER_EXCEPTION_MESSAGE = "An Exception occured in Tasks Controller";
+	 
+	
+	 
 }
