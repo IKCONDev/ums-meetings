@@ -19,82 +19,157 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikn.ums.meeting.VO.ActionItemVO;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Task;
+import com.ikn.ums.meeting.exception.ControllerException;
+import com.ikn.ums.meeting.exception.EmptyInputException;
+import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.service.TaskService;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/task")
+@Slf4j
 public class TaskController {
 
 	
 	@Autowired
 	private TaskService taskService;
-
+	
+  /**
+  * 
+  * @param task
+  * @return
+  */
 	@PostMapping("/save")
 	public ResponseEntity<?> createTasks(@RequestBody Task task){
-		Task res = taskService.SaveTasks(task);
+		log.info("TaskController.createTasks() entered with args : task");
+	    if(task == null) {
+	    	log.info("TaskController.createTasks() task : is Empty" );
+	    	throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
+	    			ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
+	    }
+		
 		try {
+			log.info("TaskController.createTasks(): under execution...");
+			Task res = taskService.SaveTasks(task);
+			log.info("TaskController.createTasks(): executed Successfully");
 			return new ResponseEntity<>(res, HttpStatus.OK);
 			
 		}catch (Exception e) {
 			// TODO: handle exception
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			//return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			log.info("An exception occued while saving the Task"+e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_CONTROLLER_EXCEPTION_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_CONTROLLER_EXCEPTION_MESSAGE);
 		}
 	}
-	
+	/**
+	 * 
+	 * @param actionItemList
+	 * @return
+	 */
 	@PostMapping("/convert-task")
 	public ResponseEntity<?> autoTaskCreation(@RequestBody List<ActionItem> actionItemList){
 		System.out.println("TaskController.autoTaskCreation() entered");
+		log.info("TaskController.autoTaskCreation() entered with args : actionItemList");
+		if(actionItemList == null) {
+			log.info("TaskContoller.autoTaskCreation() actionItemList: is Empty");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
+		}
 		try {
+			log.info("TaskController.autoTaskCreation(): under execution...");
 			List<Task> task= taskService.convertToTask(actionItemList);
 			System.out.println(task);
+			log.info("TaskController.autoTaskCreation(): executed successfully");
 			return new ResponseEntity<>(task,HttpStatus.OK);
 			
 		}catch (Exception e) {
 			// TODO: handle exception
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			//return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			log.info("An exception occured while converting the actionItem to tasks"+e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_CONTROLLER_EXCEPTION_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_CONTROLLER_EXCEPTION_MESSAGE);
 			
 		}
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	
 	@GetMapping("/all")
 	public ResponseEntity<?> fetchAllTaskDetails(){
+		log.info("TaskController.fetchAllTaskDetails(): entered");
 		
 		try {
-			 
-			return new ResponseEntity<>(taskService.fetchTaskDetails(), HttpStatus.OK);
+			log.info("TaskController.fetchAllTaskDetails() : under execution... ");
+			List<Task> taskList = taskService.fetchTaskDetails();
+			log.info("TaskController.fetchAllTaskDetails() : executed Successfully");
+			return new ResponseEntity<>(taskList, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			// TODO: handle exception
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			log.info("An exception occured while fetching all task details:"+e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_CONTROLLER_EXCEPTION_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_CONTROLLER_EXCEPTION_MESSAGE);
 		}
 		
 	}
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 */
 	
 	@GetMapping("/get/{email}")
 	public ResponseEntity<?> fetchUserTasks(@PathVariable String email){
-		
+		log.info("TaskController.fetchUserTasks() entered with args :"+email);
+		if(email =="" || email==null) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
+		}
 		try {
+			log.info("TaskController.fetchUserTasks() : under execution...");
 			List<Task> task = taskService.fetchUserTasks(email);
+			log.info("TaskController.fetchUserTasks() : executed Successfully");
 			return new ResponseEntity<>(task,HttpStatus.OK);
 			
 		}catch (Exception e) {
+			log.info("An exception occured while fetching user tasks :"+e.getMessage());
 			// TODO: handle exception
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> fetchSingleTask(@PathVariable Integer id){
+	public ResponseEntity<?> fetchSingleTask(@PathVariable("id") Integer taskId){
+		log.info("TaskController.fetchSingleTask() entered with args:"+ taskId);
+		if(taskId <1 || taskId== null) {
+			log.info("TaskController.fetchSingleTask() taskId is Empty");
+		}
 		try {
+			log.info("TaskController.fetchSingleTask(): under execution...");
 			
-			return new ResponseEntity<>(taskService.singleTaskDetails(id),HttpStatus.OK);
+			return new ResponseEntity<>(taskService.singleTaskDetails(taskId),HttpStatus.OK);
 		}catch (Exception e) {
 			// TODO: handle exception
+			log.info("An exception occured while getting task:"+e.getMessage());
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
+	/**
+	 * 
+	 * @param task
+	 * @param id
+	 * @return
+	 */
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateTaskDetails(@RequestBody Task task,@PathVariable("id") Integer id){
 		try {
@@ -107,6 +182,11 @@ public class TaskController {
 		}
 		
 	}
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteTaskDetails(@PathVariable("id") Integer id){
 		try {
@@ -118,6 +198,11 @@ public class TaskController {
 		}	
 		
 	}
+	/**
+	 * 
+	 * @param taskId
+	 * @return
+	 */
 	
 	@DeleteMapping("/deleteAll/{ids}")
 	public ResponseEntity<?> deleteTasksById(@PathVariable("ids")String taskId){
