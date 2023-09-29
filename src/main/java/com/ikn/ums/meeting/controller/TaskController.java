@@ -41,7 +41,7 @@ public class TaskController {
   * @return
   */
 	@PostMapping("/save")
-	public ResponseEntity<?> createTasks(@RequestBody Task task){
+	public ResponseEntity<?> createTask(@RequestBody Task task){
 		log.info("TaskController.createTasks() entered with args : task");
 	    if(task == null) {
 	    	log.info("TaskController.createTasks() task : is Empty" );
@@ -100,7 +100,7 @@ public class TaskController {
 	 * @return
 	 */
 	@GetMapping("/all")
-	public ResponseEntity<?> fetchAllTaskDetails(){
+	public ResponseEntity<?> fetchAllTasks(){
 		log.info("TaskController.fetchAllTaskDetails(): entered");
 		
 		try {
@@ -123,7 +123,7 @@ public class TaskController {
 	 * @return
 	 */
 	@GetMapping("/get/{emailId}")
-	public ResponseEntity<?> fetchUserTasks(@PathVariable String emailId){
+	public ResponseEntity<?> fetchTasksByUserId(@PathVariable String emailId){
 		log.info("TaskController.fetchUserTasks() entered with args :" +emailId);
 		if(emailId =="" || emailId==null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
@@ -149,7 +149,7 @@ public class TaskController {
 	 * @return
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<?> fetchSingleTask(@PathVariable("id") Integer taskId){
+	public ResponseEntity<?> fetchTaskByTaskId(@PathVariable("id") Integer taskId){
 		log.info("TaskController.fetchSingleTask() entered with args:"+ taskId);
 		if(taskId <1 || taskId== null) {
 			log.info("TaskController.fetchSingleTask() taskId is Empty");
@@ -207,7 +207,7 @@ public class TaskController {
 	 * @return
 	 */
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteTaskDetails(@PathVariable("id") Integer id){
+	public ResponseEntity<?> deleteTaskByTaskId(@PathVariable("id") Integer id){
 		
 		try {
 			return new ResponseEntity<>(taskService.deleteTaskById(id),HttpStatus.OK);
