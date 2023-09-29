@@ -41,11 +41,11 @@ public class MeetingsServiceImpl implements MeetingService {
 
 
 	@Override
-	public boolean removeActionItemsOfEvent(String acItemIds, Integer eventId) {
+	public boolean removeActionItemsOfEvent(String acItemIds, Integer meetingId) {
 		System.out.println("EventServiceImpl.removeActionItemsOfEvent()");
-		log.info("EventServiceImpl.removeActionItemsOfEvent() entered with args : actionItemIds - "+acItemIds+" evenId - "+eventId);
+		log.info("EventServiceImpl.removeActionItemsOfEvent() entered with args - actionItemIds : "+acItemIds+" evenId : "+meetingId);
 		boolean isDeleted = false;
-			log.info("EventServiceImpl.removeActionItemsOfEvent() is under execution");
+			log.info("EventServiceImpl.removeActionItemsOfEvent() is under execution...");
 			List<Integer> actualAcIds = null;
 			if(acItemIds != "") {
 				String[] idsFromUI = acItemIds.split(",");
@@ -57,24 +57,24 @@ public class MeetingsServiceImpl implements MeetingService {
 			actionItemService.deleteAllActionItemsById(actualAcIds);
 			}
 			isDeleted = true;
-		log.info("EventServiceImpl.removeActionItemsOfEvent() exited sucessfully by returning "+isDeleted);
+		log.info("EventServiceImpl.removeActionItemsOfEvent() executed sucessfully by returning "+isDeleted);
 		return isDeleted;
 	}
 
 
 	@Override
-	public List<EventVO> getUserAttendedMeetings(String email) {
-		log.info("MeetingsServiceImpl.getUserAttendedEvents() entered with args : "+email);
-		if(email.equals("") || email == null) {
+	public List<EventVO> getUserAttendedMeetings(String emailId) {
+		log.info("MeetingsServiceImpl.getUserAttendedMeetings() entered with args : "+emailId);
+		if(emailId.equals("") || emailId == null) {
 			log.info("Exception occured while getting user attended meetings : user email is empty or null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 			ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
-		log.info("MeetingsServiceImpl.getUserAttendedEvents() calling batch process microservice to get user attended meetings");
+		log.info("MeetingsServiceImpl.getUserAttendedMeetings() calling batch process microservice to get user attended meetings");
 		ResponseEntity<List<EventVO>> response = restTemplate
-				.exchange("http://UMS-BATCH-SERVICE/teams/events/attended/"+email,
+				.exchange("http://UMS-BATCH-SERVICE/teams/events/attended/"+emailId,
 						HttpMethod.GET,null, new ParameterizedTypeReference<List<EventVO>>() {});
-		log.info("MeetingsServiceImpl.getUserAttendedEvents() exiting sucessfully to controller");
+		log.info("MeetingsServiceImpl.getUserAttendedMeetings() executed successfully");
 		return response.getBody();
 	}
 
@@ -82,22 +82,17 @@ public class MeetingsServiceImpl implements MeetingService {
 
 	@Override
 	public List<EventVO> getUserEventsByEmailId(String userPrincipalName) {
-		log.info("getUserEventsByEmailId(): entered");
-		try {
-			String url ="http://UMS-BATCH-SERVICE/teams/events/organized/"+userPrincipalName;
-			ResponseEntity<List<EventVO>> response= restTemplate.exchange(url,HttpMethod.GET,null, new ParameterizedTypeReference<List<EventVO>>() {});
-			return response.getBody();
-		}catch (Exception e) {
-			// TODO: handle exception
-			return null;
-			
-		}
+		log.info("MeetingsServiceImpl.getUserEventsByEmailId(): entered");
+		String url ="http://UMS-BATCH-SERVICE/teams/events/organized/"+userPrincipalName;
+		ResponseEntity<List<EventVO>> response= restTemplate.exchange(url,HttpMethod.GET,null, new ParameterizedTypeReference<List<EventVO>>() {});
+		log.info("MeetingsServiceImpl.getUserEventsByEmailId() : call to batch microsevice is successfull.");
+		return response.getBody();
 	}
 
 	@Transactional
 	@Override
 	public void saveAllUserMeetingsListOfCurrentBatchProcess(List<List<Meeting>> currentBatchProcessingUsersMeetingList) {
-		log.info("MeetingsServiceImpl.saveAllUserMeetingsList() entered with args : currentBatchProcessingUsersMeetingList ");
+		log.info("MeetingsServiceImpl.saveAllUserMeetingsListOfCurrentBatchProcess() entered with args : currentBatchProcessingUsersMeetingList ");
 		if(currentBatchProcessingUsersMeetingList.size() < 0) {
 			log.info("Empty meetings list from current batch processing ");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_LIST_EMPTY_CODE,
@@ -107,7 +102,7 @@ public class MeetingsServiceImpl implements MeetingService {
 		currentBatchProcessingUsersMeetingList.forEach(userMeetingList -> {
 			meetingRepository.saveAll(userMeetingList);
 		});
-		log.info("MeetingsServiceImpl.saveAllUserMeetingsList() exiting successfully");
+		log.info("MeetingsServiceImpl.saveAllUserMeetingsListOfCurrentBatchProcess() exiting successfully");
 	}
 
 

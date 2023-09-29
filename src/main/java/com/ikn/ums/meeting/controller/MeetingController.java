@@ -46,15 +46,8 @@ public class MeetingController {
 	public ResponseEntity<?> deleteActionItemsOfEvent(@PathVariable Integer eventId, @PathVariable String actionItemIds){
 		log.info("EventController.deleteActionItemsOfEvent() entered with args : eventId - "+eventId+" actionItemIds - "+actionItemIds);
 		try {
-			log.info("EventController.deleteActionItemsOfEvent() is under execution");
-			//String[] idsFromUI = actionItemIds.split(",");
-			//List<String> idsList =  Arrays.asList(idsFromUI);
-			//convert string of ids to Integer ids
-			// List<Integer> actualIds = idsList.stream()
-              //       .map(s -> Integer.parseInt(s))
-                //     .collect(Collectors.toList());
+			log.info("EventController.deleteActionItemsOfEvent() is under execution...");
 			boolean isAllDeleted = meetingService.removeActionItemsOfEvent(actionItemIds, eventId);
-			System.out.println(isAllDeleted);
 			if(isAllDeleted) {
 				log.info("EventController.deleteActionItemsOfEvent() exiting successfully by returning "+isAllDeleted);
 				return new ResponseEntity<Boolean>(isAllDeleted,HttpStatus.OK);
