@@ -41,7 +41,7 @@ public class MeetingsServiceImpl implements MeetingService {
 
 
 	@Override
-	public boolean removeActionItemsOfEvent(String acItemIds, Integer meetingId) {
+	public boolean deleteActionItemsOfMeeting(String acItemIds, Integer meetingId) {
 		System.out.println("EventServiceImpl.removeActionItemsOfEvent()");
 		log.info("EventServiceImpl.removeActionItemsOfEvent() entered with args - actionItemIds : "+acItemIds+" evenId : "+meetingId);
 		boolean isDeleted = false;
@@ -118,6 +118,33 @@ public class MeetingsServiceImpl implements MeetingService {
 		List<Meeting> meetingList = meetingRepository.findAllMeetingsByUserId(emailId);
 		log.info("MeetingsServiceImpl.getAllMeetingsByUserId() exiting successfully");
 		return meetingList;
+	}
+
+
+	@Override
+	public Integer getUserAttendedMeetingCountByUserId(String emailId) {
+		try {
+			if(emailId.equalsIgnoreCase("")) {
+				throw new BusinessException("error code", "Invalid user email id");
+			}
+			Integer dbAttendedMeetingsCount = meetingRepository.findUserAttendedMeetingCount(emailId);
+			return dbAttendedMeetingsCount;
+		}catch (Exception e) {
+			throw new BusinessException("error code", e.getStackTrace().toString());
+		}
+	}
+	
+	@Override
+	public Integer getUserOragnizedMeetingCountByUserId(String emailId) {
+		try {
+			if(emailId == "") {
+				throw new EmptyInputException("error code", "email id is empty");
+			}
+			Integer dbCount = meetingRepository.findUserOrganizedMeetingCount(emailId);
+			return dbCount;
+		}catch (Exception e) {
+			throw new BusinessException("error code", e.getStackTrace().toString());
+		}
 	}
 
 	

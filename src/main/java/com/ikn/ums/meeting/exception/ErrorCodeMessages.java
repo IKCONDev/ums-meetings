@@ -65,5 +65,10 @@ public class ErrorCodeMessages {
 	 public static final String ERR_MEETINS_TASKS_DELETE_CODE = "ERR_MEETINS_TASKS_ID_EMPTY_CODE-1021";
 	 public static final String ERR_MEETINGS_TASKS_DELETE_MEESAGE="An Exception occured while deleting while deleting task";
 	 
+	 public static final String ERR_MEETINGS_GET_ATTENDED_COUNT_UNSUCCESS_CODE = "ERR_MEETINGS_GETATTENDED_COUNT_UNSUCCESS_CODE-1022";
+	 public static final String ERR_MEETINGS_GET_ATTENDED_COUNT_UNSUCCESS_MESSAGE = "Exception occured while getting user attended meetings count";
 	 
+	 public static final String ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE = "ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE-1023";
+	 public static final String ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MESSAGE = "Exception occured while getting user organized meetings count";
+
 }

@@ -10,8 +10,10 @@ public interface MeetingService {
 	List<EventVO> getUserAttendedMeetings(String email);
 	List<EventVO> getUserEventsByEmailId(String userPrincipalName);
 	List<Meeting> getAllMeetingsByUserId(String emailId);
-	boolean removeActionItemsOfEvent(String acItemIds, Integer eventId);
+	boolean deleteActionItemsOfMeeting(String acItemIds, Integer meetingId);
 	void saveAllUserMeetingsListOfCurrentBatchProcess(List<List<Meeting>> currentBatchProcessingUsersMeetingList);
+	Integer getUserAttendedMeetingCountByUserId(String emailId);
+	Integer getUserOragnizedMeetingCountByUserId(String emailId);
 
 	
 }

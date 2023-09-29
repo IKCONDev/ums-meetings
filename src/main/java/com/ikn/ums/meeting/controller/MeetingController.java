@@ -22,6 +22,9 @@ import com.ikn.ums.meeting.service.MeetingService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Meeting Rest Controller 
+ */
 @Slf4j
 @RestController
 @RequestMapping("/meetings")
@@ -30,15 +33,19 @@ public class MeetingController {
 	@Autowired
 	private MeetingService meetingService;
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping("/save")
-	public ResponseEntity<?> createEvent(){
-		//TODO: create event
+	public ResponseEntity<?> createMeeting(){
+		//TODO: create meeting
 		return null;
 	}
 	
-	
 	/**
-	 * delete the action items of an event by commnunicating with action items microservice
+	 * 
+	 * @param eventId
 	 * @param actionItemIds
 	 * @return
 	 */
@@ -47,7 +54,7 @@ public class MeetingController {
 		log.info("EventController.deleteActionItemsOfEvent() entered with args : eventId - "+eventId+" actionItemIds - "+actionItemIds);
 		try {
 			log.info("EventController.deleteActionItemsOfEvent() is under execution...");
-			boolean isAllDeleted = meetingService.removeActionItemsOfEvent(actionItemIds, eventId);
+			boolean isAllDeleted = meetingService.deleteActionItemsOfMeeting(actionItemIds, eventId);
 			if(isAllDeleted) {
 				log.info("EventController.deleteActionItemsOfEvent() exiting successfully by returning "+isAllDeleted);
 				return new ResponseEntity<Boolean>(isAllDeleted,HttpStatus.OK);
@@ -65,17 +72,10 @@ public class MeetingController {
 		
 	}
 	
-	@GetMapping("")
-	public ResponseEntity<?> editActionItemOfEvent(Integer id){
-		return null;
-		
-	}
-	
 	/**
-	 * get all organized events of a user based on userId(email)
 	 * 
-	 * @param username
-	 * @return list of user organized events
+	 * @param userEmailId
+	 * @return
 	 */
 	@GetMapping(path = "/attended/{userEmailId}")
 	public ResponseEntity<?> getUserAttendedMeetings(@PathVariable String userEmailId) {
@@ -97,9 +97,10 @@ public class MeetingController {
 		
 	}
 
-    /*
-     * Get Organized Meeting Details of logged-in user
-     * @param email id
+    /**
+     * 
+     * @param userEmailId
+     * @return
      */
 	@GetMapping("/organized/{userEmailId}")
 	public ResponseEntity<?> getUserOrganizedEvents(@PathVariable String userEmailId){
@@ -121,6 +122,11 @@ public class MeetingController {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param currentBatchProcessUserMeetingsList
+	 * @return
+	 */
 	@PostMapping("/")
 	public ResponseEntity<?> processCurrentBatchProcessingSourceData(@RequestBody List<List<Meeting>> currentBatchProcessUserMeetingsList){
 		log.info("MeetingController.processCurrentBatchProcessingSourceData() entered with args : currentBatchProcessUserMeetingsList");
@@ -143,6 +149,11 @@ public class MeetingController {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param emailId
+	 * @return
+	 */
 	@GetMapping("/all/{emailId}")
 	public ResponseEntity<?> getAllMeetingsOfUserId(@PathVariable String emailId){
 		log.info("MeetingController.getAllMeetingsOfUserId() entered with args : "+emailId);
@@ -163,5 +174,65 @@ public class MeetingController {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param emailId
+	 * @return
+	 */
+	@GetMapping(path = "attended/count/{userId}")
+	public ResponseEntity<?> getUserAttendedEventCount(@PathVariable("userId") String emailId) {
+		log.info(
+				"TeamsSourceDataBatchProcessController.getUserAttendedEventCount() entered with args : " + emailId);
+		if (emailId.equalsIgnoreCase("") || emailId == null) {
+			log.info("TeamsSourceDataBatchProcessController.getUserAttendedEventCount() userEmailId is empty or null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
+		}
+		try {
+			log.info("TeamsSourceDataBatchProcessController.getUserAttendedEventCount() is under execution ");
+			Integer count = meetingService.getUserAttendedMeetingCountByUserId(emailId);
+			log.info(
+					"TeamsSourceDataBatchProcessController.getUserAttendedEventCount() exited sucessfully by retruning count : "
+							+ count);
+			return new ResponseEntity<>(count, HttpStatus.OK);
+		} catch (Exception e) {
+			log.info(
+					"TeamsSourceDataBatchProcessController.getUserAttendedEventCount() exited with exception : Exception occured while getting user attended evebts count "
+							+ e.fillInStackTrace());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ATTENDED_COUNT_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_GET_ATTENDED_COUNT_UNSUCCESS_MESSAGE);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param emailId
+	 * @return
+	 */
+	@GetMapping(path = "/organized/count/{userId}")
+	public ResponseEntity<?> getUserOragnizedMeetingCount(@PathVariable("userId") String emailId) {
+		log.info("TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() entered with args : userEmailId : "
+				+ emailId);
+		if (emailId.equalsIgnoreCase("") || emailId == null) {
+			log.info(
+					"TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() exited with exception : userEmailid is empty or null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
+		}
+		try {
+			log.info("TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() is under execution");
+			Integer count = meetingService.getUserOragnizedMeetingCountByUserId(emailId);
+			log.info(
+					"TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() exited succesfully by returning organizedEventsCount : "
+							+ count);
+			return new ResponseEntity<>(count, HttpStatus.OK);
+		} catch (Exception e) {
+			log.info(
+					"TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() exited with exeception : Exception occured while getting organizedEventsCount "
+							+ e.fillInStackTrace());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MESSAGE);
+		}
+	}
 	
 }
