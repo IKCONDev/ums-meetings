@@ -36,6 +36,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	public ActionItem saveActionItem(ActionItem actionItem) {	
 		log.info("ActionItemServiceImpl.saveActionItem() entered with args - actionItem object");
 		if (actionItem == null) {
+			log.info("ActionItemServiceImpl.saveActionItem() Empty Input Exception : Exception occured while saving actionItem");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MESSAGE);
 		}
@@ -73,7 +74,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	@Transactional
 	public Integer deleteActionItemById(Integer actionItemId) {
 		log.info("ActionItemServiceImpl.deleteActionItemById() entered with args - actionItemId : "+actionItemId);
-		if (actionItemId == null || actionItemId < 0) {
+		if (actionItemId == null || actionItemId < 1) {
 			log.info(
 					"ActionItemService.deleteActionItemById() Empty Input Exception : Action Item Id is empty or invalid.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE,
@@ -130,6 +131,8 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	public ActionItemListVO getActionItemsByMeetingId(Integer meetingId) {
 		log.info("ActionItemServiceImpl.getActionItemsByMeetingId() entered with args - meetingId : "+meetingId);
 		if(meetingId < 1 || meetingId == null) {
+			log.info("ActionItemServiceImpl.getActionItemsByMeetingId() Empty Input Exception : Exception occured while"
+					+ "fetching the ActionItems");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MESSAGE);
 		}
