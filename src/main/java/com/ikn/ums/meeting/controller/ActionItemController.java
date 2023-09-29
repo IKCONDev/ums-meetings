@@ -157,7 +157,7 @@ public class ActionItemController {
 	 * @param actionItemIds
 	 * @return
 	 */
-	@DeleteMapping("/delete/{ids}")
+	@DeleteMapping("/deleteAll/{ids}")
 	public ResponseEntity<?> deleteActionItemsById(@PathVariable("ids") String actionItemIds) {
 		log.info("ActionItemController.deleteActionItemsById() entered with args actionItemIds : " + actionItemIds);
 		if (actionItemIds == "" || actionItemIds == null) {

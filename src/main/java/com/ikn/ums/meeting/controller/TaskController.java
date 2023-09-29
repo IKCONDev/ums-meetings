@@ -121,7 +121,7 @@ public class TaskController {
 	 * @param email
 	 * @return
 	 */
-	@GetMapping("/get/{emailId}")
+	@GetMapping("/getall/{emailId}")
 	public ResponseEntity<?> fetchTasksByUserId(@PathVariable String emailId){
 		log.info("TaskController.fetchTasksByUserId() entered with args :" +emailId);
 		if(emailId =="" || emailId==null) {
@@ -232,7 +232,7 @@ public class TaskController {
 	 * @return
 	 */
 	@DeleteMapping("/deleteAll/{ids}")
-	public ResponseEntity<?> deleteAllTasksById(@PathVariable("ids")String taskids){
+	public ResponseEntity<?> deleteAllTasksById(@PathVariable("ids") String taskids){
 		log.info("TaskController.deleteAllTasksById() entered with args : taskIds");
 		if(taskids == "" || taskids == null) {
 			log.info("TaskController.deleteAllTasksById() Empty Input Exceptio : taskId's is empty");
