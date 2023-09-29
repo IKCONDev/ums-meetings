@@ -83,7 +83,7 @@ public class TaskServiceImpl implements  TaskService{
 		if(taskId < 1 || taskId == null) {
 			log.info("TaskServiceImpl.getTaskById() Empty Input Exception taskId is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MSG);
 		}
 		log.info("TaskServiceImpl.getTaskById() is under execution");
 		Optional<Task>   task = taskRepository.findById(taskId);

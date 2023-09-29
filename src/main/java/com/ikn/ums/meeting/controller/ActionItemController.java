@@ -46,7 +46,7 @@ public class ActionItemController {
 		log.info("ActionItemController.createActionItem() entered with args : actionItem");
 			if (actionItem == null) {
 				throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_CODE,
-						ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MESSAGE);
+						ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MSG);
 			}
 		try {
 			log.info("ActionItemController.createActionItem() is under execution...");
@@ -58,7 +58,7 @@ public class ActionItemController {
 					"ActionItemController.createActionItem() exited with exception : Exception occured while creating action item : "
 							+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_SAVE_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_SAVE_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_SAVE_MSG);
 		}
 	}
 
@@ -75,7 +75,7 @@ public class ActionItemController {
 		if (actionItemId < 1 || actionItemId == null) {
 			log.info("ActionItemController.updateActionItem() EmptyInputException : Empty or invalid actionItemId");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MSG);
 		}
 		try {
 			log.info("ActionItemController.updateActionItem() is under execution...");
@@ -88,7 +88,7 @@ public class ActionItemController {
 					"ActionItemController.updateActionItem() exited with exception : Exception occured while upadating action item "
 							+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_UPDATE_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_UPDATE_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_UPDATE_MSG);
 		}
 
 	}
@@ -105,7 +105,7 @@ public class ActionItemController {
 			log.info(
 					"ActionItemController.getSingleActionItem() Empty Input Exception : Action Item id is empty or invalid.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MSG);
 		}
 		try {
 			log.info("ActionItemController.getSingleActionItem() is under execution...");
@@ -118,7 +118,7 @@ public class ActionItemController {
 					"ActionItemController.getSingleActionItem() exited with exception : Exception ocuured while fetching action item details : "
 							+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_CONVERTTOTASK_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_CONVERTTOTASK_MSG);
 		}
 
 	}
@@ -135,7 +135,7 @@ public class ActionItemController {
 			log.info(
 					"ActionItemController.deleteActionItem() Empty Input Exception : Action Item is empty or invalid.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MSG);
 		}
 		try {
 			log.info("ActionItemController.deleteActionItem() is under execution... ");
@@ -147,7 +147,7 @@ public class ActionItemController {
 					"ActionItemController.deleteActionItem() exited with exception : Exception occured while deleting action item. "
 							+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_DELETE_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_DELETE_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_DELETE_MSG);
 		}
 
 	}
@@ -163,7 +163,7 @@ public class ActionItemController {
 		if (actionItemIds == "" || actionItemIds == null) {
 			log.info("ActionItemController.deleteActionItemsById() Empty Input Exception : Action Item ids are empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MSG);
 		}
 		List<Integer> actualAcIds = null;
 		if (actionItemIds != "") {
@@ -182,7 +182,7 @@ public class ActionItemController {
 					"ActionItemController.deleteActionItemsById() exited with exception : Exception occured while deleting action items "
 							+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_DELETE_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_DELETE_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_DELETE_MSG);
 		}
 	}
 
@@ -197,7 +197,7 @@ public class ActionItemController {
 		if (actionItemList.size() < 1 || actionItemList == null) {
 			log.info("ActionItemController.generateActionItems() EmptyListException : Action Items list is empty");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MSG);
 		}
 		try {
 			log.info("ActionItemController.generateActionItems() is under execution...");
@@ -207,7 +207,7 @@ public class ActionItemController {
 		} catch (Exception e) {
 			log.info("ActionItemController.generateActionItems() exited with exception : " + e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GENERATE_CODE, 
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GENERATE_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GENERATE_MSG);
 		}
 	}
 
@@ -226,7 +226,7 @@ public class ActionItemController {
 		} catch (Exception e) {
 			log.info("ActionItemController.getActionItems() exited with exception: Exception occurred while getting action items : "+e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE, 
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MSG);
 		}
 	}
 
@@ -252,7 +252,7 @@ public class ActionItemController {
 					"ActionItemController.FetchActionItemsByEmailId() exited with exception : Exception ocuured while fetching action items of a user : "
 							+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MSG);
 		}
 
 	}
@@ -269,7 +269,7 @@ public class ActionItemController {
 			log.info(
 					"ActionItemController.getActionItemsByMeetingId() Empty Input Exception : Meeting id is empty or invalid");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MSG);
 		}
 		try {
 			log.info("ActionItemController.getActionItemsByMeetingId() is under execution");
@@ -279,7 +279,7 @@ public class ActionItemController {
 		} catch (Exception e) {
 			log.info("ActionItemController.getActionItemsByMeetingId() exited with exception : " + e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MSG);
 		}
 	}
 
@@ -295,7 +295,7 @@ public class ActionItemController {
 			log.info(
 					"ActionItemController.processActionItemsToTasks() Empty List Exception : Action Items list is empty or null");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MSG);
 		}
 		try {
 			log.info("ActionsController.processActionItemsToTasks() is under execution...");
@@ -307,7 +307,7 @@ public class ActionItemController {
 					"ActionsController.processActionItemsToTasks() exited with exception : An Exception occurred while converting action items to tasks "
 							+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_CONVERTTOTASK_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_CONVERTTOTASK_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_CONVERTTOTASK_MSG);
 		}
 
 	}

@@ -96,7 +96,7 @@ public class MeetingsServiceImpl implements MeetingService {
 		if(currentBatchProcessingUsersMeetingList.size() < 0) {
 			log.info("Empty meetings list from current batch processing ");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_LIST_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_LIST_EMPTY_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_LIST_EMPTY_MSG);
 		}
 		//save each users meetings into db
 		currentBatchProcessingUsersMeetingList.forEach(userMeetingList -> {

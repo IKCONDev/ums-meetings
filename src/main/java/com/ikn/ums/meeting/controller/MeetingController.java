@@ -133,7 +133,7 @@ public class MeetingController {
 		if(currentBatchProcessUserMeetingsList.size() < 0) {
 			log.info("Empty meetings list from current batch processing");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_LIST_EMPTY_CODE, 
-					ErrorCodeMessages.ERR_MEETINGS_LIST_EMPTY_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_LIST_EMPTY_MSG);
 		}
 		log.info("MeetingController.processCurrentBatchProcessingSourceData() is under execution");
 		try {
@@ -200,7 +200,7 @@ public class MeetingController {
 					"TeamsSourceDataBatchProcessController.getUserAttendedEventCount() exited with exception : Exception occured while getting user attended evebts count "
 							+ e.fillInStackTrace());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ATTENDED_COUNT_UNSUCCESS_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_GET_ATTENDED_COUNT_UNSUCCESS_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_GET_ATTENDED_COUNT_UNSUCCESS_MSG);
 		}
 	}
 	
@@ -231,7 +231,7 @@ public class MeetingController {
 					"TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() exited with exeception : Exception occured while getting organizedEventsCount "
 							+ e.fillInStackTrace());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MSG);
 		}
 	}
 	

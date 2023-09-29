@@ -38,7 +38,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		if (actionItem == null) {
 			log.info("ActionItemServiceImpl.saveActionItem() Empty Input Exception : Exception occured while saving actionItem");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MSG);
 		}
 		log.info("ActionItemServiceImpl.saveActionItem() is under execution...");
 		ActionItem savedActionItem = actionItemRepository.save(actionItem);
@@ -54,7 +54,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 			log.info(
 					"ActionItemService.updateActionItem() Empty Input Exception : ActionItem object is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MSG);
 		}
 		log.info("ActionItemServiceImpl.updateActionItem() is under execution...");
 		ActionItem dbActionItem = actionItemRepository.findById(actionItem.getActionItemId()).get();
@@ -78,7 +78,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 			log.info(
 					"ActionItemService.deleteActionItemById() Empty Input Exception : Action Item Id is empty or invalid.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MSG);
 		}
 		log.info("ActionItemServiceImpl.deleteActionItemById() is under execution...");
 		actionItemRepository.deleteById(actionItemId);
@@ -93,7 +93,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 			log.info(
 					"ActionItemService.deleteAllActionItemsById() Empty List Exception : Action Item Ids List is empty.");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_IDLIST_EMPTY_CODE, 
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_IDLIST_EMPTY_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_IDLIST_EMPTY_MSG);
 		}
 		log.info("ActionItemService.deleteAllActionItemsById() is under execution...");
 		boolean isAllDeleted = false;
@@ -119,7 +119,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 			log.info(
 					"ActionItemService.getActionItemById() Empty Input Exception : Action Item Id is empty or invalid.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MSG);
 		}
 		log.info("ActionItemServiceImpl.getActionItemById() is under execution...");
 		Optional<ActionItem> actionItem = actionItemRepository.findById(actionItemId);
@@ -134,7 +134,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 			log.info("ActionItemServiceImpl.getActionItemsByMeetingId() Empty Input Exception : Exception occured while"
 					+ "fetching the ActionItems");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_CODE, 
-					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MSG);
 		}
 		log.info("ActionItemServiceImpl.getActionItemsByMeetingId() is under execution...");
 		ActionItemListVO acItemsVO = new ActionItemListVO();
@@ -178,7 +178,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		if (actionItemList.size() < 1 || actionItemList == null) {
 			log.info("ActionItemServiceImpl.generateActionItems() EmptyListException : Action Items list is empty or null");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MSG);
 		}
 		log.info("ActionItemServiceImpl.generateActionItems() is under execution...");
 		List<ActionItem> newActionItemList = new ArrayList<>();

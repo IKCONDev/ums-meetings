@@ -59,7 +59,7 @@ public class TaskController {
 			//return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 			log.info("TaskController.createTask() exited with exception : Exception occured while saving task "+e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_SAVE_CODE,
-					ErrorCodeMessages.ERR_MEETINS_TASKS_SAVE_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINS_TASKS_SAVE_MSG);
 		}
 	}
 	
@@ -89,7 +89,7 @@ public class TaskController {
 			//return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 			log.info("TaskController.autoTaskCreation() exited with exception : Exception occured while creating the task"+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_CONVERTTASK_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_CONVERTTASK_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_CONVERTTASK_MSG);
 		}
 	}
 	
@@ -111,7 +111,7 @@ public class TaskController {
 		}catch (Exception e) {
 			log.info("TaskController.fetchAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
 		}
 		
 	}
@@ -138,7 +138,7 @@ public class TaskController {
 		}catch (Exception e) {
 			log.info("TaskController.fetchTasksByUserId() is exited with exception : Exception occured while getting the tasks of the user "+e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
 		}
 		
 	}
@@ -166,7 +166,7 @@ public class TaskController {
 			// TODO: handle exception
 			log.info("TaskController.fetchTasksById() exited with exception : Exception occured while getting the tasks :" +e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MESSAGE);
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
 		}
 		
 	}
@@ -195,7 +195,7 @@ public class TaskController {
 			// TODO: handle exception
 			log.info("TaskController.updateTaskDetails() exited with exception : Exception occured while updating : " +e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_UPDATE_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_UPDATE_MESSAGE);	
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_UPDATE_MSG);	
 		}
 		
 	}
