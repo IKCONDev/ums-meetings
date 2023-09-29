@@ -155,7 +155,7 @@ public class MeetingController {
 	 * @return
 	 */
 	@GetMapping("/all/{emailId}")
-	public ResponseEntity<?> getAllMeetingsOfUserId(@PathVariable String emailId){
+	public ResponseEntity<?> getAllMeetingsOfUser(@PathVariable String emailId){
 		log.info("MeetingController.getAllMeetingsOfUserId() entered with args : "+emailId);
 		if(emailId.equalsIgnoreCase("") || emailId == null) {
 			log.info("MeetingsServiceImpl.getAllMeetingsOfUserId() : userId/emailId is empty");
