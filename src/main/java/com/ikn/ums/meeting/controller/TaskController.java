@@ -208,9 +208,17 @@ public class TaskController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteTaskByTaskId(@PathVariable("id") Integer id){
-		
+		log.info("TaskController.deleteTaskDetails() entered with args : " +id);
+		if(id < 1 || id == null) {
+			log.info("TaskController.deleteTaskDetails() taskId is empty");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_MEESAGE);
+		}
 		try {
-			return new ResponseEntity<>(taskService.deleteTaskById(id),HttpStatus.OK);
+			log.info("TaskController.deleteTaskDetails() is under execution...");
+			Integer result = taskService.deleteTaskById(id);
+			log.info("TaskController.deleteTaskDetails() executed Successfully");
+			return new ResponseEntity<>(result,HttpStatus.OK);
 		}catch (Exception e) {
 			// TODO: handle exception
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -223,11 +231,10 @@ public class TaskController {
 	 * @return
 	 */
 	@DeleteMapping("/deleteAll/{ids}")
-	public ResponseEntity<?> deleteTasksById(@PathVariable("ids")String taskId){
-		System.out.println(taskId);
+	public ResponseEntity<?> deleteAllTasksById(@PathVariable("ids")String taskids){
 		List<Integer> taskIds = null;
-		if(taskId != "") {
-			String[] idsFromUI = taskId.split(",");
+		if(taskids != "") {
+			String[] idsFromUI = taskids.split(",");
 			List<String> idsList =  Arrays.asList(idsFromUI);
 			//convert string of ids to Integer ids
 			taskIds = idsList.stream()
