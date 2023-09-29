@@ -145,7 +145,7 @@ public class TaskServiceImpl implements  TaskService{
 	@Override
 	public boolean deleteAllTasksById(List<Integer> taskIds) {
 		log.info("TaskServiceImpl.deleteAllTasksById() entered with args : " +taskIds);
-		if(taskIds.size() < 1 || taskIds == null) {
+		if(taskIds.size() == 0 || taskIds == null) {
 			log.info("TaskServiceImpl.deleteAllTasksById() Empty List Exception : Exception occured while deleting the tasks");
 		    throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 		    		ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
