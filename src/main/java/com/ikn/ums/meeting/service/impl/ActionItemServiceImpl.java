@@ -63,6 +63,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		dbActionItem.setActionItemDescription(actionItem.getActionItemDescription());
 		dbActionItem.setActionPriority(actionItem.getActionPriority());
 		dbActionItem.setActionStatus(actionItem.getActionStatus());
+		dbActionItem.setActionItemOwner(actionItem.getActionItemOwner());
 		dbActionItem.setStartDate(actionItem.getStartDate());
 		dbActionItem.setEndDate(actionItem.getEndDate());
 		ActionItem updateAction= actionItemRepository.save(dbActionItem);
