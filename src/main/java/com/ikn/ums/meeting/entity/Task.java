@@ -25,31 +25,31 @@ public class Task {
 	@Column(name="taskId")
 	private Integer taskId;
 	
-	@Column(name="taskTitle")
+	@Column(name="taskTitle", nullable = false)
 	private String taskTitle;
 	
-	@Column(name="taskDescription")
+	@Column(name="taskDescription", nullable = false)
 	private String taskDescription;
 	
-	@Column(name="taskPriority")
+	@Column(name="taskPriority", nullable = false)
 	private String taskPriority;
 	
-	@Column(name="startDate")
+	@Column(name="startDate", nullable = false)
 	private LocalDateTime startDate;
 	
-	@Column(name="dueDate")
+	@Column(name="dueDate", nullable = true)
 	private LocalDateTime dueDate;
 	
-	@Column(name="taskOwner")
+	@Column(name="taskOwner", nullable = false)
 	private String taskOwner;
 	
-	@Column(name="status")
+	@Column(name="status", nullable = true)
 	private String status;	
 	
-	@Column(name="actionItemId")
+	@Column(name="actionItemId", nullable = false)
 	private Integer actionItemId;
 	
-	@Column(name="user_id")
+	@Column(name="user_id", nullable = false)
 	private String emailId;
 	
 

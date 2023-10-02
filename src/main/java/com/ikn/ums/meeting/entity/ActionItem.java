@@ -29,31 +29,31 @@ public class ActionItem {
 	@Column(name="id")
 	private Integer actionItemId;
 	
-	@Column(name="meetingId")
+	@Column(name="meetingId",nullable = false)
 	private Integer meetingId;
 
-	@Column(name="user_id")
+	@Column(name="user_id", nullable = false)
 	private String emailId;
 	
-	@Column(name="actionItemOwner")
+	@Column(name="actionItemOwner",nullable = false)
 	private String actionItemOwner;
 	
-	@Column(name="actionItemTitle")
+	@Column(name="actionItemTitle",nullable = false)
 	private String actionItemTitle;
 	
-	@Column(name="actionItemDescription")
+	@Column(name="actionItemDescription",nullable = false)
 	private String actionItemDescription;
 		
-	@Column(name="actionPriority")
+	@Column(name="actionPriority",nullable = true)
 	private String actionPriority;
 	
-	@Column(name="actionStatus")
+	@Column(name="actionStatus",nullable = false)
 	private String actionStatus;
 	
-	@Column(name="startDate")
+	@Column(name="startDate",nullable = true)
 	private LocalDateTime startDate;
 	
-	@Column(name="endDate")
+	@Column(name="endDate",nullable = true)
 	private LocalDateTime endDate;
 	
 	//relation
