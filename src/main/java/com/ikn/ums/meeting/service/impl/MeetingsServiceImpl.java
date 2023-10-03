@@ -7,13 +7,9 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import com.ikn.ums.meeting.VO.EventVO;
+import com.ikn.ums.meeting.entity.Attendee;
 import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.exception.BusinessException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
@@ -28,9 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class MeetingsServiceImpl implements MeetingService {
-	
-	@Autowired
-	private RestTemplate restTemplate;
 	
 	@Autowired
 	private ActionItemService actionItemService;
@@ -62,7 +55,7 @@ public class MeetingsServiceImpl implements MeetingService {
 
 
 	@Override
-	public List<EventVO> getUserAttendedMeetings(String emailId) {
+	public List<Attendee> getUserAttendedMeetingsByUserId(String emailId) {
 		log.info("MeetingsServiceImpl.getUserAttendedMeetings() entered with args : "+emailId);
 		if(emailId.equals("") || emailId == null) {
 			log.info("Exception occured while getting user attended meetings : user email is empty or null");
@@ -70,22 +63,24 @@ public class MeetingsServiceImpl implements MeetingService {
 			ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		log.info("MeetingsServiceImpl.getUserAttendedMeetings() calling batch process microservice to get user attended meetings");
-		ResponseEntity<List<EventVO>> response = restTemplate
-				.exchange("http://UMS-BATCH-SERVICE/teams/events/attended/"+emailId,
-						HttpMethod.GET,null, new ParameterizedTypeReference<List<EventVO>>() {});
+//		ResponseEntity<List<EventVO>> response = restTemplate
+//				.exchange("http://UMS-BATCH-SERVICE/teams/events/attended/"+emailId,
+//						HttpMethod.GET,null, new ParameterizedTypeReference<List<EventVO>>() {});
+		List<Attendee> attendedMeetingList = meetingRepository.findAllAttendedMeetingsByUserId(emailId);
 		log.info("MeetingsServiceImpl.getUserAttendedMeetings() executed successfully");
-		return response.getBody();
+		return attendedMeetingList;
 	}
 
 	
 
 	@Override
-	public List<EventVO> getUserEventsByEmailId(String userPrincipalName) {
+	public List<Meeting> getUserOrganizedMeetingsByUserId(String emailId) {
 		log.info("MeetingsServiceImpl.getUserEventsByEmailId(): entered");
-		String url ="http://UMS-BATCH-SERVICE/teams/events/organized/"+userPrincipalName;
-		ResponseEntity<List<EventVO>> response= restTemplate.exchange(url,HttpMethod.GET,null, new ParameterizedTypeReference<List<EventVO>>() {});
-		log.info("MeetingsServiceImpl.getUserEventsByEmailId() : call to batch microsevice is successfull.");
-		return response.getBody();
+		String url ="http://UMS-BATCH-SERVICE/teams/events/organized/"+emailId;
+//		ResponseEntity<List<EventVO>> response= restTemplate.exchange(url,HttpMethod.GET,null, new ParameterizedTypeReference<List<EventVO>>() {});
+//		log.info("MeetingsServiceImpl.getUserEventsByEmailId() : call to batch microsevice is successfull.");
+		List<Meeting> meetingList = meetingRepository.findAllMeetingsByUserId(emailId);
+		return meetingList;
 	}
 
 	@Transactional

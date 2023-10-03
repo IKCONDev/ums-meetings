@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ikn.ums.meeting.VO.EventVO;
+import com.ikn.ums.meeting.entity.Attendee;
 import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
@@ -49,12 +50,12 @@ public class MeetingController {
 	 * @param actionItemIds
 	 * @return
 	 */
-	@GetMapping("/delete/ac-items/{eventId}/{actionItemIds}")
-	public ResponseEntity<?> deleteActionItemsOfEvent(@PathVariable Integer eventId, @PathVariable String actionItemIds){
-		log.info("EventController.deleteActionItemsOfEvent() entered with args : eventId - "+eventId+" actionItemIds - "+actionItemIds);
+	@GetMapping("/delete/ac-items/{id}/{actionItemIds}")
+	public ResponseEntity<?> deleteActionItemsOfEvent(@PathVariable("id") Integer meetingId, @PathVariable String actionItemIds){
+		log.info("EventController.deleteActionItemsOfEvent() entered with args : eventId - "+meetingId+" actionItemIds - "+actionItemIds);
 		try {
 			log.info("EventController.deleteActionItemsOfEvent() is under execution...");
-			boolean isAllDeleted = meetingService.deleteActionItemsOfMeeting(actionItemIds, eventId);
+			boolean isAllDeleted = meetingService.deleteActionItemsOfMeeting(actionItemIds, meetingId);
 			if(isAllDeleted) {
 				log.info("EventController.deleteActionItemsOfEvent() exiting successfully by returning "+isAllDeleted);
 				return new ResponseEntity<Boolean>(isAllDeleted,HttpStatus.OK);
@@ -77,18 +78,18 @@ public class MeetingController {
 	 * @param userEmailId
 	 * @return
 	 */
-	@GetMapping(path = "/attended/{userEmailId}")
-	public ResponseEntity<?> getUserAttendedMeetings(@PathVariable String userEmailId) {
-		if(userEmailId == "" || userEmailId == null) {
+	@GetMapping(path = "/attended/{userId}")
+	public ResponseEntity<?> getUserAttendedMeetings(@PathVariable("userId") String emailId) {
+		if(emailId == "" || emailId == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
-		log.info("MeetingController.getUserAttendedMeetings() entered with args : "+userEmailId);
+		log.info("MeetingController.getUserAttendedMeetings() entered with args - userId/emailId : "+emailId);
 		try {
 			log.info("MeetingController.getUserAttendedMeetings() is under excution...");
-			List<EventVO> eventList =  meetingService.getUserAttendedMeetings(userEmailId);
+			List<Attendee> attendedMeetingList =  meetingService.getUserAttendedMeetingsByUserId(emailId);
 			log.info("MeetingController.getUserAttendedMeetings() is executed successfully...");
-			return new ResponseEntity<>(eventList, HttpStatus.OK);
+			return new ResponseEntity<>(attendedMeetingList, HttpStatus.OK);
 		}catch (Exception e) {
 			log.info("MeetingController.getUserAttendedMeetings() exited with exception : "+e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE, 
@@ -102,23 +103,24 @@ public class MeetingController {
      * @param userEmailId
      * @return
      */
-	@GetMapping("/organized/{userEmailId}")
-	public ResponseEntity<?> getUserOrganizedEvents(@PathVariable String userEmailId){
-		log.info("MeetingController.getUserEventsByEmailId() entered with args: userEmailId"+userEmailId);
-		if(userEmailId.equals("")) {
-			log.info("MeetingController.getUserEventsByEmailId() userEmailId: isEmpty");
+	@GetMapping("/organized/{userId}")
+	public ResponseEntity<?> getUserOrganizedMeetings(@PathVariable("userId") String emailId){
+		log.info("MeetingController.getUserOrganizedMeetings() entered with args - userId/emailId : "+emailId);
+		if(emailId.equals("")) {
+			log.info("MeetingController.getUserOrganizedMeetings() userEmailId: isEmpty");
 		}
-		log.info("MeetingController.getUserEventsByEmailId() under execution ");
+		log.info("MeetingController.getUserOrganizedMeetings() under execution ");
 		try {
 			
-			List<EventVO> meetingList=meetingService.getUserEventsByEmailId(userEmailId);
-			log.info("MeetingController.getUserEvnetsByEmailId() exited Successfully");
+			List<Meeting> meetingList=meetingService.getUserOrganizedMeetingsByUserId(emailId);
+			log.info("MeetingController.getUserOrganizedMeetings() exited Successfully");
 			return new ResponseEntity<>(meetingList,HttpStatus.OK);
 		}catch (Exception e) {
 			// TODO: handle exception
-			log.info("MeetingController.getUserEventsByEmailId() exited with Exception: Exception occured while getting user organized meetings"
+			log.info("MeetingController.getUserOrganizedMeetings() exited with Exception: Exception occured while getting user organized meetings"
 					+e.getMessage());
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG);
 		}
 	}
 	
@@ -154,18 +156,18 @@ public class MeetingController {
 	 * @param emailId
 	 * @return
 	 */
-	@GetMapping("/all/{emailId}")
-	public ResponseEntity<?> getAllMeetingsOfUser(@PathVariable String emailId){
-		log.info("MeetingController.getAllMeetingsOfUserId() entered with args : "+emailId);
+	@GetMapping("/all/{userId}")
+	public ResponseEntity<?> getAllMeetingsOfUser(@PathVariable("userId") String emailId){
+		log.info("MeetingController.getAllMeetingsOfUser() entered with args : "+emailId);
 		if(emailId.equalsIgnoreCase("") || emailId == null) {
-			log.info("MeetingsServiceImpl.getAllMeetingsOfUserId() : userId/emailId is empty");
+			log.info("MeetingsServiceImpl.getAllMeetingsOfUser() : userId/emailId is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		try {
-			log.info("MeetingsServiceImpl.getAllMeetingsOfUserId() is under execution...");
+			log.info("MeetingsServiceImpl.getAllMeetingsOfUser() is under execution...");
 			List<Meeting> userMeetingList = meetingService.getAllMeetingsByUserId(emailId);
-			log.info("MeetingsServiceImpl.getAllMeetingsOfUserId() is executed successfully");
+			log.info("MeetingsServiceImpl.getAllMeetingsOfUser() is executed successfully");
 			return new ResponseEntity<>(userMeetingList, HttpStatus.OK);
 		}catch (Exception e) {
 			log.info("Exception occured while fetching user meetings : "+e.getMessage());
