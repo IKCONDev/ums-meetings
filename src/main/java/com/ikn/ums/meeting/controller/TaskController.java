@@ -261,4 +261,26 @@ public class TaskController {
 		}
 	}
 	
+	@GetMapping("/assigned/{emailId}")
+	public ResponseEntity<?> getAssignedTasksByUserId(@PathVariable String emailId){
+		log.info("TaskController.getAssignedTasksByUserId() entered with args :" +emailId);
+		if(emailId =="" || emailId==null) {
+			log.info("TaskController.getAssignedTasksByUserId() Empty Input Exception : emailId is empty ");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
+		}
+		try {
+			log.info("TaskController.getAssignedTasksByUserId() is under execution...");
+			List<Task> task = taskService.getAssignedTaskListOfUser(emailId);
+			log.info("TaskController.getAssignedTasksByUserId() is executed Successfully");
+			return new ResponseEntity<>(task,HttpStatus.OK);
+			
+		}catch (Exception e) {
+			log.info("TaskController.getAssignedTasksByUserId() is exited with exception : Exception occured while getting the tasks of the user "+e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
+		}
+		
+	}
+	
 }//class

@@ -16,4 +16,5 @@ public interface TaskService {
 	Optional<Task> getTaskById(Integer id);
     List<Task> getTasksByUserId(String emailId);
 	List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList);	
+	List<Task> getAssignedTaskListOfUser(String emailId);
 }

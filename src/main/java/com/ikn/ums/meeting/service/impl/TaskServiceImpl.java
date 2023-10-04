@@ -172,7 +172,18 @@ public class TaskServiceImpl implements  TaskService{
 		log.info("TaskServiceImpl.getTasksByUserId() is executed successfully");
 		return list;
 	}
+
+	@Override
+	public List<Task> getAssignedTaskListOfUser(String emailId) {
+		log.info("TaskServiceImpl.getAssignedTaskListOfUser() entered with args - emailId : "+emailId);
+		if(emailId == null || emailId.equals("")) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
+		}
+		log.info("TaskServiceImpl.getAssignedTaskListOfUser() is under execution...");
+		List<Task> assignedTaskList = taskRepository.findUserAssignedTasksByUserId(emailId);
+		log.info("TaskServiceImpl.getAssignedTaskListOfUser() is executed successfully");
+		return assignedTaskList;
+	}
 	
-
-
 }

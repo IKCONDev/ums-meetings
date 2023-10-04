@@ -12,4 +12,7 @@ import com.ikn.ums.meeting.entity.Task;
 public interface TaskRepository extends JpaRepository<Task, Integer>{
 	@Query("FROM Task WHERE emailId=:emailId")
 	List<Task> findByUserId(String emailId);
+	
+	@Query("FROM Task WHERE taskOwner=:emailId")
+	List<Task> findUserAssignedTasksByUserId(String emailId);
 }
