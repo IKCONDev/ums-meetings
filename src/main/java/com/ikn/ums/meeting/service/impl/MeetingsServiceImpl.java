@@ -55,7 +55,7 @@ public class MeetingsServiceImpl implements MeetingService {
 
 
 	@Override
-	public List<Attendee> getUserAttendedMeetingsByUserId(String emailId) {
+	public List<Meeting> getUserAttendedMeetingsByUserId(String emailId) {
 		log.info("MeetingsServiceImpl.getUserAttendedMeetings() entered with args : "+emailId);
 		if(emailId.equals("") || emailId == null) {
 			log.info("Exception occured while getting user attended meetings : user email is empty or null");
@@ -66,7 +66,7 @@ public class MeetingsServiceImpl implements MeetingService {
 //		ResponseEntity<List<EventVO>> response = restTemplate
 //				.exchange("http://UMS-BATCH-SERVICE/teams/events/attended/"+emailId,
 //						HttpMethod.GET,null, new ParameterizedTypeReference<List<EventVO>>() {});
-		List<Attendee> attendedMeetingList = meetingRepository.findAllAttendedMeetingsByUserId(emailId);
+		List<Meeting> attendedMeetingList = meetingRepository.findAllAttendedMeetingsByUserId(emailId);
 		log.info("MeetingsServiceImpl.getUserAttendedMeetings() executed successfully");
 		return attendedMeetingList;
 	}

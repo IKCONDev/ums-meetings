@@ -8,7 +8,7 @@ import com.ikn.ums.meeting.entity.Meeting;
 
 public interface MeetingService {
 	
-	List<Attendee> getUserAttendedMeetingsByUserId(String emailId);
+	List<Meeting> getUserAttendedMeetingsByUserId(String emailId);
 	List<Meeting> getUserOrganizedMeetingsByUserId(String emailId);
 	List<Meeting> getAllMeetingsByUserId(String emailId);
 	boolean deleteActionItemsOfMeeting(String acItemIds, Integer meetingId);

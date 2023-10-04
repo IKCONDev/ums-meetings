@@ -87,7 +87,7 @@ public class MeetingController {
 		log.info("MeetingController.getUserAttendedMeetings() entered with args - userId/emailId : "+emailId);
 		try {
 			log.info("MeetingController.getUserAttendedMeetings() is under excution...");
-			List<Attendee> attendedMeetingList =  meetingService.getUserAttendedMeetingsByUserId(emailId);
+			List<Meeting> attendedMeetingList =  meetingService.getUserAttendedMeetingsByUserId(emailId);
 			log.info("MeetingController.getUserAttendedMeetings() is executed successfully...");
 			return new ResponseEntity<>(attendedMeetingList, HttpStatus.OK);
 		}catch (Exception e) {
