@@ -289,8 +289,8 @@ public class ActionItemController {
 	 * @param actionItemList
 	 * @return
 	 */
-	/*
-	@PostMapping("/convert-task")
+	
+	@PostMapping("/convert-task/{meetingId}")
 	public ResponseEntity<?> processActionItemsToTasks(@RequestBody List<ActionItem> actionItemList, @PathVariable Long meetingId) {
 		log.info("ActionsController.processActionItemsToTasks() entered with args : actionItemsList");
 		if (actionItemList.size() < 1 || actionItemList == null) {
@@ -313,5 +313,5 @@ public class ActionItemController {
 		}
 
 	}
-*/
+
 }

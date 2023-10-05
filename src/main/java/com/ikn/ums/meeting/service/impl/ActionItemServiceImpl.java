@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.entity.ActionItem;
-import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
@@ -31,6 +30,9 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private TaskService taskService;
 	
 	@Override
 	@Transactional
@@ -157,7 +159,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		return acItemsVO;
 	}
 	
-	/*
+	
 	@Transactional
 	@Override
 	public List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId) {
@@ -174,7 +176,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
         log.info("ActionItemServiceImpl.convertActionItemsToTasks() executed succesfully");
 		return taskList;
 	}
-	*/
+	
 
 	@Override
 	public boolean generateActionItems(List<ActionItem> actionItemList) {

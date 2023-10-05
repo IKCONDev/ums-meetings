@@ -16,6 +16,7 @@ import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.repository.TaskRepository;
+import com.ikn.ums.meeting.service.ActionItemService;
 import com.ikn.ums.meeting.service.MeetingService;
 import com.ikn.ums.meeting.service.TaskService;
 import com.ikn.ums.meeting.utils.EmailService;
@@ -34,6 +35,8 @@ public class TaskServiceImpl implements  TaskService{
 	
 	@Autowired
 	private MeetingService meetingService;
+	
+	private ActionItemService actionItemService;
 
 	@Override
 	@Transactional
@@ -128,7 +131,7 @@ public class TaskServiceImpl implements  TaskService{
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
-		log.info("TaskServiceInmpl.convertActionItemsToTasks() is under execution...");
+		log.info("TaskServiceImpl.convertActionItemsToTasks() is under execution...");
 		List<Task> taskList = new ArrayList<>();
 		actionItemList.forEach(actionitem ->{
 			Task task = new Task();
@@ -147,6 +150,7 @@ public class TaskServiceImpl implements  TaskService{
 			log.info("Action items converted to task sucessfully");
 		});
 		List<Task> savedTaskList = taskRepository.saveAll(taskList);
+		//List<ActionItem> updatedActionItemList = actionItemService
 		log.info(null);
 		// send MOM email
 		sendMinutesofMeetingEmail(actionItemList, meetingId);
