@@ -16,6 +16,7 @@ import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.repository.TaskRepository;
 import com.ikn.ums.meeting.service.TaskService;
+import com.ikn.ums.meeting.utils.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +26,9 @@ public class TaskServiceImpl implements  TaskService{
 	
 	@Autowired
 	private TaskRepository taskRepository;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@Override
 	@Transactional
@@ -135,11 +139,31 @@ public class TaskServiceImpl implements  TaskService{
 			//task.setStatus(actionitem.getActionStatus());
 			task.setStatus("Yet to Start");
 			taskList.add(task);
-			System.out.println(taskList);
-		
+			log.info("Action items converted to task sucessfully");
 		});
+		
+		List<Task> savedTaskList = taskRepository.saveAll(taskList);
+		//send email to task owner
+				savedTaskList.forEach( convertedTask -> {
+					new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							String to = convertedTask.getTaskOwner();
+							String subject = "Alert ! Task Assigned";
+							String body = "Hi , you have been assigned with  a task."+"\r\n"+"\r\n"
+							+"Task : "+convertedTask.getTaskTitle()+"\r\n"
+							+"Start Date : "+convertedTask.getStartDate()+"\r\n"
+							+"End Date : "+convertedTask.getDueDate()+"\r\n"
+							+"Priority : "+convertedTask.getTaskPriority()+"\r\n"
+							+"Status : "+convertedTask.getStatus();
+							log.info("TaskServiceInmpl.convertActionItemsToTasks() task email sent sucessfully");
+							emailService.sendMail(to,subject, body);
+						}
+					}).start();
+				});
 		log.info("TaskServiceImpl.convertActionItemsToTasks is executed successfully");
-	    return taskRepository.saveAll(taskList);
+	    return savedTaskList;
 	}
     
 	@Override
