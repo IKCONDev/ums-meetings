@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.entity.ActionItem;
+import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.entity.Task;
 
 public interface ActionItemService {
@@ -19,5 +20,6 @@ public interface ActionItemService {
 	ActionItemListVO getActionItemsByMeetingId(Integer meetingId);
     List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList);
 	boolean generateActionItems(List<ActionItem> actionItemList);
+	boolean sendMinutesofMeetingEmail(List<ActionItem> actionItemList, Meeting meeting);
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.entity.ActionItem;
+import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
@@ -212,6 +213,13 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		List<ActionItem> actionItemList =actionItemRepository.findByUserId(emailId);
 		log.info("ActionItemServiceImpl.getActionItemsByUserId() executed successfully");
 		return actionItemList;
+	}
+
+	@Override
+	public boolean sendMinutesofMeetingEmail(List<ActionItem> actionItem, Meeting meeting) {
+		// TODO Auto-generated method stub
+		
+		return false;
 	}
 	
 }

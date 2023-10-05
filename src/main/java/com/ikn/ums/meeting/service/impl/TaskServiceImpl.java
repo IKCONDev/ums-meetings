@@ -172,7 +172,6 @@ public class TaskServiceImpl implements  TaskService{
 		log.info("TaskServiceImpl.getTasksByUserId() is executed successfully");
 		return list;
 	}
-
 	@Override
 	public List<Task> getAssignedTaskListOfUser(String emailId) {
 		log.info("TaskServiceImpl.getAssignedTaskListOfUser() entered with args - emailId : "+emailId);
@@ -186,4 +185,7 @@ public class TaskServiceImpl implements  TaskService{
 		return assignedTaskList;
 	}
 	
+	
+
+
 }
