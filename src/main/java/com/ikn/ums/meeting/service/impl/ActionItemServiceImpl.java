@@ -18,6 +18,7 @@ import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.repository.ActionItemRepository;
 import com.ikn.ums.meeting.service.TaskService;
+import com.ikn.ums.meeting.utils.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +30,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	private ActionItemRepository actionItemRepository;
 	
 	@Autowired
-	private TaskService taskService;
+	private EmailService emailService;
 	
 	@Override
 	@Transactional
@@ -156,15 +157,16 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		return acItemsVO;
 	}
 	
+	/*
 	@Transactional
 	@Override
-	public List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList) {
+	public List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId) {
 		log.info("ActionItemServiceImpl.convertActionItemsToTasks() entered with args : actionItemList");
 		if(actionItemList == null || actionItemList.size()<1) {
 			
 		}
 		log.info("ActionItemServiceImpl.convertActionItemsToTasks() is under execution...");
-		List<Task> taskList = taskService.convertActionItemsToTasks(actionItemList);
+		List<Task> taskList = taskService.convertActionItemsToTasks(actionItemList, meetingId);
 		actionItemList.stream().forEach(action ->{
 			action.setActionStatus("Converted");
 		});
@@ -172,6 +174,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
         log.info("ActionItemServiceImpl.convertActionItemsToTasks() executed succesfully");
 		return taskList;
 	}
+	*/
 
 	@Override
 	public boolean generateActionItems(List<ActionItem> actionItemList) {
@@ -215,11 +218,6 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		return actionItemList;
 	}
 
-	@Override
-	public boolean sendMinutesofMeetingEmail(List<ActionItem> actionItem, Meeting meeting) {
-		// TODO Auto-generated method stub
-		
-		return false;
-	}
+	
 	
 }

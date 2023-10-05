@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ikn.ums.meeting.entity.ActionItem;
+import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
@@ -69,7 +70,7 @@ public class TaskController {
 	 * @return
 	 */
 	@PostMapping("/convert-task")
-	public ResponseEntity<?> autoTaskCreation(@RequestBody List<ActionItem> actionItemList){
+	public ResponseEntity<?> autoTaskCreation(@RequestBody List<ActionItem> actionItemList, @RequestBody Long meetingId){
 		System.out.println("TaskController.autoTaskCreation() entered");
 		log.info("TaskController.autoTaskCreation() entered with args : actionItemList");
 		if(actionItemList == null || actionItemList.size() < 1) {
@@ -79,7 +80,7 @@ public class TaskController {
 		}
 		try {
 			log.info("TaskController.autoTaskCreation() is under execution...");
-			List<Task> task= taskService.convertActionItemsToTasks(actionItemList);
+			List<Task> task= taskService.convertActionItemsToTasks(actionItemList,meetingId);
 			System.out.println(task);
 			log.info("TaskController.autoTaskCreation() is executed successfully");
 			return new ResponseEntity<>(task,HttpStatus.OK);
@@ -281,6 +282,35 @@ public class TaskController {
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
 		}
 		
+	}
+	
+	/**
+	 * 
+	 * @param actionItemList
+	 * @return
+	 */
+	@PostMapping("/convert-task")
+	public ResponseEntity<?> processActionItemsToTasks(@RequestBody List<ActionItem> actionItemList, @PathVariable Long meetingId) {
+		log.info("ActionsController.processActionItemsToTasks() entered with args : actionItemsList");
+		if (actionItemList.size() < 1 || actionItemList == null) {
+			log.info(
+					"ActionItemController.processActionItemsToTasks() Empty List Exception : Action Items list is empty or null");
+			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MSG);
+		}
+		try {
+			log.info("ActionsController.processActionItemsToTasks() is under execution...");
+			List<Task> taskList = taskService.convertActionItemsToTasks(actionItemList,meetingId);
+			log.info("ActionsController.processActionItemsToTasks() executed successfully");
+			return new ResponseEntity<>(taskList, HttpStatus.OK);
+		} catch (Exception e) {
+			log.info(
+					"ActionsController.processActionItemsToTasks() exited with exception : An Exception occurred while converting action items to tasks "
+							+ e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_CONVERTTOTASK_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_CONVERTTOTASK_MSG);
+		}
+
 	}
 	
 }//class

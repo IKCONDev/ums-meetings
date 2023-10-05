@@ -1,6 +1,7 @@
 package com.ikn.ums.meeting.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.ikn.ums.meeting.VO.EventVO;
 import com.ikn.ums.meeting.entity.Attendee;
@@ -15,6 +16,6 @@ public interface MeetingService {
 	void saveAllUserMeetingsListOfCurrentBatchProcess(List<List<Meeting>> currentBatchProcessingUsersMeetingList);
 	Integer getUserAttendedMeetingCountByUserId(String emailId);
 	Integer getUserOragnizedMeetingCountByUserId(String emailId);
-
+    Optional<Meeting> getMeetingDetails(Long meetingId);
 	
 }

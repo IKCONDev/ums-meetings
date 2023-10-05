@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.entity.ActionItem;
+import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
@@ -288,8 +289,9 @@ public class ActionItemController {
 	 * @param actionItemList
 	 * @return
 	 */
+	/*
 	@PostMapping("/convert-task")
-	public ResponseEntity<?> processActionItemsToTasks(@RequestBody List<ActionItem> actionItemList) {
+	public ResponseEntity<?> processActionItemsToTasks(@RequestBody List<ActionItem> actionItemList, @PathVariable Long meetingId) {
 		log.info("ActionsController.processActionItemsToTasks() entered with args : actionItemsList");
 		if (actionItemList.size() < 1 || actionItemList == null) {
 			log.info(
@@ -299,7 +301,7 @@ public class ActionItemController {
 		}
 		try {
 			log.info("ActionsController.processActionItemsToTasks() is under execution...");
-			List<Task> taskList = actionItemService.convertActionItemsToTasks(actionItemList);
+			List<Task> taskList = actionItemService.convertActionItemsToTasks(actionItemList,meetingId);
 			log.info("ActionsController.processActionItemsToTasks() executed successfully");
 			return new ResponseEntity<>(taskList, HttpStatus.OK);
 		} catch (Exception e) {
@@ -311,5 +313,5 @@ public class ActionItemController {
 		}
 
 	}
-
+*/
 }

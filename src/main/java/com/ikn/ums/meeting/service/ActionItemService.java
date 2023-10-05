@@ -18,8 +18,8 @@ public interface ActionItemService {
 	List<ActionItem> getActionItemList();
 	List<ActionItem> getActionItemsByUserId(String emailId);
 	ActionItemListVO getActionItemsByMeetingId(Integer meetingId);
-    List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList);
+    //List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId);
 	boolean generateActionItems(List<ActionItem> actionItemList);
-	boolean sendMinutesofMeetingEmail(List<ActionItem> actionItemList, Meeting meeting);
+	//boolean sendMinutesofMeetingEmail(List<ActionItem> actionItemList, Meeting meeting);
 
 }

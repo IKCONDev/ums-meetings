@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikn.ums.meeting.entity.ActionItem;
+import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.repository.TaskRepository;
+import com.ikn.ums.meeting.service.MeetingService;
 import com.ikn.ums.meeting.service.TaskService;
 import com.ikn.ums.meeting.utils.EmailService;
 
@@ -29,6 +31,9 @@ public class TaskServiceImpl implements  TaskService{
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private MeetingService meetingService;
 
 	@Override
 	@Transactional
@@ -113,7 +118,7 @@ public class TaskServiceImpl implements  TaskService{
 
 	@Override
 	@Transactional
-	public List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList) {
+	public List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId) {
 		log.info("TaskServiceImpl.convertActionItemsToTasks() entered with args - actionItemList");
 		System.out.println(actionItemList);
 		if(actionItemList == null || actionItemList.size() < 1)
@@ -141,27 +146,14 @@ public class TaskServiceImpl implements  TaskService{
 			taskList.add(task);
 			log.info("Action items converted to task sucessfully");
 		});
-		
 		List<Task> savedTaskList = taskRepository.saveAll(taskList);
-		//send email to task owner
-				savedTaskList.forEach( convertedTask -> {
-					new Thread(new Runnable() {
-						
-						@Override
-						public void run() {
-							String to = convertedTask.getTaskOwner();
-							String subject = "Alert ! Task Assigned";
-							String body = "Hi , you have been assigned with  a task."+"\r\n"+"\r\n"
-							+"Task : "+convertedTask.getTaskTitle()+"\r\n"
-							+"Start Date : "+convertedTask.getStartDate()+"\r\n"
-							+"End Date : "+convertedTask.getDueDate()+"\r\n"
-							+"Priority : "+convertedTask.getTaskPriority()+"\r\n"
-							+"Status : "+convertedTask.getStatus();
-							log.info("TaskServiceInmpl.convertActionItemsToTasks() task email sent sucessfully");
-							emailService.sendMail(to,subject, body);
-						}
-					}).start();
-				});
+		log.info(null);
+		// send MOM email
+		sendMinutesofMeetingEmail(actionItemList, meetingId);
+		log.info(null);
+		//send emails to task owners
+		sendEmailsToTaskOwners(taskList);
+		log.info(null);
 		log.info("TaskServiceImpl.convertActionItemsToTasks is executed successfully");
 	    return savedTaskList;
 	}
@@ -208,8 +200,57 @@ public class TaskServiceImpl implements  TaskService{
 		log.info("TaskServiceImpl.getAssignedTaskListOfUser() is executed successfully");
 		return assignedTaskList;
 	}
+		
+	private void sendMinutesofMeetingEmail(List<ActionItem> actionItemList, Long meetingId) {
+		
+		//get meeting object from Repository
+		Optional<Meeting> optMeeting = meetingService.getMeetingDetails(meetingId);
+		Meeting meeting = null;
+		if(optMeeting.isPresent()) {
+		     meeting = optMeeting.get();
+		}
+		
+		// TODO Auto-generated method stub
+		StringBuilder actionItemBuilder = new StringBuilder();
+		
+		actionItemList.forEach(actionItem->{
+			 int i=0;
+	    	 String singleActionItem = actionItem.getActionItemTitle();
+	    	 i=i+1;
+	    	 actionItemBuilder.append(i+". "+singleActionItem+"/r/n");
+	      });
+		
+		String subject ="Minutes of Meeting Email";
+		String OrganizeremailId = meeting.getOrganizerEmailId();
+		String textBody ="Hi Team, please find the Below Meeting Details and Action Items"+"\r\n"+" "+
+             "Meeting Title : " + meeting.getSubject() +"\r\n"+" "+
+             "Meeting Organizer : " + meeting.getOrganizerName()+"\r\n"+
+			 "Meeting Attendees : " + meeting.getAttendees()+"\r\n"+ 
+		     "Meeting StartDate : " + meeting.getStartDateTime()+"\r \n"+
+		     "Meeting EndDate : " + meeting.getEndDateTime()+"\r \n"+
+		     "Meeting Action Items : "+actionItemBuilder;
+		
+	   emailService.sendMail(OrganizeremailId, subject, textBody);	
+	}
 	
-	
-
-
+	private void sendEmailsToTaskOwners(List<Task> taskList) {
+		//send email to task owner
+				taskList.forEach(task -> {
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							String to = task.getTaskOwner();
+							String subject = "Alert ! Task Assigned";
+							String body = "Hi , you have been assigned with  a task."+"\r\n"+"\r\n"
+							+"Task : "+task.getTaskTitle()+"\r\n"
+							+"Start Date : "+task.getStartDate()+"\r\n"
+							+"End Date : "+task.getDueDate()+"\r\n"
+							+"Priority : "+task.getTaskPriority()+"\r\n"
+							+"Status : "+task.getStatus();
+							log.info("TaskServiceInmpl.convertActionItemsToTasks() task email sent sucessfully");
+							emailService.sendMail(to,subject, body);
+						}
+					}).start();
+				});
+	}
 }

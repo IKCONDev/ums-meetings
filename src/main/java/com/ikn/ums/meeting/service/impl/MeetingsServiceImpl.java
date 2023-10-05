@@ -2,6 +2,7 @@ package com.ikn.ums.meeting.service.impl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -141,6 +142,12 @@ public class MeetingsServiceImpl implements MeetingService {
 		}
 	}
 
-	
+	@Override
+	public Optional<Meeting> getMeetingDetails(Long meetingId) {
+		
+		Optional<Meeting> meeting = meetingRepository.findById(meetingId);
+		return meeting;
+		
+	}
 
 }
