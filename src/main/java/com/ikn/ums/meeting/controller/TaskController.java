@@ -69,6 +69,7 @@ public class TaskController {
 	 * @param actionItemList
 	 * @return
 	 */
+	/*
 	@PostMapping("/convert-task")
 	public ResponseEntity<?> autoTaskCreation(@RequestBody List<ActionItem> actionItemList, @RequestBody Long meetingId){
 		System.out.println("TaskController.autoTaskCreation() entered");
@@ -93,7 +94,7 @@ public class TaskController {
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_CONVERTTASK_MSG);
 		}
 	}
-	
+	*/
 	
 	/**
 	 * 
