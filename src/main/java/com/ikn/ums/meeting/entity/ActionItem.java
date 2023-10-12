@@ -50,6 +50,24 @@ public class ActionItem {
 	@Column(name="endDate",nullable = true)
 	private LocalDateTime endDate;
 	
+	@Column(name = "createdDateTime")
+	private LocalDateTime createdDateTime;
+	
+	@Column(name = "modifiedDateTime")
+	private LocalDateTime modifiedDateTime;
+	
+	@Column(name = "createdBy")
+	private String createdBy;
+	
+	@Column(name = "modifiedBy")
+	private String modifiedBy;
+	
+	@Column(name = "createdByEmailId")
+	private String createdByEmailId;
+	
+	@Column(name = "modifiedByEmailId")
+	private String modifiedByEmailId;
+	
 	//relation
 	//@OneToOne(fetch = FetchType.LAZY)
 	//private Meeting meeting;

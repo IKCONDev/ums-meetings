@@ -114,6 +114,21 @@ public class Meeting {
 	@Column(name = "createdDateTime", nullable = false)
 	private String createdDateTime;
 	
+	@Column(name = "modifiedDateTime")
+	private LocalDateTime modifiedDateTime;
+	
+	@Column(name = "createdBy")
+	private String createdBy;
+	
+	@Column(name = "modifiedBy")
+	private String modifiedBy;
+	
+	@Column(name = "createdByEmailId")
+	private String createdByEmailId;
+	
+	@Column(name = "modifiedByEmailId")
+	private String modifiedByEmailId;
+	
 	//other relations
 	//@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	//@JoinColumn(name = "meeting_fk_id", nullable = false)
