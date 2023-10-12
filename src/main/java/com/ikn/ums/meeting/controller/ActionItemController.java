@@ -27,6 +27,7 @@ import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.service.ActionItemService;
 
+import ch.qos.logback.core.joran.action.Action;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -315,7 +316,8 @@ public class ActionItemController {
 	}
 	
 	@PostMapping("/send-mom")
-	public ResponseEntity<?> sendMinutesOfMeeting(@RequestBody List<ActionItem> actionItemList ,@PathVariable("meetingId") Long meetingId){
+	public ResponseEntity<?> sendMinutesOfMeeting(@RequestBody List<ActionItem> actionItemList , @RequestBody
+			List<String> emailList ,@PathVariable("meetingId") Long meetingId){
 		
 		log.info("ActionsController.sendMinutesOfMeeting() entered with args : actionItemsList");
 		if (actionItemList.size() < 1 || actionItemList == null) {
@@ -324,9 +326,8 @@ public class ActionItemController {
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MSG);
 		}
-		
-		return null;
-		
+		boolean resultValue =actionItemService.sendMinutesofMeetingEmail(actionItemList, meetingId);
+		return new ResponseEntity<>(resultValue,HttpStatus.OK);
 	}
 
 }
