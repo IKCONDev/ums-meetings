@@ -207,7 +207,7 @@ public class TaskServiceImpl implements  TaskService{
 		return assignedTaskList;
 	}
 		
-	private void sendMinutesofMeetingEmail(List<ActionItem> actionItemList, Long meetingId) {
+	public void sendMinutesofMeetingEmail(List<ActionItem> actionItemList, Long meetingId) {
 		
 		//get meeting object from Repository
 		Optional<Meeting> optMeeting = meetingService.getMeetingDetails(meetingId);

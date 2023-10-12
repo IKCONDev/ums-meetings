@@ -313,5 +313,20 @@ public class ActionItemController {
 		}
 
 	}
+	
+	@PostMapping("/send-mom")
+	public ResponseEntity<?> sendMinutesOfMeeting(@RequestBody List<ActionItem> actionItemList ,@PathVariable("meetingId") Long meetingId){
+		
+		log.info("ActionsController.sendMinutesOfMeeting() entered with args : actionItemsList");
+		if (actionItemList.size() < 1 || actionItemList == null) {
+			log.info(
+					"ActionItemController.sendMinutesOfMeeting() Empty List Exception : Action Items list is empty or null");
+			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MSG);
+		}
+		
+		return null;
+		
+	}
 
 }

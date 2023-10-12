@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.entity.ActionItem;
+import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
@@ -220,6 +221,17 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		return actionItemList;
 	}
 
+	@Override
+	public boolean sendMinutesofMeetingEmail(List<ActionItem> actionItemList, Long meetingId) {
+		// TODO Auto-generated method stub
+		log.info("ActionItemServiceImpl.sendMinutesofMeetingEmail() entered with args -actionItemList :");
+		log.info("ActionItemServiceImpl.sendMinutesofMeetingEmail() is under execution...");
+		taskService.sendMinutesofMeetingEmail(actionItemList, meetingId);
+		log.info("ActionItemServiceImpl.sendMinutesofMeetingEmail() executed successfully");
+		return true;
+	}
+
+	
 	
 	
 }
