@@ -16,6 +16,7 @@ import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
+import com.ikn.ums.meeting.model.MinutesOfMeeting;
 import com.ikn.ums.meeting.repository.ActionItemRepository;
 import com.ikn.ums.meeting.service.TaskService;
 import com.ikn.ums.meeting.utils.EmailService;
@@ -222,10 +223,12 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	}
 
 	@Override
-	public boolean sendMinutesofMeetingEmail(List<ActionItem> actionItemList, Long meetingId) {
+	public boolean sendMinutesofMeetingEmail(MinutesOfMeeting momObject) {
 		// TODO Auto-generated method stub
 		log.info("ActionItemServiceImpl.sendMinutesofMeetingEmail() entered with args -actionItemList :");
 		log.info("ActionItemServiceImpl.sendMinutesofMeetingEmail() is under execution...");
+		List<ActionItem> actionItemList = momObject.getActionItemList();
+		Long meetingId = momObject.getMeeting().getMeetingId();
 		taskService.sendMinutesofMeetingEmail(actionItemList, meetingId);
 		log.info("ActionItemServiceImpl.sendMinutesofMeetingEmail() executed successfully");
 		return true;

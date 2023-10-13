@@ -6,6 +6,7 @@ import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.entity.Task;
+import com.ikn.ums.meeting.model.MinutesOfMeeting;
 
 public interface ActionItemService {
 
@@ -20,6 +21,6 @@ public interface ActionItemService {
 	ActionItemListVO getActionItemsByMeetingId(Integer meetingId);
     List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId);
 	boolean generateActionItems(List<ActionItem> actionItemList);
-	boolean sendMinutesofMeetingEmail(List<ActionItem> actionItemList, Long meetingId);
+	boolean sendMinutesofMeetingEmail(MinutesOfMeeting momObject);
 
 }

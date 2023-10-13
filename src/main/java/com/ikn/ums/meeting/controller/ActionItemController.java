@@ -25,6 +25,7 @@ import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
+import com.ikn.ums.meeting.model.MinutesOfMeeting;
 import com.ikn.ums.meeting.service.ActionItemService;
 
 import ch.qos.logback.core.joran.action.Action;
@@ -316,17 +317,10 @@ public class ActionItemController {
 	}
 	
 	@PostMapping("/send-mom")
-	public ResponseEntity<?> sendMinutesOfMeeting(@RequestBody List<ActionItem> actionItemList , @RequestBody
-			List<String> emailList ,@PathVariable("meetingId") Long meetingId){
+	public ResponseEntity<?> sendMinutesOfMeeting(@RequestBody MinutesOfMeeting momObject){
 		
-		log.info("ActionsController.sendMinutesOfMeeting() entered with args : actionItemsList");
-		if (actionItemList.size() < 1 || actionItemList == null) {
-			log.info(
-					"ActionItemController.sendMinutesOfMeeting() Empty List Exception : Action Items list is empty or null");
-			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MSG);
-		}
-		boolean resultValue =actionItemService.sendMinutesofMeetingEmail(actionItemList, meetingId);
+	
+		boolean resultValue =actionItemService.sendMinutesofMeetingEmail(momObject);
 		return new ResponseEntity<>(resultValue,HttpStatus.OK);
 	}
 
