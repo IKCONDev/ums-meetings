@@ -1,5 +1,6 @@
 package com.ikn.ums.meeting.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -146,6 +147,9 @@ public class TaskServiceImpl implements  TaskService{
 			task.setTaskDescription(actionitem.getActionItemDescription());
 			task.setTaskPriority(actionitem.getActionPriority());
 			task.setEmailId(actionitem.getEmailId());
+			task.setCreatedBy(task.getCreatedBy());
+			task.setCreatedDateTime(LocalDateTime.now());
+			task.setCreatedByEmailId(task.getCreatedByEmailId());
 			//task.setStatus(actionitem.getActionStatus());
 			task.setStatus("Yet to Start");
 			taskList.add(task);
@@ -242,7 +246,7 @@ public class TaskServiceImpl implements  TaskService{
 		     "Meeting EndDate : " + meeting.getEndDateTime()+"\r\n"+
 		     "Meeting Action Items : "+actionItemBuilder+"\r\n"+" ";
 		
-	   emailService.sendMail(OrganizeremailId, subject, textBody);	
+	   emailService.sendMail(OrganizeremailId, subject, textBody,false);	
 	}
 	
 	private void sendEmailsToTaskOwners(List<Task> taskList) {
@@ -253,14 +257,37 @@ public class TaskServiceImpl implements  TaskService{
 						public void run() {
 							String to = task.getTaskOwner();
 							String subject = "Alert ! Task Assigned";
-							String body = "Hi , you have been assigned with  a task."+"\r\n"+"\r\n"
-							+"Task : "+task.getTaskTitle()+"\r\n"
-							+"Start Date : "+task.getStartDate()+"\r\n"
-							+"End Date : "+task.getDueDate()+"\r\n"
-							+"Priority : "+task.getTaskPriority()+"\r\n"
-							+"Status : "+task.getStatus();
-							log.info("TaskServiceInmpl.convertActionItemsToTasks() task email sent sucessfully");
-							emailService.sendMail(to,subject, body);
+							
+							String body = "<b>Meeting ID</b> - MXXX"+"<br/>"
+							+"<b>Action Item ID</b> - A000"+task.getActionItemId()+"<br/>"
+							+"<b>Task ID</b> - T000"+task.getTaskId()+"<br/>"
+							+"A task has been assigned to you: Please see below"+"<br/>"
+							+"Task Description: "+task.getTaskDescription()+"<br/>"
+							+ "<table width='100%' border='1' align='center'>"
+							+"<tr>"
+							+"<th colspan='3'>Task Details</th>"
+							+"<th></th>"
+							+"</tr>"
+							+"<tr>"
+							+"<td><b>Assignee</b> : "+task.getTaskOwner()+"</td>"
+							+"<td><b>Organizer</b> : "+task.getEmailId()+"</td>"
+							+"<td><b>Priority</b> : "+task.getTaskPriority()+"</td>"
+							+"</tr>"
+							+"<tr>"
+							+"<td><b>Start Date</b> : "+task.getStartDate()+"</td>"
+							+"<td><b>Due Date</b> : "+task.getDueDate()+"</td>"
+							+"<td><b>Status</b> : "+task.getStatus()+"</td>"
+							+"</tr>"
+							+ "</table>";
+//							String body = "Hi , you have been assigned with  a task: Please see below"+"\r\n"+"\r\n"
+//							+"Task : "+task.getTaskTitle()+"\r\n"
+//							+"Start Date : "+task.getStartDate()+"\r\n"
+//							+"End Date : "+task.getDueDate()+"\r\n"
+//							+"Priority : "+task.getTaskPriority()+"\r\n"
+//							+"Status : "+task.getStatus()+"\r\n"
+//							+"Description: "+task.getTaskDescription();
+							log.info("TaskServiceImpl.convertActionItemsToTasks() task email sent sucessfully");
+							emailService.sendMail(to,subject, body,true);
 						}
 					}).start();
 				});

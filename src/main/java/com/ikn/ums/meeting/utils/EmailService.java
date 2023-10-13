@@ -16,7 +16,7 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender sender;
 	
-	public boolean sendMail(String to, String subject, String textBody, String[] cc, String[] bcc, MultipartFile file) {
+	public boolean sendMail(String to, String subject, String textBody, String[] cc, String[] bcc, MultipartFile file, boolean isHtml) {
 		
 		boolean flag = false;
 	    MimeMessage message = sender.createMimeMessage();
@@ -25,7 +25,8 @@ public class EmailService {
 	    	MimeMessageHelper helper = new MimeMessageHelper(message,file!=null?true:false);
 	    	helper.setTo(to);
 	    	helper.setSubject(subject);
-	    	helper.setText(textBody);
+	    	//helper.setText(textBody);
+	    	helper.setText(textBody, isHtml);
 	    	if(cc !=null) {
 	    		helper.setCc(cc);	
 	    	}
@@ -45,9 +46,9 @@ public class EmailService {
 		return flag;
 		
 	}
-	public boolean sendMail(String to, String subject, String textBody) {
+	public boolean sendMail(String to, String subject, String textBody, boolean isHtml) {
 		
-		return sendMail(to,subject,textBody,null,null,null);
+		return sendMail(to,subject,textBody,null,null,null, isHtml);
 		
 	}
 	
