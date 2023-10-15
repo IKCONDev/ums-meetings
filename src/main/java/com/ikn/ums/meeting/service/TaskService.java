@@ -19,5 +19,5 @@ public interface TaskService {
     List<Task> getTasksByUserId(String emailId);
 	List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId);	
 	List<Task> getAssignedTaskListOfUser(String emailId);
-	void sendMinutesofMeetingEmail(List<ActionItem> actionItemList, Long meetingId);
+	void sendMinutesofMeetingEmail(String[] emailList,List<ActionItem> actionItemList, Long meetingId);
 }
