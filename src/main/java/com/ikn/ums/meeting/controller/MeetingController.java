@@ -18,7 +18,9 @@ import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
+import com.ikn.ums.meeting.exception.EntityNotFoundException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
+import com.ikn.ums.meeting.model.MeetingModel;
 import com.ikn.ums.meeting.service.MeetingService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,10 +40,24 @@ public class MeetingController {
 	 * 
 	 * @return
 	 */
-	@GetMapping("/save")
-	public ResponseEntity<?> createMeeting(){
-		//TODO: create meeting
-		return null;
+	@PostMapping("/create")
+	public ResponseEntity<?> createMeeting(@RequestBody MeetingModel meetingModel){
+		log.info("MeetingController.createMeeting() entered with args : meeting object");
+		if(meetingModel.equals(null) || meetingModel == null) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_MSG);
+			
+		}
+		try {
+			//TODO: create meeting
+			Meeting createdMeeting = meetingService.createMeeting(meetingModel);
+			return new ResponseEntity<>(createdMeeting, HttpStatus.CREATED);
+		}catch (Exception e) {
+			log.info("Exception occured while saving meeting "+e.getMessage());
+			ControllerException umsCE = new ControllerException( ErrorCodeMessages.ERR_MEETINGS_CREATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_CREATE_UNSUCCESS_MSG);
+			throw umsCE;
+		}
 	}
 	
 	/**
@@ -68,7 +84,7 @@ public class MeetingController {
 			log.info("EventController.deleteActionItemsOfEvent() exited with exception "+e.getMessage());
 			ControllerException umsCE = new ControllerException( ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG+" "+e.fillInStackTrace());
-			return new ResponseEntity<>(umsCE, HttpStatus.INTERNAL_SERVER_ERROR);
+			throw umsCE;
 		}
 		
 	}

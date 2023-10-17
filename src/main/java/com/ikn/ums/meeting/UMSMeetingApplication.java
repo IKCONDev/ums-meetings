@@ -1,11 +1,14 @@
 package com.ikn.ums.meeting;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,13 @@ public class UMSMeetingApplication {
 		RestTemplate loadBalancedRestTemplate = new RestTemplate();
 	    log.info("UMSMeetingApplication.createLoadBalancedRestTemplate() : RestTemplate object created.");
 		return loadBalancedRestTemplate;
+	}
+	
+	@Bean
+	public ModelMapper createMapper() {
+		ModelMapper mapper = new ModelMapper();
+		mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		return mapper;
 	}
 
 }

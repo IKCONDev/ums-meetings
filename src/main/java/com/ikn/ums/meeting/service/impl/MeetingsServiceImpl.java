@@ -1,12 +1,17 @@
 package com.ikn.ums.meeting.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +21,7 @@ import com.ikn.ums.meeting.exception.BusinessException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
+import com.ikn.ums.meeting.model.MeetingModel;
 import com.ikn.ums.meeting.repository.MeetingRepository;
 import com.ikn.ums.meeting.service.ActionItemService;
 import com.ikn.ums.meeting.service.MeetingService;
@@ -31,6 +37,9 @@ public class MeetingsServiceImpl implements MeetingService {
 	
 	@Autowired
 	private MeetingRepository meetingRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 
 	@Override
@@ -144,10 +153,35 @@ public class MeetingsServiceImpl implements MeetingService {
 
 	@Override
 	public Optional<Meeting> getMeetingDetails(Long meetingId) {
-		
 		Optional<Meeting> meeting = meetingRepository.findById(meetingId);
 		return meeting;
 		
+	}
+
+
+	@Override
+	public Meeting createMeeting(MeetingModel meetingModel) {
+			log.info("MeetingServiceImpl.createMeeting() entered with args : meeting object");
+			System.out.println(meetingModel);
+			Meeting meeting = new Meeting();
+			Set<Attendee> attendeeList = new HashSet<>();
+			modelMapper.map(meetingModel, meeting);
+			for(int i=0; i< meetingModel.getAttendees().length; i++) {
+				Attendee attendee = new Attendee();
+				attendee.setEmail(meetingModel.getAttendees()[i]);
+				attendee.setEmailId(meetingModel.getAttendees()[i]);
+				attendee.setType("Required");
+				attendee.setStatus("Accepted");
+				attendeeList.add(attendee);
+			}
+			meeting.setEventId("IKCON UMS MANUAL MEETING "+new Random(9999999).nextInt());
+			meeting.setAttendees(attendeeList);
+			meeting.setCreatedBy(meetingModel.getCreatedBy());
+			meeting.setEmailId(meetingModel.getEmailId());
+			meeting.setCreatedByEmailId(meetingModel.getCreatedByEmailId());
+			meeting.setCreatedDateTime(LocalDateTime.now().toString());
+			Meeting createdMeeting = meetingRepository.save(meeting);
+			return createdMeeting;
 	}
 
 }

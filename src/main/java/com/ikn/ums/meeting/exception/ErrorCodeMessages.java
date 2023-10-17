@@ -73,5 +73,11 @@ public class ErrorCodeMessages {
 	 
 	 public static final String ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE = "ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE-1024";
 	 public static final String ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MSG = "Exception occured while getting user organized meetings count";
+	 
+	 public static final String ERR_MEETINGS_CREATE_UNSUCCESS_CODE = "ERR_MEETINGS_CREATE_UNSUCCESS_CODE-1025";
+	 public static final String ERR_MEETINGS_CREATE_UNSUCCESS_MSG = "Exception occured while creating meeting";
+	 
+	 public static final String ERR_MEETINGS_ENTITY_NOTFOUND_CODE = "ERR_MEETINGS_ENTITY_NOTFOUND_CODE-1026";
+	 public static final String ERR_MEETINGS_ENTITY_NOTFOUND_MSG = "Meeting object is null or empty";
 
 }

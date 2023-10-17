@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.ikn.ums.meeting.VO.EventVO;
 import com.ikn.ums.meeting.entity.Attendee;
 import com.ikn.ums.meeting.entity.Meeting;
+import com.ikn.ums.meeting.model.MeetingModel;
 
 public interface MeetingService {
 	
@@ -17,5 +18,6 @@ public interface MeetingService {
 	Integer getUserAttendedMeetingCountByUserId(String emailId);
 	Integer getUserOragnizedMeetingCountByUserId(String emailId);
     Optional<Meeting> getMeetingDetails(Long meetingId);
+    Meeting createMeeting(MeetingModel meetingModel);
 	
 }
