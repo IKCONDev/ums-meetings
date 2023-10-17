@@ -24,7 +24,7 @@ public class ActionItem {
 	private Integer actionItemId;
 	
 	@Column(name="meetingId",nullable = false)
-	private Integer meetingId;
+	private Long meetingId;
 
 	@Column(name="user_id", nullable = false)
 	private String emailId;

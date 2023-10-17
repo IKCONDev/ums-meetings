@@ -39,6 +39,7 @@ public class ActionItemController {
 	@Autowired
 	private ActionItemService actionItemService;
 
+
 	/**
 	 * 
 	 * @param actions
@@ -266,7 +267,7 @@ public class ActionItemController {
 	 * @return
 	 */
 	@GetMapping("/ac-items/{meetingId}")
-	public ResponseEntity<?> getActionItemsByMeetingId(@PathVariable Integer meetingId) {
+	public ResponseEntity<?> getActionItemsByMeetingId(@PathVariable Long meetingId) {
 		log.info("ActionItemController.getActionItemsByMeetingId() entered with args  meetingId : " + meetingId);
 		if (meetingId == null || meetingId < 1) {
 			log.info(
@@ -316,12 +317,27 @@ public class ActionItemController {
 
 	}
 	
-	@PostMapping("/send-mom")
+	@PostMapping("/send-momdata")
 	public ResponseEntity<?> sendMinutesOfMeeting(@RequestBody MinutesOfMeeting momObject){
-		
+		log.info("entered the controller of send Minutes of Meeting");
+		MinutesOfMeeting momObject1 = new MinutesOfMeeting();
+	    momObject1.setMeeting(momObject.getMeeting());
+	    momObject1.setEmailList(momObject.getEmailList());
+		boolean resultValue =actionItemService.sendMinutesofMeetingEmail(momObject1);
+		return new ResponseEntity<>(resultValue,HttpStatus.OK);
+	}
 	
+	@PostMapping("/send-mom/{meeting}/{emailList}")
+	public ResponseEntity<?> sendMinutesOfMeetingObject(@PathVariable("meeting") Meeting meeting , @PathVariable("emailList") List<String> emailList){
+		
+		log.info("ActionItemController.sendMinutesOfMeetingObject() is entered)");
+		MinutesOfMeeting momObject = new MinutesOfMeeting();
+	    momObject.setMeeting(meeting);
+	    momObject.setEmailList(emailList);
+	    log.info("ActionItemController.sendMinutesOfMeetingObject() is under execution");
 		boolean resultValue =actionItemService.sendMinutesofMeetingEmail(momObject);
 		return new ResponseEntity<>(resultValue,HttpStatus.OK);
 	}
+	
 
 }

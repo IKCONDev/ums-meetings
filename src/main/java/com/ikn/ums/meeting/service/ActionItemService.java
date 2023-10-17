@@ -18,7 +18,7 @@ public interface ActionItemService {
 	ActionItemListVO getActionItems();
 	List<ActionItem> getActionItemList();
 	List<ActionItem> getActionItemsByUserId(String emailId);
-	ActionItemListVO getActionItemsByMeetingId(Integer meetingId);
+	ActionItemListVO getActionItemsByMeetingId(Long meetingId);
     List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId);
 	boolean generateActionItems(List<ActionItem> actionItemList);
 	boolean sendMinutesofMeetingEmail(MinutesOfMeeting momObject);

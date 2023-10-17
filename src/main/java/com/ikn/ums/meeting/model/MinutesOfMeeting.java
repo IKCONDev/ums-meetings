@@ -12,8 +12,6 @@ public class MinutesOfMeeting {
 	
 	private Meeting meeting;
 	
-	private List<ActionItem> actionItemList;
-	
-	private String[] emailList;
+	private List<String> emailList;
 
 }

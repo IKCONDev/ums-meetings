@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Attendee;
 import com.ikn.ums.meeting.entity.Meeting;
@@ -158,8 +159,9 @@ public class TaskServiceImpl implements  TaskService{
 		List<Task> savedTaskList = taskRepository.saveAll(taskList);
 		//List<ActionItem> updatedActionItemList = actionItemService
 		log.info(null);
+		String[] emailList = {"pamarthi.bharat1234@gmail.com","Bharat@ikcontech.com"};
 		// send MOM email
-		sendMinutesofMeetingEmail(actionItemList, meetingId);
+		//sendMinutesofMeetingEmail(emailList,actionItemList, meetingId);
 		log.info(null);
 		//send emails to task owners
 		sendEmailsToTaskOwners(taskList);
@@ -211,7 +213,7 @@ public class TaskServiceImpl implements  TaskService{
 		return assignedTaskList;
 	}
 		
-	public void sendMinutesofMeetingEmail(List<ActionItem> actionItemList, Long meetingId) {
+	public void sendMinutesofMeetingEmail(List<String> emailList, List<ActionItem> actionItemList, Long meetingId) {
 		
 		//get meeting object from Repository
 		Optional<Meeting> optMeeting = meetingService.getMeetingDetails(meetingId);
@@ -238,15 +240,15 @@ public class TaskServiceImpl implements  TaskService{
 		
 		String subject ="Minutes of Meeting Email";
 		String OrganizeremailId = meeting.getOrganizerEmailId();
-		String textBody ="Hi Team," +"\r\n"+"please find the Below Meeting Details and Action Items"+"\r\n"+"\r\n "+
+		String textBody ="Hi Team," +"\r\n"+"\r\n"+"please find the Below Meeting Details and Action Items"+"\r\n"+"\r\n"+
              "Meeting Title : " + meeting.getSubject() +"\r\n"+""+
              "Meeting Organizer : " + meeting.getOrganizerName()+"\r\n"+" "+
 			 "Meeting Attendees : " + attendeeListBuilder+"\r\n"+ " "+
 		     "Meeting StartDate : " + meeting.getStartDateTime()+"\r\n"+" "+
 		     "Meeting EndDate : " + meeting.getEndDateTime()+"\r\n"+
 		     "Meeting Action Items : "+actionItemBuilder+"\r\n"+" ";
-		
-	   emailService.sendMail(OrganizeremailId, subject, textBody,false);	
+		emailService.sendMail(OrganizeremailId, subject, textBody, true);
+	   //emailService.sendMail(emailList, subject, textBody,true);	
 	}
 	
 	private void sendEmailsToTaskOwners(List<Task> taskList) {
@@ -292,4 +294,5 @@ public class TaskServiceImpl implements  TaskService{
 					}).start();
 				});
 	}
+
 }

@@ -1,6 +1,7 @@
 package com.ikn.ums.meeting.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -251,6 +252,14 @@ public class MeetingController {
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MSG);
 		}
+	}
+	
+	@GetMapping("/{meetingId}")
+	public ResponseEntity<?> getSingleMeeting(@PathVariable("meetingId") Long meetingId){
+		Optional<Meeting> optionalMeetingObject = meetingService.getMeetingDetails(meetingId);
+		Meeting meetingObject = optionalMeetingObject.get();
+		return new ResponseEntity<>(meetingObject,HttpStatus.OK);
+		
 	}
 	
 }
