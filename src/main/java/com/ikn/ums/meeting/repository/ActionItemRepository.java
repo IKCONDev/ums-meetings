@@ -10,7 +10,7 @@ import com.ikn.ums.meeting.entity.ActionItem;
 public interface ActionItemRepository extends JpaRepository<ActionItem, Integer>{
 
 	@Query("FROM ActionItem WHERE meetingId=:meetingId")
-	public List<ActionItem> findActionItemsByEventId(Integer meetingId);
+	public List<ActionItem> findActionItemsByEventId(Long meetingId);
 	
 	@Query("FROM ActionItem WHERE emailId=:emailId")
 	List<ActionItem> findByUserId(String emailId);

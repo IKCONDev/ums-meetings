@@ -134,7 +134,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	}
 
 	@Override
-	public ActionItemListVO getActionItemsByMeetingId(Integer meetingId) {
+	public ActionItemListVO getActionItemsByMeetingId(Long meetingId) {
 		log.info("ActionItemServiceImpl.getActionItemsByMeetingId() entered with args - meetingId : "+meetingId);
 		if(meetingId < 1 || meetingId == null) {
 			log.info("ActionItemServiceImpl.getActionItemsByMeetingId() Empty Input Exception : Exception occured while"
@@ -227,10 +227,13 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		// TODO Auto-generated method stub
 		log.info("ActionItemServiceImpl.sendMinutesofMeetingEmail() entered with args -actionItemList :");
 		log.info("ActionItemServiceImpl.sendMinutesofMeetingEmail() is under execution...");
-		List<ActionItem> actionItemList = momObject.getActionItemList();
 		Long meetingId = momObject.getMeeting().getMeetingId();
-		String[] emailList = momObject.getEmailList();
-		taskService.sendMinutesofMeetingEmail(emailList,actionItemList, meetingId);
+		List<String> emailList = momObject.getEmailList();
+		System.out.println("MeetingId:"+ meetingId);
+		System.out.println("Email List:"+ emailList);
+		List<ActionItem> actionItemList = actionItemRepository.findActionItemsByEventId(meetingId);
+	    System.out.println(actionItemList);
+		taskService.sendMinutesofMeetingEmail(emailList,actionItemList,meetingId);
 		log.info("ActionItemServiceImpl.sendMinutesofMeetingEmail() executed successfully");
 		return true;
 	}
