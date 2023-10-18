@@ -238,8 +238,17 @@ public class TaskServiceImpl implements  TaskService{
 			attendeeListBuilder.append(singleAttendee+"\r\n");
 		});
 		
+		String[] emailArrayList = new String[emailList.size()];
+		for(int i=0; i<emailList.size(); i++) {
+			emailArrayList[i] = emailList.get(i);
+			System.out.println("filtered email is:"+emailArrayList[i]);
+			
+		}
+		System.out.println("emailId to send mom Email:"+emailArrayList);
 		String subject ="Minutes of Meeting Email";
-		String OrganizeremailId = meeting.getOrganizerEmailId();
+		
+		//String body = "<b>Meeting Title:</b>"+""<br/>"
+		//String OrganizeremailId = meeting.getOrganizerEmailId();
 		String textBody ="Hi Team," +"\r\n"+"\r\n"+"please find the Below Meeting Details and Action Items"+"\r\n"+"\r\n"+
              "Meeting Title : " + meeting.getSubject() +"\r\n"+""+
              "Meeting Organizer : " + meeting.getOrganizerName()+"\r\n"+" "+
@@ -247,8 +256,8 @@ public class TaskServiceImpl implements  TaskService{
 		     "Meeting StartDate : " + meeting.getStartDateTime()+"\r\n"+" "+
 		     "Meeting EndDate : " + meeting.getEndDateTime()+"\r\n"+
 		     "Meeting Action Items : "+actionItemBuilder+"\r\n"+" ";
-		emailService.sendMail(OrganizeremailId, subject, textBody, true);
-	   //emailService.sendMail(emailList, subject, textBody,true);	
+		//emailService.sendMail(OrganizeremailId, subject, textBody, true);
+	   emailService.sendMail(emailArrayList, subject, textBody,true);	
 	}
 	
 	private void sendEmailsToTaskOwners(List<Task> taskList) {
