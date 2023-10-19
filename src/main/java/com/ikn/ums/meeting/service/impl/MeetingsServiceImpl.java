@@ -104,7 +104,14 @@ public class MeetingsServiceImpl implements MeetingService {
 		}
 		//save each users meetings into db
 		currentBatchProcessingUsersMeetingList.forEach(userMeetingList -> {
-			meetingRepository.saveAll(userMeetingList);
+			userMeetingList.forEach(userMeeting -> {
+				//set meeting id's to null which we obtained from batch processing, 
+				//to auto generate the new meeting id's for each meeting
+				userMeeting.setMeetingId(null);
+			});
+			//save each users meeting batch processing records
+			List<Meeting> batchProcessedMeetingList = meetingRepository.saveAll(userMeetingList);
+			log.info("Auto Meetings "+batchProcessedMeetingList);
 		});
 		log.info("MeetingsServiceImpl.saveAllUserMeetingsListOfCurrentBatchProcess() exiting successfully");
 	}
@@ -180,7 +187,9 @@ public class MeetingsServiceImpl implements MeetingService {
 			meeting.setEmailId(meetingModel.getEmailId());
 			meeting.setCreatedByEmailId(meetingModel.getCreatedByEmailId());
 			meeting.setCreatedDateTime(LocalDateTime.now().toString());
+			meeting.setManualMeeting(true);
 			Meeting createdMeeting = meetingRepository.save(meeting);
+			log.info("Manual Meeting "+createdMeeting);
 			return createdMeeting;
 	}
 

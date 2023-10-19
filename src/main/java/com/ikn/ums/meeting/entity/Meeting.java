@@ -107,6 +107,9 @@ public class Meeting {
     
     @Column(name = "action_items_generated",nullable = true)
     private boolean isActionItemsGenerated = false;
+    
+    @Column(name = "isManualMeeting", nullable = true)
+    private boolean isManualMeeting = false;
 
     @Column(name = "batch_id")
     private Integer batchId;
