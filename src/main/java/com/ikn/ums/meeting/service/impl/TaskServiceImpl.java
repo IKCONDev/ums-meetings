@@ -19,6 +19,7 @@ import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
+import com.ikn.ums.meeting.model.ActionItemModel;
 import com.ikn.ums.meeting.repository.TaskRepository;
 import com.ikn.ums.meeting.service.ActionItemService;
 import com.ikn.ums.meeting.service.MeetingService;
@@ -224,13 +225,6 @@ public class TaskServiceImpl implements  TaskService{
 		
 		// TODO Auto-generated method stub
 		StringBuilder actionItemBuilder = new StringBuilder();
-		
-		actionItemList.forEach(actionItem->{
-			 int i=0;
-	    	 String singleActionItem = actionItem.getActionItemTitle();
-	    	 i=i+1;
-	    	 actionItemBuilder.append(i+". "+singleActionItem+"\r\n");
-	      });
 		StringBuilder attendeeListBuilder = new StringBuilder();
 		Set<Attendee> attendeeList =  meeting.getAttendees();
 		attendeeList.forEach(attendee->{
@@ -245,19 +239,45 @@ public class TaskServiceImpl implements  TaskService{
 			
 		}
 		System.out.println("emailId to send mom Email:"+emailArrayList);
-		String subject ="Minutes of Meeting Email";
-		
+		String subject ="MoM-"+meeting.getSubject()+" "+meeting.getStartDateTime();
+		String body ="<b>Meeting Description</b>"+"<br/><br/>"
+		             +"<table width='100%' border='1' align='center'>"
+				     +"<tr>"
+		             +"<th>ActionItem</th>"
+				     +"<th>ActionItem Owner</th>"
+		             +"</tr>";
+		actionItemBuilder.append(body);
+		List<ActionItemModel> actionModelList = new ArrayList<>();
+ 	    actionItemList.forEach(action ->{
+	    	ActionItemModel actionModel = new ActionItemModel();
+	        actionModel.setActionTitle(action.getActionItemTitle());
+	        actionModel.setActionOwner(action.getActionItemOwner());
+	        actionModelList.add(actionModel);
+			    
+		});
+ 	   
+ 	   for(int i= 0; i<actionModelList.size();i++) {
+ 		 String sendTextBody ="<table width= '100%' border='1' align='center'>"
+ 				     +"<tr>"
+ 				     +"<td>"+actionModelList.get(i).getActionTitle()+"</td>"
+			         +"<td>"+actionModelList.get(i).getActionOwner()+"</td>"
+			         +"</tr>"
+					 +"</table>";
+ 		 actionItemBuilder.append(sendTextBody);
+ 		   
+ 	   }
+	             
 		//String body = "<b>Meeting Title:</b>"+""<br/>"
-		//String OrganizeremailId = meeting.getOrganizerEmailId();
-		String textBody ="Hi Team," +"\r\n"+"\r\n"+"please find the Below Meeting Details and Action Items"+"\r\n"+"\r\n"+
+
+	   /*String textBody ="Hi Team," +"\r\n"+"\r\n"+"please find the Below Meeting Details and Action Items"+"\r\n"+"\r\n"+
              "Meeting Title : " + meeting.getSubject() +"\r\n"+""+
              "Meeting Organizer : " + meeting.getOrganizerName()+"\r\n"+" "+
 			 "Meeting Attendees : " + attendeeListBuilder+"\r\n"+ " "+
 		     "Meeting StartDate : " + meeting.getStartDateTime()+"\r\n"+" "+
 		     "Meeting EndDate : " + meeting.getEndDateTime()+"\r\n"+
 		     "Meeting Action Items : "+actionItemBuilder+"\r\n"+" ";
-		//emailService.sendMail(OrganizeremailId, subject, textBody, true);
-	   emailService.sendMail(emailArrayList, subject, textBody,true);	
+		//emailService.sendMail(OrganizeremailId, subject, textBody, true);*/
+	   emailService.sendMail(emailArrayList, subject, actionItemBuilder.toString(),true);	
 	}
 	
 	private void sendEmailsToTaskOwners(List<Task> taskList) {
