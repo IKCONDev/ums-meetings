@@ -87,7 +87,8 @@ public class TaskServiceImpl implements  TaskService{
 	    updatetask.setActionItemId(task.getActionItemId());
 	    updatetask.setTaskOwner(task.getTaskOwner());
 	    updatetask.setStatus(task.getStatus());
-	    Task modifiedtask = taskRepository.save(updatetask );
+	    Task modifiedtask = taskRepository.save(updatetask);
+	    sendEmailToTaskOwner(modifiedtask, false);
 	    log.info("TaskServiceImpl.updateTask() is executed Successfully");
 	    return modifiedtask;
 		
@@ -158,18 +159,14 @@ public class TaskServiceImpl implements  TaskService{
 			log.info("Action items converted to task sucessfully");
 		});
 		List<Task> savedTaskList = taskRepository.saveAll(taskList);
-		//List<ActionItem> updatedActionItemList = actionItemService
-		log.info(null);
-		String[] emailList = {"pamarthi.bharat1234@gmail.com","Bharat@ikcontech.com"};
-		// send MOM email
-		//sendMinutesofMeetingEmail(emailList,actionItemList, meetingId);
-		log.info(null);
 		//send emails to task owners
-		sendEmailsToTaskOwners(taskList);
-		log.info(null);
+		savedTaskList.forEach(task -> {
+			sendEmailToTaskOwner(task, true);
+		});
 		log.info("TaskServiceImpl.convertActionItemsToTasks is executed successfully");
 	    return savedTaskList;
 	}
+
     
 	@Override
 	public boolean deleteAllTasksById(List<Integer> taskIds) {
@@ -280,14 +277,19 @@ public class TaskServiceImpl implements  TaskService{
 	   emailService.sendMail(emailArrayList, subject, actionItemBuilder.toString(),true);	
 	}
 	
-	private void sendEmailsToTaskOwners(List<Task> taskList) {
+	private void sendEmailToTaskOwner(Task task, boolean isNew) {
 		//send email to task owner
-				taskList.forEach(task -> {
+				
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
 							String to = task.getTaskOwner();
-							String subject = "Alert ! Task Assigned";
+							String subject = null;
+							if(isNew) {
+								subject = "Alert ! Task Assigned";
+							}else {
+								subject = "Alert ! Task Updated";
+							}
 							
 							String body = "<b>Meeting ID</b> - MXXX"+"<br/>"
 							+"<b>Action Item ID</b> - A000"+task.getActionItemId()+"<br/>"
@@ -310,18 +312,11 @@ public class TaskServiceImpl implements  TaskService{
 							+"<td><b>Status</b> : "+task.getStatus()+"</td>"
 							+"</tr>"
 							+ "</table>";
-//							String body = "Hi , you have been assigned with  a task: Please see below"+"\r\n"+"\r\n"
-//							+"Task : "+task.getTaskTitle()+"\r\n"
-//							+"Start Date : "+task.getStartDate()+"\r\n"
-//							+"End Date : "+task.getDueDate()+"\r\n"
-//							+"Priority : "+task.getTaskPriority()+"\r\n"
-//							+"Status : "+task.getStatus()+"\r\n"
-//							+"Description: "+task.getTaskDescription();
 							log.info("TaskServiceImpl.convertActionItemsToTasks() task email sent sucessfully");
 							emailService.sendMail(to,subject, body,true);
 						}
 					}).start();
-				});
+				
 	}
 	
 	@Override
