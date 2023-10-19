@@ -323,5 +323,17 @@ public class TaskServiceImpl implements  TaskService{
 					}).start();
 				});
 	}
+	
+	@Override
+	public Long getOrganizedTasksCountOfUser(String emailId) {
+		Long count = taskRepository.findOrganizedTaskCountByUserId(emailId);
+		return count;
+	}
+
+	@Override
+	public Long getUserAssignedTasksCountOfUser(String emailId) {
+		Long count = taskRepository.findAssignedTaskCountByUserId(emailId);
+		return count;
+	}
 
 }

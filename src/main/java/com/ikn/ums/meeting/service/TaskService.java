@@ -20,4 +20,6 @@ public interface TaskService {
 	List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId);	
 	List<Task> getAssignedTaskListOfUser(String emailId);
 	void sendMinutesofMeetingEmail(List<String> emailList,List<ActionItem> actionItemList, Long meetingId);
+	Long getOrganizedTasksCountOfUser(String emailId);
+	Long getUserAssignedTasksCountOfUser(String emailId);
 }

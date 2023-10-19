@@ -106,8 +106,14 @@ public class MeetingsServiceImpl implements MeetingService {
 		currentBatchProcessingUsersMeetingList.forEach(userMeetingList -> {
 			userMeetingList.forEach(userMeeting -> {
 				//set meeting id's to null which we obtained from batch processing, 
-				//to auto generate the new meeting id's for each meeting
+				//to auto generate the new meeting id, attendee id and transcript id for each meeting
 				userMeeting.setMeetingId(null);
+				userMeeting.getMeetingTranscripts().forEach(transcript -> {
+					transcript.setId(null);
+				});
+				userMeeting.getAttendees().forEach(attendee -> {
+					attendee.setId(null);
+				});
 			});
 			//save each users meeting batch processing records
 			List<Meeting> batchProcessedMeetingList = meetingRepository.saveAll(userMeetingList);

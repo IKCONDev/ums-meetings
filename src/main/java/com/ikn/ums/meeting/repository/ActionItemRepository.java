@@ -14,4 +14,7 @@ public interface ActionItemRepository extends JpaRepository<ActionItem, Integer>
 	
 	@Query("FROM ActionItem WHERE emailId=:emailId")
 	List<ActionItem> findByUserId(String emailId);
+	
+	@Query("SELECT COUNT(*) FROM ActionItem WHERE emailId=:emailId")
+	Long findOrganizedActionItemsCountByUserId(String emailId);
 }

@@ -238,6 +238,12 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		return true;
 	}
 
+	@Override
+	public Long getUserOrganizedActionItemsCount(String emailId) {
+		Long count = actionItemRepository.findOrganizedActionItemsCountByUserId(emailId);
+		return count;
+	}
+
 	
 	
 	

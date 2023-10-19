@@ -316,4 +316,16 @@ public class TaskController {
 
 	}
 	*/
+	
+	@GetMapping("/organized/count/{userId}")
+	public ResponseEntity<?> getOrganizedTasksCountByUserId(@PathVariable("userId") String emailId){
+		Long count = taskService.getOrganizedTasksCountOfUser(emailId);
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
+	
+	@GetMapping("/assigned/count/{userId}")
+	public ResponseEntity<?> getAssignedTasksCountByUserId(@PathVariable("userId") String emailId){
+		Long count = taskService.getUserAssignedTasksCountOfUser(emailId);
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
 }//class

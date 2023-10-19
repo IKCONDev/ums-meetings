@@ -339,5 +339,11 @@ public class ActionItemController {
 		return new ResponseEntity<>(resultValue,HttpStatus.OK);
 	}
 	
+	@GetMapping("/organized/count/{userId}")
+	public ResponseEntity<?> getActionItemsCountforUser(@PathVariable("userId") String emailId){
+		Long count = actionItemService.getUserOrganizedActionItemsCount(emailId);
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
+	
 
 }

@@ -15,4 +15,10 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	
 	@Query("FROM Task WHERE taskOwner=:emailId")
 	List<Task> findUserAssignedTasksByUserId(String emailId);
+	
+	@Query("SELECT COUNT(*) FROM Task WHERE emailId=:emailId")
+	Long findOrganizedTaskCountByUserId(String emailId);
+	
+	@Query("SELECT COUNT(*) FROM Task WHERE taskOwner=:emailId")
+	Long findAssignedTaskCountByUserId(String emailId);
 }
