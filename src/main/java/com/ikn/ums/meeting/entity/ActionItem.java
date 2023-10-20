@@ -42,7 +42,7 @@ public class ActionItem {
 	private String actionPriority;
 	
 	@Column(name="actionStatus",nullable = false)
-	private String actionStatus;
+	private String actionStatus = "Not Converted";
 	
 	@Column(name="startDate",nullable = true)
 	private LocalDateTime startDate;

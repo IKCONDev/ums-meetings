@@ -240,7 +240,14 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 
 	@Override
 	public Long getUserOrganizedActionItemsCount(String emailId) {
+		log.info("ActionItemServiceImpl.getUserOrganizedActionItemsCount() entered with args - emailId/userId");
+		if(emailId ==  null || emailId == "" || emailId.equals(null)) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
+		}
+		log.info("ActionItemServiceImpl.getUserOrganizedActionItemsCount() is under execution...");
 		Long count = actionItemRepository.findOrganizedActionItemsCountByUserId(emailId);
+		log.info("ActionItemServiceImpl.getUserOrganizedActionItemsCount() executed successfully");
 		return count;
 	}
 

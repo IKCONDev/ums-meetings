@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ikn.ums.meeting.VO.EventVO;
-import com.ikn.ums.meeting.entity.Attendee;
 import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
@@ -38,7 +36,7 @@ public class MeetingController {
 	private MeetingService meetingService;
 	
 	/**
-	 * 
+	 * Creates a manual meeting that is created from UMS application.
 	 * @return
 	 */
 	@PostMapping("/create")
@@ -50,11 +48,11 @@ public class MeetingController {
 			
 		}
 		try {
-			//TODO: create meeting
+			log.info("MeetingController.createMeeting() is under execution...");
 			Meeting createdMeeting = meetingService.createMeeting(meetingModel);
 			return new ResponseEntity<>(createdMeeting, HttpStatus.CREATED);
 		}catch (Exception e) {
-			log.info("Exception occured while saving meeting "+e.getMessage());
+			log.info("MeetingController.createMeeting() : Exception occured while saving meeting "+e.getMessage());
 			ControllerException umsCE = new ControllerException( ErrorCodeMessages.ERR_MEETINGS_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_CREATE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -62,7 +60,7 @@ public class MeetingController {
 	}
 	
 	/**
-	 * 
+	 * Deletes the selected action items of a single meeting
 	 * @param eventId
 	 * @param actionItemIds
 	 * @return
@@ -91,7 +89,7 @@ public class MeetingController {
 	}
 	
 	/**
-	 * 
+	 * Get all attended meetings of user based on user's emailId/userId
 	 * @param userEmailId
 	 * @return
 	 */
@@ -116,7 +114,7 @@ public class MeetingController {
 	}
 
     /**
-     * 
+     * Get all orgnanized meetings of user based on user's emailId/userId
      * @param userEmailId
      * @return
      */
@@ -142,7 +140,7 @@ public class MeetingController {
 	}
 	
 	/**
-	 * 
+	 * Save all meetings obtained from batch process into meetings microservice tables.
 	 * @param currentBatchProcessUserMeetingsList
 	 * @return
 	 */
@@ -169,7 +167,7 @@ public class MeetingController {
 	}
 	
 	/**
-	 * 
+	 * Gets all the meetings of user based on user's emailId/userId
 	 * @param emailId
 	 * @return
 	 */
@@ -194,7 +192,7 @@ public class MeetingController {
 	}
 	
 	/**
-	 * 
+	 * Get assigned meetings count based on user's emailId/userId
 	 * @param emailId
 	 * @return
 	 */
@@ -224,7 +222,7 @@ public class MeetingController {
 	}
 	
 	/**
-	 * 
+	 * Gets the orgnanized meetings count based on user's emailId/userId
 	 * @param emailId
 	 * @return
 	 */
@@ -254,11 +252,24 @@ public class MeetingController {
 		}
 	}
 	
+	/**
+	 * Gets a single meeting based on meetingId (PK)
+	 * @param meetingId
+	 * @return
+	 */
 	@GetMapping("/{meetingId}")
 	public ResponseEntity<?> getSingleMeeting(@PathVariable("meetingId") Long meetingId){
+		log.info("MeetingController.getSingleMeeting() entered with args - meetingId");
 		Optional<Meeting> optionalMeetingObject = meetingService.getMeetingDetails(meetingId);
-		Meeting meetingObject = optionalMeetingObject.get();
-		return new ResponseEntity<>(meetingObject,HttpStatus.OK);
+		try {
+			log.info("MeetingController.getSingleMeeting() is under execution...");
+			Meeting meetingObject = optionalMeetingObject.get();
+			log.info("MeetingController.getSingleMeeting() executed successfully");
+			return new ResponseEntity<>(meetingObject,HttpStatus.OK);
+		}catch (Exception e) {
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MSG);
+		}
 		
 	}
 	

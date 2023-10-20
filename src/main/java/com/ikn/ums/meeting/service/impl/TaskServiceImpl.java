@@ -278,6 +278,7 @@ public class TaskServiceImpl implements  TaskService{
 	}
 	
 	private void sendEmailToTaskOwner(Task task, boolean isNew) {
+		log.info("TaskServiceImpl.sendEmailToTaskOwner() entered with args - taskObject, isNew? : "+isNew);
 		//send email to task owner
 				
 					new Thread(new Runnable() {
@@ -312,11 +313,11 @@ public class TaskServiceImpl implements  TaskService{
 							+"<td><b>Status</b> : "+task.getStatus()+"</td>"
 							+"</tr>"
 							+ "</table>";
-							log.info("TaskServiceImpl.convertActionItemsToTasks() task email sent sucessfully");
+							log.info("TaskServiceImpl.sendEmailToTaskOwner(): Task email sent to "+task.getTaskOwner()+" sucessfully");
 							emailService.sendMail(to,subject, body,true);
 						}
-					}).start();
-				
+					}).start();	
+					System.out.println("TaskServiceImpl.sendEmailToTaskOwner() executed succesfully");
 	}
 	
 	@Override
