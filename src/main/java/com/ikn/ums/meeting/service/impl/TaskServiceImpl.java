@@ -237,13 +237,10 @@ public class TaskServiceImpl implements  TaskService{
 		}
 		System.out.println("emailId to send mom Email:"+emailArrayList);
 		String subject ="MoM-"+meeting.getSubject()+" "+meeting.getStartDateTime();
-		String body ="<b>Meeting Description</b>"+"<br/><br/>"
-		             +"<table width='100%' border='1' align='center'>"
-				     +"<tr>"
-		             +"<th>ActionItem</th>"
-				     +"<th>ActionItem Owner</th>"
-		             +"</tr>";
-		actionItemBuilder.append(body);
+	    actionItemBuilder.append("<b>Meeting Description  -- </b>").append(meeting.getSubject()).append("<br/><br/>");
+	    actionItemBuilder.append("<table border='1'>");
+	    actionItemBuilder.append("<tr><th>Action Item</th><th>ActionItem Owner</th></tr>");
+	   
 		List<ActionItemModel> actionModelList = new ArrayList<>();
  	    actionItemList.forEach(action ->{
 	    	ActionItemModel actionModel = new ActionItemModel();
@@ -254,26 +251,10 @@ public class TaskServiceImpl implements  TaskService{
 		});
  	   
  	   for(int i= 0; i<actionModelList.size();i++) {
- 		 String sendTextBody ="<table width= '100%' border='1' align='center'>"
- 				     +"<tr>"
- 				     +"<td>"+actionModelList.get(i).getActionTitle()+"</td>"
-			         +"<td>"+actionModelList.get(i).getActionOwner()+"</td>"
-			         +"</tr>"
-					 +"</table>";
- 		 actionItemBuilder.append(sendTextBody);
- 		   
+ 		   actionItemBuilder.append("<tr><td>").append(actionModelList.get(i).getActionTitle()).append("</td>");
+ 		   actionItemBuilder.append("<td>").append(actionModelList.get(i).getActionOwner()).append("</td></tr>");    
  	   }
-	             
-		//String body = "<b>Meeting Title:</b>"+""<br/>"
-
-	   /*String textBody ="Hi Team," +"\r\n"+"\r\n"+"please find the Below Meeting Details and Action Items"+"\r\n"+"\r\n"+
-             "Meeting Title : " + meeting.getSubject() +"\r\n"+""+
-             "Meeting Organizer : " + meeting.getOrganizerName()+"\r\n"+" "+
-			 "Meeting Attendees : " + attendeeListBuilder+"\r\n"+ " "+
-		     "Meeting StartDate : " + meeting.getStartDateTime()+"\r\n"+" "+
-		     "Meeting EndDate : " + meeting.getEndDateTime()+"\r\n"+
-		     "Meeting Action Items : "+actionItemBuilder+"\r\n"+" ";
-		//emailService.sendMail(OrganizeremailId, subject, textBody, true);*/
+	   actionItemBuilder.append("</table>");
 	   emailService.sendMail(emailArrayList, subject, actionItemBuilder.toString(),true);	
 	}
 	
