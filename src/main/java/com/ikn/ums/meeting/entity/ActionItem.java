@@ -1,11 +1,17 @@
 package com.ikn.ums.meeting.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,8 +35,11 @@ public class ActionItem {
 	@Column(name="user_id", nullable = false)
 	private String emailId;
 	
+	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+	@CollectionTable(name = "actionItemOwners", 
+	joinColumns = @JoinColumn(name = "actionItemId"))
 	@Column(name="actionItemOwner",nullable = false)
-	private String actionItemOwner;
+	private List<String> actionItemOwner;
 	
 	@Column(name="actionItemTitle",nullable = false)
 	private String actionItemTitle;

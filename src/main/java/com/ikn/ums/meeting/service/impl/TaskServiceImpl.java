@@ -96,10 +96,9 @@ public class TaskServiceImpl implements  TaskService{
 
 	@Override
 	public Optional<Task> getTaskById(Integer taskId) {
-		// TODO Auto-generated method stub
 		log.info("TaskServiceImpl.getTaskById() entred with args : " + taskId);
 		if(taskId < 1 || taskId == null) {
-			log.info("TaskServiceImpl.getTaskById() Empty Input Exception taskId is empty");
+			log.info("TaskServiceImpl.getTaskById() : Empty Input Exception - taskId is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MSG);
 		}
@@ -140,23 +139,25 @@ public class TaskServiceImpl implements  TaskService{
 		log.info("TaskServiceImpl.convertActionItemsToTasks() is under execution...");
 		List<Task> taskList = new ArrayList<>();
 		actionItemList.forEach(actionitem ->{
-			Task task = new Task();
-			//task.setId(actionitem.getId());
-			task.setTaskTitle(actionitem.getActionItemTitle());
-			task.setActionItemId(actionitem.getActionItemId());
-			task.setTaskOwner(actionitem.getActionItemOwner());
-			task.setStartDate(actionitem.getStartDate());
-			task.setDueDate(actionitem.getEndDate());
-			task.setTaskDescription(actionitem.getActionItemDescription());
-			task.setTaskPriority(actionitem.getActionPriority());
-			task.setEmailId(actionitem.getEmailId());
-			task.setCreatedBy(task.getCreatedBy());
-			task.setCreatedDateTime(LocalDateTime.now());
-			task.setCreatedByEmailId(task.getCreatedByEmailId());
-			//task.setStatus(actionitem.getActionStatus());
-			task.setStatus("Yet to Start");
-			taskList.add(task);
-			log.info("Action items converted to task sucessfully");
+			actionitem.getActionItemOwner().forEach(owner -> {
+				Task task = new Task();
+				//task.setId(actionitem.getId());
+				task.setTaskTitle(actionitem.getActionItemTitle());
+				task.setActionItemId(actionitem.getActionItemId());
+				task.setTaskOwner(owner);
+				task.setStartDate(actionitem.getStartDate());
+				task.setDueDate(actionitem.getEndDate());
+				task.setTaskDescription(actionitem.getActionItemDescription());
+				task.setTaskPriority(actionitem.getActionPriority());
+				task.setEmailId(actionitem.getEmailId());
+				task.setCreatedBy(task.getCreatedBy());
+				task.setCreatedDateTime(LocalDateTime.now());
+				task.setCreatedByEmailId(task.getCreatedByEmailId());
+				//task.setStatus(actionitem.getActionStatus());
+				task.setStatus("Yet to Start");
+				taskList.add(task);
+				log.info("Action items converted to task sucessfully");
+			});
 		});
 		List<Task> savedTaskList = taskRepository.saveAll(taskList);
 		//send emails to task owners
@@ -237,24 +238,43 @@ public class TaskServiceImpl implements  TaskService{
 		}
 		System.out.println("emailId to send mom Email:"+emailArrayList);
 		String subject ="MoM-"+meeting.getSubject()+" "+meeting.getStartDateTime();
-	    actionItemBuilder.append("<b>Meeting Description  -- </b>").append(meeting.getSubject()).append("<br/><br/>");
-	    actionItemBuilder.append("<table border='1'>");
-	    actionItemBuilder.append("<tr><th>Action Item</th><th>ActionItem Owner</th></tr>");
-	   
+		String body ="<b>Meeting Description</b>"+"<br/><br/>"
+		             +"<table width='100%' border='1' align='center'>"
+				     +"<tr>"
+		             +"<th>ActionItem</th>"
+				     +"<th>ActionItem Owner</th>"
+		             +"</tr>";
+		actionItemBuilder.append(body);
 		List<ActionItemModel> actionModelList = new ArrayList<>();
  	    actionItemList.forEach(action ->{
 	    	ActionItemModel actionModel = new ActionItemModel();
 	        actionModel.setActionTitle(action.getActionItemTitle());
-	        actionModel.setActionOwner(action.getActionItemOwner());
+	        actionModel.setActionOwner(action.getActionItemOwner().get(0));
 	        actionModelList.add(actionModel);
 			    
 		});
  	   
  	   for(int i= 0; i<actionModelList.size();i++) {
- 		   actionItemBuilder.append("<tr><td>").append(actionModelList.get(i).getActionTitle()).append("</td>");
- 		   actionItemBuilder.append("<td>").append(actionModelList.get(i).getActionOwner()).append("</td></tr>");    
+ 		 String sendTextBody ="<table width= '100%' border='1' align='center'>"
+ 				     +"<tr>"
+ 				     +"<td>"+actionModelList.get(i).getActionTitle()+"</td>"
+			         +"<td>"+actionModelList.get(i).getActionOwner()+"</td>"
+			         +"</tr>"
+					 +"</table>";
+ 		 actionItemBuilder.append(sendTextBody);
+ 		   
  	   }
-	   actionItemBuilder.append("</table>");
+	             
+		//String body = "<b>Meeting Title:</b>"+""<br/>"
+
+	   /*String textBody ="Hi Team," +"\r\n"+"\r\n"+"please find the Below Meeting Details and Action Items"+"\r\n"+"\r\n"+
+             "Meeting Title : " + meeting.getSubject() +"\r\n"+""+
+             "Meeting Organizer : " + meeting.getOrganizerName()+"\r\n"+" "+
+			 "Meeting Attendees : " + attendeeListBuilder+"\r\n"+ " "+
+		     "Meeting StartDate : " + meeting.getStartDateTime()+"\r\n"+" "+
+		     "Meeting EndDate : " + meeting.getEndDateTime()+"\r\n"+
+		     "Meeting Action Items : "+actionItemBuilder+"\r\n"+" ";
+		//emailService.sendMail(OrganizeremailId, subject, textBody, true);*/
 	   emailService.sendMail(emailArrayList, subject, actionItemBuilder.toString(),true);	
 	}
 	
