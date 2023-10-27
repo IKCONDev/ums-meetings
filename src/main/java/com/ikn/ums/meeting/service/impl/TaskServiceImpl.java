@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
+import com.ikn.ums.meeting.VO.Notification;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Attendee;
 import com.ikn.ums.meeting.entity.Meeting;
@@ -25,6 +26,7 @@ import com.ikn.ums.meeting.service.ActionItemService;
 import com.ikn.ums.meeting.service.MeetingService;
 import com.ikn.ums.meeting.service.TaskService;
 import com.ikn.ums.meeting.utils.EmailService;
+import com.ikn.ums.meeting.utils.NotificationService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,6 +44,9 @@ public class TaskServiceImpl implements  TaskService{
 	private MeetingService meetingService;
 	
 	private ActionItemService actionItemService;
+	
+	@Autowired
+	private NotificationService notificationService;
 
 	@Override
 	@Transactional
@@ -88,10 +93,24 @@ public class TaskServiceImpl implements  TaskService{
 	    updatetask.setTaskOwner(task.getTaskOwner());
 	    updatetask.setStatus(task.getStatus());
 	    Task modifiedtask = taskRepository.save(updatetask);
+	    
+	  //send notification to task owner
+	    new Thread(new Runnable() {
+			@Override
+			public void run() {
+			    Notification notification = new Notification();
+			    notification.setMessage("Task T000"+modifiedtask.getTaskId()+" has been updated for you.");
+			    notification.setModuleType("Tasks");
+			    notification.setNotificationTo(modifiedtask.getTaskOwner());
+			    notification.setEmailId(modifiedtask.getEmailId());
+			    notificationService.createNotification(notification);
+			}
+		}).start();
+	    
+	    //send email to task owner
 	    sendEmailToTaskOwner(modifiedtask, false);
 	    log.info("TaskServiceImpl.updateTask() is executed Successfully");
 	    return modifiedtask;
-		
 	}
 
 	@Override
@@ -103,7 +122,7 @@ public class TaskServiceImpl implements  TaskService{
 					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MSG);
 		}
 		log.info("TaskServiceImpl.getTaskById() is under execution");
-		Optional<Task>   task = taskRepository.findById(taskId);
+		Optional<Task>  task = taskRepository.findById(taskId);
 		log.info("TaskServiceImpl.getTaskById() is executed successfully");
 		return task;
 	}
@@ -117,8 +136,29 @@ public class TaskServiceImpl implements  TaskService{
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_MEESAGE);
 		}
+		Optional<Task> optTask = getTaskById(taskId);
+		Task taskToBeDeleted = null;
+		if(optTask.isPresent()) {
+			taskToBeDeleted = optTask.get();
+			taskRepository.delete(taskToBeDeleted);
+		}
 		log.info("TaskServiceImpl.deleteTaskById() is under execution");
-		taskRepository.deleteById(taskId);
+		
+		Task deletedTask = taskToBeDeleted;
+		//send notification to task owner
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				//send noti
+				Notification notification = new Notification();
+				notification.setMessage("The task T000"+deletedTask.getTaskId()+" has been deleted and it is no more available");
+				notification.setModuleType("Tasks");
+				notification.setNotificationTo(deletedTask.getTaskOwner());
+				notification.setEmailId(deletedTask.getEmailId());
+				notificationService.createNotification(notification);
+			}
+		}).start();
+		
 		log.info("TaskServiceImpl.deleteTaskById() is executed successfully");
 		return 1;
 
@@ -160,6 +200,20 @@ public class TaskServiceImpl implements  TaskService{
 			});
 		});
 		List<Task> savedTaskList = taskRepository.saveAll(taskList);
+		//send notification to task owner
+	    savedTaskList.forEach(savedtask -> {
+	    	 new Thread(new Runnable() {
+	 			@Override
+	 			public void run() {
+	 			    Notification notification = new Notification();
+	 			    notification.setMessage("Task T000"+savedtask.getTaskId()+" has been assigned to you.");
+	 			    notification.setModuleType("Tasks");
+	 			    notification.setNotificationTo(savedtask.getTaskOwner());
+	 			    notification.setEmailId(savedtask.getEmailId());
+	 			    notificationService.createNotification(notification);
+	 			}
+	 		}).start();
+	    });
 		//send emails to task owners
 		savedTaskList.forEach(task -> {
 			sendEmailToTaskOwner(task, true);
@@ -179,9 +233,27 @@ public class TaskServiceImpl implements  TaskService{
 		}
 		log.info("TaskServiceImpl.deleteAllTasksById() is under execution...");
 		boolean isAllDeleted = false;
-		taskRepository.deleteAllById(taskIds);
+		List<Task> tasksToBeDeleted = taskRepository.findAllById(taskIds);
+		taskRepository.deleteAll(tasksToBeDeleted);
 		isAllDeleted = true;		
-		System.out.println(isAllDeleted);
+		
+		//send notifications to task owners
+		new Thread(new Runnable() {
+			List<Notification> notificationList = new ArrayList<>();
+			@Override
+			public void run() {
+				tasksToBeDeleted.forEach(deletedTask -> {
+					Notification notification = new Notification();
+					notification.setMessage("The task T000"+deletedTask.getTaskId()+" has been deleted and it is no more available");
+	 			    notification.setModuleType("Tasks");
+	 			    notification.setNotificationTo(deletedTask.getTaskOwner());
+	 			    notification.setEmailId(deletedTask.getEmailId());
+	 			    notificationList.add(notification);	
+				});
+				notificationService.createAllNotifications(notificationList);
+			}
+		}).start();
+		
 		log.info("TaskServiceImpl.deleteAllTasksById() is executed successfully");
 		return isAllDeleted;
 	}
