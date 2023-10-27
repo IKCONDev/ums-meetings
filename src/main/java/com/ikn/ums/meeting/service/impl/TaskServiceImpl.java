@@ -194,7 +194,7 @@ public class TaskServiceImpl implements  TaskService{
 				task.setCreatedDateTime(LocalDateTime.now());
 				task.setCreatedByEmailId(task.getCreatedByEmailId());
 				//task.setStatus(actionitem.getActionStatus());
-				task.setStatus("Yet to Start");
+				task.setStatus("Yet to start");
 				taskList.add(task);
 				log.info("Action items converted to task sucessfully");
 			});
