@@ -330,8 +330,12 @@ public class TaskServiceImpl implements  TaskService{
  	   
  	   for(int i= 0; i<actionModelList.size();i++) {
  		 actionItemBuilder.append("<tr><td>").append(actionModelList.get(i).getActionTitle()).append("</td>");
- 		 actionItemBuilder.append("<td>").append(actionModelList.get(i).getActionOwner().toString()).append("</td></tr>");
- 		   
+ 		 //actionItemBuilder.append("<td>").append(actionModelList.get(i).getActionOwner().toString()).append("</td></tr>");
+ 		 actionItemBuilder.append("<td>");
+ 		 actionItemList.get(i).getActionItemOwner().forEach(owner->{
+ 			actionItemBuilder.append(owner+" ").append("</td></tr>");
+ 		 });
+ 			 
  	   }
  	   actionItemBuilder.append("</table>");
 	   emailService.sendMail(emailArrayList, subject, actionItemBuilder.toString(),true);	
