@@ -1,11 +1,15 @@
 package com.ikn.ums.meeting.controller;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Meeting;
@@ -23,6 +28,7 @@ import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
+import com.ikn.ums.meeting.model.TaskStatusModel;
 import com.ikn.ums.meeting.service.TaskService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -327,5 +333,15 @@ public class TaskController {
 	public ResponseEntity<?> getAssignedTasksCountByUserId(@PathVariable("userId") String emailId){
 		Long count = taskService.getUserAssignedTasksCountOfUser(emailId);
 		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
+	@GetMapping("/weekTaskCount")
+	public ResponseEntity<?> getWeekTasks(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
+			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate){
+		TaskStatusModel taskStatusModel=new TaskStatusModel();
+		taskStatusModel.setAssignedTask(taskService.getTaskCountsByDayOfWeek(startDate, endDate));
+		taskStatusModel.setInprogressTask(taskService.findInProgressTaskCountsByDayOfWeek(startDate, endDate));
+		taskStatusModel.setCompletedTask(taskService.getCompletedTaskCountsByDayOfWeek(startDate, endDate));
+		
+		return new ResponseEntity<>(taskStatusModel,HttpStatus.OK);
 	}
 }//class

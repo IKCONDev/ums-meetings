@@ -1,7 +1,11 @@
 package com.ikn.ums.meeting.service;
 
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Meeting;
@@ -22,4 +26,7 @@ public interface TaskService {
 	void sendMinutesofMeetingEmail(List<String> emailList,List<ActionItem> actionItemList, Long meetingId);
 	Long getOrganizedTasksCountOfUser(String emailId);
 	Long getUserAssignedTasksCountOfUser(String emailId);
+	Long[] getTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
+	List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
+	List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
 }

@@ -1,5 +1,6 @@
 package com.ikn.ums.meeting.service.impl;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Set;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
@@ -29,6 +31,7 @@ import com.ikn.ums.meeting.utils.EmailService;
 import com.ikn.ums.meeting.utils.NotificationService;
 
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice.Local;
 
 @Service
 @Slf4j
@@ -391,5 +394,101 @@ public class TaskServiceImpl implements  TaskService{
 		Long count = taskRepository.findAssignedTaskCountByUserId(emailId);
 		return count;
 	}
+	
+	@Override
+	 public Long[] getTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime) {
+       List<Object[]> taskCountsByDay = taskRepository.findTaskCountsByDayOfWeek(startTime, endTime);
+ 
+        // Create an array to store counts for each day, initialized with zeros
+        Long[] countsArray = new Long[7];
+        for (int i = 0; i < 7; i++) {
+            countsArray[i] = 0L;
+        }
+ 
+        // Process the query result and populate the counts array
+        for (Object[] result : taskCountsByDay) {
+            String dayOfWeek = (String) result[0];
+            Long count = (Long) result[1];
+ 
+            // Map the day name to its DayOfWeek enum value
+            DayOfWeek dayEnum = getDayOfWeekFromDayName(dayOfWeek);
+ 
+            // Map the DayOfWeek to an array index
+            int index = dayEnum.getValue() - 1;
+ 
+            // Update the counts array with the count
+            countsArray[index] = count;
+        }
+ 
+        return countsArray;
+    }
+	private DayOfWeek getDayOfWeekFromDayName(String dayName) {
+        switch (dayName) {
+            case "0":
+                return DayOfWeek.SUNDAY;
+            case "1":
+                return DayOfWeek.MONDAY;
+            case "2":
+                return DayOfWeek.TUESDAY;
+            case "3":
+                return DayOfWeek.WEDNESDAY;
+            case "4":
+                return DayOfWeek.THURSDAY;
+            case "5":
+                return DayOfWeek.FRIDAY;
+            case "6":
+                return DayOfWeek.SATURDAY;
+            default:
+                // Handle any unexpected values
+                return null;
+        }
+    }
+	 @Override
+	    public List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime) {
+	        List<Object[]> taskCountsByDay = taskRepository.findTaskCountsByDayOfWeek(startTime, endTime);
+	 
+	        // Initialize an array to store completed task counts for each day
+	        List<Long> completedTaskCounts = new ArrayList<>();
+	 
+	        for (int i = 0; i < 7; i++) {
+	            completedTaskCounts.add(0L);
+	        }
+	 
+	        // Process the query result and populate the completed task counts array
+	        for (Object[] result : taskCountsByDay) {
+	            String dayOfWeek = (String) result[0];
+	            Long completedCount = (Long) result[1];
+	            int dayIndex = Integer.parseInt(dayOfWeek) - 1;
+	            completedTaskCounts.set(dayIndex, completedCount);
+	        }
+	 
+	        return completedTaskCounts;
+	    }
+	 
+	    @Override
+	    public List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime) {
+	        List<Object[]> taskCountsByDay = taskRepository.findTaskCountsByDayOfWeek(startTime, endTime);
+	 
+	        // Initialize an array to store in-progress task counts for each day
+	        List<Long> inProgressTaskCounts = new ArrayList<>();
+	 
+	        for (int i = 0; i < 7; i++) {
+	            inProgressTaskCounts.add(0L);
+	        }
+	 
+	        // Process the query result and populate the in-progress task counts array
+	        for (Object[] result : taskCountsByDay) {
+	            String dayOfWeek = (String) result[0];
+	            Long inProgressCount = (Long) result[1]; // Change [2] to [1]
+	            int dayIndex = Integer.parseInt(dayOfWeek) - 1;
+	            inProgressTaskCounts.set(dayIndex, inProgressCount);
+	        }
+	 
+	        return inProgressTaskCounts;
+	    }
+
+	
+	 
+	    
 
 }
