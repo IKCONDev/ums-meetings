@@ -44,5 +44,10 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 		           "GROUP BY TO_CHAR(t.startDate, 'D')")
 	List<Object[]> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime,LocalDateTime endTime);
 	
+	
+	
+
+	
+	
 
 }

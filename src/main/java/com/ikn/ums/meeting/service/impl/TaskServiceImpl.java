@@ -449,7 +449,7 @@ public class TaskServiceImpl implements  TaskService{
     }
 	 @Override
 	    public List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime) {
-	        List<Object[]> taskCountsByDay = taskRepository.findTaskCountsByDayOfWeek(startTime, endTime);
+	        List<Object[]> taskCountsByDay = taskRepository.findCompletedTaskCountsByDayOfWeek(startTime, endTime);
 	 
 	        // Initialize an array to store completed task counts for each day
 	        List<Long> completedTaskCounts = new ArrayList<>();
@@ -471,7 +471,7 @@ public class TaskServiceImpl implements  TaskService{
 	 
 	    @Override
 	    public List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime) {
-	        List<Object[]> taskCountsByDay = taskRepository.findTaskCountsByDayOfWeek(startTime, endTime);
+	        List<Object[]> taskCountsByDay = taskRepository.findInProgressTaskCountsByDayOfWeek(startTime, endTime);
 	 
 	        // Initialize an array to store in-progress task counts for each day
 	        List<Long> inProgressTaskCounts = new ArrayList<>();
@@ -479,7 +479,7 @@ public class TaskServiceImpl implements  TaskService{
 	        for (int i = 0; i < 7; i++) {
 	            inProgressTaskCounts.add(0L);
 	        }
-	 
+	
 	        // Process the query result and populate the in-progress task counts array
 	        for (Object[] result : taskCountsByDay) {
 	            String dayOfWeek = (String) result[0];

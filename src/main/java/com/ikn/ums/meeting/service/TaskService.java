@@ -29,4 +29,5 @@ public interface TaskService {
 	Long[] getTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
 	List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
 	List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
+	
 }

@@ -2,6 +2,7 @@ package com.ikn.ums.meeting.controller;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -337,11 +338,14 @@ public class TaskController {
 	@GetMapping("/weekTaskCount")
 	public ResponseEntity<?> getWeekTasks(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
 			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate){
-		TaskStatusModel taskStatusModel=new TaskStatusModel();
-		taskStatusModel.setAssignedTask(taskService.getTaskCountsByDayOfWeek(startDate, endDate));
-		taskStatusModel.setInprogressTask(taskService.findInProgressTaskCountsByDayOfWeek(startDate, endDate));
-		taskStatusModel.setCompletedTask(taskService.getCompletedTaskCountsByDayOfWeek(startDate, endDate));
 		
-		return new ResponseEntity<>(taskStatusModel,HttpStatus.OK);
+		Long[] assignedTask=taskService.getTaskCountsByDayOfWeek(startDate, endDate);
+		List<Long> inprogressTask=taskService.findInProgressTaskCountsByDayOfWeek(startDate, endDate);
+		List<Long> completedTask=taskService.getCompletedTaskCountsByDayOfWeek(startDate, endDate);
+		List<Object> obj = new LinkedList<>();
+		obj.add(assignedTask);
+		obj.add(inprogressTask);
+		obj.add(completedTask);
+		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
 }//class
