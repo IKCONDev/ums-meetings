@@ -236,7 +236,9 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		System.out.println("Email List:"+ emailList);
 		List<ActionItem> actionItemList = actionItemRepository.findActionItemsByEventId(meetingId);
 	    System.out.println(actionItemList);
-		taskService.sendMinutesofMeetingEmail(emailList,actionItemList,meetingId);
+	    String discussionPoints = momObject.getDiscussionPoints();
+	    System.out.println("the discussion points:"+discussionPoints);
+		taskService.sendMinutesofMeetingEmail(emailList,actionItemList,meetingId,discussionPoints);
 		log.info("ActionItemServiceImpl.sendMinutesofMeetingEmail() executed successfully");
 		return true;
 	}

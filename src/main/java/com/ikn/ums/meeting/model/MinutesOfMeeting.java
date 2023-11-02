@@ -13,5 +13,7 @@ public class MinutesOfMeeting {
 	private Meeting meeting;
 	
 	private List<String> emailList;
+	
+	private String discussionPoints;
 
 }

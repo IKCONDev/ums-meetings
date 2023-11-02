@@ -289,7 +289,7 @@ public class TaskServiceImpl implements  TaskService{
 		return assignedTaskList;
 	}
 		
-	public void sendMinutesofMeetingEmail(List<String> emailList, List<ActionItem> actionItemList, Long meetingId) {
+	public void sendMinutesofMeetingEmail(List<String> emailList, List<ActionItem> actionItemList, Long meetingId,String discussionPoints) {
 		
 		//get meeting object from Repository
 		Optional<Meeting> optMeeting = meetingService.getMeetingDetails(meetingId);
@@ -315,6 +315,7 @@ public class TaskServiceImpl implements  TaskService{
 		}
 		String subject ="MoM-"+meeting.getSubject()+" "+meeting.getStartDateTime();
 		actionItemBuilder.append("<h4>").append("Meeting Description - "+meeting.getSubject()).append("</h4>");
+		actionItemBuilder.append("<h4>").append("DiscussionPoints -"+discussionPoints).append("</h4>");
 		actionItemBuilder.append("<table border='1'>");
 		actionItemBuilder.append("<tr><th>Action Item</th><th>Action Owner</th></tr>");		
 		List<ActionItemModel> actionModelList = new ArrayList<>();

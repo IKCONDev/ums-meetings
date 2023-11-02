@@ -327,13 +327,16 @@ public class ActionItemController {
 		return new ResponseEntity<>(resultValue,HttpStatus.OK);
 	}
 	
-	@PostMapping("/send-mom/{meeting}/{emailList}")
-	public ResponseEntity<?> sendMinutesOfMeetingObject(@PathVariable("meeting") Meeting meeting , @PathVariable("emailList") List<String> emailList){
+	@PostMapping("/send-mom/{meeting}/{emailList}/{content}")
+	public ResponseEntity<?> sendMinutesOfMeetingObject(@PathVariable("meeting") Meeting meeting , @PathVariable("emailList") List<String> emailList, @PathVariable("content") String discussionPoints ){
 		
 		log.info("ActionItemController.sendMinutesOfMeetingObject() is entered)");
+		System.out.println(discussionPoints);
 		MinutesOfMeeting momObject = new MinutesOfMeeting();
 	    momObject.setMeeting(meeting);
 	    momObject.setEmailList(emailList);
+	    momObject.setDiscussionPoints(discussionPoints);
+	    //System.out.println(discussionPoints);
 	    log.info("ActionItemController.sendMinutesOfMeetingObject() is under execution");
 		boolean resultValue =actionItemService.sendMinutesofMeetingEmail(momObject);
 		return new ResponseEntity<>(resultValue,HttpStatus.OK);
