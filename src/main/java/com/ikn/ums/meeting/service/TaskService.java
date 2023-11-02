@@ -21,7 +21,7 @@ public interface TaskService {
 	boolean deleteAllTasksById(List<Integer> ids);
 	Optional<Task> getTaskById(Integer id);
     List<Task> getTasksByUserId(String emailId);
-	List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId);	
+	//List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId);	
 	List<Task> getAssignedTaskListOfUser(String emailId);
 	void sendMinutesofMeetingEmail(List<String> emailList,List<ActionItem> actionItemList, Long meetingId);
 	Long getOrganizedTasksCountOfUser(String emailId);
@@ -29,5 +29,7 @@ public interface TaskService {
 	Long[] getTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
 	List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
 	List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
+	List<Task> getFilteredTasks(String taskTitle, String taskPriority, String taskOwner, 
+			String startDate, String dueDate );
 	
 }

@@ -46,6 +46,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MSG);
 		}
 		log.info("ActionItemServiceImpl.saveActionItem() is under execution...");
+		actionItem.setActionStatus("Not Submitted");
 		ActionItem savedActionItem = actionItemRepository.save(actionItem);
 		log.info("ActionItemServiceImpl.saveActionItem() executed successfully...");
 		return savedActionItem;
@@ -164,19 +165,21 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	
 	@Transactional
 	@Override
-	public List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId) {
+	public boolean submitActionItems(List<ActionItem> actionItemList, Long meetingId) {
+		boolean isActionItemsSubmitted = false;
 		log.info("ActionItemServiceImpl.convertActionItemsToTasks() entered with args : actionItemList");
 		if(actionItemList == null || actionItemList.size()<1) {
 			
 		}
 		log.info("ActionItemServiceImpl.convertActionItemsToTasks() is under execution...");
-		List<Task> taskList = taskService.convertActionItemsToTasks(actionItemList, meetingId);
+		//List<Task> taskList = taskService.convertActionItemsToTasks(actionItemList, meetingId);
 		actionItemList.stream().forEach(action ->{
-			action.setActionStatus("Converted");
+			action.setActionStatus("Submitted");
 		});
+		isActionItemsSubmitted = true;
         actionItemRepository.saveAll(actionItemList);
         log.info("ActionItemServiceImpl.convertActionItemsToTasks() executed succesfully");
-		return taskList;
+		return isActionItemsSubmitted;
 	}
 	
 

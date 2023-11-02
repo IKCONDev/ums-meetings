@@ -48,7 +48,7 @@ public class TaskController {
   * @param task
   * @return
   */
-	@PostMapping("/save")
+	@PostMapping("/create")
 	public ResponseEntity<?> createTask(@RequestBody Task task){
 		log.info("TaskController.createTasks() entered with args : task");
 	    if(task == null) {
@@ -131,7 +131,12 @@ public class TaskController {
 	 * @return
 	 */
 	@GetMapping("/getall/{emailId}")
-	public ResponseEntity<?> fetchTasksByUserId(@PathVariable String emailId){
+	public ResponseEntity<?> fetchTasksByUserId(@PathVariable String emailId,
+			@RequestParam(name = "taskName",required = false, defaultValue = "") String taskTitle,
+			@RequestParam(name = "taskPriority",required = false, defaultValue = "") String taskPriority,
+			@RequestParam(name = "taskOrganizer",required = false, defaultValue = "") String taskOwner,
+			@RequestParam(name = "taskStartDate",required = false)String startDate,
+			@RequestParam(name = "taskEndDate",required = false) String dueDate){
 		log.info("TaskController.fetchTasksByUserId() entered with args :" +emailId);
 		if(emailId =="" || emailId==null) {
 			log.info("TaskController.fetchTaskByUserId() Empty Input Exception : emailId is empty ");
@@ -140,9 +145,22 @@ public class TaskController {
 		}
 		try {
 			log.info("TaskController.fetchTasksByUserId() is under execution...");
-			List<Task> task = taskService.getTasksByUserId(emailId);
-			log.info("TaskController.fetchTasksByUserId() is executed Successfully");
-			return new ResponseEntity<>(task,HttpStatus.OK);
+			if(taskTitle != "" || taskPriority != "" || taskOwner != "" 
+					|| startDate != "" || dueDate != "") {
+				System.out.println("taskOwner----"+taskOwner);
+				System.out.println("startDate ---- "+startDate);
+				System.out.println("endDate ---- "+dueDate);
+				System.out.println("taskPriority-----"+taskPriority);
+				System.out.println("taskTitle-----"+taskTitle);
+				List<Task> taskList = taskService.getFilteredTasks(taskTitle, taskPriority, taskOwner, startDate, dueDate);
+				log.info("TaskController.fetchTasksByUserId() is executed Successfully");
+				return new ResponseEntity<>(taskList,HttpStatus.OK);
+			}else {
+				List<Task> taskList = taskService.getTasksByUserId(emailId);
+				log.info("TaskController.fetchTasksByUserId() is executed Successfully");
+				return new ResponseEntity<>(taskList,HttpStatus.OK);
+			}
+			
 			
 		}catch (Exception e) {
 			log.info("TaskController.fetchTasksByUserId() is exited with exception : Exception occured while getting the tasks of the user "+e.getMessage());

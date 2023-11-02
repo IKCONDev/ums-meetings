@@ -304,9 +304,9 @@ public class ActionItemController {
 		}
 		try {
 			log.info("ActionsController.processActionItemsToTasks() is under execution...");
-			List<Task> taskList = actionItemService.convertActionItemsToTasks(actionItemList,meetingId);
+			boolean isActionItemSubmitted = actionItemService.submitActionItems(actionItemList,meetingId);
 			log.info("ActionsController.processActionItemsToTasks() executed successfully");
-			return new ResponseEntity<>(taskList, HttpStatus.OK);
+			return new ResponseEntity<>(isActionItemSubmitted, HttpStatus.OK);
 		} catch (Exception e) {
 			log.info(
 					"ActionsController.processActionItemsToTasks() exited with exception : An Exception occurred while converting action items to tasks "

@@ -2,6 +2,7 @@ package com.ikn.ums.meeting.service.impl;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -167,6 +168,7 @@ public class TaskServiceImpl implements  TaskService{
 
 	}
 
+	/*
 	@Override
 	@Transactional
 	public List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId) {
@@ -224,7 +226,7 @@ public class TaskServiceImpl implements  TaskService{
 		log.info("TaskServiceImpl.convertActionItemsToTasks is executed successfully");
 	    return savedTaskList;
 	}
-
+*/
     
 	@Override
 	public boolean deleteAllTasksById(List<Integer> taskIds) {
@@ -487,12 +489,23 @@ public class TaskServiceImpl implements  TaskService{
 	            int dayIndex = Integer.parseInt(dayOfWeek) - 1;
 	            inProgressTaskCounts.set(dayIndex, inProgressCount);
 	        }
-	 
 	        return inProgressTaskCounts;
 	    }
 
+		@Override
+		public List<Task> getFilteredTasks(String taskTitle, String taskPriority, String taskOwner, 
+				String startDate,
+				String dueDate) {
+			LocalDateTime orgStartDateTime = null;
+			LocalDateTime orgDueDateTime = null;
+			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			if(startDate != "") {
+				orgStartDateTime = LocalDateTime.parse(startDate, dateTimeFormatter);
+			}
+			if(dueDate != "") {
+				orgDueDateTime = LocalDateTime.parse(dueDate, dateTimeFormatter);
+			}
+			return taskRepository.findFilteredTasks(taskTitle, taskPriority, taskOwner, orgStartDateTime, orgDueDateTime);
+		}
 	
-	 
-	    
-
 }

@@ -51,7 +51,7 @@ public class ActionItem {
 	private String actionPriority;
 	
 	@Column(name="actionStatus",nullable = false)
-	private String actionStatus = "Not Converted";
+	private String actionStatus = "Not Submitted";
 	
 	@Column(name="startDate",nullable = true)
 	private LocalDateTime startDate;
