@@ -1,5 +1,6 @@
 package com.ikn.ums.meeting.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,5 +20,6 @@ public interface MeetingService {
 	Integer getUserOragnizedMeetingCountByUserId(String emailId);
     Optional<Meeting> getMeetingDetails(Long meetingId);
     Meeting createMeeting(MeetingModel meetingModel);
+    public Long[] countEmailOccurrences(LocalDateTime startDate, LocalDateTime endDate, String email);
 	
 }

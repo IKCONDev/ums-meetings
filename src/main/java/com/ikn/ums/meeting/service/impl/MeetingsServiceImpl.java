@@ -1,6 +1,9 @@
 package com.ikn.ums.meeting.service.impl;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -226,5 +229,16 @@ public class MeetingsServiceImpl implements MeetingService {
 		log.info("MeetingsServiceImpl.createMeeting() executed successfully");
 		return createdMeeting;
 	}
-
+	public Long[] countEmailOccurrences(LocalDateTime startDate, LocalDateTime endDate, String email) {
+		List<Object[]> MeetingCountsByDay = meetingRepository.emailsByDateRangeAndEmail(email, startDate,endDate);
+		for (Object[] obj:MeetingCountsByDay) {
+			for(Object obj1: obj) {
+				System.out.println(obj1+" ");
+			}
+		}
+		log.info(MeetingCountsByDay.toString());
+		return null;
+    }
 }
+    
+
