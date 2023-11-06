@@ -3,6 +3,9 @@ package com.ikn.ums.meeting.service.impl;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -206,8 +209,18 @@ public class MeetingsServiceImpl implements MeetingService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_MSG);
 		}
+		
 		log.info("MeetingsServiceImpl.createMeeting() is under execution...");
 		Meeting meeting = new Meeting();
+		LocalDateTime startdateUTC = meetingModel.getStartDateTime();
+		LocalDateTime endDateTimeUTC = meetingModel.getEndDateTime();
+		ZonedDateTime startDateTime = startdateUTC.atZone(ZoneId.systemDefault()); 
+		ZonedDateTime endDateTime = endDateTimeUTC.atZone(ZoneId.systemDefault());
+		ZonedDateTime utcStartDateTime = startDateTime.withZoneSameInstant(ZoneOffset.UTC);
+		ZonedDateTime utcEndDateTime = endDateTime.withZoneSameInstant(ZoneOffset.UTC);
+		meetingModel.setStartDateTime(utcStartDateTime.toLocalDateTime());
+		meetingModel.setEndDateTime(utcEndDateTime.toLocalDateTime());
+
 		Set<Attendee> attendeeList = new HashSet<>();
 		modelMapper.map(meetingModel, meeting);
 		for (int i = 0; i < meetingModel.getAttendees().length; i++) {
