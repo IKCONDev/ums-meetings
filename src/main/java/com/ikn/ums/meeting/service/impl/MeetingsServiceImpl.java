@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.ikn.ums.meeting.entity.Attendee;
@@ -229,16 +230,47 @@ public class MeetingsServiceImpl implements MeetingService {
 		log.info("MeetingsServiceImpl.createMeeting() executed successfully");
 		return createdMeeting;
 	}
-	public Long[] countEmailOccurrences(LocalDateTime startDate, LocalDateTime endDate, String email) {
-		List<Object[]> MeetingCountsByDay = meetingRepository.emailsByDateRangeAndEmail(email, startDate,endDate);
-		for (Object[] obj:MeetingCountsByDay) {
-			for(Object obj1: obj) {
-				System.out.println(obj1+" ");
-			}
-		}
+	public List<Long> countEmailOccurrences(LocalDateTime startDate, LocalDateTime endDate, String email) {
+		List<Object[]> MeetingCountsByDay = meetingRepository.findAttendedMeetingCountsByDayOfWeek(startDate,endDate ,email);
+		List<Long> attendedMeetingCounts = new ArrayList<>();
+		for (int i = 0; i < 7; i++) {
+            attendedMeetingCounts.add(0L);
+          
+        }
+		  for (Object[] result : MeetingCountsByDay) {
+	            String dayOfWeek = (String) result[0];
+	            Long completedCount = (Long) result[1];
+	            int dayIndex = Integer.parseInt(dayOfWeek) - 1;
+	            attendedMeetingCounts.set(dayIndex, completedCount);
+	           /* System.out.println(dayOfWeek);
+	            System.out.println(completedCount);*/
+	        }
+	 
 		log.info(MeetingCountsByDay.toString());
-		return null;
+		return attendedMeetingCounts;
     }
+
+	@Override
+	public List<Long> countOrganisedMeetingOccurrence(LocalDateTime startDate, LocalDateTime endDate, String email) {
+		// TODO Auto-generated method stub
+		List<Object[]> MeetingCountsByDay = meetingRepository.findCompletedMeetingCountsByDayOfWeek(startDate,endDate ,email);
+		List<Long> OrganisedMeetingCounts = new ArrayList<>();
+		for (int i = 0; i < 7; i++) {
+			OrganisedMeetingCounts.add(0L);
+          
+        }
+		  for (Object[] result : MeetingCountsByDay) {
+	            String dayOfWeek = (String) result[0];
+	            Long completedCount = (Long) result[1];
+	            int dayIndex = Integer.parseInt(dayOfWeek) - 1;
+	            OrganisedMeetingCounts.set(dayIndex, completedCount);
+	           /* System.out.println(dayOfWeek);
+	            System.out.println(completedCount);*/
+	        }
+	 
+		log.info(MeetingCountsByDay.toString());
+		return OrganisedMeetingCounts;
+	}
 }
     
 
