@@ -2,6 +2,7 @@ package com.ikn.ums.meeting.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -280,9 +281,15 @@ public class MeetingController {
 	@GetMapping("/MeetingsChartData")
 	public ResponseEntity<?>getCountOfAttendedAndOrganisedMeetings(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
 			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate,@RequestParam("emailId") String email){
-		
-	Long[]OrganisedTask=meetingService.countEmailOccurrences(startDate, endDate, email);
-		return new ResponseEntity<>(OrganisedTask,HttpStatus.OK);
+		log.info("MeetingController.getCountOfAttendedAndOrganisedMeetings() is under execution...");
+		List <Object> MeetingdatasInWeek = new ArrayList<>();
+	List<Long>attendedMeetingInWeek=meetingService.countEmailOccurrences(startDate, endDate, email);
+	List<Long>OrganisedMeetingInWeek=meetingService.countOrganisedMeetingOccurrence(startDate, endDate, email);
+	MeetingdatasInWeek.add(attendedMeetingInWeek);
+	MeetingdatasInWeek.add(OrganisedMeetingInWeek);
+	System.out.println(attendedMeetingInWeek);
+	
+		return new ResponseEntity<>(MeetingdatasInWeek,HttpStatus.OK);
 		
 	}
 	

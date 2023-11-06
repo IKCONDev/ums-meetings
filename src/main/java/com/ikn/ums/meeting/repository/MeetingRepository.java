@@ -24,12 +24,21 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 	@Query("SELECT m  FROM Meeting m JOIN m.attendees a WHERE a.email=:emailId")
 	List<Meeting> findAllAttendedMeetingsByUserId(String emailId);
 	
-	@Query(value = "SELECT m.*" +
-            "FROM meeting_tab m " +
-            "INNER JOIN attendee_tab a ON m.meeting_id = a.meeting_id " +
-            "WHERE m.meeting_actual_start_date_time BETWEEN :startDate AND :endDate " +
-            "AND a.email_id = :email",
-    nativeQuery = true)
-List<Object[]> emailsByDateRangeAndEmail(String email,LocalDateTime startDate,LocalDateTime endDate);
-
+	@Query("SELECT TO_CHAR(m.startDateTime, 'D'), " +
+	           "SUM(CASE WHEN m.emailId=:email THEN 1 ELSE 0 END) " +
+	           "FROM Meeting m " +
+	           "INNER JOIN m.attendees a " +
+	           "WHERE m.startDateTime BETWEEN :startDate AND :endDate " +
+	           "AND a.emailId = :email " +
+	           "GROUP BY TO_CHAR(m.startDateTime, 'D')")
+	    List<Object[]> findAttendedMeetingCountsByDayOfWeek(LocalDateTime startDate,LocalDateTime endDate,String email
+	    );
+	    
+	    @Query("SELECT TO_CHAR(m.startDateTime, 'D'), "
+	    	       + "SUM(CASE WHEN m.emailId = :email THEN 1 ELSE 0 END) "
+	    	       + "FROM Meeting m "
+	    	       + "WHERE m.startDateTime BETWEEN :startDate AND :endDate "
+	    	       + "AND m.organizerEmailId = :email "
+	    	       + "GROUP BY TO_CHAR(m.startDateTime, 'D')")
+	 List<Object[]> findCompletedMeetingCountsByDayOfWeek(LocalDateTime startDate,LocalDateTime endDate,String email);
 }
