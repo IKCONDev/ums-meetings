@@ -30,6 +30,6 @@ public interface TaskService {
 	List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
 	List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
 	List<Task> getFilteredTasks(String taskTitle, String taskPriority, String taskOwner, 
-			String startDate, String dueDate );
+			String startDate, String dueDate, String emailId );
 	
 }

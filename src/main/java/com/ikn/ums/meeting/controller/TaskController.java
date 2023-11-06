@@ -144,16 +144,18 @@ public class TaskController {
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		try {
-			if(taskTitle.equals("") && taskPriority.equals("") && taskOrganizer.equals("") 
-					&& taskStartDate.equals("") && taskEndDate.equals("")) {
+			if (("null".equals(taskTitle) || "".equals(taskTitle)) &&
+				    ("null".equals(taskPriority) || "".equals(taskPriority)) &&
+				    ("null".equals(taskOrganizer) || "".equals(taskOrganizer)) &&
+				    ("null".equals(taskStartDate) || "".equals(taskStartDate)) &&
+				    ("null".equals(taskEndDate) || "".equals(taskEndDate))) {
 				log.info("TaskController.fetchTasksByUserId() is under execution without filters...");
 				List<Task> taskList = taskService.getTasksByUserId(emailId);
 				log.info("TaskController.fetchTasksByUserId() is executed Successfully without filters");
-				return new ResponseEntity<>(taskList,HttpStatus.OK);
-				
-			}else {			
+				return new ResponseEntity<>(taskList,HttpStatus.OK);	
+			} else {			
 				log.info("TaskController.fetchTasksByUserId() is under execution with filters...");
-				List<Task> taskList = taskService.getFilteredTasks(taskTitle, taskPriority, taskOrganizer, taskStartDate, taskEndDate);
+				List<Task> taskList = taskService.getFilteredTasks(taskTitle, taskPriority, taskOrganizer, taskStartDate, taskEndDate, emailId);
 				log.info("TaskController.fetchTasksByUserId() is executed Successfully with filters");
 				return new ResponseEntity<>(taskList,HttpStatus.OK);
 			}
@@ -167,6 +169,7 @@ public class TaskController {
 		}
 		
 	}
+
 	
 	/**
 	 * 
