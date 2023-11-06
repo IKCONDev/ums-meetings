@@ -332,8 +332,9 @@ public class TaskServiceImpl implements  TaskService{
 			
 		}
 		String subject ="MoM-"+meeting.getSubject()+" "+meeting.getStartDateTime();
-		actionItemBuilder.append("<h4>").append("Meeting Description - "+meeting.getSubject()).append("</h4>");
-		actionItemBuilder.append("<h4>").append("DiscussionPoints -"+discussionPoints).append("</h4>");
+		actionItemBuilder.append("<h4>").append("Title - "+meeting.getSubject()).append("</h4>");
+		actionItemBuilder.append("<h4>").append("DiscussionPoints -").append("</h4>");
+		actionItemBuilder.append(discussionPoints);
 		actionItemBuilder.append("<table border='1'>");
 		actionItemBuilder.append("<tr><th>Action Item</th><th>Action Owner</th></tr>");		
 		List<ActionItemModel> actionModelList = new ArrayList<>();
