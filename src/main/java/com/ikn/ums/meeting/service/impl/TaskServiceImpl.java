@@ -23,6 +23,7 @@ import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
+import com.ikn.ums.meeting.exception.NotificationServiceUnavailableException;
 import com.ikn.ums.meeting.model.ActionItemModel;
 import com.ikn.ums.meeting.repository.TaskRepository;
 import com.ikn.ums.meeting.service.ActionItemService;
@@ -30,6 +31,7 @@ import com.ikn.ums.meeting.service.MeetingService;
 import com.ikn.ums.meeting.service.TaskService;
 import com.ikn.ums.meeting.utils.EmailService;
 import com.ikn.ums.meeting.utils.NotificationService;
+import com.netflix.discovery.DiscoveryClient;
 
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.asm.Advice.Local;
@@ -47,10 +49,11 @@ public class TaskServiceImpl implements  TaskService{
 	@Autowired
 	private MeetingService meetingService;
 	
-	private ActionItemService actionItemService;
-	
 	@Autowired
 	private NotificationService notificationService;
+	
+	//@Autowired
+	//private DiscoveryClient discoveryClient;
 
 	@Override
 	@Transactional
@@ -62,9 +65,24 @@ public class TaskServiceImpl implements  TaskService{
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
 		log.info("TaskServiceImpl.saveTask() is under execution...");
-		Task taskObject= taskRepository.save(task);
+		Task createdTask= taskRepository.save(task);
+		//send email to task Owner
+		sendEmailToTaskOwner(createdTask, true);
+		//send notification to task owner
+		/*
+		if((discoveryClient.getInstancesById("UMS-NOTIFICATION_SERVICE").size() < 1)) {
+			throw new NotificationServiceUnavailableException(ErrorCodeMessages.ERR_MEETINGS_NOTIFICATION_SERVICE_NOTFOUND_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_MSG);
+		}
+		*/
+		Notification notification = new Notification();
+		notification.setMessage("The task T000"+createdTask.getTaskId()+" has been assigned to you.");
+		notification.setModuleType("Tasks");
+		notification.setNotificationTo(createdTask.getTaskOwner());
+		notification.setEmailId(createdTask.getEmailId());	
+		notificationService.createNotification(notification);
 		log.info("TaskServiceImpl.saveTask() is executed Successfully");
-		return taskObject;
+		return createdTask;
 	}
 
 	@Override
@@ -510,6 +528,10 @@ public class TaskServiceImpl implements  TaskService{
 			if(!dueDate.equals("")) {
 				orgDueDateTime = LocalDateTime.parse(dueDate);
 			}
+			if(taskTitle.equals("")) {
+				taskTitle = null;
+			}
+			System.out.println(taskTitle+" -k-k-k-");
 			return taskRepository.findFilteredTasks(taskTitle, taskPriority, taskOwner, orgStartDateTime, orgDueDateTime);
 		}
 	

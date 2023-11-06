@@ -79,5 +79,7 @@ public class ErrorCodeMessages {
 	 
 	 public static final String ERR_MEETINGS_ENTITY_NOTFOUND_CODE = "ERR_MEETINGS_ENTITY_NOTFOUND_CODE-1026";
 	 public static final String ERR_MEETINGS_ENTITY_NOTFOUND_MSG = "Meeting object is null or empty";
-
+	 
+	 public static final String ERR_MEETINGS_NOTIFICATION_SERVICE_NOTFOUND_CODE = "ERR_MEETINGS_NOTIFICATION_SERVICE_CODE-1028";
+	 public static final String ERR_MEETINGS_NOTIFICATION_SERVICE_NOTFOUND_MSG = "No instances available for UMS-NOTIFICATION-SERVICE";
 }

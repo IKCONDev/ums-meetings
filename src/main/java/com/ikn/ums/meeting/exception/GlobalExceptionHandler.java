@@ -87,6 +87,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("Controller Exception Occurred" + controllerException.getMessage());
 		return new ResponseEntity<String>(controllerException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@ExceptionHandler(NotificationServiceUnavailableException.class)
+	public ResponseEntity<String> handleNotificationServiceUnavailableException(NotificationServiceUnavailableException notificationServiceException) {
+		log.info("GlobalExceptionHandler.handleControllerException() ENTERED" + notificationServiceException.getMessage());
+		log.info("Controller Exception Occurred" + notificationServiceException.getMessage());
+		return new ResponseEntity<String>(notificationServiceException.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+	}
 
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,

@@ -137,11 +137,6 @@ public class TaskController {
 			@RequestParam(required = false, defaultValue = "") String taskOrganizer,
 			@RequestParam(required = false, defaultValue = "")String taskStartDate,
 			@RequestParam(required = false, defaultValue = "") String taskEndDate){
-		System.out.println("taskOwner----"+taskOrganizer);
-		System.out.println("startDate ---- "+taskStartDate);
-		System.out.println("endDate ---- "+taskEndDate);
-		System.out.println("taskPriority-----"+taskPriority);
-		System.out.println("taskTitle-----"+taskTitle);
 		log.info("TaskController.fetchTasksByUserId() entered with args :" +emailId);
 		if(emailId =="" || emailId==null) {
 			log.info("TaskController.fetchTaskByUserId() Empty Input Exception : emailId is empty ");
