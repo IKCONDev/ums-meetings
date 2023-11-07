@@ -524,8 +524,8 @@ public class TaskServiceImpl implements  TaskService{
 			if(dueDate != null && !dueDate.equals("") && !dueDate.equals("null")) {
 				orgDueDateTime = LocalDateTime.parse(dueDate);
 			}
-			if(taskTitle.equals("")) {
-				taskTitle = null;
+			if(taskTitle.equals("null") || taskTitle == null || taskTitle == "" || taskTitle.isBlank() ) {
+				taskTitle = "";
 			}
 			return taskRepository.findFilteredTasks(taskTitle, taskPriority, taskOwner, orgStartDateTime, orgDueDateTime, emailId);
 		}

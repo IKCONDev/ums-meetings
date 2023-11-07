@@ -1,6 +1,9 @@
 server:
   port: 9021
 
+logging.level:
+  '[org.hibernate.sql]': DEBUG
+  '[org.hibernate.type]': TRACE
 spring:
   main:
     allow-circular-references: true
@@ -19,6 +22,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        '[format_sql]': true
   mail:
     host: smtp.gmail.com
     password: qshd bgwz wurs pivv
