@@ -293,4 +293,17 @@ public class MeetingController {
 		
 	}
 	
+	@GetMapping("/MeetingsChartDataForYear")
+	public ResponseEntity<?>getCountofAttendedAndOrganisedMeetingsInYear(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
+			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate,@RequestParam("emailId") String email){
+		log.info("MeetingController.getCountofAttendedAndOrganisedMeetingsInYear");
+		List <Object> MeetingdatasInYear = new ArrayList<>();
+		List<Long>attendedMeetingInYear=meetingService.countAttendedMeetingForYear(startDate, endDate, email);
+		List<Long>OrganisedMeetingInYear=meetingService.countOrganisedMeetingForYear(startDate, endDate, email);
+		MeetingdatasInYear.add(attendedMeetingInYear);
+		MeetingdatasInYear.add(OrganisedMeetingInYear);
+		System.out.println(OrganisedMeetingInYear);
+			
+			return new ResponseEntity<>(MeetingdatasInYear,HttpStatus.OK);
+			}
 }

@@ -41,4 +41,21 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 	    	       + "AND m.organizerEmailId = :email "
 	    	       + "GROUP BY TO_CHAR(m.startDateTime, 'D')")
 	 List<Object[]> findCompletedMeetingCountsByDayOfWeek(LocalDateTime startDate,LocalDateTime endDate,String email);
+	 
+	 @Query("SELECT TO_CHAR(m.startDateTime, 'MM'), " +
+		        "SUM(CASE WHEN m.emailId = :email THEN 1 ELSE 0 END) " +
+		        "FROM Meeting m " +
+		        "WHERE m.startDateTime BETWEEN :startDate AND :endDate " +
+		        "AND m.emailId = :email " +
+		        "GROUP BY TO_CHAR(m.startDateTime, 'MM')")
+		List<Object[]> findAttendedMeetingCountsByMonth(LocalDateTime startDate, LocalDateTime endDate, String email);
+		
+		@Query("SELECT TO_CHAR(m.startDateTime, 'MM'), " +
+		        "SUM(CASE WHEN m.emailId = :email THEN 1 ELSE 0 END) " +
+		        "FROM Meeting m " +
+		        "WHERE m.startDateTime BETWEEN :startDate AND :endDate " +
+		        "AND m.organizerEmailId = :email " +
+		        "GROUP BY TO_CHAR(m.startDateTime, 'MM')")
+		List<Object[]> findOrganisedMeetingCountsByMonth(LocalDateTime startDate, LocalDateTime endDate, String email);
+
 }
