@@ -31,5 +31,7 @@ public interface TaskService {
 	List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
 	List<Task> getFilteredTasks(String taskTitle, String taskPriority, String taskOwner, 
 			String startDate, String dueDate, String emailId );
-	
+	 List<Long> findTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
+	 List<Long> findInprogressTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
+	 List<Long> findCompletedTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
 }

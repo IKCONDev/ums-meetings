@@ -529,5 +529,59 @@ public class TaskServiceImpl implements  TaskService{
 			}
 			return taskRepository.findFilteredTasks(taskTitle, taskPriority, taskOwner, orgStartDateTime, orgDueDateTime, emailId);
 		}
-	
+			
+		@Override
+		 public List<Long> findTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email) {
+		        List<Object[]> taskCountsByMonth = taskRepository.findTaskCountsByMonth(startTime, endTime, email);
+		        List<Long> monthlyTaskCounts = new ArrayList<>();
+		        for (int i = 0; i < 12; i++) {
+		        	monthlyTaskCounts.add(0L);
+		        }
+		        for (Object[] result : taskCountsByMonth) {
+		            String month = (String) result[0];
+		            Long taskCount = (Long) result[1];
+
+		         
+		            int dayIndex = Integer.parseInt(month)-1;
+		            monthlyTaskCounts.set(dayIndex, taskCount);
+		        }
+
+		        return monthlyTaskCounts;
+}
+		@Override
+		 public List<Long> findInprogressTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email) {
+		        List<Object[]> inprogressTaskCountsByMonth = taskRepository.findInProgressTaskCountsByMonth(startTime, endTime, email);
+		        List<Long> monthlyInprogressTaskCounts = new ArrayList<>();
+		        for (int i = 0; i < 12; i++) {
+		        	monthlyInprogressTaskCounts.add(0L);
+		        }
+		        for (Object[] result : inprogressTaskCountsByMonth) {
+		            String month = (String) result[0];
+		            Long taskCount = (Long) result[1];
+
+		         
+		            int monthIndex = Integer.parseInt(month)-1;
+		            monthlyInprogressTaskCounts.set(monthIndex, taskCount);
+		        }
+
+		        return monthlyInprogressTaskCounts;
+}
+		@Override
+		 public List<Long> findCompletedTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email) {
+		        List<Object[]> completedTaskCountsByMonth = taskRepository.findCompletedTaskCountsByMonth(startTime, endTime, email);
+		        List<Long> completedMonthlyTaskCounts = new ArrayList<>();
+		        for (int i = 0; i < 12; i++) {
+		        	completedMonthlyTaskCounts.add(0L);
+		        }
+		        for (Object[] result : completedTaskCountsByMonth) {
+		            String month = (String) result[0];
+		            Long taskCount = (Long) result[1];
+
+		         
+		            int monthIndex = Integer.parseInt(month)-1;
+		            completedMonthlyTaskCounts.set(monthIndex, taskCount);
+		        }
+
+		        return completedMonthlyTaskCounts;
+}
 }

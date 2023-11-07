@@ -367,4 +367,21 @@ public class TaskController {
 		obj.add(completedTask);
 		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
+	@GetMapping("/TaskCountForYear")
+	public ResponseEntity<?> getTaskCountForYear(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
+			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate,String emailId){
+		List<Long> assignedTaskForYear=taskService.findTaskCountsByMonth(startDate, endDate, emailId);
+		List<Long> inprogressTaskForYear= taskService.findInprogressTaskCountsByMonth(startDate, endDate, emailId);
+		List<Long> completedTaskCountForYear= taskService.findCompletedTaskCountsByMonth(startDate, endDate, emailId);
+		
+		List<Object> totalTaskStatusForYear= new LinkedList<>();
+		totalTaskStatusForYear.add(assignedTaskForYear);
+		totalTaskStatusForYear.add(inprogressTaskForYear);
+		totalTaskStatusForYear.add(completedTaskCountForYear);
+		
+		return new ResponseEntity<>(totalTaskStatusForYear,HttpStatus.OK);
+		
+	}
+	
+	
 }//class
