@@ -44,7 +44,8 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 		           "GROUP BY TO_CHAR(t.startDate, 'D')")
 	List<Object[]> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime,LocalDateTime endTime);
 	
-	@Query("FROM Task WHERE emailId=:emailId AND (taskTitle LIKE %:taskTitle% OR taskPriority=:taskPriority OR taskOwner=:taskOwner OR startDate=:startDate OR dueDate=:dueDate)")
+	//@Query(value = "select * from task_tab where user_id=:emailId AND (task_title='%:taskTitle%' or task_priority=:taskPriority or task_owner=:taskOwner or start_date=:startDate or due_date=:dueDate)", nativeQuery = true)
+	@Query("FROM Task WHERE emailId = :emailId AND (taskTitle='%:taskTitle%' OR taskPriority = :taskPriority OR taskOwner = :taskOwner OR startDate = :startDate OR dueDate = :dueDate)")
 	List<Task> findFilteredTasks(String taskTitle, String taskPriority, String taskOwner, LocalDateTime startDate, LocalDateTime dueDate, String emailId);
 	
 
