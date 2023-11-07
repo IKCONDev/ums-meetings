@@ -22,5 +22,6 @@ public interface MeetingService {
     Meeting createMeeting(MeetingModel meetingModel);
     public List<Long> countEmailOccurrences(LocalDateTime startDate, LocalDateTime endDate, String email);
     public List<Long> countOrganisedMeetingOccurrence(LocalDateTime startDate, LocalDateTime endDate, String email);
-
+    public List<Long> countOrganisedMeetingForYear(LocalDateTime startDate, LocalDateTime endDate, String email);
+    public List<Long> countAttendedMeetingForYear(LocalDateTime startDate, LocalDateTime endDate, String email);
 }

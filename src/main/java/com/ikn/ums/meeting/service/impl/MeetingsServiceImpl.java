@@ -284,6 +284,46 @@ public class MeetingsServiceImpl implements MeetingService {
 		log.info(MeetingCountsByDay.toString());
 		return OrganisedMeetingCounts;
 	}
+	
+	public List<Long> countOrganisedMeetingForYear(LocalDateTime startDate, LocalDateTime endDate, String email){
+		List<Object[]> MeetingCountsByMonth = meetingRepository.findOrganisedMeetingCountsByMonth(startDate,endDate ,email);
+		List<Long> OrganisedMeetingCountsForYear = new ArrayList<>();
+		for (int i = 0; i < 12; i++) {
+			OrganisedMeetingCountsForYear.add(0L);
+          
+        }
+		for (Object[] result : MeetingCountsByMonth) {
+			String monthOfYear = (String) result[0];
+	        Long OrganisedMeetings = (Long) result[1]; // Use result[1] for attended meetings count
+	        int monthIndex = Integer.parseInt(monthOfYear) - 1;
+	        OrganisedMeetingCountsForYear.set(monthIndex, OrganisedMeetings);
+           /* System.out.println(dayOfWeek);
+            System.out.println(completedCount);*/
+        }
+ 
+	
+	return OrganisedMeetingCountsForYear;
+	}
+	public List<Long> countAttendedMeetingForYear(LocalDateTime startDate, LocalDateTime endDate, String email){
+		List<Object[]> MeetingCountsByMonth = meetingRepository.findAttendedMeetingCountsByMonth(startDate,endDate ,email);
+		List<Long> AttendedMeetingCountsForYear = new ArrayList<>();
+		for (int i = 0; i < 12; i++) {
+			AttendedMeetingCountsForYear.add(0L);
+          
+        }
+		for (Object[] result : MeetingCountsByMonth) {
+			String monthOfYear = (String) result[0];
+	        Long attendedMeetings = (Long) result[1]; // Use result[1] for attended meetings count
+	        int monthIndex = Integer.parseInt(monthOfYear) - 1;
+            AttendedMeetingCountsForYear.set(monthIndex, attendedMeetings);
+           /* System.out.println(dayOfWeek);
+            System.out.println(completedCount);*/
+        }
+ 
+	
+	return AttendedMeetingCountsForYear;
+	}
+
 }
     
 
