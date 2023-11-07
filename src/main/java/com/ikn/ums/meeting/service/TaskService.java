@@ -26,9 +26,9 @@ public interface TaskService {
 	void sendMinutesofMeetingEmail(List<String> emailList,List<ActionItem> actionItemList, Long meetingId, String discussionPoints);
 	Long getOrganizedTasksCountOfUser(String emailId);
 	Long getUserAssignedTasksCountOfUser(String emailId);
-	Long[] getTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
-	List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
-	List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime);
+	Long[] getTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime, String emailId);
+	List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime, String emailId);
+	List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime, String emailId);
 	List<Task> getFilteredTasks(String taskTitle, String taskPriority, String taskOwner, 
 			String startDate, String dueDate, String emailId );
 	 List<Long> findTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);

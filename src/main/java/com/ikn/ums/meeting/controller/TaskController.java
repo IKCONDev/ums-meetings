@@ -356,11 +356,11 @@ public class TaskController {
 	}
 	@GetMapping("/weekTaskCount")
 	public ResponseEntity<?> getWeekTasks(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
-			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate){
+			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate,String emailId){
 		
-		Long[] assignedTask=taskService.getTaskCountsByDayOfWeek(startDate, endDate);
-		List<Long> inprogressTask=taskService.findInProgressTaskCountsByDayOfWeek(startDate, endDate);
-		List<Long> completedTask=taskService.getCompletedTaskCountsByDayOfWeek(startDate, endDate);
+		Long[] assignedTask=taskService.getTaskCountsByDayOfWeek(startDate, endDate,emailId);
+		List<Long> inprogressTask=taskService.findInProgressTaskCountsByDayOfWeek(startDate, endDate,emailId);
+		List<Long> completedTask=taskService.getCompletedTaskCountsByDayOfWeek(startDate, endDate,emailId);
 		List<Object> obj = new LinkedList<>();
 		obj.add(assignedTask);
 		obj.add(inprogressTask);

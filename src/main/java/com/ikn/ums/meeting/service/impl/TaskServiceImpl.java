@@ -422,8 +422,8 @@ public class TaskServiceImpl implements  TaskService{
 	}
 	
 	@Override
-	 public Long[] getTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime) {
-       List<Object[]> taskCountsByDay = taskRepository.findTaskCountsByDayOfWeek(startTime, endTime);
+	 public Long[] getTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime,String email) {
+       List<Object[]> taskCountsByDay = taskRepository.findTaskCountsByDayOfWeek(startTime, endTime,email);
  
         // Create an array to store counts for each day, initialized with zeros
         Long[] countsArray = new Long[7];
@@ -470,8 +470,8 @@ public class TaskServiceImpl implements  TaskService{
         }
     }
 	 @Override
-	    public List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime) {
-	        List<Object[]> taskCountsByDay = taskRepository.findCompletedTaskCountsByDayOfWeek(startTime, endTime);
+	    public List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime, String email) {
+	        List<Object[]> taskCountsByDay = taskRepository.findCompletedTaskCountsByDayOfWeek(startTime, endTime ,email);
 	 
 	        // Initialize an array to store completed task counts for each day
 	        List<Long> completedTaskCounts = new ArrayList<>();
@@ -492,8 +492,8 @@ public class TaskServiceImpl implements  TaskService{
 	    }
 	 
 	    @Override
-	    public List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime) {
-	        List<Object[]> taskCountsByDay = taskRepository.findInProgressTaskCountsByDayOfWeek(startTime, endTime);
+	    public List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime,String email) {
+	        List<Object[]> taskCountsByDay = taskRepository.findInProgressTaskCountsByDayOfWeek(startTime, endTime ,email);
 	 
 	        // Initialize an array to store in-progress task counts for each day
 	        List<Long> inProgressTaskCounts = new ArrayList<>();
