@@ -322,6 +322,7 @@ public class TaskServiceImpl implements  TaskService{
 		Set<Attendee> attendeeList =  meeting.getAttendees();
 		attendeeList.forEach(attendee->{
 			String singleAttendee = attendee.getEmailId();
+
 			attendeeListBuilder.append(singleAttendee+"\r\n");
 		});
 		
@@ -331,8 +332,11 @@ public class TaskServiceImpl implements  TaskService{
 			System.out.println("filtered email is:"+emailArrayList[i]);
 			
 		}
-		String subject ="MoM-"+meeting.getSubject()+" "+meeting.getStartDateTime();
+		String subject = meeting.getSubject()+"/"+"MOM";
 		actionItemBuilder.append("<h4>").append("Title - "+meeting.getSubject()).append("</h4>");
+		actionItemBuilder.append("<h4>").append("Organizer - "+meeting.getOrganizerName()).append("</h4>");
+		actionItemBuilder.append("<h4>").append("Date & Time - "+meeting.getStartDateTime()).append("</h4>");
+		actionItemBuilder.append("<h4>").append("Attendees -"+attendeeListBuilder).append("</h4>");
 		actionItemBuilder.append("<h4>").append("DiscussionPoints -").append("</h4>");
 		actionItemBuilder.append(discussionPoints);
 		actionItemBuilder.append("<table border='1'>");
@@ -362,6 +366,7 @@ public class TaskServiceImpl implements  TaskService{
  		 });
  			 
  	   }
+ 	   actionItemBuilder.append("<br/>");
  	   actionItemBuilder.append("</table>");
 	   emailService.sendMail(emailArrayList, subject, actionItemBuilder.toString(),true);	
 	}
