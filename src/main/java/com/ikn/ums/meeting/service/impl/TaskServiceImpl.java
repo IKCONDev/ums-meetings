@@ -121,7 +121,7 @@ public class TaskServiceImpl implements  TaskService{
 			@Override
 			public void run() {
 			    Notification notification = new Notification();
-			    notification.setMessage("Task T000"+modifiedtask.getTaskId()+" has been updated for you.");
+			    notification.setMessage("Task T000"+modifiedtask.getTaskId()+" has been updated.");
 			    notification.setModuleType("Tasks");
 			    notification.setNotificationTo(modifiedtask.getTaskOwner());
 			    notification.setEmailId(modifiedtask.getEmailId());
@@ -183,7 +183,6 @@ public class TaskServiceImpl implements  TaskService{
 		
 		log.info("TaskServiceImpl.deleteTaskById() is executed successfully");
 		return 1;
-
 	}
 
 	/*
@@ -527,6 +526,7 @@ public class TaskServiceImpl implements  TaskService{
 			if(taskTitle.equals("null") || taskTitle == null || taskTitle == "" || taskTitle.isBlank() ) {
 				taskTitle = "";
 			}
+			System.out.println(taskTitle+"+++++++++++");
 			return taskRepository.findFilteredTasks(taskTitle, taskPriority, taskOwner, orgStartDateTime, orgDueDateTime, emailId);
 		}
 			
@@ -584,4 +584,23 @@ public class TaskServiceImpl implements  TaskService{
 
 		        return completedMonthlyTaskCounts;
 }
+
+		@Override
+		public List<Task> getFilteredAssignedTasks(String taskTitle, String taskPriority,
+				String startDate, String dueDate, String emailId) {
+			LocalDateTime orgStartDateTime = null;
+			LocalDateTime orgDueDateTime = null;
+			//DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			if(startDate != null && !startDate.equals("") && !startDate.equals("null")) {
+				orgStartDateTime = LocalDateTime.parse(startDate);
+			}
+			if(dueDate != null && !dueDate.equals("") && !dueDate.equals("null")) {
+				orgDueDateTime = LocalDateTime.parse(dueDate);
+			}
+			if(taskTitle.equals("null") || taskTitle == null || taskTitle == "" || taskTitle.isBlank() ) {
+				taskTitle = "";
+			}
+			System.out.println(taskTitle+"+++++++++++");
+			return taskRepository.findFilteredAssignedTasks(taskTitle, taskPriority, orgStartDateTime, orgDueDateTime, emailId);
+		}
 }

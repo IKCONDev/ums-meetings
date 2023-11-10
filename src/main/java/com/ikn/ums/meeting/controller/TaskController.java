@@ -149,6 +149,7 @@ public class TaskController {
 				    ("null".equals(taskOrganizer) || "".equals(taskOrganizer)) &&
 				    ("null".equals(taskStartDate) || "".equals(taskStartDate)) &&
 				    ("null".equals(taskEndDate) || "".equals(taskEndDate))) {
+				System.out.println(taskTitle+"---------");
 				log.info("TaskController.fetchTasksByUserId() is under execution without filters...");
 				List<Task> taskList = taskService.getTasksByUserId(emailId);
 				log.info("TaskController.fetchTasksByUserId() is executed Successfully without filters");
@@ -290,7 +291,11 @@ public class TaskController {
 	}
 	
 	@GetMapping("/assigned/{emailId}")
-	public ResponseEntity<?> getAssignedTasksByUserId(@PathVariable String emailId){
+	public ResponseEntity<?> getAssignedTasksByUserId(@PathVariable String emailId,
+			@RequestParam(required = false, defaultValue = "") String taskTitle,
+			@RequestParam(required = false, defaultValue = "") String taskPriority,
+			@RequestParam(required = false, defaultValue = "")String taskStartDate,
+			@RequestParam(required = false, defaultValue = "") String taskEndDate){
 		log.info("TaskController.getAssignedTasksByUserId() entered with args :" +emailId);
 		if(emailId =="" || emailId==null) {
 			log.info("TaskController.getAssignedTasksByUserId() Empty Input Exception : emailId is empty ");
@@ -298,10 +303,20 @@ public class TaskController {
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		try {
-			log.info("TaskController.getAssignedTasksByUserId() is under execution...");
-			List<Task> task = taskService.getAssignedTaskListOfUser(emailId);
-			log.info("TaskController.getAssignedTasksByUserId() is executed Successfully");
-			return new ResponseEntity<>(task,HttpStatus.OK);
+			if (("null".equals(taskTitle) || "".equals(taskTitle)) &&
+				    ("null".equals(taskPriority) || "".equals(taskPriority)) &&
+				    ("null".equals(taskStartDate) || "".equals(taskStartDate)) &&
+				    ("null".equals(taskEndDate) || "".equals(taskEndDate))) {
+				log.info("TaskController.getAssignedTasksByUserId() is under execution without filters...");
+				List<Task> task = taskService.getAssignedTaskListOfUser(emailId);
+				log.info("TaskController.getAssignedTasksByUserId() is executed Successfully");
+				return new ResponseEntity<>(task,HttpStatus.OK);
+			} else {			
+				log.info("TaskController.getAssignedTasksByUserId() is under execution with filters...");
+				List<Task> taskList = taskService.getFilteredAssignedTasks(taskTitle, taskPriority, taskStartDate, taskEndDate, emailId);
+				log.info("TaskController.getAssignedTasksByUserId() is executed Successfully with filters");
+				return new ResponseEntity<>(taskList,HttpStatus.OK);
+			}
 			
 		}catch (Exception e) {
 			log.info("TaskController.getAssignedTasksByUserId() is exited with exception : Exception occured while getting the tasks of the user "+e.getMessage());
