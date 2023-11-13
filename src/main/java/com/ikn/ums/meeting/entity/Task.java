@@ -51,6 +51,9 @@ public class Task {
 	@Column(name="user_id", nullable = false)
 	private String emailId;
 	
+	@Column(name = "departmentId", nullable = false)
+	private Long departmentId;
+	
 	@Column(name = "createdDateTime")
 	private LocalDateTime createdDateTime;
 	

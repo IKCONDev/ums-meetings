@@ -398,5 +398,16 @@ public class TaskController {
 		
 	}
 	
+	@GetMapping("department/{departmentId}")
+	public ResponseEntity<?> getTaskListByDepartment(@PathVariable Long departmentId){
+		if(departmentId == 0 || departmentId == null) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+		}
+		List<Task> taskList = taskService.getTasksByDepartment(departmentId);
+		System.out.println(taskList);
+		return new ResponseEntity<>(taskList, HttpStatus.OK);
+	}
+	
 	
 }//class

@@ -77,6 +77,8 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	        "AND t.emailId = :email " +  
 	        "GROUP BY TO_CHAR(t.startDate, 'MM')")
 	List<Object[]> findInProgressTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
+	
+	List<Task> findByDepartmentId(Long departmentId);
 
 	
 }

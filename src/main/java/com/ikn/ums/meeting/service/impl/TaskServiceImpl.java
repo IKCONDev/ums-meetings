@@ -608,4 +608,14 @@ public class TaskServiceImpl implements  TaskService{
 			System.out.println(taskTitle+"+++++++++++");
 			return taskRepository.findFilteredAssignedTasks(taskTitle, taskPriority, orgStartDateTime, orgDueDateTime, emailId);
 		}
+
+		@Override
+		public List<Task> getTasksByDepartment(Long departmentId) {
+			if(departmentId == 0 || departmentId == null) {
+				throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE, 
+						ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+			}
+			List<Task> taskList = taskRepository.findByDepartmentId(departmentId);
+			return taskList;
+		}
 }
