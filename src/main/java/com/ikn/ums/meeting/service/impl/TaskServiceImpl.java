@@ -647,4 +647,24 @@ public class TaskServiceImpl implements  TaskService{
 			List<Task> taskList = taskRepository.findAgedTasks(dateTime);
 			return taskList;
 		}
+
+		@Override
+		public List<Long> getTasksBetweenStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate) {
+			System.out.println(startDate+"  "+"+++++++++ in taskserviceimpl");
+			 List<Object[]> taskCountsByMonth = taskRepository.findTaskCountsforYear(startDate, endDate);
+		        List<Long> monthlyTaskCounts = new ArrayList<>();
+		        for (int i = 0; i < 12; i++) {
+		        	monthlyTaskCounts.add(0L);
+		        }
+		        for (Object[] result : taskCountsByMonth) {
+		            String month = (String) result[0];
+		            Long taskCount = (Long) result[1];
+
+		         
+		            int dayIndex = Integer.parseInt(month)-1;
+		            monthlyTaskCounts.set(dayIndex, taskCount);
+		        }
+
+		        return monthlyTaskCounts;
+		}
 }

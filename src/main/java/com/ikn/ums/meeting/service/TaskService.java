@@ -42,5 +42,5 @@ public interface TaskService {
 	 List<Task> getTasksByTaskPriority(String taskPriority);
 	 List<Task> getTasksByTaskStatus(String taskStatus);
 	 List<Task> getAgedTasks(LocalDateTime dateTime);
-
+	List<Long> getTasksBetweenStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate);
 }
