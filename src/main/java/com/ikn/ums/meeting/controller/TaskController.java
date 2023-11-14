@@ -409,5 +409,27 @@ public class TaskController {
 		return new ResponseEntity<>(taskList, HttpStatus.OK);
 	}
 	
+	@GetMapping("priority/{taskPriority}")
+	public ResponseEntity<?> getTaskListByPriority(@PathVariable String taskPriority){
+		if(taskPriority == "" || taskPriority == null) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+		}
+		List<Task> taskList = taskService.getTasksByTaskPriority(taskPriority);
+		System.out.println(taskList);
+		return new ResponseEntity<>(taskList, HttpStatus.OK);
+	}
+	
+	@GetMapping("status/{taskStatus}")
+	public ResponseEntity<?> getTaskListByTaskStatus(@PathVariable String taskStatus){
+		if(taskStatus == "" || taskStatus == null) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+		}
+		List<Task> taskList = taskService.getTasksByTaskStatus(taskStatus);
+		System.out.println(taskList);
+		return new ResponseEntity<>(taskList, HttpStatus.OK);
+	}
+	
 	
 }//class

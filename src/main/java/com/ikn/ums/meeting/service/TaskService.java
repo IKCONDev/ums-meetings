@@ -36,5 +36,9 @@ public interface TaskService {
 	 List<Long> findTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
 	 List<Long> findInprogressTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
 	 List<Long> findCompletedTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
+	 
+	 //reporting methods
 	 List<Task> getTasksByDepartment(Long departmentId);
+	 List<Task> getTasksByTaskPriority(String taskPriority);
+	 List<Task> getTasksByTaskStatus(String taskStatus);
 }

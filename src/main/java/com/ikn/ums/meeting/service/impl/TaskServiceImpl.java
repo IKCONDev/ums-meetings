@@ -618,4 +618,26 @@ public class TaskServiceImpl implements  TaskService{
 			List<Task> taskList = taskRepository.findByDepartmentId(departmentId);
 			return taskList;
 		}
+
+		@Override
+		public List<Task> getTasksByTaskPriority(String taskPriority) {
+			log.info("findByTaskPriority() entered");
+			if(taskPriority == "" || taskPriority == null) {
+				throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE, 
+						ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+			}
+			List<Task> taskList = taskRepository.findByTaskPriority(taskPriority);
+			System.out.println(taskList);
+			return taskList;
+		}
+
+		@Override
+		public List<Task> getTasksByTaskStatus(String taskStatus) {
+			if(taskStatus == "" || taskStatus == null) {
+				throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE, 
+						ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+			}
+			List<Task> taskList = taskRepository.findByStatus(taskStatus);
+			return taskList;
+		}
 }

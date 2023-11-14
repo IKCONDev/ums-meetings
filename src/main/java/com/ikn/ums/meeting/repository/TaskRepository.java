@@ -79,6 +79,10 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	List<Object[]> findInProgressTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
 	
 	List<Task> findByDepartmentId(Long departmentId);
+	
+	List<Task> findByTaskPriority(String taskPriority);
+	
+	List<Task> findByStatus(String status);
 
 	
 }
