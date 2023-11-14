@@ -107,7 +107,7 @@ public class TaskController {
 	 * 
 	 * @return
 	 */
-	@GetMapping("/all/")
+	@GetMapping("/all")
 	public ResponseEntity<?> fetchAllTasks(){
 		log.info("TaskController.fetchAllTasks() entered ");
 		
