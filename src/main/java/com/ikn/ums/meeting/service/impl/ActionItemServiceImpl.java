@@ -1,5 +1,6 @@
 package com.ikn.ums.meeting.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -254,6 +255,25 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		Long count = actionItemRepository.findOrganizedActionItemsCountByUserId(emailId);
 		log.info("ActionItemServiceImpl.getUserOrganizedActionItemsCount() executed successfully");
 		return count;
+	}
+
+	@Override
+	public List<ActionItem> getFilteredActionItems(String actionItemTitle, String actionItemOwner,
+			String actionItemStartDate, String actionItemEndDate, String emailId) {
+		LocalDateTime actualStartDate = null;
+		if(!actionItemStartDate.isBlank()) {
+			actualStartDate = LocalDateTime.parse(actionItemStartDate);
+		}
+		LocalDateTime actualEndDate = null;
+		if(!actionItemEndDate.isBlank()) {
+			actualEndDate = LocalDateTime.parse(actionItemEndDate);
+		}
+		List<String> actionItemOwners = new ArrayList<>();
+		if(!actionItemOwner.isBlank()) {
+			actionItemOwners.add(actionItemOwner);
+		}
+		List<ActionItem> filteredActionItemList = actionItemRepository.findAllFilteredActionItemsByUserId(actionItemTitle.isBlank()?null : actionItemTitle, actionItemOwners, actualStartDate, actualEndDate, emailId);
+		return filteredActionItemList;
 	}
 
 	

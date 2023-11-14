@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
@@ -39,7 +40,6 @@ public class ActionItemController {
 	@Autowired
 	private ActionItemService actionItemService;
 
-
 	/**
 	 * 
 	 * @param actions
@@ -48,10 +48,10 @@ public class ActionItemController {
 	@PostMapping("/save")
 	public ResponseEntity<?> createActionItem(@RequestBody ActionItem actionItem) {
 		log.info("ActionItemController.createActionItem() entered with args : actionItem");
-			if (actionItem == null) {
-				throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_CODE,
-						ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MSG);
-			}
+		if (actionItem == null) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MSG);
+		}
 		try {
 			log.info("ActionItemController.createActionItem() is under execution...");
 			ActionItem savedActionItem = actionItemService.saveActionItem(actionItem);
@@ -210,7 +210,7 @@ public class ActionItemController {
 			return new ResponseEntity<>(isGenerated, HttpStatus.OK);
 		} catch (Exception e) {
 			log.info("ActionItemController.generateActionItems() exited with exception : " + e.getMessage());
-			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GENERATE_CODE, 
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GENERATE_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GENERATE_MSG);
 		}
 	}
@@ -224,12 +224,14 @@ public class ActionItemController {
 		log.info("ActionItemController.getActionItems() entered");
 		try {
 			log.info("ActionItemController.getActionItems() is under excecution...");
-			List<ActionItem> actionItemList =  actionItemService.getActionItemList();
+			List<ActionItem> actionItemList = actionItemService.getActionItemList();
 			log.info("ActionItemController.getActionItems() is executed successfully");
 			return new ResponseEntity<>(actionItemList, HttpStatus.OK);
 		} catch (Exception e) {
-			log.info("ActionItemController.getActionItems() exited with exception: Exception occurred while getting action items : "+e.getMessage());
-			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE, 
+			log.info(
+					"ActionItemController.getActionItems() exited with exception: Exception occurred while getting action items : "
+							+ e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MSG);
 		}
 	}
@@ -240,17 +242,30 @@ public class ActionItemController {
 	 * @return
 	 */
 	@GetMapping("/all/{emailId}")
-	public ResponseEntity<?> FetchActionItemsByEmailId(@PathVariable("emailId") String email) {
+	public ResponseEntity<?> FetchActionItemsByEmailId(@PathVariable("emailId") String email,
+			@RequestParam(defaultValue = "", required = false) String actionItemTitle,
+			@RequestParam(defaultValue = "", required = false) String actionItemOwner,
+			@RequestParam(defaultValue = "", required = false) String actionItemStartDate,
+			@RequestParam(defaultValue = "", required = false) String actionItemEndDate) {
 		log.info("ActionItemController.FetchActionItemsByEmailId() entered with args : " + email);
 		if (email.equals("") || email == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		try {
-			log.info("ActionItemController.FetchActionItemsByEmailId() is under execution...");
-			List<ActionItem> actionItemList = actionItemService.getActionItemsByUserId(email);
-			log.info("ActionItemController.FetchActionItemsByEmailId() executed succesfully");
-			return new ResponseEntity<>(actionItemList, HttpStatus.OK);
+			if (actionItemTitle.isBlank() && actionItemOwner.isBlank() && actionItemStartDate.isBlank()
+					&& actionItemEndDate.isBlank()) {
+				log.info("ActionItemController.FetchActionItemsByEmailId() is under execution...");
+				List<ActionItem> actionItemList = actionItemService.getActionItemsByUserId(email);
+				log.info("ActionItemController.FetchActionItemsByEmailId() executed succesfully");
+				return new ResponseEntity<>(actionItemList, HttpStatus.OK);
+			} else {
+				log.info("ActionItemController.FetchActionItemsByEmailId() is under execution...");
+				List<ActionItem> actionItemList = actionItemService.getFilteredActionItems(actionItemTitle,
+						actionItemOwner, actionItemStartDate, actionItemEndDate, email);
+				log.info("ActionItemController.FetchActionItemsByEmailId() executed succesfully");
+				return new ResponseEntity<>(actionItemList, HttpStatus.OK);
+			}
 		} catch (Exception e) {
 			log.info(
 					"ActionItemController.FetchActionItemsByEmailId() exited with exception : Exception ocuured while fetching action items of a user : "
@@ -292,9 +307,10 @@ public class ActionItemController {
 	 * @param actionItemList
 	 * @return
 	 */
-	
+
 	@PostMapping("/convert-task/{meetingId}")
-	public ResponseEntity<?> processActionItemsToTasks(@RequestBody List<ActionItem> actionItemList, @PathVariable Long meetingId) {
+	public ResponseEntity<?> processActionItemsToTasks(@RequestBody List<ActionItem> actionItemList,
+			@PathVariable Long meetingId) {
 		log.info("ActionsController.processActionItemsToTasks() entered with args : actionItemsList");
 		if (actionItemList.size() < 1 || actionItemList == null) {
 			log.info(
@@ -304,7 +320,7 @@ public class ActionItemController {
 		}
 		try {
 			log.info("ActionsController.processActionItemsToTasks() is under execution...");
-			boolean isActionItemSubmitted = actionItemService.submitActionItems(actionItemList,meetingId);
+			boolean isActionItemSubmitted = actionItemService.submitActionItems(actionItemList, meetingId);
 			log.info("ActionsController.processActionItemsToTasks() executed successfully");
 			return new ResponseEntity<>(isActionItemSubmitted, HttpStatus.OK);
 		} catch (Exception e) {
@@ -316,36 +332,36 @@ public class ActionItemController {
 		}
 
 	}
-	
+
 	@PostMapping("/send-momdata")
-	public ResponseEntity<?> sendMinutesOfMeeting(@RequestBody MinutesOfMeeting momObject){
+	public ResponseEntity<?> sendMinutesOfMeeting(@RequestBody MinutesOfMeeting momObject) {
 		log.info("entered the controller of send Minutes of Meeting");
 		MinutesOfMeeting momObject1 = new MinutesOfMeeting();
-	    momObject1.setMeeting(momObject.getMeeting());
-	    momObject1.setEmailList(momObject.getEmailList());
-	    momObject1.setDiscussionPoints(momObject.getDiscussionPoints());
-		boolean resultValue =actionItemService.sendMinutesofMeetingEmail(momObject1);
-		return new ResponseEntity<>(resultValue,HttpStatus.OK);
+		momObject1.setMeeting(momObject.getMeeting());
+		momObject1.setEmailList(momObject.getEmailList());
+		momObject1.setDiscussionPoints(momObject.getDiscussionPoints());
+		boolean resultValue = actionItemService.sendMinutesofMeetingEmail(momObject1);
+		return new ResponseEntity<>(resultValue, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/send-mom/{meeting}/{emailList}")
-	public ResponseEntity<?> sendMinutesOfMeetingObject(@PathVariable("meeting") Meeting meeting , @PathVariable("emailList") List<String> emailList ){
-		
+	public ResponseEntity<?> sendMinutesOfMeetingObject(@PathVariable("meeting") Meeting meeting,
+			@PathVariable("emailList") List<String> emailList) {
+
 		log.info("ActionItemController.sendMinutesOfMeetingObject() is entered)");
 		MinutesOfMeeting momObject = new MinutesOfMeeting();
-	    momObject.setMeeting(meeting);
-	    momObject.setEmailList(emailList);
-	    //System.out.println(discussionPoints);
-	    log.info("ActionItemController.sendMinutesOfMeetingObject() is under execution");
-		boolean resultValue =actionItemService.sendMinutesofMeetingEmail(momObject);
-		return new ResponseEntity<>(resultValue,HttpStatus.OK);
+		momObject.setMeeting(meeting);
+		momObject.setEmailList(emailList);
+		// System.out.println(discussionPoints);
+		log.info("ActionItemController.sendMinutesOfMeetingObject() is under execution");
+		boolean resultValue = actionItemService.sendMinutesofMeetingEmail(momObject);
+		return new ResponseEntity<>(resultValue, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/organized/count/{userId}")
-	public ResponseEntity<?> getActionItemsCountforUser(@PathVariable("userId") String emailId){
+	public ResponseEntity<?> getActionItemsCountforUser(@PathVariable("userId") String emailId) {
 		Long count = actionItemService.getUserOrganizedActionItemsCount(emailId);
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
-	
 
 }

@@ -23,5 +23,6 @@ public interface ActionItemService {
 	boolean generateActionItems(List<ActionItem> actionItemList);
 	boolean sendMinutesofMeetingEmail(MinutesOfMeeting momObject);
 	Long getUserOrganizedActionItemsCount(String emailId);
+	List<ActionItem> getFilteredActionItems(String actionItemTitle, String actionItemOwner, String actionItemStartDate, String actionItemEndDate, String email);
 
 }

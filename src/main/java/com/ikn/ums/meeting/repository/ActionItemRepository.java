@@ -1,5 +1,6 @@
 package com.ikn.ums.meeting.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,10 @@ public interface ActionItemRepository extends JpaRepository<ActionItem, Integer>
 	
 	@Query("SELECT COUNT(*) FROM ActionItem WHERE emailId=:emailId")
 	Long findOrganizedActionItemsCountByUserId(String emailId);
+	
+
+	@Query("FROM ActionItem WHERE emailId=:emailId AND (actionItemTitle=:actionItemTitle OR actionItemOwner=:actionItemOwner OR startDate<=:startDate OR endDate<=:endDate)")
+	public List<ActionItem> findAllFilteredActionItemsByUserId(String actionItemTitle, List<String> actionItemOwner,
+			LocalDateTime startDate, LocalDateTime endDate, String emailId);
+
 }
