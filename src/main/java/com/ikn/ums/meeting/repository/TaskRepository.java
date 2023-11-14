@@ -83,6 +83,9 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	List<Task> findByTaskPriority(String taskPriority);
 	
 	List<Task> findByStatus(String status);
+	
+	@Query("FROM Task WHERE dueDate < :currentDateTime")
+	List<Task> findAgedTasks(LocalDateTime currentDateTime);
 
 	
 }

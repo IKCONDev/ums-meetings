@@ -41,4 +41,5 @@ public interface TaskService {
 	 List<Task> getTasksByDepartment(Long departmentId);
 	 List<Task> getTasksByTaskPriority(String taskPriority);
 	 List<Task> getTasksByTaskStatus(String taskStatus);
+	 List<Task> getAgedTasks(LocalDateTime dateTime);
 }
