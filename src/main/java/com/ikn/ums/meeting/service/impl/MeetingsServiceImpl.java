@@ -324,6 +324,36 @@ public class MeetingsServiceImpl implements MeetingService {
 	return AttendedMeetingCountsForYear;
 	}
 
+	@Override
+	public List<Meeting> getFilteredOrganizedMeetings(String meetingTitle, String startDateTime, String endDateTime,
+			String emailId) {
+		LocalDateTime actualStartDateTime = null;
+		if(!startDateTime.isBlank()) {
+			actualStartDateTime = LocalDateTime.parse(startDateTime);
+		}
+		LocalDateTime actualEndDateTime = null;
+		if(!endDateTime.isBlank()) {
+			actualEndDateTime = LocalDateTime.parse(endDateTime);
+		}
+		List<Meeting> filteredMeetingList = meetingRepository.findAllFilteredMeetingsByUserId(meetingTitle.isBlank()?null : meetingTitle, actualStartDateTime, actualEndDateTime,emailId);
+		return filteredMeetingList;
+	}
+
+	@Override
+	public List<Meeting> getFilteredAttendedMeetings(String meetingTitle, String startDateTime, String endDateTime,
+			String emailId) {
+		LocalDateTime actualStartDateTime = null;
+		if(!startDateTime.isBlank()) {
+			actualStartDateTime = LocalDateTime.parse(startDateTime);
+		}
+		LocalDateTime actualEndDateTime = null;
+		if(!endDateTime.isBlank()) {
+			actualEndDateTime = LocalDateTime.parse(endDateTime);
+		}
+		List<Meeting> filteredAttendedMeetingList = meetingRepository.findAllFilteredAttendedMeetingsByUserId(meetingTitle.isBlank()?null : meetingTitle, actualStartDateTime, actualEndDateTime,emailId);
+		return filteredAttendedMeetingList;
+	}
+
 }
     
 

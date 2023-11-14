@@ -20,8 +20,10 @@ public interface MeetingService {
 	Integer getUserOragnizedMeetingCountByUserId(String emailId);
     Optional<Meeting> getMeetingDetails(Long meetingId);
     Meeting createMeeting(MeetingModel meetingModel);
-    public List<Long> countEmailOccurrences(LocalDateTime startDate, LocalDateTime endDate, String email);
-    public List<Long> countOrganisedMeetingOccurrence(LocalDateTime startDate, LocalDateTime endDate, String email);
-    public List<Long> countOrganisedMeetingForYear(LocalDateTime startDate, LocalDateTime endDate, String email);
-    public List<Long> countAttendedMeetingForYear(LocalDateTime startDate, LocalDateTime endDate, String email);
+    public List<Long> countEmailOccurrences(LocalDateTime startDate, LocalDateTime endDate, String emailId);
+    public List<Long> countOrganisedMeetingOccurrence(LocalDateTime startDate, LocalDateTime endDate, String emailId);
+    public List<Long> countOrganisedMeetingForYear(LocalDateTime startDate, LocalDateTime endDate, String emailId);
+    public List<Long> countAttendedMeetingForYear(LocalDateTime startDate, LocalDateTime endDate, String emailId);
+    List<Meeting> getFilteredOrganizedMeetings(String meetingTitle, String startDate, String endDate, String emailId);
+    List<Meeting> getFilteredAttendedMeetings(String meetingTitle, String startDate, String endDate, String emailId);
 }

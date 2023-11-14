@@ -440,5 +440,23 @@ public class TaskController {
 		return new ResponseEntity<>(taskList, HttpStatus.OK);
 	}
 	
+	@GetMapping("/allForYear/{startDate}/{endDate}")
+	public ResponseEntity<?> fetchAllTasksforYear(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,@PathVariable  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime endDate){
+		log.info("TaskController.fetchAllTasksforYear() entered ");
+		System.out.println(startDate+" "+endDate);
+		try { 
+			log.info("TaskController.fetchAllTasksforYear() is under execution... ");
+			List<Long> taskList = taskService.getTasksBetweenStartDateAndEndDate(startDate,endDate);
+			log.info("TaskController.fetchAllTaskDetailsfor year () is executed Successfully");
+			return new ResponseEntity<>(taskList, HttpStatus.OK);
+			
+		}catch (Exception e) {
+			log.info("TaskController.fetchAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
+		}
+	
+	}
+	
 	
 }//class
