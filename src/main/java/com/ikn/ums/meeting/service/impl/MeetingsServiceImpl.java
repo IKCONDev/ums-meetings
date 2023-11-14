@@ -339,6 +339,21 @@ public class MeetingsServiceImpl implements MeetingService {
 		return filteredMeetingList;
 	}
 
+	@Override
+	public List<Meeting> getFilteredAttendedMeetings(String meetingTitle, String startDateTime, String endDateTime,
+			String emailId) {
+		LocalDateTime actualStartDateTime = null;
+		if(!startDateTime.isBlank()) {
+			actualStartDateTime = LocalDateTime.parse(startDateTime);
+		}
+		LocalDateTime actualEndDateTime = null;
+		if(!endDateTime.isBlank()) {
+			actualEndDateTime = LocalDateTime.parse(endDateTime);
+		}
+		List<Meeting> filteredAttendedMeetingList = meetingRepository.findAllFilteredAttendedMeetingsByUserId(meetingTitle.isBlank()?null : meetingTitle, actualStartDateTime, actualEndDateTime,emailId);
+		return filteredAttendedMeetingList;
+	}
+
 }
     
 

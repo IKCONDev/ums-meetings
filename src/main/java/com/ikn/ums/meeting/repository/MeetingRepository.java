@@ -57,8 +57,11 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 		        "AND m.organizerEmailId = :email " +
 		        "GROUP BY TO_CHAR(m.startDateTime, 'MM')")
 		List<Object[]> findOrganisedMeetingCountsByMonth(LocalDateTime startDate, LocalDateTime endDate, String email);
+		
 		@Query("FROM Meeting WHERE emailId = :emailId AND (:meetingTitle IS NULL OR subject LIKE %:meetingTitle% OR startDateTime >= :startDateTime OR endDateTime <= :endDateTime)")
-		//@Query("FROM Meeting WHERE emailId = :emailId AND (:meetingTitle IS NULL OR subject LIKE %:meetingTitle%) AND startDateTime >= :startDateTime AND endDateTime <= :endDateTime")
 		List<Meeting> findAllFilteredMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime, LocalDateTime endDateTime,String emailId);
+		
+		@Query("Select m FROM Meeting m JOIN m.attendees a WHERE a.email=:emailId AND (:meetingTitle IS NULL OR m.subject LIKE %:meetingTitle% OR m.startDateTime >= :startDateTime OR m.endDateTime <= :endDateTime)")
+		List<Meeting> findAllFilteredAttendedMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime,LocalDateTime endDateTime,String emailId);
 
 }

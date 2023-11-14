@@ -100,17 +100,27 @@ public class MeetingController {
 	 * @return
 	 */
 	@GetMapping(path = "/attended/{userId}")
-	public ResponseEntity<?> getUserAttendedMeetings(@PathVariable("userId") String emailId) {
+	public ResponseEntity<?> getUserAttendedMeetings(@PathVariable("userId") String emailId,
+			@RequestParam(defaultValue = "", required = false) String meetingTitle,
+			@RequestParam(defaultValue = "", required = false) String startDateTime,
+			@RequestParam(defaultValue = "", required = false) String endDateTime) {
 		if(emailId == "" || emailId == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		log.info("MeetingController.getUserAttendedMeetings() entered with args - userId/emailId : "+emailId);
 		try {
-			log.info("MeetingController.getUserAttendedMeetings() is under excution...");
-			List<Meeting> attendedMeetingList =  meetingService.getUserAttendedMeetingsByUserId(emailId);
-			log.info("MeetingController.getUserAttendedMeetings() is executed successfully...");
-			return new ResponseEntity<>(attendedMeetingList, HttpStatus.OK);
+			if(meetingTitle.isBlank() && startDateTime.isBlank() && endDateTime.isBlank()) {
+				log.info("MeetingController.getUserAttendedMeetings() is under excution...");
+				List<Meeting> attendedMeetingList =  meetingService.getUserAttendedMeetingsByUserId(emailId);
+				log.info("MeetingController.getUserAttendedMeetings() is executed successfully...");
+				return new ResponseEntity<>(attendedMeetingList, HttpStatus.OK);
+			}else {
+				log.info("MeetingController.getUserAttendedMeetings() is under excution...");
+				List<Meeting> attendedMeetingList =  meetingService.getFilteredAttendedMeetings(meetingTitle, startDateTime, endDateTime, emailId);
+				log.info("MeetingController.getUserAttendedMeetings() is executed successfully...");
+				return new ResponseEntity<>(attendedMeetingList, HttpStatus.OK);
+			}
 		}catch (Exception e) {
 			log.info("MeetingController.getUserAttendedMeetings() exited with exception : "+e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE, 
