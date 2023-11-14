@@ -125,18 +125,32 @@ public class MeetingController {
      * @return
      */
 	@GetMapping("/organized/{userId}")
-	public ResponseEntity<?> getUserOrganizedMeetings(@PathVariable("userId") String emailId){
+	public ResponseEntity<?> getUserOrganizedMeetings(@PathVariable("userId") String emailId,
+			@RequestParam(defaultValue = "",required = false) String meetingTitle,
+			@RequestParam(defaultValue = "",required = false) String startDate,
+			@RequestParam(defaultValue = "",required = false) String endDate){
 		log.info("MeetingController.getUserOrganizedMeetings() entered with args - userId/emailId : "+emailId);
 		if(emailId.equals("")) {
 			log.info("MeetingController.getUserOrganizedMeetings() userEmailId: isEmpty");
 		}
 		log.info("MeetingController.getUserOrganizedMeetings() under execution ");
 		try {
-			
-			List<Meeting> meetingList=meetingService.getUserOrganizedMeetingsByUserId(emailId);
-			log.info("MeetingController.getUserOrganizedMeetings() exited Successfully");
-			return new ResponseEntity<>(meetingList,HttpStatus.OK);
+			System.out.println(meetingTitle+"--------");
+			System.out.println(startDate+"---------");
+			System.out.println(endDate+"----------");
+			if(meetingTitle.isBlank() && startDate.isBlank() && endDate.isBlank()) {
+				System.out.println("executed if");
+				List<Meeting> meetingList=meetingService.getUserOrganizedMeetingsByUserId(emailId);
+				log.info("MeetingController.getUserOrganizedMeetings() exited Successfully without filters");
+				return new ResponseEntity<>(meetingList,HttpStatus.OK);
+			}else {
+				System.out.println("executed else");
+				List<Meeting> filteredMeetingList = meetingService.getFilteredOrganizedMeetings(meetingTitle, startDate, endDate, emailId);
+				log.info("MeetingController.getUserOrganizedMeetings() exited Successfully with filters");
+				return new ResponseEntity<>(filteredMeetingList,HttpStatus.OK);
+			}
 		}catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 			log.info("MeetingController.getUserOrganizedMeetings() exited with Exception: Exception occured while getting user organized meetings"
 					+e.getMessage());
