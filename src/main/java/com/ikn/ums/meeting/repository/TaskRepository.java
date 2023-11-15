@@ -47,18 +47,18 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 		           "GROUP BY TO_CHAR(t.startDate, 'D')")
 	List<Object[]> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime,LocalDateTime endTime, String email);
 	
-	//@Query(value = "select * from task_tab where user_id=:emailId AND (task_title='%:taskTitle%' or task_priority=:taskPriority or task_owner=:taskOwner or start_date=:startDate or due_date=:dueDate)", nativeQuery = true)
-	@Query("FROM Task WHERE emailId = :emailId AND (taskTitle LIKE %:taskTitle% OR taskPriority = :taskPriority OR taskOwner = :taskOwner OR startDate = :startDate OR dueDate = :dueDate)")
+	@Query(value = "select * from task_tab where user_id=:emailId AND (task_title='%:taskTitle%' or task_priority=:taskPriority or task_owner=:taskOwner or start_date>=:startDate or due_date<=:dueDate)", nativeQuery = true)
+	//@Query("FROM Task WHERE emailId = :emailId AND ((:taskTitle IS NULL OR taskTitle LIKE %:taskTitle%) AND (:taskPriority IS NULL OR taskPriority = :taskPriority) AND (:taskOwner IS NULL OR taskOwner = :taskOwner) AND (:startDate IS NULL OR startDate >= :startDate) AND (:dueDate IS NULL OR dueDate <= :dueDate))")
 	List<Task> findFilteredTasks(String taskTitle, String taskPriority, String taskOwner, LocalDateTime startDate, LocalDateTime dueDate, String emailId);
 	
-	//@Query(value = "select * from task_tab where task_owner=:emailId AND (task_title='%:taskTitle%' OR task_priority=:taskPriority OR start_date=:startDate OR due_date=:dueDate)", nativeQuery = true)
-	@Query("FROM Task WHERE emailId = :emailId AND (taskTitle LIKE %:taskTitle% OR taskPriority = :taskPriority OR taskOwner = :taskOwner OR startDate = :startDate OR dueDate = :dueDate)")
+     @Query(value = "select * from task_tab where task_owner=:emailId AND (task_title='%:taskTitle%' OR task_priority=:taskPriority OR start_date>=:startDate OR due_date<=:dueDate)", nativeQuery = true)
+	//@Query("FROM Task WHERE emailId = :emailId AND ((:taskTitle IS NULL OR taskTitle LIKE %:taskTitle%) AND (:taskPriority IS NULL OR taskPriority = :taskPriority) AND (:startDate IS NULL OR startDate >= :startDate) AND (:dueDate IS NULL OR dueDate <= :dueDate))")
 	List<Task> findFilteredAssignedTasks(String taskTitle, String taskPriority, LocalDateTime startDate, LocalDateTime dueDate, String emailId);
 	
 	@Query("SELECT TO_CHAR(t.startDate, 'MM'), COUNT(*) " +
 	        "FROM Task t " +
 	        "WHERE t.startDate BETWEEN :startTime AND :endTime " +
-	        "AND t.emailId = :email " +  
+	        "AND t.taskOwner = :email " +  
 	        "GROUP BY TO_CHAR(t.startDate, 'MM')")
 	List<Object[]> findTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
 	
@@ -66,7 +66,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	        "SUM(CASE WHEN t.status = 'Completed' THEN 1 ELSE 0 END) " +
 	        "FROM Task t " +
 	        "WHERE t.startDate BETWEEN :startTime AND :endTime " +
-	        "AND t.emailId = :email " +  
+	        "AND t.taskOwner = :email " +  
 	        "GROUP BY TO_CHAR(t.startDate, 'MM')")
 	List<Object[]> findCompletedTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
 
@@ -74,7 +74,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	        "SUM(CASE WHEN t.status = 'Inprogress' THEN 1 ELSE 0 END) " +
 	        "FROM Task t " +
 	        "WHERE t.startDate BETWEEN :startTime AND :endTime " +
-	        "AND t.emailId = :email " +  
+	        "AND t.taskOwner = :email " +  
 	        "GROUP BY TO_CHAR(t.startDate, 'MM')")
 	List<Object[]> findInProgressTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
 	

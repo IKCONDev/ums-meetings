@@ -255,12 +255,12 @@ public class ActionItemController {
 		try {
 			if (actionItemTitle.isBlank() && actionItemOwner.isBlank() && actionItemStartDate.isBlank()
 					&& actionItemEndDate.isBlank()) {
-				log.info("ActionItemController.FetchActionItemsByEmailId() is under execution...");
+				log.info("ActionItemController.FetchActionItemsByEmailId() is under execution without filters...");
 				List<ActionItem> actionItemList = actionItemService.getActionItemsByUserId(email);
 				log.info("ActionItemController.FetchActionItemsByEmailId() executed succesfully");
 				return new ResponseEntity<>(actionItemList, HttpStatus.OK);
 			} else {
-				log.info("ActionItemController.FetchActionItemsByEmailId() is under execution...");
+				log.info("ActionItemController.FetchActionItemsByEmailId() is under execution with filters...");
 				List<ActionItem> actionItemList = actionItemService.getFilteredActionItems(actionItemTitle,
 						actionItemOwner, actionItemStartDate, actionItemEndDate, email);
 				log.info("ActionItemController.FetchActionItemsByEmailId() executed succesfully");

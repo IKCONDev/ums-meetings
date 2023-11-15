@@ -2,6 +2,10 @@ package com.ikn.ums.meeting.service.impl;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -331,10 +335,18 @@ public class TaskServiceImpl implements  TaskService{
 			System.out.println("filtered email is:"+emailArrayList[i]);
 			
 		}
+		// Assuming you have a LocalDateTime object in UTC
+        LocalDateTime utcDateTime = LocalDateTime.parse(meeting.getStartDateTime().toString());
+        System.out.println(utcDateTime);
+        // Convert UTC LocalDateTime to ZonedDateTime with system's default time zone
+        ZonedDateTime systemZonedDateTime = utcDateTime.atZone(ZoneId.ofOffset("UTC",ZoneOffset.ofHoursMinutes(5, 30)));
+        // Get the equivalent LocalDateTime in the system's time zone
+        OffsetDateTime meetingLocalStartDateTime = systemZonedDateTime.toOffsetDateTime();
+		//System.out.println(meetingLocalStartDateTime);
 		String subject = meeting.getSubject()+"/"+"MOM";
 		actionItemBuilder.append("<h4>").append("Title - "+meeting.getSubject()).append("</h4>");
 		actionItemBuilder.append("<h4>").append("Organizer - "+meeting.getOrganizerName()).append("</h4>");
-		actionItemBuilder.append("<h4>").append("Date & Time - "+meeting.getStartDateTime()).append("</h4>");
+		actionItemBuilder.append("<h4>").append("Date & Time - "+meetingLocalStartDateTime).append("</h4>");
 		actionItemBuilder.append("<h4>").append("Attendees -"+attendeeListBuilder).append("</h4>");
 		actionItemBuilder.append("<h4>").append("DiscussionPoints -").append("</h4>");
 		actionItemBuilder.append(discussionPoints);
@@ -528,8 +540,14 @@ public class TaskServiceImpl implements  TaskService{
 			if(dueDate != null && !dueDate.equals("") && !dueDate.equals("null")) {
 				orgDueDateTime = LocalDateTime.parse(dueDate);
 			}
-			if(taskTitle.equals("null") || taskTitle == null || taskTitle == "" || taskTitle.isBlank() ) {
-				taskTitle = "";
+			if(taskTitle.equals("null") || taskTitle == null || taskTitle.isBlank()){
+				taskTitle = null;
+			}
+			if(taskOwner.equals("null") || taskOwner == null || taskOwner.isBlank()) {
+				taskOwner = null;
+			}
+			if(taskPriority.equals("null") || taskPriority == null || taskPriority.isBlank()) {
+				taskPriority = null;
 			}
 			System.out.println(taskTitle+"+++++++++++");
 			return taskRepository.findFilteredTasks(taskTitle, taskPriority, taskOwner, orgStartDateTime, orgDueDateTime, emailId);
@@ -602,10 +620,12 @@ public class TaskServiceImpl implements  TaskService{
 			if(dueDate != null && !dueDate.equals("") && !dueDate.equals("null")) {
 				orgDueDateTime = LocalDateTime.parse(dueDate);
 			}
-			if(taskTitle.equals("null") || taskTitle == null || taskTitle == "" || taskTitle.isBlank() ) {
-				taskTitle = "";
+			if(taskTitle.equals("null") || taskTitle == null || taskTitle.isBlank() ) {
+				taskTitle = null;
 			}
-			System.out.println(taskTitle+"+++++++++++");
+			if(taskPriority.equals("null") || taskPriority == null || taskPriority.isBlank()) {
+				taskPriority = null;
+			}
 			return taskRepository.findFilteredAssignedTasks(taskTitle, taskPriority, orgStartDateTime, orgDueDateTime, emailId);
 		}
 
