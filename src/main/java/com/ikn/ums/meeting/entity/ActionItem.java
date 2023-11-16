@@ -1,5 +1,6 @@
 package com.ikn.ums.meeting.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -54,10 +55,10 @@ public class ActionItem {
 	private String actionStatus = "Not Submitted";
 	
 	@Column(name="startDate",nullable = true)
-	private LocalDateTime startDate;
+	private LocalDate startDate;
 	
 	@Column(name="endDate",nullable = true)
-	private LocalDateTime endDate;
+	private LocalDate endDate;
 	
 	@Column(name = "createdDateTime")
 	private LocalDateTime createdDateTime;

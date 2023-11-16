@@ -1,5 +1,6 @@
 package com.ikn.ums.meeting.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -34,10 +35,16 @@ public class Task {
 	private String taskPriority;
 	
 	@Column(name="startDate", nullable = false)
-	private LocalDateTime startDate;
+	private LocalDate startDate;
 	
 	@Column(name="dueDate", nullable = true)
-	private LocalDateTime dueDate;
+	private LocalDate dueDate;
+	
+	@Column(name = "plannedStartDate")
+	private LocalDate plannedStartDate;
+	
+	@Column(name = "plannedEndDate")
+	private LocalDate plannedEndDate;
 	
 	@Column(name="taskOwner", nullable = false)
 	private String taskOwner;

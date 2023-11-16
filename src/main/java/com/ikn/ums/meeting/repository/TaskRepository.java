@@ -51,7 +51,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	//@Query("FROM Task WHERE emailId = :emailId AND ((:taskTitle IS NULL OR taskTitle LIKE %:taskTitle%) AND (:taskPriority IS NULL OR taskPriority = :taskPriority) AND (:taskOwner IS NULL OR taskOwner = :taskOwner) AND (:startDate IS NULL OR startDate >= :startDate) AND (:dueDate IS NULL OR dueDate <= :dueDate))")
 	List<Task> findFilteredTasks(String taskTitle, String taskPriority, String taskOwner, LocalDateTime startDate, LocalDateTime dueDate, String emailId);
 	
-     @Query(value = "select * from task_tab where task_owner=:emailId AND (task_title='%:taskTitle%' OR task_priority=:taskPriority OR start_date>=:startDate OR due_date<=:dueDate)", nativeQuery = true)
+     @Query(value = "select * from task_tab where task_owner=:emailId AND (task_title LIKE '%:taskTitle%' OR task_priority=:taskPriority OR start_date>=:startDate OR due_date<=:dueDate)", nativeQuery = true)
 	//@Query("FROM Task WHERE emailId = :emailId AND ((:taskTitle IS NULL OR taskTitle LIKE %:taskTitle%) AND (:taskPriority IS NULL OR taskPriority = :taskPriority) AND (:startDate IS NULL OR startDate >= :startDate) AND (:dueDate IS NULL OR dueDate <= :dueDate))")
 	List<Task> findFilteredAssignedTasks(String taskTitle, String taskPriority, LocalDateTime startDate, LocalDateTime dueDate, String emailId);
 	
