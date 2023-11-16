@@ -1,5 +1,6 @@
 package com.ikn.ums.meeting.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -370,8 +371,8 @@ public class TaskController {
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
 	@GetMapping("/weekTaskCount")
-	public ResponseEntity<?> getWeekTasks(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
-			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate,String emailId){
+	public ResponseEntity<?> getWeekTasks(@RequestParam("startdate") LocalDate startDate ,
+			@RequestParam("endDate") LocalDate endDate,String emailId){
 		
 		Long[] assignedTask=taskService.getTaskCountsByDayOfWeek(startDate, endDate,emailId);
 		List<Long> inprogressTask=taskService.findInProgressTaskCountsByDayOfWeek(startDate, endDate,emailId);
@@ -383,8 +384,8 @@ public class TaskController {
 		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
 	@GetMapping("/TaskCountForYear")
-	public ResponseEntity<?> getTaskCountForYear(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
-			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate,String emailId){
+	public ResponseEntity<?> getTaskCountForYear(@RequestParam("startdate") LocalDate startDate ,
+			@RequestParam("endDate") LocalDate endDate,String emailId){
 		List<Long> assignedTaskForYear=taskService.findTaskCountsByMonth(startDate, endDate, emailId);
 		List<Long> inprogressTaskForYear= taskService.findInprogressTaskCountsByMonth(startDate, endDate, emailId);
 		List<Long> completedTaskCountForYear= taskService.findCompletedTaskCountsByMonth(startDate, endDate, emailId);

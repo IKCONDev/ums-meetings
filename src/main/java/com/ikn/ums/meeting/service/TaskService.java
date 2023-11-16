@@ -1,6 +1,7 @@
 package com.ikn.ums.meeting.service;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -26,16 +27,16 @@ public interface TaskService {
 	void sendMinutesofMeetingEmail(List<String> emailList,List<ActionItem> actionItemList, Long meetingId, String discussionPoints);
 	Long getOrganizedTasksCountOfUser(String emailId);
 	Long getUserAssignedTasksCountOfUser(String emailId);
-	Long[] getTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime, String emailId);
-	List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime, String emailId);
-	List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime, String emailId);
+	Long[] getTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId);
+	List<Long> getCompletedTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId);
+	List<Long> findInProgressTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId);
 	List<Task> getFilteredTasks(String taskTitle, String taskPriority, String taskOwner, 
 			String startDate, String dueDate, String emailId );
 	List<Task> getFilteredAssignedTasks(String taskTitle, String taskPriority, 
 			String startDate, String dueDate, String emailId);
-	 List<Long> findTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
-	 List<Long> findInprogressTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
-	 List<Long> findCompletedTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email);
+	 List<Long> findTaskCountsByMonth(LocalDate startDate, LocalDate endDate, String email);
+	 List<Long> findInprogressTaskCountsByMonth(LocalDate startDate, LocalDate endDate, String email);
+	 List<Long> findCompletedTaskCountsByMonth(LocalDate startDate, LocalDate endDate, String email);
 	 
 	 //reporting methods
 	 List<Task> getTasksByDepartment(Long departmentId);
