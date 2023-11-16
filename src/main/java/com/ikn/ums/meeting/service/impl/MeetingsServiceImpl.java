@@ -252,11 +252,15 @@ public class MeetingsServiceImpl implements MeetingService {
         }
 		  for (Object[] result : MeetingCountsByDay) {
 	            String dayOfWeek = (String) result[0];
+	            System.out.println(dayOfWeek+"day of week");
 	            Long completedCount = (Long) result[1];
-	            int dayIndex = Integer.parseInt(dayOfWeek) - 1;
+	            System.out.println(completedCount+"completedCount before setting oin list");
+	            int dayIndex = (Integer.parseInt(dayOfWeek)) - 1;
+	            System.out.println(dayIndex+"dayIndex");
 	            attendedMeetingCounts.set(dayIndex, completedCount);
-	           /* System.out.println(dayOfWeek);
-	            System.out.println(completedCount);*/
+	           
+	            System.out.println(completedCount+"completed count");
+	            System.out.println(attendedMeetingCounts+"attended meeting count list");
 	        }
 	 
 		log.info(MeetingCountsByDay.toString());
@@ -266,22 +270,22 @@ public class MeetingsServiceImpl implements MeetingService {
 	@Override
 	public List<Long> countOrganisedMeetingOccurrence(LocalDateTime startDate, LocalDateTime endDate, String email) {
 		// TODO Auto-generated method stub
-		List<Object[]> MeetingCountsByDay = meetingRepository.findCompletedMeetingCountsByDayOfWeek(startDate,endDate ,email);
+		List<Object[]> MeetingCountsByDay1 = meetingRepository.findCompletedMeetingCountsByDayOfWeek(startDate,endDate ,email);
 		List<Long> OrganisedMeetingCounts = new ArrayList<>();
 		for (int i = 0; i < 7; i++) {
 			OrganisedMeetingCounts.add(0L);
           
         }
-		  for (Object[] result : MeetingCountsByDay) {
-	            String dayOfWeek = (String) result[0];
-	            Long completedCount = (Long) result[1];
-	            int dayIndex = Integer.parseInt(dayOfWeek) - 1;
-	            OrganisedMeetingCounts.set(dayIndex, completedCount);
-	           /* System.out.println(dayOfWeek);
-	            System.out.println(completedCount);*/
-	        }
-	 
-		log.info(MeetingCountsByDay.toString());
+		System.out.println(OrganisedMeetingCounts+"before for loop");
+	   for (Object[] result : MeetingCountsByDay1) {
+	            String dayOfWeek1 = (String) result[0];
+	            Long completedCount1 = (Long) result[1];
+	            int dayIndex = Integer.parseInt(dayOfWeek1) - 1;
+	            OrganisedMeetingCounts.set(dayIndex, completedCount1);
+	            System.out.println(dayOfWeek1);
+	           
+	    }
+		log.info(MeetingCountsByDay1.toString()+"++++++");
 		return OrganisedMeetingCounts;
 	}
 	
@@ -313,9 +317,12 @@ public class MeetingsServiceImpl implements MeetingService {
         }
 		for (Object[] result : MeetingCountsByMonth) {
 			String monthOfYear = (String) result[0];
+			System.out.println(monthOfYear+"month of year");
 	        Long attendedMeetings = (Long) result[1]; // Use result[1] for attended meetings count
+	        System.out.println(attendedMeetings+"attendedMeetings");
 	        int monthIndex = Integer.parseInt(monthOfYear) - 1;
             AttendedMeetingCountsForYear.set(monthIndex, attendedMeetings);
+            System.out.println(AttendedMeetingCountsForYear+"++++");
            /* System.out.println(dayOfWeek);
             System.out.println(completedCount);*/
         }
