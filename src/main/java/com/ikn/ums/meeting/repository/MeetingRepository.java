@@ -25,14 +25,16 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 	List<Meeting> findAllAttendedMeetingsByUserId(String emailId);
 	
 	@Query("SELECT TO_CHAR(m.startDateTime, 'D'), " +
-	           "SUM(CASE WHEN m.emailId=:email THEN 1 ELSE 0 END) " +
-	           "FROM Meeting m " +
-	           "INNER JOIN m.attendees a " +
-	           "WHERE m.startDateTime BETWEEN :startDate AND :endDate " +
-	           "AND a.emailId = :email " +
-	           "GROUP BY TO_CHAR(m.startDateTime, 'D')")
-	    List<Object[]> findAttendedMeetingCountsByDayOfWeek(LocalDateTime startDate,LocalDateTime endDate,String email
-	    );
+		       "SUM(CASE WHEN a.emailId = :email THEN 1 ELSE 0 END) " +
+		       "FROM Meeting m " +
+		       "INNER JOIN m.attendees a " +
+		       "WHERE m.startDateTime BETWEEN :startDate AND :endDate " +
+		       "AND a.emailId = :email " +
+		       "GROUP BY TO_CHAR(m.startDateTime, 'D')")
+		List<Object[]> findAttendedMeetingCountsByDayOfWeek(
+		    LocalDateTime startDate, LocalDateTime endDate, String email
+		);
+
 	    
 	    @Query("SELECT TO_CHAR(m.startDateTime, 'D'), "
 	    	       + "SUM(CASE WHEN m.emailId = :email THEN 1 ELSE 0 END) "
@@ -41,15 +43,18 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 	    	       + "AND m.organizerEmailId = :email "
 	    	       + "GROUP BY TO_CHAR(m.startDateTime, 'D')")
 	 List<Object[]> findCompletedMeetingCountsByDayOfWeek(LocalDateTime startDate,LocalDateTime endDate,String email);
-	 
+	
 	 @Query("SELECT TO_CHAR(m.startDateTime, 'MM'), " +
-		        "SUM(CASE WHEN m.emailId = :email THEN 1 ELSE 0 END) " +
-		        "FROM Meeting m " +
-		        "WHERE m.startDateTime BETWEEN :startDate AND :endDate " +
-		        "AND m.emailId = :email " +
-		        "GROUP BY TO_CHAR(m.startDateTime, 'MM')")
-		List<Object[]> findAttendedMeetingCountsByMonth(LocalDateTime startDate, LocalDateTime endDate, String email);
-		
+		       "SUM(CASE WHEN a.emailId = :email THEN 1 ELSE 0 END) " +
+		       "FROM Meeting m " +
+		       "INNER JOIN m.attendees a " +
+		       "WHERE m.startDateTime BETWEEN :startDate AND :endDate " +
+		       "AND a.emailId = :email " +
+		       "GROUP BY TO_CHAR(m.startDateTime, 'MM')")
+		List<Object[]> findAttendedMeetingCountsByMonth(
+		    LocalDateTime startDate, LocalDateTime endDate, String email
+		);
+
 		@Query("SELECT TO_CHAR(m.startDateTime, 'MM'), " +
 		        "SUM(CASE WHEN m.emailId = :email THEN 1 ELSE 0 END) " +
 		        "FROM Meeting m " +
