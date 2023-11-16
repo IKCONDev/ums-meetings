@@ -323,18 +323,23 @@ public class TaskServiceImpl implements  TaskService{
 		StringBuilder actionItemBuilder = new StringBuilder();
 		StringBuilder attendeeListBuilder = new StringBuilder();
 		Set<Attendee> attendeeList =  meeting.getAttendees();
+		List<String> attendeeEmailList = new ArrayList<>();
 		attendeeList.forEach(attendee->{
 			String singleAttendee = attendee.getEmailId();
-
+            attendeeEmailList.add(singleAttendee);
 			attendeeListBuilder.append(singleAttendee+"\r\n");
 		});
 		
 		String[] emailArrayList = new String[emailList.size()];
 		for(int i=0; i<emailList.size(); i++) {
-			emailArrayList[i] = emailList.get(i);
-			System.out.println("filtered email is:"+emailArrayList[i]);
-			
+			if(emailList.get(i)!=null) {
+				emailArrayList[i] = emailList.get(i);
+				System.out.println("filtered email is:"+emailArrayList[i]);
+			}
 		}
+		System.out.println("execution success");
+		List<String> mergedEmailList = new ArrayList<>(emailList); 
+		mergedEmailList.addAll(attendeeEmailList);
 		// Assuming you have a LocalDateTime object in UTC
         LocalDateTime utcDateTime = LocalDateTime.parse(meeting.getStartDateTime().toString());
         System.out.println(utcDateTime);
@@ -349,7 +354,12 @@ public class TaskServiceImpl implements  TaskService{
 		actionItemBuilder.append("<h4>").append("Date & Time - "+meetingLocalStartDateTime).append("</h4>");
 		actionItemBuilder.append("<h4>").append("Attendees -"+attendeeListBuilder).append("</h4>");
 		actionItemBuilder.append("<h4>").append("DiscussionPoints -").append("</h4>");
-		actionItemBuilder.append(discussionPoints);
+		if(discussionPoints == null) {
+			actionItemBuilder.append("There are no Discussion points");
+		}
+		else {
+			actionItemBuilder.append(discussionPoints);
+		}
 		actionItemBuilder.append("<table border='1'>");
 		actionItemBuilder.append("<tr><th>Action Item</th><th>Action Owner</th></tr>");		
 		List<ActionItemModel> actionModelList = new ArrayList<>();
@@ -379,7 +389,8 @@ public class TaskServiceImpl implements  TaskService{
  	   }
  	   actionItemBuilder.append("<br/>");
  	   actionItemBuilder.append("</table>");
-	   emailService.sendMail(emailArrayList, subject, actionItemBuilder.toString(),true);	
+ 	   String[] convertedMergeList = mergedEmailList.toArray(new String[0]);
+	   emailService.sendMail(convertedMergeList, subject, actionItemBuilder.toString(),true);	
 	}
 	
 	private void sendEmailToTaskOwner(Task task, boolean isNew) {
