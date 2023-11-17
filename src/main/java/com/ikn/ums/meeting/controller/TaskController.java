@@ -444,7 +444,7 @@ public class TaskController {
 	@GetMapping("/aged/{dateTime}")
 	public ResponseEntity<?> getAgedTasksList(@PathVariable String dateTime){
 		log.info("getAgedTasksList() entered");
-		LocalDateTime currentDateTime = LocalDateTime.parse(dateTime);
+		LocalDate currentDateTime = LocalDate.parse(dateTime);
 		List<Task> taskList = taskService.getAgedTasks(currentDateTime);
 		System.out.println(taskList);
 		return new ResponseEntity<>(taskList, HttpStatus.OK);
