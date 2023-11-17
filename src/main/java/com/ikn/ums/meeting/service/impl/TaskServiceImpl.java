@@ -16,10 +16,15 @@ import java.util.Set;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
+import com.ikn.ums.meeting.VO.EmployeeVO;
 import com.ikn.ums.meeting.VO.Notification;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Attendee;
@@ -56,6 +61,9 @@ public class TaskServiceImpl implements  TaskService{
 	
 	@Autowired
 	private NotificationService notificationService;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 	
 	//@Autowired
 	//private DiscoveryClient discoveryClient;
@@ -330,9 +338,31 @@ public class TaskServiceImpl implements  TaskService{
 		attendeeList.forEach(attendee->{
 			String singleAttendee = attendee.getEmailId();
             attendeeEmailList.add(singleAttendee);
-			attendeeListBuilder.append(singleAttendee+"\r\n");
+			attendeeListBuilder.append(singleAttendee+",");
 		});
-		
+		String emails = attendeeListBuilder.toString();
+
+		// Checking if the string contains a comma
+		if (emails.contains(",")) {
+		    int lastIndex = emails.lastIndexOf(","); // Find the index of the last comma
+		    if (lastIndex != -1) { // Check if the comma is found
+		        emails = emails.substring(0, lastIndex) + emails.substring(lastIndex + 1); // Remove the last comma
+		    }
+		}
+
+		System.out.println("Modified string: " + emails);
+		String url = "http://UMS-EMPLOYEE-SERVICE/employees/attendees/" + emails;
+
+		// Make the request using exchange method to retrieve a List<EmployeeVO>
+		ResponseEntity<List<EmployeeVO>> responseEntity = restTemplate.exchange(
+		    url,
+		    HttpMethod.GET,
+		    null,
+		    new ParameterizedTypeReference<List<EmployeeVO>>() {}
+		);
+
+		List<EmployeeVO> employeeVOList = responseEntity.getBody();
+		System.out.println(employeeVOList);
 		String[] emailArrayList = new String[emailList.size()];
 		for(int i=0; i<emailList.size(); i++) {
 			if(emailList.get(i)!=null) {
@@ -355,7 +385,11 @@ public class TaskServiceImpl implements  TaskService{
 		actionItemBuilder.append("<h4>").append("Title - "+meeting.getSubject()).append("</h4>");
 		actionItemBuilder.append("<h4>").append("Organizer - "+meeting.getOrganizerName()).append("</h4>");
 		actionItemBuilder.append("<h4>").append("Date & Time - "+meetingLocalStartDateTime).append("</h4>");
-		actionItemBuilder.append("<h4>").append("Attendees -"+attendeeListBuilder).append("</h4>");
+		StringBuilder attendeesName = new StringBuilder();
+		employeeVOList.forEach(employee ->{
+			attendeesName.append(employee.getFirstName()+" "+employee.getLastName()+",");
+		});
+		actionItemBuilder.append("<h4>").append("Attendees - "+attendeesName).append("</h4>");
 		actionItemBuilder.append("<h4>").append("DiscussionPoints -").append("</h4>");
 		if(discussionPoints == null) {
 			actionItemBuilder.append("There are no Discussion points");
