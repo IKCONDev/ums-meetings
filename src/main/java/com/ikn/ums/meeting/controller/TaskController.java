@@ -2,6 +2,7 @@ package com.ikn.ums.meeting.controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -371,13 +372,15 @@ public class TaskController {
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
 	@GetMapping("/weekTaskCount")
-	public ResponseEntity<?> getWeekTasks(@RequestParam("startdate") LocalDate startDate ,
-			@RequestParam("endDate") LocalDate endDate,String emailId){
+	public ResponseEntity<?> getWeekTasks(@RequestParam("startdate") String startDate ,
+			@RequestParam("endDate") String endDate,String emailId){
+		LocalDate startdate = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
+        LocalDate enddate = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
 		
-		List<Long> assignedTask=taskService.getTaskCountsByDayOfWeek(startDate, endDate,emailId);
-		List<Long> yetToStartTask=taskService.getYetToStartTaskCountsByDayOfWeek(startDate, endDate,emailId);
-		List<Long> inprogressTask=taskService.findInProgressTaskCountsByDayOfWeek(startDate, endDate,emailId);
-		List<Long> completedTask=taskService.getCompletedTaskCountsByDayOfWeek(startDate, endDate,emailId);
+		List<Long> assignedTask=taskService.getTaskCountsByDayOfWeek(startdate, enddate,emailId);
+		List<Long> yetToStartTask=taskService.getYetToStartTaskCountsByDayOfWeek(startdate, enddate,emailId);
+		List<Long> inprogressTask=taskService.findInProgressTaskCountsByDayOfWeek(startdate, enddate,emailId);
+		List<Long> completedTask=taskService.getCompletedTaskCountsByDayOfWeek(startdate, enddate,emailId);
 		List<Object> obj = new LinkedList<>();
 		obj.add(assignedTask);
 		obj.add(yetToStartTask);
@@ -386,12 +389,15 @@ public class TaskController {
 		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
 	@GetMapping("/TaskCountForYear")
-	public ResponseEntity<?> getTaskCountForYear(@RequestParam("startdate") LocalDate startDate ,
-			@RequestParam("endDate") LocalDate endDate,String emailId){
-		List<Long> assignedTaskForYear=taskService.findTaskCountsByMonth(startDate, endDate, emailId);
-		List<Long> YetToSartTaskForYear= taskService.findYetToStartTaskCountsByMonth(startDate, endDate, emailId);
-		List<Long> inprogressTaskForYear= taskService.findInprogressTaskCountsByMonth(startDate, endDate, emailId);
-		List<Long> completedTaskCountForYear= taskService.findCompletedTaskCountsByMonth(startDate, endDate, emailId);
+	public ResponseEntity<?> getTaskCountForYear(@RequestParam("startdate") String startDate ,
+			@RequestParam("endDate") String endDate,@RequestParam String emailId){
+		LocalDate startdate = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
+        LocalDate enddate = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
+		
+		List<Long> assignedTaskForYear=taskService.findTaskCountsByMonth(startdate, enddate, emailId);
+		List<Long> YetToSartTaskForYear= taskService.findYetToStartTaskCountsByMonth(startdate, enddate, emailId);
+		List<Long> inprogressTaskForYear= taskService.findInprogressTaskCountsByMonth(startdate, enddate, emailId);
+		List<Long> completedTaskCountForYear= taskService.findCompletedTaskCountsByMonth(startdate, enddate, emailId);
 		
 		List<Object> totalTaskStatusForYear= new LinkedList<>();
 		totalTaskStatusForYear.add(assignedTaskForYear);
