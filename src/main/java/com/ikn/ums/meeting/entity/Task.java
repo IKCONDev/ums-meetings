@@ -34,7 +34,7 @@ public class Task {
 	@Column(name="taskPriority", nullable = false)
 	private String taskPriority;
 	
-	@Column(name="startDate", nullable = false)
+	@Column(name="startDate", nullable = true)
 	private LocalDate startDate;
 	
 	@Column(name="dueDate", nullable = true)

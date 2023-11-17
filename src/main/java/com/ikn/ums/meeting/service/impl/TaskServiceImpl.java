@@ -1,6 +1,7 @@
 package com.ikn.ums.meeting.service.impl;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -118,6 +119,8 @@ public class TaskServiceImpl implements  TaskService{
 	    updatetask.setActionItemId(task.getActionItemId());
 	    updatetask.setTaskOwner(task.getTaskOwner());
 	    updatetask.setStatus(task.getStatus());
+	    updatetask.setPlannedStartDate(task.getPlannedStartDate());
+	    updatetask.setPlannedEndDate(task.getPlannedEndDate());
 	    Task modifiedtask = taskRepository.save(updatetask);
 	    
 	  //send notification to task owner
@@ -449,7 +452,7 @@ public class TaskServiceImpl implements  TaskService{
 	}
 	
 	@Override
-	 public Long[] getTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime,String email) {
+	 public Long[] getTaskCountsByDayOfWeek(LocalDate startTime, LocalDate endTime,String email) {
        List<Object[]> taskCountsByDay = taskRepository.findTaskCountsByDayOfWeek(startTime, endTime,email);
  
         // Create an array to store counts for each day, initialized with zeros
@@ -497,7 +500,7 @@ public class TaskServiceImpl implements  TaskService{
         }
     }
 	 @Override
-	    public List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime, String email) {
+	    public List<Long> getCompletedTaskCountsByDayOfWeek(LocalDate startTime, LocalDate endTime, String email) {
 	        List<Object[]> taskCountsByDay = taskRepository.findCompletedTaskCountsByDayOfWeek(startTime, endTime ,email);
 	 
 	        // Initialize an array to store completed task counts for each day
@@ -519,7 +522,7 @@ public class TaskServiceImpl implements  TaskService{
 	    }
 	 
 	    @Override
-	    public List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime,String email) {
+	    public List<Long> findInProgressTaskCountsByDayOfWeek(LocalDate startTime, LocalDate endTime,String email) {
 	        List<Object[]> taskCountsByDay = taskRepository.findInProgressTaskCountsByDayOfWeek(startTime, endTime ,email);
 	 
 	        // Initialize an array to store in-progress task counts for each day
@@ -565,7 +568,7 @@ public class TaskServiceImpl implements  TaskService{
 		}
 			
 		@Override
-		 public List<Long> findTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email) {
+		 public List<Long> findTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email) {
 		        List<Object[]> taskCountsByMonth = taskRepository.findTaskCountsByMonth(startTime, endTime, email);
 		        List<Long> monthlyTaskCounts = new ArrayList<>();
 		        for (int i = 0; i < 12; i++) {
@@ -583,7 +586,7 @@ public class TaskServiceImpl implements  TaskService{
 		        return monthlyTaskCounts;
 }
 		@Override
-		 public List<Long> findInprogressTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email) {
+		 public List<Long> findInprogressTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email) {
 		        List<Object[]> inprogressTaskCountsByMonth = taskRepository.findInProgressTaskCountsByMonth(startTime, endTime, email);
 		        List<Long> monthlyInprogressTaskCounts = new ArrayList<>();
 		        for (int i = 0; i < 12; i++) {
@@ -601,7 +604,7 @@ public class TaskServiceImpl implements  TaskService{
 		        return monthlyInprogressTaskCounts;
 }
 		@Override
-		 public List<Long> findCompletedTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email) {
+		 public List<Long> findCompletedTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email) {
 		        List<Object[]> completedTaskCountsByMonth = taskRepository.findCompletedTaskCountsByMonth(startTime, endTime, email);
 		        List<Long> completedMonthlyTaskCounts = new ArrayList<>();
 		        for (int i = 0; i < 12; i++) {
