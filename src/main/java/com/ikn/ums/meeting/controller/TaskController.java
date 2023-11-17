@@ -389,12 +389,15 @@ public class TaskController {
 		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
 	@GetMapping("/TaskCountForYear")
-	public ResponseEntity<?> getTaskCountForYear(@RequestParam("startdate") LocalDate startDate ,
-			@RequestParam("endDate") LocalDate endDate,@RequestParam String emailId){
-		List<Long> assignedTaskForYear=taskService.findTaskCountsByMonth(startDate, endDate, emailId);
-		List<Long> YetToSartTaskForYear= taskService.findYetToStartTaskCountsByMonth(startDate, endDate, emailId);
-		List<Long> inprogressTaskForYear= taskService.findInprogressTaskCountsByMonth(startDate, endDate, emailId);
-		List<Long> completedTaskCountForYear= taskService.findCompletedTaskCountsByMonth(startDate, endDate, emailId);
+	public ResponseEntity<?> getTaskCountForYear(@RequestParam("startdate") String startDate ,
+			@RequestParam("endDate") String endDate,@RequestParam String emailId){
+		LocalDate startdate = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
+        LocalDate enddate = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
+		
+		List<Long> assignedTaskForYear=taskService.findTaskCountsByMonth(startdate, enddate, emailId);
+		List<Long> YetToSartTaskForYear= taskService.findYetToStartTaskCountsByMonth(startdate, enddate, emailId);
+		List<Long> inprogressTaskForYear= taskService.findInprogressTaskCountsByMonth(startdate, enddate, emailId);
+		List<Long> completedTaskCountForYear= taskService.findCompletedTaskCountsByMonth(startdate, enddate, emailId);
 		
 		List<Object> totalTaskStatusForYear= new LinkedList<>();
 		totalTaskStatusForYear.add(assignedTaskForYear);
