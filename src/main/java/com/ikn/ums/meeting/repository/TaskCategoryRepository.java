@@ -16,7 +16,7 @@ public interface TaskCategoryRepository extends JpaRepository<TaskCategory, Long
 	//TODO : Check This
 	 Optional<TaskCategory> findByTaskCategoryTitle(String taskCategoryTitle);
 	 
-	 @Query ("FROM Role WHERE taskCategoryStatus=:taskCategoryStatus")
+	 @Query ("FROM TaskCategory WHERE taskCategoryStatus=:taskCategoryStatus")
 	 List<TaskCategory> findAllTaskCategories(String taskCategoryStatus);
 	 
 }
