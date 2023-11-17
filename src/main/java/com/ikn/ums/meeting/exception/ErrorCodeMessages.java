@@ -85,4 +85,38 @@ public class ErrorCodeMessages {
 	 
 	 public static final String ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE = "ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE-1028";
 	 public static final String ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG = "Department Id is empty or null";
-}
+	 
+	 //Task Category Error Codes
+	 public static final String ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE = "TASK_CATEGORY-ENTITY-IS-NULL-1029";
+	 public static final String ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG = "Task Category Entity is Null."; 
+	 
+	 public static final String ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE = "TASK_CATEGORY_IS_EMPTY-1030";
+	 public static final String ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG = "Requested Task Category Id is not present."; 
+
+	 public static final String ERR_TASK_CATEGORY_ID_ALREADY_EXISTS_CODE = "TASK_CATEGORY-ID-ALREADY-EXISTS-1031";
+	 public static final String ERR_TASK_CATEGORY_ID_ALREADY_EXISTS_MSG = "Task Category Id Already Exists."; 
+
+	 public static final String ERR_TASK_CATEGORY_NAME_IS_NULL_CODE = "TASK_CATEGORY_NAME_IS_NULL-1032";
+	 public static final String ERR_TASK_CATEGORY_NAME_IS_NULL_MSG = "Task Category Name Is Null."; 
+	 
+	 public static final String TASK_CATEGORY_SAVE_SUCCESS_CODE = "TASK_CATEGORY_SAVE_SUCCESS-1033";
+	 public static final String TASK_CATEGORY_SAVE_SUCCESS_MSG = "Task Category Save Sucessfull."; 	 
+	 
+	 public static final String ERR_TASK_CATEGORY_LIST_IS_EMPTY_CODE = "TASK_CATEGORY_LIST_IS_EMPTY-1034";
+	 public static final String ERR_TASK_CATEGORY_LIST_IS_EMPTY_MSG = "Task Category List Is Empty."; 	 
+
+	 public static final String ERR_TASK_CATEGORY_SAVE_UNSUCCESS_CODE = "TASK_CATEGORY_SAVE_UNSUCCESS-1035";
+	 public static final String ERR_TASK_CATEGORY_SAVE_UNSUCCESS_MSG = "Error Occured While Task Category."; 	 
+
+	 public static final String ERR_TASK_CATEGORY_UPDATE_UNSUCCESS_CODE = "TASK_CATEGORY_UPDATE_UNSUCCESS-1036";
+	 public static final String ERR_TASK_CATEGORY_UPDATE_UNSUCCESS_MSG = "Error Occured While Updating Task Category."; 	
+
+	 public static final String ERR_TASK_CATEGORY_DELETE_UNSUCCESS_CODE = "TASK_CATEGORY_DELETE_UNSUCCESS-1037";
+	 public static final String ERR_TASK_CATEGORY_DELETE_UNSUCCESS_MSG = "Error Occured While Deleting Task Category."; 	
+	 
+	 public static final String ERR_TASK_CATEGORY_TITLE_EXISTS_EXCEPTION_CODE = "TASK_CATEGORY_TITLE_ALREADY_EXISTS-1038";
+	 public static final String ERR_TASK_CATEGORY_TITLE_EXISTS_EXCEPTION_MSG = "Task Category Title Already Exists !"; 	
+	 
+
+
+	}

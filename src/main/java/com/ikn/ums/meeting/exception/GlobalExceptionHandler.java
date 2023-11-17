@@ -101,5 +101,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED" + ex.getMessage());
 		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.NOT_FOUND);
 	}
+	
+	/**
+	 * TaskCatagoryTitleExistsException handles the exception when the Role Name is exists
+	 * @param taskCatagoryTitleExistsException
+	 * @return
+	 */
+	@ExceptionHandler(TaskCatagoryTitleExistsException.class)
+	public ResponseEntity<String> handleTaskCatagoryTitleExistsException(TaskCatagoryTitleExistsException taskCatagoryTitleExistsException) {
+		log.info("GlobalExceptionHandler.handleTaskCatagoryTitleExistsException() ENTERED" + taskCatagoryTitleExistsException.getMessage());
+		return new ResponseEntity<String>("Role Name Already Exists.", HttpStatus.FOUND);
+	}
 
 }
