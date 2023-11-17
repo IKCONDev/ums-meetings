@@ -374,11 +374,13 @@ public class TaskController {
 	public ResponseEntity<?> getWeekTasks(@RequestParam("startdate") LocalDate startDate ,
 			@RequestParam("endDate") LocalDate endDate,String emailId){
 		
-		Long[] assignedTask=taskService.getTaskCountsByDayOfWeek(startDate, endDate,emailId);
+		List<Long> assignedTask=taskService.getTaskCountsByDayOfWeek(startDate, endDate,emailId);
+		List<Long> yetToStartTask=taskService.getYetToStartTaskCountsByDayOfWeek(startDate, endDate,emailId);
 		List<Long> inprogressTask=taskService.findInProgressTaskCountsByDayOfWeek(startDate, endDate,emailId);
 		List<Long> completedTask=taskService.getCompletedTaskCountsByDayOfWeek(startDate, endDate,emailId);
 		List<Object> obj = new LinkedList<>();
 		obj.add(assignedTask);
+		obj.add(yetToStartTask);
 		obj.add(inprogressTask);
 		obj.add(completedTask);
 		return new ResponseEntity<>(obj,HttpStatus.OK);
@@ -387,14 +389,15 @@ public class TaskController {
 	public ResponseEntity<?> getTaskCountForYear(@RequestParam("startdate") LocalDate startDate ,
 			@RequestParam("endDate") LocalDate endDate,String emailId){
 		List<Long> assignedTaskForYear=taskService.findTaskCountsByMonth(startDate, endDate, emailId);
+		List<Long> YetToSartTaskForYear= taskService.findYetToStartTaskCountsByMonth(startDate, endDate, emailId);
 		List<Long> inprogressTaskForYear= taskService.findInprogressTaskCountsByMonth(startDate, endDate, emailId);
 		List<Long> completedTaskCountForYear= taskService.findCompletedTaskCountsByMonth(startDate, endDate, emailId);
 		
 		List<Object> totalTaskStatusForYear= new LinkedList<>();
 		totalTaskStatusForYear.add(assignedTaskForYear);
+		totalTaskStatusForYear.add(YetToSartTaskForYear);
 		totalTaskStatusForYear.add(inprogressTaskForYear);
 		totalTaskStatusForYear.add(completedTaskCountForYear);
-		
 		return new ResponseEntity<>(totalTaskStatusForYear,HttpStatus.OK);
 		
 	}

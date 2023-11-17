@@ -452,53 +452,26 @@ public class TaskServiceImpl implements  TaskService{
 	}
 	
 	@Override
-	 public Long[] getTaskCountsByDayOfWeek(LocalDate startTime, LocalDate endTime,String email) {
+	 public List<Long> getTaskCountsByDayOfWeek(LocalDate startTime, LocalDate endTime,String email) {
        List<Object[]> taskCountsByDay = taskRepository.findTaskCountsByDayOfWeek(startTime, endTime,email);
  
         // Create an array to store counts for each day, initialized with zeros
-        Long[] countsArray = new Long[7];
+       List<Long> totalTaskCount = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            countsArray[i] = 0L;
+        	totalTaskCount.add(0L);
         }
  
         // Process the query result and populate the counts array
         for (Object[] result : taskCountsByDay) {
             String dayOfWeek = (String) result[0];
-            Long count = (Long) result[1];
- 
-            // Map the day name to its DayOfWeek enum value
-            DayOfWeek dayEnum = getDayOfWeekFromDayName(dayOfWeek);
- 
-            // Map the DayOfWeek to an array index
-            int index = dayEnum.getValue() - 1;
- 
-            // Update the counts array with the count
-            countsArray[index] = count;
-        }
- 
-        return countsArray;
+            Long completedCount = (Long) result[1];
+            int dayIndex = Integer.parseInt(dayOfWeek) - 1;
+            totalTaskCount.set(dayIndex, completedCount);
+        }     
+       return totalTaskCount;
     }
-	private DayOfWeek getDayOfWeekFromDayName(String dayName) {
-        switch (dayName) {
-            case "0":
-                return DayOfWeek.SUNDAY;
-            case "1":
-                return DayOfWeek.MONDAY;
-            case "2":
-                return DayOfWeek.TUESDAY;
-            case "3":
-                return DayOfWeek.WEDNESDAY;
-            case "4":
-                return DayOfWeek.THURSDAY;
-            case "5":
-                return DayOfWeek.FRIDAY;
-            case "6":
-                return DayOfWeek.SATURDAY;
-            default:
-                // Handle any unexpected values
-                return null;
-        }
-    }
+	
+    
 	 @Override
 	    public List<Long> getCompletedTaskCountsByDayOfWeek(LocalDate startTime, LocalDate endTime, String email) {
 	        List<Object[]> taskCountsByDay = taskRepository.findCompletedTaskCountsByDayOfWeek(startTime, endTime ,email);
@@ -700,5 +673,46 @@ public class TaskServiceImpl implements  TaskService{
 		        }
 
 		        return monthlyTaskCounts;
+		}
+
+		@Override
+		public List<Long> getYetToStartTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId) {
+			 List<Object[]> YetToStartTaskCountsByDay = taskRepository.findYetToStartTaskCountsByDayOfWeek(startDate, endDate ,emailId);
+
+		        // Initialize an array to store completed task counts for each day
+		        List<Long> YetToStartTaskCounts = new ArrayList<>();
+		 
+		        for (int i = 0; i < 7; i++) {
+		        	YetToStartTaskCounts.add(0L);
+		        }
+		 
+		        // Process the query result and populate the completed task counts array
+		        for (Object[] result : YetToStartTaskCountsByDay) {
+		            String dayOfWeek = (String) result[0];
+		            Long completedCount = (Long) result[1];
+		            int dayIndex = Integer.parseInt(dayOfWeek) - 1;
+		            YetToStartTaskCounts.set(dayIndex, completedCount);
+		        }
+		 
+		        return YetToStartTaskCounts;
+		}
+
+		@Override
+		public List<Long> findYetToStartTaskCountsByMonth(LocalDate startDate, LocalDate endDate, String emailId) {
+			List<Object[]> YetToStartTaskCountsByMonth = taskRepository.findYetToStartTaskCountsByMonth(startDate, endDate, emailId);
+	        List<Long> monthlyYetToSatrtTaskCounts = new ArrayList<>();
+	        for (int i = 0; i < 12; i++) {
+	        	monthlyYetToSatrtTaskCounts.add(0L);
+	        }
+	        for (Object[] result : YetToStartTaskCountsByMonth) {
+	            String month = (String) result[0];
+	            Long taskCount = (Long) result[1];
+
+	         
+	            int monthIndex = Integer.parseInt(month)-1;
+	            monthlyYetToSatrtTaskCounts.set(monthIndex, taskCount);
+	        }
+
+	        return monthlyYetToSatrtTaskCounts;
 		}
 }
