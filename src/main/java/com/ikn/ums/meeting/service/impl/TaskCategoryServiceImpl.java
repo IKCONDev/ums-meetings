@@ -1,6 +1,7 @@
 package com.ikn.ums.meeting.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ikn.ums.meeting.dto.TaskCategoryDTO;
+import com.ikn.ums.meeting.entity.TaskCategory;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.EntityNotFoundException;
@@ -44,7 +46,11 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 		log.info("TaskCategoryServiceImpl.createTaskCategory() is under execution...");
 		taskCategoryDTO.setCreatedDateTime(LocalDateTime.now());
 		taskCategoryDTO.setTaskCategoryStatus(MeetingConstants.STATUS_ACTIVE);
-		TaskCategoryDTO savedTaskCategoryDTO = taskCategoryRepository.save(taskCategoryDTO);
+		TaskCategory taskCategory = new TaskCategory();
+		mapper.map(taskCategoryDTO, taskCategory);
+		TaskCategory savedTaskCategory = taskCategoryRepository.save(taskCategory);
+		TaskCategoryDTO savedTaskCategoryDTO = new TaskCategoryDTO();
+		mapper.map(savedTaskCategory, savedTaskCategory);
 		log.info("TaskCategoryServiceImpl.createTaskCategory() executed successfully");
 		return savedTaskCategoryDTO;
 	}
@@ -58,18 +64,19 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG);
 		}
-		Optional<TaskCategoryDTO> optTaskCategory = taskCategoryRepository.findById(taskCategoryDTO.getTaskCategoryId());
-		TaskCategoryDTO dbTaskCategoryDTO = null;
+		log.info("TaskCategoryServiceImpl.updateTaskCategory() is under execution.");
+		Optional<TaskCategory> optTaskCategory = taskCategoryRepository.findById(taskCategoryDTO.getTaskCategoryId());
+		TaskCategory dbTaskCategory = null;
 		if(optTaskCategory.isPresent()) {
-			dbTaskCategoryDTO = optTaskCategory.get();
+			dbTaskCategory = optTaskCategory.get();
 		}
 		//set modified date time
-		dbTaskCategoryDTO.setModifiedDateTime(LocalDateTime.now());
-		mapper.map( taskCategoryDTO, dbTaskCategoryDTO );
-		log.info("TaskCategoryServiceImpl.updateTaskCategory() is under execution.");
-		TaskCategoryDTO updatedTaskCategory =  taskCategoryRepository.save(dbTaskCategoryDTO);
+		dbTaskCategory.setModifiedDateTime(LocalDateTime.now());
+		TaskCategory updatedTaskCategory =  taskCategoryRepository.save(dbTaskCategory);
+		TaskCategoryDTO updatedTaskCategoryDTO = new TaskCategoryDTO();
+		mapper.map(updatedTaskCategory, taskCategoryDTO);
 		log.info("TaskCategoryServiceImpl.updateTaskCategory() executed successfully.");
-		return updatedTaskCategory;
+		return updatedTaskCategoryDTO;
 	}
 
 	@Transactional 
@@ -82,14 +89,18 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG);
 
 		log.info("TaskCategoryServiceImpl.deleteTaskCategory() is under execution...");
-		Optional<TaskCategoryDTO> optTaskCategoryDTO = taskCategoryRepository.findById(taskCategoryId);
+		Optional<TaskCategory> optTaskCategory = taskCategoryRepository.findById(taskCategoryId);
 		
-		if ( !optTaskCategoryDTO.isPresent() || optTaskCategoryDTO == null ) {
+		if ( !optTaskCategory.isPresent() || optTaskCategory == null ) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG);
 		} else {
-			optTaskCategoryDTO.get().setTaskCategoryStatus(MeetingConstants.STATUS_IN_ACTIVE);
-			updateTaskCategory(optTaskCategoryDTO.get());
+			TaskCategory taskCategory = null;
+			taskCategory = optTaskCategory.get();
+			taskCategory.setTaskCategoryStatus(MeetingConstants.STATUS_IN_ACTIVE);
+			TaskCategoryDTO taskCategoryDTO = new TaskCategoryDTO();
+			mapper.map(taskCategory, taskCategoryDTO);
+			updateTaskCategory(taskCategoryDTO);
 			deleteTaskCategory = true;
 			log.info("TaskCategoryServiceImpl.deleteTaskCategory() executed successfully");
 		}
@@ -105,7 +116,7 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 			throw new EmptyListException(ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_MSG);		
 			
-			List<TaskCategoryDTO> taskCategoryDTOList = taskCategoryRepository.findAllById(taskCategoriesIds);
+			List<TaskCategory> taskCategoryDTOList = taskCategoryRepository.findAllById(taskCategoriesIds);
 			if(taskCategoryDTOList.size() > 0) {
 				taskCategoryDTOList.forEach(taskCategoryDTO -> {
 					taskCategoryDTO.setTaskCategoryStatus(MeetingConstants.STATUS_IN_ACTIVE);
@@ -122,20 +133,25 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 		if (taskCategoryId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG);
+		TaskCategory taskCategory  = taskCategoryRepository.findById(taskCategoryId).get(); //return TaskCategoryDTO
+		TaskCategoryDTO taskCategoryDTO = new TaskCategoryDTO();
+		mapper.map(taskCategory, taskCategoryDTO);
 		log.info("TaskCategoryServiceImpl.getTaskCategoryById() executed successfully");
-		return taskCategoryRepository.findById(taskCategoryId).get(); //return TaskCategoryDTO
+		return taskCategoryDTO;
 	}
 
 	@Override
 	public List<TaskCategoryDTO> getAllTaskCategories() {
 		log.info("TaskCategoryServiceImpl.getAllTaskCategories() ENTERED.");
-		List<TaskCategoryDTO> taskCategoryDTOList = null;
+		List<TaskCategory> taskCategoryList = null;
 		log.info("TaskCategoryServiceImpl.getAllTaskCategories() is under execution...");
-		taskCategoryDTOList = taskCategoryRepository.findAllTaskCategories(MeetingConstants.STATUS_ACTIVE);
-		if ( taskCategoryDTOList == null || taskCategoryDTOList.isEmpty() || taskCategoryDTOList.size() == 0 )
+		taskCategoryList = taskCategoryRepository.findAllTaskCategories(MeetingConstants.STATUS_ACTIVE);
+		if ( taskCategoryList == null || taskCategoryList.isEmpty() || taskCategoryList.size() == 0 )
 			throw new EmptyListException(ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_MSG);
-		log.info("getAllTaskCategories() : Total Task Categories Count : " + taskCategoryDTOList.size());
+		log.info("getAllTaskCategories() : Total Task Categories Count : " + taskCategoryList.size());
+		List<TaskCategoryDTO> taskCategoryDTOList = new ArrayList<>();
+		mapper.map(taskCategoryDTOList, taskCategoryDTOList);
 		log.info("getAllTaskCategories() executed successfully");
 		return taskCategoryDTOList;
 	}
@@ -148,8 +164,8 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG);
 		} else {
 			log.info("TaskCategoryServiceImpl  : Task Category Id : " + taskCategoryDTO.getTaskCategoryId() + " || Task Category Title : " + taskCategoryDTO.getTaskCategoryTitle());
-			Optional<TaskCategoryDTO> optTaskCategoryDTO = taskCategoryRepository.findByTaskCategoryTitle(taskCategoryDTO.getTaskCategoryTitle());
-			isTaskCategoryTitleExists = optTaskCategoryDTO.isPresent();
+			Optional<TaskCategory> optTaskCategory = taskCategoryRepository.findByTaskCategoryTitle(taskCategoryDTO.getTaskCategoryTitle());
+			isTaskCategoryTitleExists = optTaskCategory.isPresent();
 			log.info("TaskCategoryServiceImpl  : isTaskCategoryTitleExists : " + isTaskCategoryTitleExists);
 		}
 		log.info("TaskCategoryServiceImpl.isTaskCategoryTitleExists() executed successfully" );
