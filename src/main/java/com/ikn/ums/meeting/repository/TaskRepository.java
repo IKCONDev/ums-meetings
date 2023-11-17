@@ -25,27 +25,27 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	@Query("SELECT COUNT(*) FROM Task WHERE taskOwner=:emailId") 
 	Long findAssignedTaskCountByUserId(String emailId);
 	
-	@Query("SELECT TO_CHAR(t.plannedStartDate, 'D'), COUNT(*) " +
+	@Query("SELECT TO_CHAR(t.startDate, 'D'), COUNT(*) " +
 		       "FROM Task t " +
-		       "WHERE t.plannedStartDate BETWEEN :startTime AND :endTime " +
+		       "WHERE t.startDate BETWEEN :startTime AND :endTime " +
 		       "AND t.emailId= :email " +
-		       "GROUP BY TO_CHAR(t.plannedStartDate, 'D')")
+		       "GROUP BY TO_CHAR(t.startDate, 'D')")
 	List<Object[]> findTaskCountsByDayOfWeek(LocalDate startTime,LocalDate endTime, String email);
 	
-	@Query("SELECT TO_CHAR(t.plannedStartDate, 'D'), " +
+	@Query("SELECT TO_CHAR(t.startDate, 'D'), " +
 		           "SUM(CASE WHEN t.status = 'Completed' THEN 1 ELSE 0 END) " +
 		           "FROM Task t " +
-		           "WHERE t.plannedStartDate BETWEEN :startTime AND :endTime " +
+		           "WHERE t.startDate BETWEEN :startTime AND :endTime " +
 		           "AND t.emailId= :email " +
-		           "GROUP BY TO_CHAR(t.plannedStartDate, 'D')")
+		           "GROUP BY TO_CHAR(t.startDate, 'D')")
 	List<Object[]> findCompletedTaskCountsByDayOfWeek( LocalDate startTime,LocalDate endTime, String email);
 		 
-	@Query("SELECT TO_CHAR(t.plannedStartDate, 'D'), " +
+	@Query("SELECT TO_CHAR(t.startDate, 'D'), " +
 		           "SUM(CASE WHEN t.status = 'Inprogress' THEN 1 ELSE 0 END) " +
 		           "FROM Task t " +
-		           "WHERE t.plannedStartDate BETWEEN :startTime AND :endTime " +
+		           "WHERE t.startDate BETWEEN :startTime AND :endTime " +
 		           "AND t.emailId= :email " +
-		           "GROUP BY TO_CHAR(t.plannedStartDate, 'D')")
+		           "GROUP BY TO_CHAR(t.startDate, 'D')")
 	List<Object[]> findInProgressTaskCountsByDayOfWeek(LocalDate startTime,LocalDate endTime, String email);
 	
 	@Query(value = "select * from task_tab where user_id=:emailId AND (task_title='%:taskTitle%' or task_priority=:taskPriority or task_owner=:taskOwner or start_date>=:startDate or due_date<=:dueDate)", nativeQuery = true)
@@ -56,27 +56,27 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	//@Query("FROM Task WHERE emailId = :emailId AND ((:taskTitle IS NULL OR taskTitle LIKE %:taskTitle%) AND (:taskPriority IS NULL OR taskPriority = :taskPriority) AND (:startDate IS NULL OR startDate >= :startDate) AND (:dueDate IS NULL OR dueDate <= :dueDate))")
 	List<Task> findFilteredAssignedTasks(String taskTitle, String taskPriority, LocalDateTime startDate, LocalDateTime dueDate, String emailId);
 	
-	@Query("SELECT TO_CHAR(t.plannedStartDate, 'MM'), COUNT(*) " +
+	@Query("SELECT TO_CHAR(t.startDate, 'MM'), COUNT(*) " +
 	        "FROM Task t " +
-	        "WHERE t.plannedStartDate BETWEEN :startTime AND :endTime " +
+	        "WHERE t.startDate BETWEEN :startTime AND :endTime " +
 	        "AND t.taskOwner = :email " +  
-	        "GROUP BY TO_CHAR(t.plannedStartDate, 'MM')")
+	        "GROUP BY TO_CHAR(t.startDate, 'MM')")
 	List<Object[]> findTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email);
 	
-	@Query("SELECT TO_CHAR(t.plannedStartDate, 'MM'), " +
+	@Query("SELECT TO_CHAR(t.startDate, 'MM'), " +
 	        "SUM(CASE WHEN t.status = 'Completed' THEN 1 ELSE 0 END) " +
 	        "FROM Task t " +
-	        "WHERE t.plannedStartDate BETWEEN :startTime AND :endTime " +
+	        "WHERE t.startDate BETWEEN :startTime AND :endTime " +
 	        "AND t.taskOwner = :email " +  
-	        "GROUP BY TO_CHAR(t.plannedStartDate, 'MM')")
+	        "GROUP BY TO_CHAR(t.startDate, 'MM')")
 	List<Object[]> findCompletedTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email);
 
-	@Query("SELECT TO_CHAR(t.plannedStartDate, 'MM'), " +
+	@Query("SELECT TO_CHAR(t.startDate, 'MM'), " +
 	        "SUM(CASE WHEN t.status = 'Inprogress' THEN 1 ELSE 0 END) " +
 	        "FROM Task t " +
-	        "WHERE t.plannedStartDate BETWEEN :startTime AND :endTime " +
+	        "WHERE t.startDate BETWEEN :startTime AND :endTime " +
 	        "AND t.taskOwner = :email " +  
-	        "GROUP BY TO_CHAR(t.plannedStartDate, 'MM')")
+	        "GROUP BY TO_CHAR(t.startDate, 'MM')")
 	List<Object[]> findInProgressTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email);
 	
 	List<Task> findByDepartmentId(Long departmentId);
@@ -88,26 +88,26 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	@Query("FROM Task WHERE dueDate < :currentDateTime")
 	List<Task> findAgedTasks(LocalDateTime currentDateTime);
 	
-	@Query("SELECT TO_CHAR(t.plannedStartDate, 'MM'), COUNT(*) " +
+	@Query("SELECT TO_CHAR(t.startDate, 'MM'), COUNT(*) " +
 	        "FROM Task t " +
-	        "WHERE t.plannedStartDate BETWEEN :startDate AND :endDate " +
-	        "GROUP BY TO_CHAR(t.plannedStartDate, 'MM')")
+	        "WHERE t.startDate BETWEEN :startDate AND :endDate " +
+	        "GROUP BY TO_CHAR(t.startDate, 'MM')")
 	List<Object[]> findTaskCountsforYear(LocalDateTime startDate, LocalDateTime endDate);
 	
-	@Query("SELECT TO_CHAR(t.plannedStartDate, 'D'), " +
+	@Query("SELECT TO_CHAR(t.startDate, 'D'), " +
 	           "SUM(CASE WHEN t.status = 'Yet to start' THEN 1 ELSE 0 END) " +
 	           "FROM Task t " +
-	           "WHERE t.plannedStartDate BETWEEN :startTime AND :endTime " +
+	           "WHERE t.startDate BETWEEN :startTime AND :endTime " +
 	           "AND t.emailId= :email " +
-	           "GROUP BY TO_CHAR(t.plannedStartDate, 'D')")
+	           "GROUP BY TO_CHAR(t.startDate, 'D')")
 	List<Object[]> findYetToStartTaskCountsByDayOfWeek( LocalDate startTime,LocalDate endTime, String email);
 
-	@Query("SELECT TO_CHAR(t.plannedStartDate, 'MM'), " +
+	@Query("SELECT TO_CHAR(t.startDate, 'MM'), " +
      "SUM(CASE WHEN t.status = 'Yet to start' THEN 1 ELSE 0 END) " +
      "FROM Task t " +
-     "WHERE t.plannedStartDate BETWEEN :startTime AND :endTime " +
+     "WHERE t.startDate BETWEEN :startTime AND :endTime " +
      "AND t.taskOwner = :email " +  
-     "GROUP BY TO_CHAR(t.plannedStartDate, 'MM')")
+     "GROUP BY TO_CHAR(t.startDate, 'MM')")
 	List<Object[]> findYetToStartTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email);
 	 
 	
