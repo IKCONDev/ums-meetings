@@ -105,8 +105,8 @@ public class ErrorCodeMessages {
 	 public static final String ERR_TASK_CATEGORY_LIST_IS_EMPTY_CODE = "TASK_CATEGORY_LIST_IS_EMPTY-1034";
 	 public static final String ERR_TASK_CATEGORY_LIST_IS_EMPTY_MSG = "Task Category List Is Empty."; 	 
 
-	 public static final String ERR_TASK_CATEGORY_SAVE_UNSUCCESS_CODE = "TASK_CATEGORY_SAVE_UNSUCCESS-1035";
-	 public static final String ERR_TASK_CATEGORY_SAVE_UNSUCCESS_MSG = "Error Occured While Task Category."; 	 
+	 public static final String ERR_TASK_CATEGORY_CREATE_UNSUCCESS_CODE = "TASK_CATEGORY_CREATE_UNSUCCESS-1035";
+	 public static final String ERR_TASK_CATEGORY_CREATE_UNSUCCESS_MSG = "Error Occured While Task Category."; 	 
 
 	 public static final String ERR_TASK_CATEGORY_UPDATE_UNSUCCESS_CODE = "TASK_CATEGORY_UPDATE_UNSUCCESS-1036";
 	 public static final String ERR_TASK_CATEGORY_UPDATE_UNSUCCESS_MSG = "Error Occured While Updating Task Category."; 	
@@ -117,6 +117,7 @@ public class ErrorCodeMessages {
 	 public static final String ERR_TASK_CATEGORY_TITLE_EXISTS_EXCEPTION_CODE = "TASK_CATEGORY_TITLE_ALREADY_EXISTS-1038";
 	 public static final String ERR_TASK_CATEGORY_TITLE_EXISTS_EXCEPTION_MSG = "Task Category Title Already Exists !"; 	
 	 
-
-
-	}
+	 public static final String ERR_TASK_CATEGORY_GET_UNSUCCESS_CODE = "ERR_TASK_CATEGORY_GET_UNSUCCESS_CODE-1039";
+	 public static final String ERR_TASK_CATEGORY_GET_UNSUCCESS_MSG = "Error while getting task category(s) !"; 	
+	 
+}
