@@ -649,7 +649,7 @@ public class TaskServiceImpl implements  TaskService{
 		}
 
 		@Override
-		public List<Task> getAgedTasks(LocalDateTime dateTime) {
+		public List<Task> getAgedTasks(LocalDate dateTime) {
 			System.out.println(dateTime);
 			List<Task> taskList = taskRepository.findAgedTasks(dateTime);
 			return taskList;

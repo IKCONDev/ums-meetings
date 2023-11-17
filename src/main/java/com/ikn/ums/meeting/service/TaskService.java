@@ -42,7 +42,7 @@ public interface TaskService {
 	 List<Task> getTasksByDepartment(Long departmentId);
 	 List<Task> getTasksByTaskPriority(String taskPriority);
 	 List<Task> getTasksByTaskStatus(String taskStatus);
-	 List<Task> getAgedTasks(LocalDateTime dateTime);
+	 List<Task> getAgedTasks(LocalDate dateTime);
 	List<Long> getTasksBetweenStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate);
 	List<Long> getYetToStartTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId);
 	List<Long> findYetToStartTaskCountsByMonth(LocalDate startDate, LocalDate endDate, String emailId);

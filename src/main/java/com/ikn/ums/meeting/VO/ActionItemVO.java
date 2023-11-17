@@ -1,5 +1,6 @@
 package com.ikn.ums.meeting.VO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -26,9 +27,9 @@ public class ActionItemVO {
 	
 	private String actionStatus;
 	
-	private LocalDateTime startDate;
+	private LocalDate startDate;
 	
-	private LocalDateTime endDate;
+	private LocalDate endDate;
 	
 	private String emailId;
 
