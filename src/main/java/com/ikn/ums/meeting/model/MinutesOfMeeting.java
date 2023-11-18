@@ -15,5 +15,9 @@ public class MinutesOfMeeting {
 	private List<String> emailList;
 	
 	private String discussionPoints;
+	
+	private String hoursDiff;
+	
+	private String minutesDiff;
 
 }

@@ -24,7 +24,7 @@ public interface TaskService {
     List<Task> getTasksByUserId(String emailId);
 	//List<Task> convertActionItemsToTasks(List<ActionItem> actionItemList, Long meetingId);	
 	List<Task> getAssignedTaskListOfUser(String emailId);
-	void sendMinutesofMeetingEmail(List<String> emailList,List<ActionItem> actionItemList, Long meetingId, String discussionPoints);
+	void sendMinutesofMeetingEmail(List<String> emailList,List<ActionItem> actionItemList, Long meetingId, String discussionPoints, String HoursDiff, String minDiff);
 	Long getOrganizedTasksCountOfUser(String emailId);
 	Long getUserAssignedTasksCountOfUser(String emailId);
 	List<Long> getTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId);
