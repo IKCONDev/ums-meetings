@@ -373,18 +373,25 @@ public class TaskServiceImpl implements  TaskService{
 		System.out.println("execution success");
 		List<String> mergedEmailList = new ArrayList<>(emailList); 
 		mergedEmailList.addAll(attendeeEmailList);
-		// Assuming you have a LocalDateTime object in UTC
-        LocalDateTime utcDateTime = LocalDateTime.parse(meeting.getStartDateTime().toString());
-        System.out.println(utcDateTime);
-        // Convert UTC LocalDateTime to ZonedDateTime with system's default time zone
-        ZonedDateTime systemZonedDateTime = utcDateTime.atZone(ZoneId.ofOffset("UTC",ZoneOffset.ofHoursMinutes(5, 30)));
-        // Get the equivalent LocalDateTime in the system's time zone
-        OffsetDateTime meetingLocalStartDateTime = systemZonedDateTime.toOffsetDateTime();
-		//System.out.println(meetingLocalStartDateTime);
+		// LocalDateTime
+     	LocalDateTime utcDateTime = meeting.getStartDateTime();
+     	System.out.println("UTC LocalDateTime: " + utcDateTime);
+     	// Convert UTC LocalDateTime to ZonedDateTime in UTC
+     	ZonedDateTime utcZonedDateTime = utcDateTime.atZone(ZoneOffset.UTC);
+     	System.out.println("UTC ZonedDateTime: " + utcZonedDateTime);
+     	// Convert UTC ZonedDateTime to IST (Indian Standard Time)
+     	ZonedDateTime istZonedDateTime = utcZonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata"));
+     	System.out.println("IST ZonedDateTime: " + istZonedDateTime);
+     	// Get the equivalent OffsetDateTime in IST
+    	OffsetDateTime meetingLocalStartDateTime = istZonedDateTime.toOffsetDateTime();
+    	System.out.println("OffsetDateTime in IST: " + meetingLocalStartDateTime);
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
+        String formattedDateTimeInIST = meetingLocalStartDateTime.format(formatter);
+        System.out.println("Date and Time in IST: " + formattedDateTimeInIST);
 		String subject = meeting.getSubject()+"/"+"MOM";
 		actionItemBuilder.append("<h4>").append("Title - "+meeting.getSubject()).append("</h4>");
 		actionItemBuilder.append("<h4>").append("Organizer - "+meeting.getOrganizerName()).append("</h4>");
-		actionItemBuilder.append("<h4>").append("Date & Time - "+meetingLocalStartDateTime).append("</h4>");
+		actionItemBuilder.append("<h4>").append("Date & Time - "+formattedDateTimeInIST).append("</h4>");
 		actionItemBuilder.append("<h4>").append("Duration of Meeting- "+HoursDiff+"H:"+minDiff+"M").append("</h4>");
 		StringBuilder attendeesName = new StringBuilder();
 		employeeVOList.forEach(employee ->{
