@@ -552,14 +552,14 @@ public class TaskServiceImpl implements  TaskService{
 		@Override
 		public List<Task> getFilteredTasks(String taskTitle, String taskPriority, String taskOwner, 
 				String startDate,String dueDate, String emailId) {
-			LocalDateTime orgStartDateTime = null;
-			LocalDateTime orgDueDateTime = null;
-			//DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			LocalDate orgStartDateTime = null;
+			LocalDate orgDueDateTime = null;
+			//DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd ");
 			if(startDate != null && !startDate.equals("") && !startDate.equals("null")) {
-				orgStartDateTime = LocalDateTime.parse(startDate);
+				orgStartDateTime = LocalDate.parse(startDate);
 			}
 			if(dueDate != null && !dueDate.equals("") && !dueDate.equals("null")) {
-				orgDueDateTime = LocalDateTime.parse(dueDate);
+				orgDueDateTime = LocalDate.parse(dueDate);
 			}
 			if(taskTitle.equals("null") || taskTitle == null || taskTitle.isBlank()){
 				taskTitle = null;

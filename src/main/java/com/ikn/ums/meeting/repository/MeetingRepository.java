@@ -3,6 +3,9 @@ package com.ikn.ums.meeting.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -63,8 +66,13 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 		        "GROUP BY TO_CHAR(m.startDateTime, 'MM')")
 		List<Object[]> findOrganisedMeetingCountsByMonth(LocalDateTime startDate, LocalDateTime endDate, String email);
 		
-		@Query("FROM Meeting WHERE emailId = :emailId AND ((:meetingTitle IS NULL OR subject LIKE %:meetingTitle%) OR (startDateTime >= :startDateTime OR endDateTime <= :endDateTime))")
-		List<Meeting> findAllFilteredMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime, LocalDateTime endDateTime,String emailId);
+		//@Query("FROM Meeting WHERE emailId = :emailId AND ((:meetingTitle IS NULL OR subject LIKE %:meetingTitle%) OR (startDateTime >= :startDateTime OR endDateTime <= :endDateTime))")
+		@Query(value = "SELECT * FROM meeting_tab WHERE user_id = :emailId AND " +
+	               "(:meetingTitle IS NULL OR meeting_subject LIKE CONCAT('%', :meetingTitle, '%')) AND " +
+	               "(:startDateTime IS NULL OR meeting_actual_start_date_time >= :startDateTime) AND " +
+	               "(:endDateTime IS NULL OR meeting_actual_end_date_time <= :endDateTime)",
+	        nativeQuery = true)
+		List<Meeting> findAllFilteredMeetingsByUserId(String meetingTitle,  LocalDateTime startDateTime, LocalDateTime endDateTime,String emailId);
 		
 		@Query("Select m FROM Meeting m JOIN m.attendees a WHERE a.email=:emailId AND ((:meetingTitle IS NULL OR m.subject LIKE %:meetingTitle%) OR (m.startDateTime >= :startDateTime OR m.endDateTime <= :endDateTime))")
 		List<Meeting> findAllFilteredAttendedMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime,LocalDateTime endDateTime,String emailId);

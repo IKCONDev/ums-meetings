@@ -1,5 +1,6 @@
 package com.ikn.ums.meeting.repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,11 +19,19 @@ public interface ActionItemRepository extends JpaRepository<ActionItem, Integer>
 	
 	@Query("SELECT COUNT(*) FROM ActionItem WHERE emailId=:emailId")
 	Long findOrganizedActionItemsCountByUserId(String emailId);
-	
+	 
 
 	//@Query(value = "select * from actionitem_tab where user_id=:emailId AND (actionitem_title_title='%:actionItemTitle%' OR task_priority=:taskPriority OR start_date>=:startDate OR due_date<=:dueDate)", nativeQuery = true)
 	@Query("FROM ActionItem WHERE emailId=:emailId AND (actionItemTitle LIKE %:actionItemTitle% OR :actionItemOwner IS NULL OR startDate<=:startDate OR endDate<=:endDate)")
+//	@Query(value = "SELECT a.* FROM actionitem_tab a " +
+//	        "JOIN action_item_owners o ON a.id = o.action_item_id " +
+//	        "WHERE a.user_id = :emailId AND " +
+//	        "(:actionItemTitle IS NULL OR a.action_item_title LIKE %:actionItemTitle%) AND " +
+//	        "(:actionItemOwner IS NULL OR o.action_item_owner =:actionItemOwner ) AND " +
+//	        "(:startDate IS NULL OR a.start_date >=:startDate) AND " +
+//	        "(:endDate IS NULL OR a.end_date <=:endDate)",
+//	        nativeQuery = true)
 	public List<ActionItem> findAllFilteredActionItemsByUserId(String actionItemTitle, List<String> actionItemOwner,
-			LocalDateTime startDate, LocalDateTime endDate, String emailId);
+			LocalDate startDate, LocalDate endDate, String emailId);
 
 }

@@ -341,6 +341,7 @@ public class MeetingsServiceImpl implements MeetingService {
 		LocalDateTime actualEndDateTime = null;
 		if(!endDateTime.isBlank()) {
 			actualEndDateTime = LocalDateTime.parse(endDateTime);
+			System.out.println(actualEndDateTime);
 		}
 		List<Meeting> filteredMeetingList = meetingRepository.findAllFilteredMeetingsByUserId(meetingTitle.isBlank()?null : meetingTitle, actualStartDateTime, actualEndDateTime,emailId);
 		return filteredMeetingList;
