@@ -340,6 +340,8 @@ public class ActionItemController {
 		momObject1.setMeeting(momObject.getMeeting());
 		momObject1.setEmailList(momObject.getEmailList());
 		momObject1.setDiscussionPoints(momObject.getDiscussionPoints());
+		momObject1.setHoursDiff(momObject.getHoursDiff());
+		momObject1.setMinutesDiff(momObject.getMinutesDiff());
 		boolean resultValue = actionItemService.sendMinutesofMeetingEmail(momObject1);
 		return new ResponseEntity<>(resultValue, HttpStatus.OK);
 	}

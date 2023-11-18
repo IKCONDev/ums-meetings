@@ -321,7 +321,7 @@ public class TaskServiceImpl implements  TaskService{
 		return assignedTaskList;
 	}
 		
-	public void sendMinutesofMeetingEmail(List<String> emailList, List<ActionItem> actionItemList, Long meetingId,String discussionPoints) {
+	public void sendMinutesofMeetingEmail(List<String> emailList, List<ActionItem> actionItemList, Long meetingId,String discussionPoints, String HoursDiff, String minDiff) {
 		
 		//get meeting object from Repository
 		Optional<Meeting> optMeeting = meetingService.getMeetingDetails(meetingId);
@@ -385,6 +385,7 @@ public class TaskServiceImpl implements  TaskService{
 		actionItemBuilder.append("<h4>").append("Title - "+meeting.getSubject()).append("</h4>");
 		actionItemBuilder.append("<h4>").append("Organizer - "+meeting.getOrganizerName()).append("</h4>");
 		actionItemBuilder.append("<h4>").append("Date & Time - "+meetingLocalStartDateTime).append("</h4>");
+		actionItemBuilder.append("<h4>").append("Duration of Meeting- "+HoursDiff+"H:"+minDiff+"M").append("</h4>");
 		StringBuilder attendeesName = new StringBuilder();
 		employeeVOList.forEach(employee ->{
 			attendeesName.append(employee.getFirstName()+" "+employee.getLastName()+",");
