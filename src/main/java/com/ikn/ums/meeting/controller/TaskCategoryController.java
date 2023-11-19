@@ -82,6 +82,7 @@ public class TaskCategoryController {
 		}
 	}
 
+	/*
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteTaskCategoryById(@PathVariable("id") Long taskCategoryId) {
 		log.info("TaskCategoryController.deleteTaskCategoryById() ENTERED : taskCategoryId : " + taskCategoryId);
@@ -97,7 +98,9 @@ public class TaskCategoryController {
 			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_DELETE_UNSUCCESS_MSG);
 		}
+		
 	}
+	*/
 	
 	@DeleteMapping("/delete/{ids}")
 	public ResponseEntity<?> deleteSelectedTaskCatgoriesByIds(@PathVariable("ids") List<Long> taskCategoryIds) {
