@@ -36,6 +36,10 @@ public class TaskVO {
 	private LocalDate plannedEndDate;
 	
 	private String actionTitle;
+	
+	private Integer taskCategory;
+	
+	private Integer departmentId;
 
 
 }

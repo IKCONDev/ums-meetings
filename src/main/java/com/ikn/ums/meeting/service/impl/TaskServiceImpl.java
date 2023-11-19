@@ -129,6 +129,7 @@ public class TaskServiceImpl implements  TaskService{
 	    updatetask.setStatus(task.getStatus());
 	    updatetask.setPlannedStartDate(task.getPlannedStartDate());
 	    updatetask.setPlannedEndDate(task.getPlannedEndDate());
+	    updatetask.setTaskCategory(task.getTaskCategory());
 	    Task modifiedtask = taskRepository.save(updatetask);
 	    
 	  //send notification to task owner

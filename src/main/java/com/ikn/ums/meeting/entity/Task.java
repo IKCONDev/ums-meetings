@@ -3,10 +3,14 @@ package com.ikn.ums.meeting.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -60,6 +64,11 @@ public class Task {
 	
 	@Column(name = "departmentId", nullable = false)
 	private Long departmentId;
+	
+	//@Column(name = "taskCategory", nullable = true)
+	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER, targetEntity = TaskCategory.class)
+	@JoinColumn(name = "taskCategoryId", referencedColumnName = "taskCategoryId")
+	private TaskCategory taskCategory;
 	
 	@Column(name = "createdDateTime")
 	private LocalDateTime createdDateTime;

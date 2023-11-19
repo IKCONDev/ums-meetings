@@ -146,12 +146,19 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 		List<TaskCategory> taskCategoryList = null;
 		log.info("TaskCategoryServiceImpl.getAllTaskCategories() is under execution...");
 		taskCategoryList = taskCategoryRepository.findAllTaskCategories(MeetingConstants.STATUS_ACTIVE);
-		if ( taskCategoryList == null || taskCategoryList.isEmpty() || taskCategoryList.size() == 0 )
-			throw new EmptyListException(ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_MSG);
+//		if ( taskCategoryList == null || taskCategoryList.isEmpty() || taskCategoryList.size() == 0 )
+//			throw new EmptyListException(ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_CODE,
+//					ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_MSG);
 		log.info("getAllTaskCategories() : Total Task Categories Count : " + taskCategoryList.size());
 		List<TaskCategoryDTO> taskCategoryDTOList = new ArrayList<>();
-		mapper.map(taskCategoryDTOList, taskCategoryDTOList);
+		if(taskCategoryList.size() > 0) {
+			taskCategoryList.forEach(taskCategory -> {
+				TaskCategoryDTO taskcategoryDTO = new TaskCategoryDTO();
+				mapper.map(taskCategory, taskcategoryDTO);
+				taskCategoryDTOList.add(taskcategoryDTO);
+			});
+		}
+		System.out.println(taskCategoryDTOList);
 		log.info("getAllTaskCategories() executed successfully");
 		return taskCategoryDTOList;
 	}
