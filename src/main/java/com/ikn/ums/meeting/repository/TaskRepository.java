@@ -66,7 +66,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
             "(:dueDate IS NULL OR due_date <= :dueDate)",
      nativeQuery = true)
 	//@Query("FROM Task WHERE emailId = :emailId AND ((:taskTitle IS NULL OR taskTitle LIKE %:taskTitle%) AND (:taskPriority IS NULL OR taskPriority = :taskPriority) AND (:startDate IS NULL OR startDate >= :startDate) AND (:dueDate IS NULL OR dueDate <= :dueDate))")
-	List<Task> findFilteredAssignedTasks(String taskTitle, String taskPriority, LocalDateTime startDate, LocalDateTime dueDate, String emailId);
+	List<Task> findFilteredAssignedTasks(String taskTitle, String taskPriority, LocalDate startDate, LocalDate dueDate, String emailId);
 	
 	@Query("SELECT TO_CHAR(t.startDate, 'MM'), COUNT(*) " +
 	        "FROM Task t " +
