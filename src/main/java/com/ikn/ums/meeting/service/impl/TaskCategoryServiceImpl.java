@@ -36,7 +36,6 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 	@Override
 	public TaskCategoryDTO createTaskCategory(TaskCategoryDTO taskCategoryDTO) {
 		log.info("TaskCategoryServiceImpl.createTaskCategory() ENTERED");
-
 		if (taskCategoryDTO == null) 
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG);
@@ -71,6 +70,9 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 			dbTaskCategory = optTaskCategory.get();
 		}
 		//set modified date time
+		dbTaskCategory.setTaskCategoryTitle(taskCategoryDTO.getTaskCategoryTitle());
+		dbTaskCategory.setTaskCategoryDescription(taskCategoryDTO.getTaskCategoryDescription());
+		dbTaskCategory.setModifiedBy(taskCategoryDTO.getModifiedBy());
 		dbTaskCategory.setModifiedDateTime(LocalDateTime.now());
 		TaskCategory updatedTaskCategory =  taskCategoryRepository.save(dbTaskCategory);
 		TaskCategoryDTO updatedTaskCategoryDTO = new TaskCategoryDTO();
