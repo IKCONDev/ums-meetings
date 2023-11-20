@@ -438,7 +438,7 @@ public class TaskServiceImpl implements  TaskService{
  	   actionItemBuilder.append("<br/>");
  	   actionItemBuilder.append("</table>");
  	   actionItemBuilder.append("<br/>");
- 	   actionItemBuilder.append("<b>").append("Thanks & Regards").append("</b>");
+ 	   actionItemBuilder.append("<b>").append("Thanks & Regards").append("</br>");
  	   actionItemBuilder.append(meeting.getOrganizerName());
  	   String[] convertedMergeList = mergedEmailList.toArray(new String[0]);
 	   emailService.sendMail(convertedMergeList, subject, actionItemBuilder.toString(),true);	
