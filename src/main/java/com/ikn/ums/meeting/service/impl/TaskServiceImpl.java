@@ -390,9 +390,13 @@ public class TaskServiceImpl implements  TaskService{
         String formattedDateTimeInIST = meetingLocalStartDateTime.format(formatter);
         System.out.println("Date and Time in IST: " + formattedDateTimeInIST);
 		String subject = meeting.getSubject()+"/"+"MOM";
-		actionItemBuilder.append("<h4>").append("Title - "+meeting.getSubject()).append("</h4>");
-		actionItemBuilder.append("<h4>").append("Organizer - "+meeting.getOrganizerName()).append("</h4>");
-		actionItemBuilder.append("<h4>").append("Date & Time - "+formattedDateTimeInIST).append("</h4>");
+		actionItemBuilder.append("<h4>").append("Title - ").append("</h4>").append(meeting.getSubject());
+		actionItemBuilder.append("<h4>").append("Organizer - ").append("</h4>").append(meeting.getOrganizerName());
+		actionItemBuilder.append("<h4>").append("Date & Time - ").append("</h4>").append(formattedDateTimeInIST);
+//		actionItemBuilder.append("<h4>").append("Date & Time - ").append("</h4>").append(meeting.getSubject());
+//		actionItemBuilder.append("<h4>").append("Title - "+meeting.getSubject()).append("</h4>");
+//		actionItemBuilder.append("<h4>").append("Organizer - "+meeting.getOrganizerName()).append("</h4>");
+//		actionItemBuilder.append("<h4>").append("Date & Time - "+formattedDateTimeInIST).append("</h4>");
 		actionItemBuilder.append("<h4>").append("Duration of Meeting- "+HoursDiff+"H:"+minDiff+"M").append("</h4>");
 		StringBuilder attendeesName = new StringBuilder();
 		employeeVOList.forEach(employee ->{
@@ -435,6 +439,9 @@ public class TaskServiceImpl implements  TaskService{
  	   }
  	   actionItemBuilder.append("<br/>");
  	   actionItemBuilder.append("</table>");
+ 	   actionItemBuilder.append("<br/>");
+ 	   actionItemBuilder.append("<h4>").append("Thanks & Regards").append("</h4>");
+ 	   actionItemBuilder.append(meeting.getOrganizerName());
  	   String[] convertedMergeList = mergedEmailList.toArray(new String[0]);
 	   emailService.sendMail(convertedMergeList, subject, actionItemBuilder.toString(),true);	
 	}

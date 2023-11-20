@@ -77,7 +77,7 @@ public class Task {
 	private LocalDateTime modifiedDateTime;
 	
 	@Column(name = "createdBy")
-	private String createdBy;
+	private String createdBy;	
 	
 	@Column(name = "modifiedBy")
 	private String modifiedBy;
