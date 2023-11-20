@@ -275,7 +275,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		}
 		List<ActionItem> filteredActionItemList = actionItemRepository.findAllFilteredActionItemsByUserId(
 				actionItemTitle.isBlank() ? null : actionItemTitle,
-				actionItemOwner.isBlank() ? null : Collections.singletonList(actionItemOwner), actualStartDate,
+				actionItemOwner.isBlank() ? null : actionItemOwner, actualStartDate,
 				actualEndDate, emailId);
 		return filteredActionItemList;
 	}
