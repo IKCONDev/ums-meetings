@@ -390,28 +390,26 @@ public class TaskServiceImpl implements  TaskService{
         String formattedDateTimeInIST = meetingLocalStartDateTime.format(formatter);
         System.out.println("Date and Time in IST: " + formattedDateTimeInIST);
 		String subject = meeting.getSubject()+"/"+"MOM";
-		actionItemBuilder.append("<h4>").append("Title - ").append("</h4>").append(meeting.getSubject());
-		actionItemBuilder.append("<h4>").append("Organizer - ").append("</h4>").append(meeting.getOrganizerName());
-		actionItemBuilder.append("<h4>").append("Date & Time - ").append("</h4>").append(formattedDateTimeInIST);
-//		actionItemBuilder.append("<h4>").append("Date & Time - ").append("</h4>").append(meeting.getSubject());
-//		actionItemBuilder.append("<h4>").append("Title - "+meeting.getSubject()).append("</h4>");
-//		actionItemBuilder.append("<h4>").append("Organizer - "+meeting.getOrganizerName()).append("</h4>");
-//		actionItemBuilder.append("<h4>").append("Date & Time - "+formattedDateTimeInIST).append("</h4>");
-		actionItemBuilder.append("<h4>").append("Duration of Meeting- "+HoursDiff+"H:"+minDiff+"M").append("</h4>");
+		actionItemBuilder.append("<b>"+"Title - "+"</b>"+meeting.getSubject()+"<br/>");
+		actionItemBuilder.append("<b>"+"Organizer - "+"</b>"+meeting.getOrganizerName()+"<br/>");
+		actionItemBuilder.append("<b>"+"Date & Time - "+"</b>"+formattedDateTimeInIST+"<br/>");
+		actionItemBuilder.append("<b>"+"Duration of Meeting - "+"</b>"+HoursDiff+"H:"+minDiff+"M"+"<br/>");
 		StringBuilder attendeesName = new StringBuilder();
 		employeeVOList.forEach(employee ->{
 			attendeesName.append(employee.getFirstName()+" "+employee.getLastName()+",");
 		});
-		actionItemBuilder.append("<h4>").append("Attendees - "+attendeesName).append("</h4>");
+		//actionItemBuilder.append("<h4>").append("Attendees - "+attendeesName).append("</h4>");
+		actionItemBuilder.append("<b>"+"Attendees - "+"</b>"+attendeesName+"<br/>");
 		actionItemBuilder.append("<h4>").append("DiscussionPoints -").append("</h4>");
 		if(discussionPoints == null) {
-			actionItemBuilder.append("There are no Discussion points");
+			actionItemBuilder.append("There are no Discussion points"+"<br/><br/>");
 		}
 		else {
 			actionItemBuilder.append(discussionPoints);
+			actionItemBuilder.append("<br/><br/>");
 		}
 		actionItemBuilder.append("<table border='1'>");
-		actionItemBuilder.append("<tr><th>Action Item</th><th>Action Owner</th></tr>");		
+		actionItemBuilder.append("<tr><th>Action Item</th><th>Action Item Owner</th></tr>");		
 		List<ActionItemModel> actionModelList = new ArrayList<>();
  	    actionItemList.forEach(action ->{
 	    	ActionItemModel actionModel = new ActionItemModel();
@@ -440,7 +438,7 @@ public class TaskServiceImpl implements  TaskService{
  	   actionItemBuilder.append("<br/>");
  	   actionItemBuilder.append("</table>");
  	   actionItemBuilder.append("<br/>");
- 	   actionItemBuilder.append("<h4>").append("Thanks & Regards").append("</h4>");
+ 	   actionItemBuilder.append("<b>").append("Thanks & Regards").append("</b>");
  	   actionItemBuilder.append(meeting.getOrganizerName());
  	   String[] convertedMergeList = mergedEmailList.toArray(new String[0]);
 	   emailService.sendMail(convertedMergeList, subject, actionItemBuilder.toString(),true);	
