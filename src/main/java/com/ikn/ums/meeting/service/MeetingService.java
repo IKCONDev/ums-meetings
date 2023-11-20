@@ -24,6 +24,6 @@ public interface MeetingService {
     public List<Long> countOrganisedMeetingOccurrence(LocalDateTime startDate, LocalDateTime endDate, String emailId);
     public List<Long> countOrganisedMeetingForYear(LocalDateTime startDate, LocalDateTime endDate, String emailId);
     public List<Long> countAttendedMeetingForYear(LocalDateTime startDate, LocalDateTime endDate, String emailId);
-    List<Meeting> getFilteredOrganizedMeetings(String meetingTitle, String startDate, String endDate, String emailId);
+    List<Meeting> getFilteredOrganizedMeetings(String meetingTitle, LocalDateTime localStartDateTime, LocalDateTime localEndDateTime, String emailId);
     List<Meeting> getFilteredAttendedMeetings(String meetingTitle, String startDate, String endDate, String emailId);
 }

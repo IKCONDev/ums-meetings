@@ -63,14 +63,17 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 		        "GROUP BY TO_CHAR(m.startDateTime, 'MM')")
 		List<Object[]> findOrganisedMeetingCountsByMonth(LocalDateTime startDate, LocalDateTime endDate, String email);
 		
-		@Query("FROM Meeting WHERE emailId = :emailId AND " +
-			       "((:meetingTitle IS NULL OR lower(subject) LIKE lower(concat('%', :meetingTitle, '%'))) " +
-			       "AND (:startDateTime IS NULL OR :endDateTime IS NULL OR (startDateTime >= :startDateTime AND endDateTime <= :endDateTime)))")
-		List<Meeting> findAllFilteredMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime, LocalDateTime endDateTime,String emailId);
+		@Query("FROM Meeting " +
+			       "WHERE emailId = :emailId " +
+			       "AND (:meetingTitle IS NULL OR lower(subject) LIKE lower(concat('%', :meetingTitle, '%'))) " +
+			       "AND (CAST(:startDateTime as timestamp) IS NULL OR endDateTime >= CAST(:startDateTime as timestamp)) " +
+			       "AND (CAST(:endDateTime as timestamp) IS NULL OR startDateTime <= CAST(:endDateTime as timestamp))")
+			List<Meeting> findAllFilteredMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime, LocalDateTime endDateTime, String emailId);
 		
 		@Query("FROM Meeting m JOIN m.attendees a WHERE a.emailId = :emailId AND " +
 			       "((:meetingTitle IS NULL OR lower(m.subject) LIKE lower(concat('%', :meetingTitle, '%'))) " +
-			       "AND (m.startDateTime >= :startDateTime OR m.endDateTime <= :endDateTime))")
+			       "AND (cast(:startDateTime as timestamp) IS NULL OR m.startDateTime >= cast(:startDateTime as timestamp) " +
+			       "AND cast(:endDateTime as timestamp) IS NULL OR m.endDateTime <= cast(:endDateTime as timestamp)))")
 		List<Meeting> findAllFilteredAttendedMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime,LocalDateTime endDateTime,String emailId);
 
 }

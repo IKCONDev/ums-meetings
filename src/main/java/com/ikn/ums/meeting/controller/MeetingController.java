@@ -28,6 +28,7 @@ import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.model.MeetingModel;
 import com.ikn.ums.meeting.service.MeetingService;
 
+import io.micrometer.core.lang.Nullable;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -137,8 +138,8 @@ public class MeetingController {
 	@GetMapping("/organized/{userId}")
 	public ResponseEntity<?> getUserOrganizedMeetings(@PathVariable("userId") String emailId,
 			@RequestParam(defaultValue = "",required = false) String meetingTitle,
-			@RequestParam(defaultValue = "",required = false) String startDate,
-			@RequestParam(defaultValue = "",required = false) String endDate){
+		@Nullable@RequestParam(required = false) String startDate,
+			@Nullable@RequestParam(required = false) String endDate){
 		log.info("MeetingController.getUserOrganizedMeetings() entered with args - userId/emailId : "+emailId);
 		if(emailId.equals("")) {
 			log.info("MeetingController.getUserOrganizedMeetings() userEmailId: isEmpty");
@@ -147,15 +148,21 @@ public class MeetingController {
 		try {
 			System.out.println(meetingTitle+"--------");
 			System.out.println(startDate+"---------");
-			System.out.println(endDate+"----------");
-			if(meetingTitle.isBlank() && startDate.isBlank() && endDate.isBlank()) {
+			System.out.println(endDate+"------++---");
+			if(meetingTitle.isBlank() && startDate==null && endDate==null) {
 				System.out.println("executed if");
 				List<Meeting> meetingList=meetingService.getUserOrganizedMeetingsByUserId(emailId);
 				log.info("MeetingController.getUserOrganizedMeetings() exited Successfully without filters");
 				return new ResponseEntity<>(meetingList,HttpStatus.OK);
 			}else {
 				System.out.println("executed else");
-				List<Meeting> filteredMeetingList = meetingService.getFilteredOrganizedMeetings(meetingTitle, startDate, endDate, emailId);
+				System.out.println(endDate+"+_=_=_+_");
+				 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+
+			        // Parse the string to LocalDateTime
+				 LocalDateTime localStartDateTime = startDate.isBlank() ? null : LocalDateTime.parse(startDate, formatter);
+		            LocalDateTime localEndDateTime = endDate.isBlank() ? null : LocalDateTime.parse(endDate, formatter);
+				List<Meeting> filteredMeetingList = meetingService.getFilteredOrganizedMeetings(meetingTitle, localStartDateTime, localEndDateTime, emailId);
 				log.info("MeetingController.getUserOrganizedMeetings() exited Successfully with filters");
 				return new ResponseEntity<>(filteredMeetingList,HttpStatus.OK);
 			}
