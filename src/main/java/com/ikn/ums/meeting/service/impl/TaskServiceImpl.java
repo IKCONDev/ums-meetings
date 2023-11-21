@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Collections;
 
 import javax.transaction.Transactional;
 
@@ -399,7 +400,14 @@ public class TaskServiceImpl implements  TaskService{
 			attendeesName.append(employee.getFirstName()+" "+employee.getLastName()+",");
 		});
 		//actionItemBuilder.append("<h4>").append("Attendees - "+attendeesName).append("</h4>");
-		actionItemBuilder.append("<b>"+"Attendees - "+"</b>"+attendeesName+"<br/>");
+		String dislayAttendeeName = attendeesName.toString();
+		if (dislayAttendeeName.toString().contains(",")) {
+		    int lastIndex = dislayAttendeeName.lastIndexOf(","); // Find the index of the last comma
+		    if (lastIndex != -1) { // Check if the comma is found
+		    	dislayAttendeeName = dislayAttendeeName.substring(0, lastIndex) + dislayAttendeeName.substring(lastIndex + 1); // Remove the last comma
+		    }
+		}
+		actionItemBuilder.append("<b>"+"Attendees - "+"</b>"+dislayAttendeeName+"<br/>");
 		actionItemBuilder.append("<h4>").append("DiscussionPoints -").append("</h4>");
 		if(discussionPoints == null) {
 			actionItemBuilder.append("There are no Discussion points"+"<br/><br/>");
@@ -409,7 +417,7 @@ public class TaskServiceImpl implements  TaskService{
 			actionItemBuilder.append("<br/><br/>");
 		}
 		actionItemBuilder.append("<table border='1'>");
-		actionItemBuilder.append("<tr><th>Action Item</th><th>Action Item Owner</th></tr>");		
+		actionItemBuilder.append("<tr><th>Action Item</th><th>Action Item Owner Email Id</th><th>Action Item Owner Name</th></tr>");		
 		List<ActionItemModel> actionModelList = new ArrayList<>();
  	    actionItemList.forEach(action ->{
 	    	ActionItemModel actionModel = new ActionItemModel();
@@ -420,8 +428,34 @@ public class TaskServiceImpl implements  TaskService{
 	        	
 	        });
 	        actionModel.setActionOwner(actionItemOwnerList);
+	        System.out.println(actionItemOwnerList);
+	        String listString = "";
+
+	        for (String s : actionItemOwnerList)
+	        {
+	            listString += s + ",";
+	        }
+	        String URL = "http://UMS-EMPLOYEE-SERVICE/employees/attendees/"+listString;
+
+			// Make the request using exchange method to retrieve a List<EmployeeVO>
+			ResponseEntity<List<EmployeeVO>> res = restTemplate.exchange(
+			    URL,
+			    HttpMethod.GET,
+			    null,
+			    new ParameterizedTypeReference<List<EmployeeVO>>() {}
+			);
+
+			List<EmployeeVO> actionOwnerNameList = res.getBody();
+			System.out.println("The employee List:"+actionOwnerNameList);
+			//Iterating the actionOwnerNameList 
+			StringBuilder actionOwnerName = new StringBuilder();
+			actionOwnerNameList.forEach(employee ->{
+			   actionOwnerName.append(employee.getFirstName()+" "+employee.getLastName()+",");	 
+				
+			});
+			actionModel.setOwner(actionOwnerName.toString());
 	        actionModelList.add(actionModel);
-	        System.out.println(actionModelList);
+	        //System.out.println(actionModelList);
 			    
 		});
  	   System.out.println(actionModelList);
@@ -431,14 +465,15 @@ public class TaskServiceImpl implements  TaskService{
  		 //actionItemBuilder.append("<td>").append(actionModelList.get(i).getActionOwner().toString()).append("</td></tr>");
  		 actionItemBuilder.append("<td>");
  		 actionItemList.get(i).getActionItemOwner().forEach(owner->{
- 			actionItemBuilder.append(owner+" ").append("</td></tr>");
+ 			actionItemBuilder.append(owner+" ");
  		 });
- 			 
+ 		 actionItemBuilder.append("</td>");
+ 		 actionItemBuilder.append("<td>").append(actionModelList.get(i).getOwner()).append("</td></tr>");
  	   }
  	   actionItemBuilder.append("<br/>");
  	   actionItemBuilder.append("</table>");
  	   actionItemBuilder.append("<br/>");
- 	   actionItemBuilder.append("<b>").append("Thanks & Regards").append("</b>");
+ 	   actionItemBuilder.append("<b>").append("Thanks & Regards").append("</br>");
  	   actionItemBuilder.append(meeting.getOrganizerName());
  	   String[] convertedMergeList = mergedEmailList.toArray(new String[0]);
 	   emailService.sendMail(convertedMergeList, subject, actionItemBuilder.toString(),true);	
