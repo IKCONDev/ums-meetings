@@ -493,8 +493,9 @@ public class TaskServiceImpl implements  TaskService{
 							}else {
 								subject = "Alert ! Task Updated";
 							}
+							StringBuilder emailBuilder = new StringBuilder();
 							
-							String body = "<b>Meeting ID</b> - MXXX"+"<br/>"
+							emailBuilder.append("<b>Meeting ID</b> - MXXX"+"<br/>"
 							+"<b>Action Item ID</b> - A000"+task.getActionItemId()+"<br/>"
 							+"<b>Task ID</b> - T000"+task.getTaskId()+"<br/>"
 							+"A task has been assigned to you: Please see below"+"<br/>"
@@ -509,14 +510,26 @@ public class TaskServiceImpl implements  TaskService{
 							+"<td><b>Organizer</b> : "+task.getEmailId()+"</td>"
 							+"<td><b>Priority</b> : "+task.getTaskPriority()+"</td>"
 							+"</tr>"
-							+"<tr>"
-							+"<td><b>Start Date</b> : "+task.getStartDate()+"</td>"
-							+"<td><b>Due Date</b> : "+task.getDueDate()+"</td>"
-							+"<td><b>Status</b> : "+task.getStatus()+"</td>"
-							+"</tr>"
-							+ "</table>";
+							+"<tr>");
+						    if(task.getStartDate() == null) {
+						    	emailBuilder.append("<td><b>Planned Start Date</b> : "+task.getPlannedStartDate()+"</td>"
+										+"<td><b>Planned Due Date</b> : "+task.getPlannedEndDate()+"</td>"
+										+"<td><b>Status</b> : "+task.getStatus()+"</td>"
+										+"</tr>"
+										+ "</table>");
+						    	
+						    }
+						    else {
+						    	emailBuilder.append("<td><b>Start Date</b> : "+task.getPlannedStartDate()+"</td>"
+										+"<td><b>Due Date</b> : "+task.getStartDate()+"</td>"
+										+"<td><b>Status</b> : "+task.getDueDate()+"</td>"
+										+"</tr>"
+										+ "</table>");
+						    	
+						    }
+							
 							log.info("TaskServiceImpl.sendEmailToTaskOwner(): Task email sent to "+task.getTaskOwner()+" sucessfully");
-							emailService.sendMail(to,subject, body,true);
+							emailService.sendMail(to,subject, emailBuilder.toString(),true);
 						}
 					}).start();	
 					System.out.println("TaskServiceImpl.sendEmailToTaskOwner() executed succesfully");
