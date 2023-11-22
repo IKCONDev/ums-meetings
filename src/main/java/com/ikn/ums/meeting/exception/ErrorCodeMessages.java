@@ -86,6 +86,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE = "ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE-1028";
 	 public static final String ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG = "Department Id is empty or null";
 	 
+	 public static final String ERR_MEETINGS_GET_BYDEPT_UNSUCCESS_CODE = "ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE-1029";
+	 public static final String ERR_MEETINGS_GET_BYDEPT_UNSUCCESS_MSG = "Error while fetching ,meetings by department Id.";
+	 
 	 //Task Category Error Codes
 	 public static final String ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE = "TASK_CATEGORY-ENTITY-IS-NULL-1029";
 	 public static final String ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG = "Task Category Entity is Null."; 

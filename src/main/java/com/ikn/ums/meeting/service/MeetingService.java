@@ -26,4 +26,5 @@ public interface MeetingService {
     public List<Long> countAttendedMeetingForYear(LocalDateTime startDate, LocalDateTime endDate, String emailId);
     List<Meeting> getFilteredOrganizedMeetings(String meetingTitle, LocalDateTime localStartDateTime, LocalDateTime localEndDateTime, String emailId);
     List<Meeting> getFilteredAttendedMeetings(String meetingTitle, String startDate, String endDate, String emailId);
+    List<Meeting> getMeetingsByDepartment(Long departmentId);
 }
