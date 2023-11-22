@@ -19,7 +19,7 @@ public class MeetingModel {
 	    private String[] attendees;
 	    private String organizerEmailId;
 	    private String organizerName;
-	    
+	    private Long departmentId;
 		private String insertedBy = "AUTO-BATCH-PROCESS";
 	    private String insertedDate = LocalDateTime.now().toString();
 	   

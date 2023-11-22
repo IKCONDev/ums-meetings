@@ -77,6 +77,9 @@ public class Meeting {
     
 	@Column(name = "organizerName")
     private String organizerName;
+	
+	@Column(name = "departmentId")
+	private Long departmentId;
     
 	@Column(name = "onlineMeetingId")
 	private String onlineMeetingId;

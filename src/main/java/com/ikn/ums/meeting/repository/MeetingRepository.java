@@ -75,5 +75,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 			       "AND (cast(:startDateTime as timestamp) IS NULL OR m.startDateTime >= cast(:startDateTime as timestamp) " +
 			       "AND cast(:endDateTime as timestamp) IS NULL OR m.endDateTime <= cast(:endDateTime as timestamp)))")
 		List<Meeting> findAllFilteredAttendedMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime,LocalDateTime endDateTime,String emailId);
+		
+		List<Meeting> findByDepartmentId(Long departmentId);
 
 }
