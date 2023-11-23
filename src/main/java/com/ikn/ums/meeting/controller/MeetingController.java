@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -336,5 +337,25 @@ public class MeetingController {
 		System.out.println(OrganisedMeetingInYear);
 			
 			return new ResponseEntity<>(MeetingdatasInYear,HttpStatus.OK);
-			}
+	}
+	
+	@GetMapping("/department/{departmentId}")
+	public ResponseEntity<?> getMeetingsByDepartment(@PathVariable Long departmentId){
+		log.info("getMeetingsByDepartment() entered with args : departmentId - "+departmentId);
+		try {
+			log.info("getMeetingsByDepartment() is under execution... ");
+			List<Meeting> departmentMeetingList =  meetingService.getMeetingsByDepartment(departmentId);
+			log.info("getMeetingsByDepartment() is executed sucessfully... ");
+			return new ResponseEntity<>(departmentMeetingList, HttpStatus.OK);
+		}catch (EmptyInputException businessException) {
+			log.info("getMeetingsByDepartment() exited with execption :Business Exception has encountered while fetching meetings by department.");
+			throw businessException;
+		}catch (Exception e) {
+			log.info("getMeetingsByDepartment() exited with execption :General Exception has encountered while fetching meetings by department.");
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_BYDEPT_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_GET_BYDEPT_UNSUCCESS_MSG);
+			throw umsCE;
+		}
+	}
+	
 }
