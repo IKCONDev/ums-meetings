@@ -408,7 +408,7 @@ public class TaskServiceImpl implements  TaskService{
 		    }
 		}
 		actionItemBuilder.append("<b>"+"Attendees - "+"</b>"+dislayAttendeeName+"<br/>");
-		actionItemBuilder.append("<h4>").append("DiscussionPoints -").append("</h4>");
+		actionItemBuilder.append("<h4>").append("Discussion Points -").append("</h4>");
 		if(discussionPoints == null) {
 			actionItemBuilder.append("There are no Discussion points"+"<br/><br/>");
 		}
