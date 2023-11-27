@@ -358,4 +358,21 @@ public class MeetingController {
 		}
 	}
 	
+	@GetMapping("/all")
+	public ResponseEntity<?> getAllMeetings(){
+		log.info("MeetingController.getAllMeetings() entered with args - meetingId");
+		try {
+			log.info("MeetingController.getAllMeetings() is under execution...");
+			//Meeting meetingObject = optionalMeetingObject.get();
+			List<Meeting> meetingObjectList = meetingService.getAllMeetings() ;
+			log.info("MeetingController.getAllMeetings() executed successfully");
+			return new ResponseEntity<>(meetingObjectList,HttpStatus.OK);
+		}catch (Exception e) {
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MSG);
+		}
+		
+	}
+	
+	
 }

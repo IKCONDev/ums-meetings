@@ -366,6 +366,17 @@ public class MeetingsServiceImpl implements MeetingService {
 		return meetingsOfDepartment;
 	}
 
+	@Override
+	public List<Meeting> getAllMeetings() {
+		// TODO Auto-generated method stub
+		log.info("getAllMeetings() is entered");
+		log.info("getAllMeetings() is under execution...");
+		List<Meeting> meetingList =  meetingRepository.findAll();
+		log.info("getAllMeetings() is executed successfully.");
+		System.out.println(meetingList);
+		return meetingList;
+	}
+
 }
     
 
