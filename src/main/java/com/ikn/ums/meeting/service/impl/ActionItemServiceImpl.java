@@ -280,4 +280,24 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		return filteredActionItemList;
 	}
 
+	@Override
+	public List<ActionItem> getActionItemsByDepartmentId(Long departmentId) {
+		if(departmentId == 0) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_MSG);
+		}
+		List<ActionItem> actionItemsListOfDepartment = actionItemRepository.findByDepartmentId(departmentId);
+		return actionItemsListOfDepartment;
+	}
+
+	@Override
+	public List<ActionItem> getActionItemsByPriority(String priority) {
+		if(priority.isBlank()) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_PRIORITY_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_ACTIONITEMS_PRIORITY_EMPTY_MSG);
+		}
+		List<ActionItem> actionItemsListOfDepartment = actionItemRepository.findByActionPriority(priority);
+		return actionItemsListOfDepartment;
+	}
+
 }

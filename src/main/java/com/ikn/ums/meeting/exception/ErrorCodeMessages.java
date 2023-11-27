@@ -83,8 +83,8 @@ public class ErrorCodeMessages {
 	 public static final String ERR_MEETINGS_NOTIFICATION_SERVICE_NOTFOUND_CODE = "ERR_MEETINGS_NOTIFICATION_SERVICE_CODE-1027";
 	 public static final String ERR_MEETINGS_NOTIFICATION_SERVICE_NOTFOUND_MSG = "No instances available for UMS-NOTIFICATION-SERVICE";
 	 
-	 public static final String ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE = "ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE-1028";
-	 public static final String ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG = "Department Id is empty or null";
+	 public static final String ERR_MEETINGS_DEPTID_EMPTY_CODE = "ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE-1028";
+	 public static final String ERR_MEETINGS_DEPTID_EMPTY_MSG = "Department Id is empty or null";
 	 
 	 public static final String ERR_MEETINGS_GET_BYDEPT_UNSUCCESS_CODE = "ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE-1029";
 	 public static final String ERR_MEETINGS_GET_BYDEPT_UNSUCCESS_MSG = "Error while fetching ,meetings by department Id.";
@@ -121,6 +121,22 @@ public class ErrorCodeMessages {
 	 public static final String ERR_TASK_CATEGORY_TITLE_EXISTS_EXCEPTION_MSG = "Task Category Title Already Exists !"; 	
 	 
 	 public static final String ERR_TASK_CATEGORY_GET_UNSUCCESS_CODE = "ERR_TASK_CATEGORY_GET_UNSUCCESS_CODE-1039";
-	 public static final String ERR_TASK_CATEGORY_GET_UNSUCCESS_MSG = "Error while getting task category(s) !"; 	
+	 public static final String ERR_TASK_CATEGORY_GET_UNSUCCESS_MSG = "Error while getting task category(s) !"; 
+	 
+	 public static final String ERR_TASKS_DEPTID_EMPTY_CODE = "ERR_TASKS_DEPTID_EMPTY_CODE-1040";
+	 public static final String ERR_TASKS_DEPTID_EMPTY_MSG = "Error while fecthing tasks by department id";
+	 
+	 //ACTION ITEMS CODES
+	 public static final String ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_CODE = "ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_CODE-1001";
+	 public static final String ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_MSG = "Error while fetching action items by department Id.";
+	 
+	 public static final String ERR_ACTIONITEMS_DEPTID_EMPTY_CODE = "ERR_ACTIONITEMS_DEPTID_EMPTY_CODE-1002";
+	 public static final String ERR_ACTIONITEMS_DEPTID_EMPTY_MSG = "Department id is empty";
+	 
+	 public static final String ERR_ACTIONITEMS_PRIORITY_EMPTY_CODE = "ERR_ACTIONITEMS_PRIORITY_EMPTY_CODE-1003";
+	 public static final String ERR_ACTIONITEMS_PRIORITY_EMPTY_MSG = "Department id is empty";
+	 
+	 public static final String ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_CODE = "ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_CODE-1001";
+	 public static final String ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_MSG = "Error while fetching action items by priority.";
 	 
 }

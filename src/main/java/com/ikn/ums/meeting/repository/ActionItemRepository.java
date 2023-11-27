@@ -34,5 +34,9 @@ public interface ActionItemRepository extends JpaRepository<ActionItem, Integer>
 	        nativeQuery = true)
 	public List<ActionItem> findAllFilteredActionItemsByUserId(String actionItemTitle, String actionItemOwner,
 			LocalDate startDate, LocalDate endDate, String emailId);
+	
+	//Reports methods
+	List<ActionItem> findByDepartmentId(Long departmentId);
+	List<ActionItem> findByActionPriority(String actionPriority);
 
 }

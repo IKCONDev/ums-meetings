@@ -357,8 +357,8 @@ public class MeetingsServiceImpl implements MeetingService {
 	public List<Meeting> getMeetingsByDepartment(Long departmentId) {
 		log.info("getMeetingsByDepartment() entered with args : departmentId - "+departmentId);
 		if(departmentId == 0) {
-			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_DEPTID_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_DEPTID_EMPTY_MSG);
 		}
 		log.info("getMeetingsByDepartment() is under execution...");
 		List<Meeting> meetingsOfDepartment = meetingRepository.findByDepartmentId(departmentId);
