@@ -742,8 +742,8 @@ public class TaskServiceImpl implements  TaskService{
 		@Override
 		public List<Task> getTasksByDepartment(Long departmentId) {
 			if(departmentId == 0 || departmentId == null) {
-				throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE, 
-						ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+				throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
+						ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 			}
 			List<Task> taskList = taskRepository.findByDepartmentId(departmentId);
 			return taskList;
@@ -753,8 +753,8 @@ public class TaskServiceImpl implements  TaskService{
 		public List<Task> getTasksByTaskPriority(String taskPriority) {
 			log.info("findByTaskPriority() entered");
 			if(taskPriority == "" || taskPriority == null) {
-				throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE, 
-						ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+				throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
+						ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 			}
 			List<Task> taskList = taskRepository.findByTaskPriority(taskPriority);
 			System.out.println(taskList);
@@ -764,8 +764,8 @@ public class TaskServiceImpl implements  TaskService{
 		@Override
 		public List<Task> getTasksByTaskStatus(String taskStatus) {
 			if(taskStatus == "" || taskStatus == null) {
-				throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE, 
-						ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+				throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
+						ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 			}
 			List<Task> taskList = taskRepository.findByStatus(taskStatus);
 			return taskList;

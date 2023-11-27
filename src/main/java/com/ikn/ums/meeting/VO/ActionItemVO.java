@@ -33,8 +33,5 @@ public class ActionItemVO {
 	
 	private String emailId;
 
-	
-
-
-
+	private Long departmentId;
 }

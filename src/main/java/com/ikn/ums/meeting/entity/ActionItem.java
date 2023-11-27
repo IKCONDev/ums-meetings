@@ -60,6 +60,9 @@ public class ActionItem {
 	@Column(name="endDate",nullable = true)
 	private LocalDate endDate;
 	
+	@Column(name = "departmentId")
+	private Long departmentId;
+	
 	@Column(name = "createdDateTime")
 	private LocalDateTime createdDateTime;
 	

@@ -411,8 +411,8 @@ public class TaskController {
 	@GetMapping("department/{departmentId}")
 	public ResponseEntity<?> getTaskListByDepartment(@PathVariable Long departmentId){
 		if(departmentId == 0 || departmentId == null) {
-			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE, 
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+			throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 		}
 		List<Task> taskList = taskService.getTasksByDepartment(departmentId);
 		System.out.println(taskList);
@@ -422,8 +422,8 @@ public class TaskController {
 	@GetMapping("priority/{taskPriority}")
 	public ResponseEntity<?> getTaskListByPriority(@PathVariable String taskPriority){
 		if(taskPriority == "" || taskPriority == null) {
-			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE, 
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+			throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 		}
 		List<Task> taskList = taskService.getTasksByTaskPriority(taskPriority);
 		System.out.println(taskList);
@@ -433,8 +433,8 @@ public class TaskController {
 	@GetMapping("status/{taskStatus}")
 	public ResponseEntity<?> getTaskListByTaskStatus(@PathVariable String taskStatus){
 		if(taskStatus == "" || taskStatus == null) {
-			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_CODE, 
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_DEPTID_EMPTY_MSG);
+			throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 		}
 		List<Task> taskList = taskService.getTasksByTaskStatus(taskStatus);
 		System.out.println(taskList);

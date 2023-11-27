@@ -365,5 +365,41 @@ public class ActionItemController {
 		Long count = actionItemService.getUserOrganizedActionItemsCount(emailId);
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
+	
+	@GetMapping("/all/department/{departmentId}")
+	public ResponseEntity<?> getActionItemsByDepartment(@PathVariable Long departmentId){
+		if(departmentId == 0) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_MSG);
+		}
+		try {
+			List<ActionItem> actionItemsListByDepartment = actionItemService.getActionItemsByDepartmentId(departmentId);
+			return new ResponseEntity<>(actionItemsListByDepartment, HttpStatus.OK);
+		}catch (EmptyInputException businessException) {
+			throw businessException;
+		}catch (Exception e) {
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_CODE, 
+					ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_MSG);
+			throw umsCE;
+		}
+	}
+	
+	@GetMapping("/all/priority/{priority}")
+	public ResponseEntity<?> getActionItemsByDepartment(@PathVariable String priority){
+		if(priority.isBlank()) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_PRIORITY_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_ACTIONITEMS_PRIORITY_EMPTY_MSG);
+		}
+		try {
+			List<ActionItem> actionItemsListByDepartment = actionItemService.getActionItemsByPriority(priority);
+			return new ResponseEntity<>(actionItemsListByDepartment, HttpStatus.OK);
+		}catch (EmptyInputException businessException) {
+			throw businessException;
+		}catch (Exception e) {
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_CODE, 
+					ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_MSG);
+			throw umsCE;
+		}
+	}
 
 }
