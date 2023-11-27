@@ -158,7 +158,7 @@ public class MeetingController {
 			}else {
 				System.out.println("executed else");
 				System.out.println(endDate+"+_=_=_+_");
-				 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+				 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
 			        // Parse the string to LocalDateTime
 				 LocalDateTime localStartDateTime = startDate.isBlank() ? null : LocalDateTime.parse(startDate, formatter);
