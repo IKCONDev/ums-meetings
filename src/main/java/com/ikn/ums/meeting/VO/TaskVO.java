@@ -39,7 +39,7 @@ public class TaskVO {
 	
 	private Integer taskCategory;
 	
-	private Integer departmentId;
+	private Long departmentId;
 
 
 }

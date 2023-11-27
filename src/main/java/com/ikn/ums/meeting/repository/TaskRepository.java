@@ -97,8 +97,8 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	
 	List<Task> findByStatus(String status);
 	
-	@Query("FROM Task WHERE dueDate < :currentDateTime")
-	List<Task> findAgedTasks(LocalDate currentDateTime);
+	@Query("FROM Task WHERE plannedEndDate < :currentDate")
+	List<Task> findAgedTasks(LocalDate currentDate);
 	
 	@Query("SELECT TO_CHAR(t.startDate, 'MM'), COUNT(*) " +
 	        "FROM Task t " +
