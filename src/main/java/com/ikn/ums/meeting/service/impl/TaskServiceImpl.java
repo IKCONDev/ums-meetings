@@ -412,9 +412,18 @@ public class TaskServiceImpl implements  TaskService{
 		if(discussionPoints == null) {
 			actionItemBuilder.append("There are no Discussion points"+"<br/><br/>");
 		}
-		else {
-			actionItemBuilder.append(discussionPoints);
-			actionItemBuilder.append("<br/><br/>");
+			else {
+			    // Split the paragraph into sentences based on full stops
+			    String[] sentences = discussionPoints.split("\\.");
+
+			    // Append each sentence as a bulleted point
+			    for (String sentence : sentences) {
+			        String trimmedSentence = sentence.trim();
+			        if (!trimmedSentence.isEmpty()) {
+			            actionItemBuilder.append("• ").append(trimmedSentence).append("<br/>");
+			        }
+			    }
+			    actionItemBuilder.append("<br/>");
 		}
 		actionItemBuilder.append("<table border='1'>");
 		actionItemBuilder.append("<tr><th>Action Item</th><th>Action Item Owner Email Id</th><th>Action Item Owner Name</th></tr>");		
@@ -431,10 +440,18 @@ public class TaskServiceImpl implements  TaskService{
 	        System.out.println(actionItemOwnerList);
 	        String listString = "";
 
-	        for (String s : actionItemOwnerList)
-	        {
-	            listString += s + ",";
+	        int size = actionItemOwnerList.size();
+	        System.out.println("Size "+size);
+	        for (int i = 0; i < size; i++) {
+	            listString += actionItemOwnerList.get(i);
+	            
+	            if (i < size - 1) {
+	            	System.out.println(listString+"before comma");
+	                // Add a comma if it's not the last element
+	                listString += ",";
+	            }
 	        }
+	        System.out.println(listString);
 	        String URL = "http://UMS-EMPLOYEE-SERVICE/employees/attendees/"+listString;
 
 			// Make the request using exchange method to retrieve a List<EmployeeVO>
@@ -449,10 +466,20 @@ public class TaskServiceImpl implements  TaskService{
 			System.out.println("The employee List:"+actionOwnerNameList);
 			//Iterating the actionOwnerNameList 
 			StringBuilder actionOwnerName = new StringBuilder();
-			actionOwnerNameList.forEach(employee ->{
-			   actionOwnerName.append(employee.getFirstName()+" "+employee.getLastName()+",");	 
-				
-			});
+
+			int sizes = actionOwnerNameList.size();
+			int count = 0;
+
+			for (EmployeeVO employee : actionOwnerNameList) {
+			    actionOwnerName.append(employee.getFirstName()).append(" ").append(employee.getLastName());
+
+			    // Check if it's not the last element
+			    if (count < sizes - 1) {
+			        actionOwnerName.append(",");
+			    }
+
+			    count++;
+			}
 			actionModel.setOwner(actionOwnerName.toString());
 	        actionModelList.add(actionModel);
 	        //System.out.println(actionModelList);
