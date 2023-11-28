@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -29,6 +30,7 @@ import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.EntityNotFoundException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
+import com.ikn.ums.meeting.model.DepartmentMeetingCount;
 import com.ikn.ums.meeting.model.MeetingModel;
 import com.ikn.ums.meeting.repository.MeetingRepository;
 import com.ikn.ums.meeting.service.ActionItemService;
@@ -375,6 +377,15 @@ public class MeetingsServiceImpl implements MeetingService {
 		log.info("getAllMeetings() is executed successfully.");
 		System.out.println(meetingList);
 		return meetingList;
+	}
+
+	@Override
+	public List<Object[]> getAllDepartmentsMeetingCount() {
+		log.info("getAllDepartmentsMeetingCount() is entered");
+		log.info("getAllDepartmentsMeetingCount() is under execution...");
+		List<Object[]>  count =	meetingRepository.getCountOfMeetingsByDepartment();
+		log.info("getAllDepartmentsMeetingCount() is executed successfully.");
+		return count;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.http.protocol.HTTP;
@@ -26,6 +27,7 @@ import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.EntityNotFoundException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
+import com.ikn.ums.meeting.model.DepartmentMeetingCount;
 import com.ikn.ums.meeting.model.MeetingModel;
 import com.ikn.ums.meeting.service.MeetingService;
 
@@ -370,6 +372,24 @@ public class MeetingController {
 		}catch (Exception e) {
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MSG);
+		}
+		
+	}
+	
+	@GetMapping("/dept-count")
+	public ResponseEntity<?> getAllDepartmentsMeetingsCount(){
+		log.info("MeetingController.getAllDepartmentsMeetingsCount() entered");
+		try {
+			log.info("MeetingController.getAllDepartmentsMeetingsCount() is under execution...");
+			List<Object[]> count = meetingService.getAllDepartmentsMeetingCount();
+			log.info("MeetingController.getAllDepartmentsMeetingsCount() executed successfully");
+			System.out.println(count);
+			return new ResponseEntity<>(count,HttpStatus.OK);
+		
+		}catch (Exception e) {
+			// TODO: handle exception
+		     e.printStackTrace();
+		    return null;
 		}
 		
 	}

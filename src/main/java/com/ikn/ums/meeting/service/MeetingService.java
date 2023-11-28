@@ -2,11 +2,13 @@ package com.ikn.ums.meeting.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.ikn.ums.meeting.VO.EventVO;
 import com.ikn.ums.meeting.entity.Attendee;
 import com.ikn.ums.meeting.entity.Meeting;
+import com.ikn.ums.meeting.model.DepartmentMeetingCount;
 import com.ikn.ums.meeting.model.MeetingModel;
 
 public interface MeetingService {
@@ -28,4 +30,7 @@ public interface MeetingService {
     List<Meeting> getFilteredAttendedMeetings(String meetingTitle, String startDate, String endDate, String emailId);
     List<Meeting> getMeetingsByDepartment(Long departmentId);
     List<Meeting> getAllMeetings();
+    //List<DepartmentMeetingCount> getAllDepartmentsMeetingCount();
+    List<Object[]> getAllDepartmentsMeetingCount();
+    
 }

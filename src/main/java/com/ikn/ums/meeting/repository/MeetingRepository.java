@@ -2,6 +2,7 @@ package com.ikn.ums.meeting.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ikn.ums.meeting.entity.Attendee;
 import com.ikn.ums.meeting.entity.Meeting;
+import com.ikn.ums.meeting.model.DepartmentMeetingCount;
 
 public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 	
@@ -77,5 +79,9 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 		List<Meeting> findAllFilteredAttendedMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime,LocalDateTime endDateTime,String emailId);
 		
 		List<Meeting> findByDepartmentId(Long departmentId);
+		
+		@Query(value ="select department_Id, count(*) from meeting_tab Group By department_Id;", nativeQuery = true)
+		List<Object[]> getCountOfMeetingsByDepartment();
+		//List<DepartmentMeetingCount> getCountOfMeetingsByDepartment();
 
 }
