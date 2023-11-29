@@ -467,6 +467,23 @@ public class TaskController {
 		}
 	
 	}
+	@GetMapping("/department-tasks")
+	public ResponseEntity<?> getAllTasksByDepartment(){
+		log.info("TaskController.getAllTasksByDepartment() entered ");
+	
+		try { 
+			log.info("TaskController.getAllTasksByDepartment() is under execution... ");
+			List<Object[]> taskList = taskService.getAllTasksByDepartment();
+			log.info("TaskController.getAllTasksByDepartment() is executed Successfully");
+			return new ResponseEntity<>(taskList, HttpStatus.OK);
+			
+		}catch (Exception e) {
+			log.info("TaskController.getAllTasksByDepartment() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
+		}
+	
+	}
 	
 	
 }//class

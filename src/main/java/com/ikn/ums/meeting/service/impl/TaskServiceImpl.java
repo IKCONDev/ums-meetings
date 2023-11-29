@@ -838,4 +838,13 @@ public class TaskServiceImpl implements  TaskService{
 
 	        return monthlyYetToSatrtTaskCounts;
 		}
+
+		@Override
+		public List<Object[]> getAllTasksByDepartment() {
+			log.info("getAllTasksByDepartment is entered");
+			log.info("getAllTasksByDepartment is under execution...");
+			List<Object[]> taskList = taskRepository.getAllTasksByDepartment();
+			log.info("getAllTasksByDepartment executed successfully");
+			return taskList;
+		}
 }

@@ -122,5 +122,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
      "GROUP BY TO_CHAR(t.plannedStartDate, 'MM')")
 	List<Object[]> findYetToStartTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email);
 	 
+	@Query(value="SELECT department_id, count(*) from task_tab Group By department_id", nativeQuery = true)
+	 List<Object[]> getAllTasksByDepartment();
 	
 }
