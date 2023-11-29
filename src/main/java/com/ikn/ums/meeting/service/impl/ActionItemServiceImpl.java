@@ -300,4 +300,15 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		return actionItemsListOfDepartment;
 	}
 
+	@Override
+	public List<Object[]> getAllActionItemsCountByDepartment() {
+		// TODO Auto-generated method stub
+		log.info("getAllActionItemsCountByDepartment is entered");
+		log.info("getAllActionItemsCountByDepartment is under execution...");
+		List<Object[]> actionItemsList = actionItemRepository.getCountOfActionItemsByDepartment();
+		log.info("getAllActionItemsCountByDepartment executed successfully");
+		return actionItemsList;
+		
+	}
+
 }

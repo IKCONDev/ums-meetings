@@ -28,5 +28,7 @@ public interface ActionItemService {
 	//report methods
 	List<ActionItem> getActionItemsByDepartmentId(Long departmentId);
 	List<ActionItem> getActionItemsByPriority(String priority);
+	
+	List<Object[]> getAllActionItemsCountByDepartment();
 
 }

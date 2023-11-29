@@ -38,5 +38,7 @@ public interface ActionItemRepository extends JpaRepository<ActionItem, Integer>
 	//Reports methods
 	List<ActionItem> findByDepartmentId(Long departmentId);
 	List<ActionItem> findByActionPriority(String actionPriority);
+	@Query(value ="select department_Id, count(*) from actionitem_tab Group By department_Id;", nativeQuery = true)
+	List<Object[]> getCountOfActionItemsByDepartment();
 
 }

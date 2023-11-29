@@ -401,5 +401,22 @@ public class ActionItemController {
 			throw umsCE;
 		}
 	}
+	@GetMapping("/department-actions")
+	public ResponseEntity<?> getAllActionItemsByDepartment(){
+		log.info("ActionItemController.getAllActionItemsByDepartment() entered ");
+	
+		try { 
+			log.info("ActionItemController.getAllActionItemsByDepartment() is under execution... ");
+			List<Object[]> actionItemList = actionItemService.getAllActionItemsCountByDepartment();
+			log.info("ActionItemController.getAllActionItemsByDepartment() is executed Successfully");
+			return new ResponseEntity<>(actionItemList, HttpStatus.OK);
+			
+		}catch (Exception e) {
+			log.info("ActionItemController.getAllActionItemsByDepartment() exited with exception : Exception occured while getting the actionItems:"+ e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_IDLIST_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MSG);
+		}
+	
+	}
 
 }
