@@ -47,4 +47,8 @@ public interface TaskService {
 	List<Long> getYetToStartTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId);
 	List<Long> findYetToStartTaskCountsByMonth(LocalDate startDate, LocalDate endDate, String emailId);
 	List<Object[]> getAllTasksByDepartment();
+	List<Task> getTasksByCategoryId(Long taskCategoryId);
+	//List<Task> getAllTasks();
+	List<Object[]>  getAllTaskCategoryByCount();
+	
 }

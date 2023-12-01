@@ -484,6 +484,38 @@ public class TaskController {
 		}
 	
 	}
+	@GetMapping("/taskCategory/{taskCategoryId}")
+	public ResponseEntity<?> getAllTasksByTaskCategoryId(@PathVariable("taskCategoryId") Long taskCategoryId){
+		log.info("TaskController.getAllTasksByTaskCategoryId() entered ");
 	
+		try { 
+			log.info("TaskController.getAllTasksByTaskCategoryId() is under execution... ");
+			List<Task> taskList = taskService.getTasksByCategoryId(taskCategoryId);
+			log.info("TaskController.getAllTasksByTaskCategoryId() is executed Successfully");
+			return new ResponseEntity<>(taskList, HttpStatus.OK);
+			
+		}catch (Exception e) {
+			log.info("TaskController.getAllTasksByTaskCategoryId() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
+		}
+	
+	}
+	@GetMapping("/taskCategory-count")
+	public ResponseEntity<?> getAllTasksByCategoryCount(){
+		log.info("TaskController.getAllTasks() entered ");
+		try { 
+			log.info("TaskController.getAllTasks() is under execution... ");
+			List<Object[]> taskListCount = taskService.getAllTaskCategoryByCount();
+			log.info("TaskController.getAllTasks() is executed Successfully");
+			return new ResponseEntity<>(taskListCount, HttpStatus.OK);
+			
+		}catch (Exception e) {
+			log.info("TaskController.getAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
+		}
+	
+	}
 	
 }//class

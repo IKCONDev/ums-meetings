@@ -10,6 +10,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
 
 import com.ikn.ums.meeting.entity.Task;
+import com.ikn.ums.meeting.entity.TaskCategory;
+
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer>{
@@ -123,6 +125,11 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	List<Object[]> findYetToStartTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email);
 	 
 	@Query(value="SELECT department_id, count(*) from task_tab Group By department_id", nativeQuery = true)
-	 List<Object[]> getAllTasksByDepartment();
+	List<Object[]> getAllTasksByDepartment();
+    
+	@Query(value="SELECT * from task_tab where task_category_id=:taskCategoryId", nativeQuery = true)
+	List<Task> findByTaskCategoryName(Long taskCategoryId);
 	
+	@Query(value="SELECT task_category_id, count(*) from task_tab Group By task_category_id", nativeQuery = true)
+	List<Object[]> getAllTasksCategoryCount();
 }

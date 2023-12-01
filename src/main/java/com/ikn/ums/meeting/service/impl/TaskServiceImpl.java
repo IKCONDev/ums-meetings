@@ -841,10 +841,34 @@ public class TaskServiceImpl implements  TaskService{
 
 		@Override
 		public List<Object[]> getAllTasksByDepartment() {
-			log.info("getAllTasksByDepartment is entered");
-			log.info("getAllTasksByDepartment is under execution...");
+			log.info("getAllTasksByDepartment() is entered");
+			log.info("getAllTasksByDepartment() is under execution...");
 			List<Object[]> taskList = taskRepository.getAllTasksByDepartment();
 			log.info("getAllTasksByDepartment executed successfully");
 			return taskList;
 		}
+		
+		@Override
+		public List<Task> getTasksByCategoryId(Long taskCategoryId) {
+			log.info("getTasksByCategoryId() is entered");
+			if(taskCategoryId == 0 || taskCategoryId == null) {
+				throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE, 
+						ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG);
+			}
+			log.info("getTasksByCategoryId() is under execution...");
+			List<Task> taskList = taskRepository.findByTaskCategoryName(taskCategoryId);
+			log.info("getTasksByCategoryId() executed successfully");
+			return taskList;
+		}
+		@Override
+		public List<Object[]> getAllTaskCategoryByCount() {
+		
+			log.info("getAllTaskCategoryByCount()t is entered");
+			log.info("getAllTaskCategoryByCount() is under execution...");
+			List<Object[]> taskCountList = taskRepository.getAllTasksCategoryCount();
+			log.info("getAllTaskCategoryByCount() executed successfully");
+			return taskCountList;
+		}
+		
+
 }
