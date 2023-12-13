@@ -362,7 +362,13 @@ public class TaskServiceImpl implements  TaskService{
 		    null,
 		    new ParameterizedTypeReference<List<EmployeeVO>>() {}
 		);
-
+		if(emailList == null) {
+			emailList = new ArrayList<>();
+			emailList.add(meeting.getOrganizerEmailId());
+		}
+		else {
+			emailList.add(meeting.getOrganizerEmailId());
+		}
 		List<EmployeeVO> employeeVOList = responseEntity.getBody();
 		System.out.println(employeeVOList);
 		String[] emailArrayList = new String[emailList.size()];
