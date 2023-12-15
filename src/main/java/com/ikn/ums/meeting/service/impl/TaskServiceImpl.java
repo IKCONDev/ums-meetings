@@ -66,6 +66,9 @@ public class TaskServiceImpl implements  TaskService{
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@Autowired
+	private ActionItemService actionItemService;
+	
 	//@Autowired
 	//private DiscoveryClient discoveryClient;
 
@@ -527,12 +530,17 @@ public class TaskServiceImpl implements  TaskService{
 								subject = "Alert ! Task Updated";
 							}
 							StringBuilder emailBuilder = new StringBuilder();
+							ActionItem actionItem = new ActionItem();
+							Optional<ActionItem> optionalActionItem = actionItemService.getActionItemById(task.getActionItemId());
+							if(optionalActionItem.isPresent()) {
+							   actionItem = optionalActionItem.get();
+							}
 							
-							emailBuilder.append("<b>Meeting ID</b> - MXXX"+"<br/>"
-							+"<b>Action Item ID</b> - A000"+task.getActionItemId()+"<br/>"
-							+"<b>Task ID</b> - T000"+task.getTaskId()+"<br/>"
-							+"A task has been assigned to you: Please see below"+"<br/>"
-							+"Task Description: "+task.getTaskDescription()+"<br/>"
+							emailBuilder.append("<b>Meeting ID</b> - "+ actionItem.getMeetingId()+"<br/>"
+							+"<b>Action Item ID</b> - "+task.getActionItemId()+"<br/>"
+							+"<b>Task ID</b> - "+task.getTaskId()+"<br/>"
+							+"A task has been assigned to you: Please see below"+"<br/><br/>"
+							+"Task Description: "+task.getTaskDescription()+"<br/><br/>"
 							+ "<table width='100%' border='1' align='center'>"
 							+"<tr>"
 							+"<th colspan='3'>Task Details</th>"
@@ -549,7 +557,7 @@ public class TaskServiceImpl implements  TaskService{
 										+"<td><b>Planned Due Date</b> : "+task.getPlannedEndDate()+"</td>"
 										+"<td><b>Status</b> : "+task.getStatus()+"</td>"
 										+"</tr>"
-										+ "</table>");
+										+ "</table><br/>");
 						    	
 						    }
 						    else {
@@ -557,7 +565,7 @@ public class TaskServiceImpl implements  TaskService{
 										+"<td><b>Due Date</b> : "+task.getStartDate()+"</td>"
 										+"<td><b>Status</b> : "+task.getDueDate()+"</td>"
 										+"</tr>"
-										+ "</table>");
+										+ "</table><br/>");
 						    	
 						    }
 							
