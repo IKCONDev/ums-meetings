@@ -57,7 +57,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
             "(:taskPriority IS NULL OR task_priority = :taskPriority) AND " +
             "(:taskOwner IS NULL OR task_owner = :taskOwner) AND " +
             "(CAST(:startDate AS DATE) IS NULL OR start_date >= :startDate) AND " +
-            "(CAST(:dueDate AS DATE) IS NULL OR due_date <= :dueDate)",
+            "(CAST(:dueDate AS DATE) IS NULL OR start_date <= :dueDate)",
      nativeQuery = true)
 	List<Task> findFilteredTasks(String taskTitle, String taskPriority, String taskOwner, LocalDate startDate, LocalDate dueDate, String emailId);
 	
@@ -65,7 +65,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
             "(:taskTitle IS NULL OR task_title LIKE %:taskTitle%) AND " +
             "(:taskPriority IS NULL OR task_priority = :taskPriority) AND " +
             "(CAST(:startDate AS DATE)IS NULL OR start_date >= :startDate) AND " +
-            "(CAST(:dueDate AS DATE)IS NULL OR due_date <= :dueDate)",
+            "(CAST(:dueDate AS DATE)IS NULL OR start_date <= :dueDate)",
      nativeQuery = true)
 	//@Query("FROM Task WHERE emailId = :emailId AND ((:taskTitle IS NULL OR taskTitle LIKE %:taskTitle%) AND (:taskPriority IS NULL OR taskPriority = :taskPriority) AND (:startDate IS NULL OR startDate >= :startDate) AND (:dueDate IS NULL OR dueDate <= :dueDate))")
 	List<Task> findFilteredAssignedTasks(String taskTitle, String taskPriority, LocalDate startDate, LocalDate dueDate, String emailId);

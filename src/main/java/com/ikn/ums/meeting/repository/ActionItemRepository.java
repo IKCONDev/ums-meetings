@@ -29,7 +29,7 @@ public interface ActionItemRepository extends JpaRepository<ActionItem, Integer>
 	        "(:actionItemTitle IS NULL OR a.action_item_title LIKE %:actionItemTitle%) AND " +
 	        "(:actionItemOwner IS NULL OR o.action_item_owner = :actionItemOwner) AND " +
 	        "(CAST(:startDate AS DATE) IS NULL OR a.start_date >= :startDate ) AND " +
-	        "(CAST(:endDate AS DATE) IS NULL OR a.end_date <= :endDate ) " +
+	        "(CAST(:endDate AS DATE) IS NULL OR a.start_date <= :endDate ) " +
 	        "GROUP BY a.id",
 	        nativeQuery = true)
 	public List<ActionItem> findAllFilteredActionItemsByUserId(String actionItemTitle, String actionItemOwner,
