@@ -539,8 +539,8 @@ public class TaskServiceImpl implements  TaskService{
 							emailBuilder.append("<b>Meeting ID</b> - "+ actionItem.getMeetingId()+"<br/>"
 							+"<b>Action Item ID</b> - "+task.getActionItemId()+"<br/>"
 							+"<b>Task ID</b> - "+task.getTaskId()+"<br/>"
-							+"A task has been assigned to you: Please see below"+"<br/><br/>"
-							+"Task Description: "+task.getTaskDescription()+"<br/><br/>"
+							+"<b>Task Description</b>: "+task.getTaskDescription()+"<br/><br/>"
+							+"A task has been assigned to you.Please see the below details"+"<br/><br/>"
 							+ "<table width='100%' border='1' align='center'>"
 							+"<tr>"
 							+"<th colspan='3'>Task Details</th>"
@@ -563,7 +563,7 @@ public class TaskServiceImpl implements  TaskService{
 						    else {
 						    	emailBuilder.append("<td><b>Start Date</b> : "+task.getPlannedStartDate()+"</td>"
 										+"<td><b>Due Date</b> : "+task.getStartDate()+"</td>"
-										+"<td><b>Status</b> : "+task.getDueDate()+"</td>"
+										+"<td><b>Status</b> : "+task.getStatus()+"</td>"
 										+"</tr>"
 										+ "</table><br/>");
 						    	
