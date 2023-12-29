@@ -311,4 +311,14 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		
 	}
 
+	@Override
+	public List<ActionItem> getAllMeetingActionItems(Long meetingId) {
+		// TODO Auto-generated method stub
+		log.info("getAllMeetingActionItems is entered");
+		log.info("getAllMeetingActionItems is under execution...");
+		List<ActionItem> actionItemList = actionItemRepository.getAllActionItemsByMeetingId(meetingId);
+		log.info("getAllMeetingActionItems executed successfully");
+		return actionItemList;
+	}
+
 }

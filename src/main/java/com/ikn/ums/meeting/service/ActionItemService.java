@@ -30,5 +30,7 @@ public interface ActionItemService {
 	List<ActionItem> getActionItemsByPriority(String priority);
 	
 	List<Object[]> getAllActionItemsCountByDepartment();
+	
+	List<ActionItem> getAllMeetingActionItems(Long meetingId);
 
 }

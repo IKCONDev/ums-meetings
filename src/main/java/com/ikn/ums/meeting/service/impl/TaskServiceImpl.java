@@ -544,7 +544,6 @@ public class TaskServiceImpl implements  TaskService{
 							+ "<table width='100%' border='1' align='center'>"
 							+"<tr>"
 							+"<th colspan='3'>Task Details</th>"
-							+"<th></th>"
 							+"</tr>"
 							+"<tr>"
 							+"<td><b>Assignee</b> : "+task.getTaskOwner()+"</td>"

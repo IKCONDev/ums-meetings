@@ -418,5 +418,22 @@ public class ActionItemController {
 		}
 	
 	}
+	@GetMapping("/meeting-actions/{meetingId}")
+	public ResponseEntity<?> getAllActionItemsByMeetingId(@PathVariable("meetingId") Long meetingId){
+		log.info("ActionItemController.getAllActionItemsByMeetingId() entered ");
+	
+		try { 
+			log.info("ActionItemController.getAllActionItemsByMeetingId() is under execution... ");
+			List<ActionItem> actionItemList = actionItemService.getAllMeetingActionItems(meetingId);
+			log.info("ActionItemController.getAllActionItemsByMeetingId() is executed Successfully");
+			return new ResponseEntity<>(actionItemList, HttpStatus.OK);
+			
+		}catch (Exception e) {
+			log.info("ActionItemController.getAllActionItemsByMeetingId() exited with exception : Exception occured while getting the actionItems:"+ e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_IDLIST_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MSG);
+		}
+	
+	}
 
 }
