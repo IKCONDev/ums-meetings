@@ -509,8 +509,8 @@ public class TaskServiceImpl implements  TaskService{
  	   actionItemBuilder.append("<br/>");
  	   actionItemBuilder.append("</table>");
  	   actionItemBuilder.append("<br/>");
- 	   actionItemBuilder.append("<b>").append("Thanks & Regards").append("</br>");
- 	   actionItemBuilder.append(meeting.getOrganizerName());
+ 	   actionItemBuilder.append("<b>").append("Thanks & Regards").append("<br/>");
+ 	   actionItemBuilder.append(meeting.getOrganizerName()+"</b>"+"<br/><br/>");
  	   String[] convertedMergeList = mergedEmailList.toArray(new String[0]);
 	   emailService.sendMail(convertedMergeList, subject, actionItemBuilder.toString(),true);	
 	}
@@ -540,7 +540,7 @@ public class TaskServiceImpl implements  TaskService{
 							+"<b>Action Item ID</b> - "+task.getActionItemId()+"<br/>"
 							+"<b>Task ID</b> - "+task.getTaskId()+"<br/>"
 							+"<b>Task Description</b>: "+task.getTaskDescription()+"<br/><br/>"
-							+"A task has been assigned to you.Please see the below details"+"<br/><br/>"
+							+"A task has been assigned to you. Please see the below details"+"<br/><br/>"
 							+ "<table width='100%' border='1' align='center'>"
 							+"<tr>"
 							+"<th colspan='3'>Task Details</th>"
