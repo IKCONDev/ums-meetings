@@ -73,9 +73,10 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 			List<Meeting> findAllFilteredMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime, LocalDateTime endDateTime, String emailId);
 		
 		@Query("FROM Meeting m JOIN m.attendees a WHERE a.emailId = :emailId AND " +
-			       "((:meetingTitle IS NULL OR lower(m.subject) LIKE lower(concat('%', :meetingTitle, '%'))) " +
-			       "AND (cast(:startDateTime as timestamp) IS NULL OR m.startDateTime >= cast(:startDateTime as timestamp) " +
-			       "AND cast(:endDateTime as timestamp) IS NULL OR m.startDateTime <= cast(:endDateTime as timestamp)))")
+		           "((:meetingTitle IS NULL OR lower(m.subject) LIKE lower(concat('%', :meetingTitle, '%'))) " +
+		           "AND (cast(:startDateTime as timestamp) IS NULL OR m.startDateTime >= cast(:startDateTime as timestamp)) " +
+		           "AND (cast(:endDateTime as timestamp) IS NULL OR m.startDateTime <= cast(:endDateTime as timestamp)))")
+		//List<Meeting> findAllFilteredAttendedMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime, LocalDateTime endDateTime, String emailId);
 		List<Meeting> findAllFilteredAttendedMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime,LocalDateTime endDateTime,String emailId);
 		
 		List<Meeting> findByDepartmentId(Long departmentId);

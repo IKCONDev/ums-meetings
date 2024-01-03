@@ -50,7 +50,7 @@ public class MeetingController {
 	 * @return
 	 */
 	@PostMapping("/create")
-	public ResponseEntity<?> createMeeting(@RequestBody MeetingModel meetingModel){
+	public ResponseEntity<Meeting> createMeeting(@RequestBody MeetingModel meetingModel){
 		log.info("MeetingController.createMeeting() entered with args : meeting object");
 		if(meetingModel.equals(null) || meetingModel == null) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_CODE,
@@ -76,7 +76,7 @@ public class MeetingController {
 	 * @return
 	 */
 	@GetMapping("/delete/ac-items/{id}/{actionItemIds}")
-	public ResponseEntity<?> deleteActionItemsOfEvent(@PathVariable("id") Integer meetingId, @PathVariable String actionItemIds){
+	public ResponseEntity<Boolean> deleteActionItemsOfEvent(@PathVariable("id") Integer meetingId, @PathVariable String actionItemIds){
 		log.info("EventController.deleteActionItemsOfEvent() entered with args : eventId - "+meetingId+" actionItemIds - "+actionItemIds);
 		try {
 			log.info("EventController.deleteActionItemsOfEvent() is under execution...");
@@ -104,7 +104,7 @@ public class MeetingController {
 	 * @return
 	 */
 	@GetMapping(path = "/attended/{userId}")
-	public ResponseEntity<?> getUserAttendedMeetings(@PathVariable("userId") String emailId,
+	public ResponseEntity<List<Meeting>> getUserAttendedMeetings(@PathVariable("userId") String emailId,
 			@RequestParam(defaultValue = "", required = false) String meetingTitle,
 			@RequestParam(defaultValue = "", required = false) String startDateTime,
 			@RequestParam(defaultValue = "", required = false) String endDateTime) {
@@ -139,7 +139,7 @@ public class MeetingController {
      * @return
      */
 	@GetMapping("/organized/{userId}")
-	public ResponseEntity<?> getUserOrganizedMeetings(@PathVariable("userId") String emailId,
+	public ResponseEntity<List<Meeting>> getUserOrganizedMeetings(@PathVariable("userId") String emailId,
 			@RequestParam(defaultValue = "",required = false) String meetingTitle,
 		@Nullable@RequestParam(required = false) String startDate,
 			@Nullable@RequestParam(required = false) String endDate){
@@ -185,7 +185,7 @@ public class MeetingController {
 	 * @return
 	 */
 	@PostMapping("/")
-	public ResponseEntity<?> processCurrentBatchProcessingSourceData(@RequestBody List<List<Meeting>> currentBatchProcessUserMeetingsList){
+	public ResponseEntity<String> processCurrentBatchProcessingSourceData(@RequestBody List<List<Meeting>> currentBatchProcessUserMeetingsList){
 		log.info("MeetingController.processCurrentBatchProcessingSourceData() entered with args : currentBatchProcessUserMeetingsList");
 		if(currentBatchProcessUserMeetingsList.size() < 0) {
 			log.info("Empty meetings list from current batch processing");
@@ -212,7 +212,7 @@ public class MeetingController {
 	 * @return
 	 */
 	@GetMapping("/all/{userId}")
-	public ResponseEntity<?> getAllMeetingsOfUser(@PathVariable("userId") String emailId){
+	public ResponseEntity<List<Meeting>> getAllMeetingsOfUser(@PathVariable("userId") String emailId){
 		log.info("MeetingController.getAllMeetingsOfUser() entered with args : "+emailId);
 		if(emailId.equalsIgnoreCase("") || emailId == null) {
 			log.info("MeetingsServiceImpl.getAllMeetingsOfUser() : userId/emailId is empty");
@@ -237,7 +237,7 @@ public class MeetingController {
 	 * @return
 	 */
 	@GetMapping(path = "attended/count/{userId}")
-	public ResponseEntity<?> getUserAttendedEventCount(@PathVariable("userId") String emailId) {
+	public ResponseEntity<Integer> getUserAttendedEventCount(@PathVariable("userId") String emailId) {
 		log.info(
 				"TeamsSourceDataBatchProcessController.getUserAttendedEventCount() entered with args : " + emailId);
 		if (emailId.equalsIgnoreCase("") || emailId == null) {
@@ -267,7 +267,7 @@ public class MeetingController {
 	 * @return
 	 */
 	@GetMapping(path = "/organized/count/{userId}")
-	public ResponseEntity<?> getUserOragnizedMeetingCount(@PathVariable("userId") String emailId) {
+	public ResponseEntity<Integer> getUserOragnizedMeetingCount(@PathVariable("userId") String emailId) {
 		log.info("TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() entered with args : userEmailId : "
 				+ emailId);
 		if (emailId.equalsIgnoreCase("") || emailId == null) {
@@ -298,7 +298,7 @@ public class MeetingController {
 	 * @return
 	 */
 	@GetMapping("/{meetingId}")
-	public ResponseEntity<?> getSingleMeeting(@PathVariable("meetingId") Long meetingId){
+	public ResponseEntity<Meeting> getSingleMeeting(@PathVariable("meetingId") Long meetingId){
 		log.info("MeetingController.getSingleMeeting() entered with args - meetingId");
 		Optional<Meeting> optionalMeetingObject = meetingService.getMeetingDetails(meetingId);
 		try {
@@ -313,7 +313,7 @@ public class MeetingController {
 		
 	}
 	@GetMapping("/MeetingsChartData")
-	public ResponseEntity<?>getCountOfAttendedAndOrganisedMeetings(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
+	public ResponseEntity<List <Object>>getCountOfAttendedAndOrganisedMeetings(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
 			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate,@RequestParam("emailId") String email){
 		log.info("MeetingController.getCountOfAttendedAndOrganisedMeetings() is under execution...");
 		List <Object> MeetingdatasInWeek = new ArrayList<>();
@@ -328,7 +328,7 @@ public class MeetingController {
 	}
 	
 	@GetMapping("/MeetingsChartDataForYear")
-	public ResponseEntity<?>getCountofAttendedAndOrganisedMeetingsInYear(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
+	public ResponseEntity<List <Object>>getCountofAttendedAndOrganisedMeetingsInYear(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
 			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate,@RequestParam("emailId") String email){
 		log.info("MeetingController.getCountofAttendedAndOrganisedMeetingsInYear");
 		List <Object> MeetingdatasInYear = new ArrayList<>();
@@ -342,7 +342,7 @@ public class MeetingController {
 	}
 	
 	@GetMapping("/department/{departmentId}")
-	public ResponseEntity<?> getMeetingsByDepartment(@PathVariable Long departmentId){
+	public ResponseEntity<List<Meeting>> getMeetingsByDepartment(@PathVariable Long departmentId){
 		log.info("getMeetingsByDepartment() entered with args : departmentId - "+departmentId);
 		try {
 			log.info("getMeetingsByDepartment() is under execution... ");
@@ -361,7 +361,7 @@ public class MeetingController {
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllMeetings(){
+	public ResponseEntity<List<Meeting>> getAllMeetings(){
 		log.info("MeetingController.getAllMeetings() entered with args - meetingId");
 		try {
 			log.info("MeetingController.getAllMeetings() is under execution...");
@@ -377,7 +377,7 @@ public class MeetingController {
 	}
 	
 	@GetMapping("/dept-count")
-	public ResponseEntity<?> getAllDepartmentsMeetingsCount(){
+	public ResponseEntity<List<Object[]>> getAllDepartmentsMeetingsCount(){
 		log.info("MeetingController.getAllDepartmentsMeetingsCount() entered");
 		try {
 			log.info("MeetingController.getAllDepartmentsMeetingsCount() is under execution...");

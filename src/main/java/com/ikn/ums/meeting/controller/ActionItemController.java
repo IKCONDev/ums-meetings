@@ -103,7 +103,7 @@ public class ActionItemController {
 	 * @return
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getSingleActionItem(@PathVariable("id") Integer actionItemId) {
+	public ResponseEntity<ActionItem> getSingleActionItem(@PathVariable("id") Integer actionItemId) {
 		log.info("ActionItemController.getSingleActionItem() entered with args : actionItemId " + actionItemId);
 		if (actionItemId < 1 || actionItemId == null) {
 			log.info(
@@ -133,7 +133,7 @@ public class ActionItemController {
 	 * @return
 	 */
 	@DeleteMapping("delete/{id}")
-	public ResponseEntity<?> deleteActionItem(@PathVariable("id") Integer actionItemid) {
+	public ResponseEntity<Integer> deleteActionItem(@PathVariable("id") Integer actionItemid) {
 		log.info("ActionItemController.deleteActionItem() entered with args : actionItemid " + actionItemid);
 		if (actionItemid == null || actionItemid < 0) {
 			log.info(
@@ -162,7 +162,7 @@ public class ActionItemController {
 	 * @return
 	 */
 	@DeleteMapping("/deleteAll/{ids}")
-	public ResponseEntity<?> deleteActionItemsById(@PathVariable("ids") String actionItemIds) {
+	public ResponseEntity<Boolean> deleteActionItemsById(@PathVariable("ids") String actionItemIds) {
 		log.info("ActionItemController.deleteActionItemsById() entered with args actionItemIds : " + actionItemIds);
 		if (actionItemIds == "" || actionItemIds == null) {
 			log.info("ActionItemController.deleteActionItemsById() Empty Input Exception : Action Item ids are empty");
@@ -196,7 +196,7 @@ public class ActionItemController {
 	 * @return
 	 */
 	@PostMapping("/generate-actions")
-	public ResponseEntity<?> generateActionItems(@RequestBody List<ActionItem> actionItemList) {
+	public ResponseEntity<Boolean> generateActionItems(@RequestBody List<ActionItem> actionItemList) {
 		log.info("ActionItemController.generateActionItems() entered with args : actionItemList ");
 		if (actionItemList.size() < 1 || actionItemList == null) {
 			log.info("ActionItemController.generateActionItems() EmptyListException : Action Items list is empty");
@@ -220,7 +220,7 @@ public class ActionItemController {
 	 * @return
 	 */
 	@GetMapping("/all")
-	public ResponseEntity<?> getActionItems() {
+	public ResponseEntity<List<ActionItem>> getActionItems() {
 		log.info("ActionItemController.getActionItems() entered");
 		try {
 			log.info("ActionItemController.getActionItems() is under excecution...");
@@ -242,7 +242,7 @@ public class ActionItemController {
 	 * @return
 	 */
 	@GetMapping("/all/{emailId}")
-	public ResponseEntity<?> FetchActionItemsByEmailId(@PathVariable("emailId") String email,
+	public ResponseEntity<List<ActionItem>> FetchActionItemsByEmailId(@PathVariable("emailId") String email,
 			@RequestParam(defaultValue = "", required = false) String actionItemTitle,
 			@RequestParam(defaultValue = "", required = false) String actionItemOwner,
 			@RequestParam(defaultValue = "", required = false) String actionItemStartDate,
@@ -282,7 +282,7 @@ public class ActionItemController {
 	 * @return
 	 */
 	@GetMapping("/ac-items/{meetingId}")
-	public ResponseEntity<?> getActionItemsByMeetingId(@PathVariable Long meetingId) {
+	public ResponseEntity<ActionItemListVO> getActionItemsByMeetingId(@PathVariable Long meetingId) {
 		log.info("ActionItemController.getActionItemsByMeetingId() entered with args  meetingId : " + meetingId);
 		if (meetingId == null || meetingId < 1) {
 			log.info(
@@ -309,7 +309,7 @@ public class ActionItemController {
 	 */
 
 	@PostMapping("/convert-task/{meetingId}")
-	public ResponseEntity<?> processActionItemsToTasks(@RequestBody List<ActionItem> actionItemList,
+	public ResponseEntity<Boolean> processActionItemsToTasks(@RequestBody List<ActionItem> actionItemList,
 			@PathVariable Long meetingId) {
 		log.info("ActionsController.processActionItemsToTasks() entered with args : actionItemsList");
 		if (actionItemList.size() < 1 || actionItemList == null) {
@@ -347,7 +347,7 @@ public class ActionItemController {
 	}
 
 	@PostMapping("/send-mom/{meeting}/{emailList}")
-	public ResponseEntity<?> sendMinutesOfMeetingObject(@PathVariable("meeting") Meeting meeting,
+	public ResponseEntity<Boolean> sendMinutesOfMeetingObject(@PathVariable("meeting") Meeting meeting,
 			@PathVariable("emailList") List<String> emailList) {
 
 		log.info("ActionItemController.sendMinutesOfMeetingObject() is entered)");
@@ -361,13 +361,13 @@ public class ActionItemController {
 	}
 
 	@GetMapping("/organized/count/{userId}")
-	public ResponseEntity<?> getActionItemsCountforUser(@PathVariable("userId") String emailId) {
+	public ResponseEntity<Long> getActionItemsCountforUser(@PathVariable("userId") String emailId) {
 		Long count = actionItemService.getUserOrganizedActionItemsCount(emailId);
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
 	
 	@GetMapping("/all/department/{departmentId}")
-	public ResponseEntity<?> getActionItemsByDepartment(@PathVariable Long departmentId){
+	public ResponseEntity<List<ActionItem>> getActionItemsByDepartment(@PathVariable Long departmentId){
 		if(departmentId == 0) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_MSG);
@@ -385,7 +385,7 @@ public class ActionItemController {
 	}
 	
 	@GetMapping("/all/priority/{priority}")
-	public ResponseEntity<?> getActionItemsByDepartment(@PathVariable String priority){
+	public ResponseEntity<List<ActionItem>> getActionItemsByDepartment(@PathVariable String priority){
 		if(priority.isBlank()) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_PRIORITY_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_ACTIONITEMS_PRIORITY_EMPTY_MSG);
@@ -402,7 +402,7 @@ public class ActionItemController {
 		}
 	}
 	@GetMapping("/department-actions")
-	public ResponseEntity<?> getAllActionItemsByDepartment(){
+	public ResponseEntity<List<Object[]>> getAllActionItemsByDepartment(){
 		log.info("ActionItemController.getAllActionItemsByDepartment() entered ");
 	
 		try { 
@@ -419,7 +419,7 @@ public class ActionItemController {
 	
 	}
 	@GetMapping("/meeting-actions/{meetingId}")
-	public ResponseEntity<?> getAllActionItemsByMeetingId(@PathVariable("meetingId") Long meetingId){
+	public ResponseEntity<List<ActionItem>> getAllActionItemsByMeetingId(@PathVariable("meetingId") Long meetingId){
 		log.info("ActionItemController.getAllActionItemsByMeetingId() entered ");
 	
 		try { 
