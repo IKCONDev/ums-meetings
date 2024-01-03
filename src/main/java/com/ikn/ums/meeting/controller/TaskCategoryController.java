@@ -103,7 +103,7 @@ public class TaskCategoryController {
 	*/
 	
 	@DeleteMapping("/delete/{ids}")
-	public ResponseEntity<?> deleteSelectedTaskCatgoriesByIds(@PathVariable("ids") List<Long> taskCategoryIds) {
+	public ResponseEntity<Boolean> deleteSelectedTaskCatgoriesByIds(@PathVariable("ids") List<Long> taskCategoryIds) {
 		boolean deleteSelectedTaskCatgoriesByIds = false;
 		if (taskCategoryIds.equals(null) || taskCategoryIds == null || taskCategoryIds.size() <= 0 ) {
 			log.info("TaskCategoryController.deleteSelectedTaskCatgoriesByIds() entered with args - ids : roleIds size (): " + taskCategoryIds.size());
@@ -127,7 +127,7 @@ public class TaskCategoryController {
 	}
 	
 	@GetMapping("/{taskCategoryId}")
-	public ResponseEntity<?> getTaskCategoryById(@PathVariable Long taskCategoryId) {
+	public ResponseEntity<TaskCategoryDTO> getTaskCategoryById(@PathVariable Long taskCategoryId) {
 		
 		if (taskCategoryId <= 0) 
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE,
@@ -150,7 +150,7 @@ public class TaskCategoryController {
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllTaskCategories() {
+	public ResponseEntity<List<TaskCategoryDTO>> getAllTaskCategories() {
 		log.info("TaskCategoryController.getAllTaskCategories() ENTERED.");
 		try {
 			log.info("TaskCategoryController.getAllTaskCategories() is under execution...");

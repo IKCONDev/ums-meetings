@@ -51,7 +51,7 @@ public class TaskController {
   * @return
   */
 	@PostMapping("/create")
-	public ResponseEntity<?> createTask(@RequestBody Task task){
+	public ResponseEntity<Task> createTask(@RequestBody Task task){
 		log.info("TaskController.createTasks() entered with args : task");
 	    if(task == null) {
 	    	log.info("TaskController.createTasks() Empty Input Exception : tasklist is Empty" );
@@ -110,7 +110,7 @@ public class TaskController {
 	 * @return
 	 */
 	@GetMapping("/all")
-	public ResponseEntity<?> fetchAllTasks(){
+	public ResponseEntity<List<Task>> fetchAllTasks(){
 		log.info("TaskController.fetchAllTasks() entered ");
 		
 		try {
@@ -133,7 +133,7 @@ public class TaskController {
 	 * @return
 	 */
 	@GetMapping("/getall/{emailId}")
-	public ResponseEntity<?> fetchTasksByUserId(@PathVariable String emailId,
+	public ResponseEntity<List<Task>> fetchTasksByUserId(@PathVariable String emailId,
 			@RequestParam(required = false, defaultValue = "") String taskTitle,
 			@RequestParam(required = false, defaultValue = "") String taskPriority,
 			@RequestParam(required = false, defaultValue = "") String taskOrganizer,
@@ -180,7 +180,7 @@ public class TaskController {
 	 * @return
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<?> fetchTaskByTaskId(@PathVariable("id") Integer taskId){
+	public ResponseEntity<Task> fetchTaskByTaskId(@PathVariable("id") Integer taskId){
 		log.info("TaskController.fetchTaskById() entered with args:"+ taskId);
 		if(taskId <1 || taskId== null) {
 			log.info("TaskController.fetchTaskById() Empty Input Exception : taskId is Empty");
@@ -209,7 +209,7 @@ public class TaskController {
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateTaskDetails(@RequestBody Task task,@PathVariable("id") Integer taskId){
+	public ResponseEntity<Task> updateTaskDetails(@RequestBody Task task,@PathVariable("id") Integer taskId){
 		log.info("TaskController.updateTaskDetails() entered with args - taskId : " +taskId);
 		if(taskId < 1|| taskId == null) {
 			log.info("TaskController.updateTaskDetails() Empty Input Exception : taskId is empty");
@@ -237,7 +237,7 @@ public class TaskController {
 	 * @return
 	 */
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteTaskByTaskId(@PathVariable("id") Integer id){
+	public ResponseEntity<Integer> deleteTaskByTaskId(@PathVariable("id") Integer id){
 		log.info("TaskController.deleteTaskDetails() entered with args : " +id);
 		if(id < 1 || id == null) {
 			log.info("TaskController.deleteTaskDetails() Empty Input Exception : taskId is empty");
@@ -263,7 +263,7 @@ public class TaskController {
 	 * @return
 	 */
 	@DeleteMapping("/deleteAll/{ids}")
-	public ResponseEntity<?> deleteAllTasksById(@PathVariable("ids") String taskids){
+	public ResponseEntity<Boolean> deleteAllTasksById(@PathVariable("ids") String taskids){
 		log.info("TaskController.deleteAllTasksById() entered with args : taskIds");
 		if(taskids == "" || taskids == null) {
 			log.info("TaskController.deleteAllTasksById() Empty Input Exceptio : taskId's is empty");
@@ -293,7 +293,7 @@ public class TaskController {
 	}
 	
 	@GetMapping("/assigned/{emailId}")
-	public ResponseEntity<?> getAssignedTasksByUserId(@PathVariable String emailId,
+	public ResponseEntity<List<Task>> getAssignedTasksByUserId(@PathVariable String emailId,
 			@RequestParam(required = false, defaultValue = "") String taskTitle,
 			@RequestParam(required = false, defaultValue = "") String taskPriority,
 			@RequestParam(required = false, defaultValue = "")String taskStartDate,
@@ -361,18 +361,18 @@ public class TaskController {
 	*/
 	
 	@GetMapping("/organized/count/{userId}")
-	public ResponseEntity<?> getOrganizedTasksCountByUserId(@PathVariable("userId") String emailId){
+	public ResponseEntity<Long> getOrganizedTasksCountByUserId(@PathVariable("userId") String emailId){
 		Long count = taskService.getOrganizedTasksCountOfUser(emailId);
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
 	
 	@GetMapping("/assigned/count/{userId}")
-	public ResponseEntity<?> getAssignedTasksCountByUserId(@PathVariable("userId") String emailId){
+	public ResponseEntity<Long> getAssignedTasksCountByUserId(@PathVariable("userId") String emailId){
 		Long count = taskService.getUserAssignedTasksCountOfUser(emailId);
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
 	@GetMapping("/weekTaskCount")
-	public ResponseEntity<?> getWeekTasks(@RequestParam("startdate") String startDate ,
+	public ResponseEntity<List<Object>> getWeekTasks(@RequestParam("startdate") String startDate ,
 			@RequestParam("endDate") String endDate,String emailId){
 		LocalDate startdate = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
         LocalDate enddate = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
@@ -389,7 +389,7 @@ public class TaskController {
 		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
 	@GetMapping("/TaskCountForYear")
-	public ResponseEntity<?> getTaskCountForYear(@RequestParam("startdate") String startDate ,
+	public ResponseEntity<List<Object>> getTaskCountForYear(@RequestParam("startdate") String startDate ,
 			@RequestParam("endDate") String endDate,@RequestParam String emailId){
 		LocalDate startdate = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
         LocalDate enddate = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
@@ -409,7 +409,7 @@ public class TaskController {
 	}
 	
 	@GetMapping("department/{departmentId}")
-	public ResponseEntity<?> getTaskListByDepartment(@PathVariable Long departmentId){
+	public ResponseEntity<List<Task>> getTaskListByDepartment(@PathVariable Long departmentId){
 		if(departmentId == 0 || departmentId == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
@@ -420,7 +420,7 @@ public class TaskController {
 	}
 	
 	@GetMapping("priority/{taskPriority}")
-	public ResponseEntity<?> getTaskListByPriority(@PathVariable String taskPriority){
+	public ResponseEntity<List<Task>> getTaskListByPriority(@PathVariable String taskPriority){
 		if(taskPriority == "" || taskPriority == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
@@ -431,7 +431,7 @@ public class TaskController {
 	}
 	
 	@GetMapping("status/{taskStatus}")
-	public ResponseEntity<?> getTaskListByTaskStatus(@PathVariable String taskStatus){
+	public ResponseEntity<List<Task>> getTaskListByTaskStatus(@PathVariable String taskStatus){
 		if(taskStatus == "" || taskStatus == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
@@ -442,7 +442,7 @@ public class TaskController {
 	}
 	
 	@GetMapping("/aged/{dateTime}")
-	public ResponseEntity<?> getAgedTasksList(@PathVariable String dateTime){
+	public ResponseEntity<List<Task>> getAgedTasksList(@PathVariable String dateTime){
 		log.info("getAgedTasksList() entered");
 		LocalDate currentDateTime = LocalDate.parse(dateTime);
 		List<Task> taskList = taskService.getAgedTasks(currentDateTime);
@@ -451,7 +451,7 @@ public class TaskController {
 	}
 	
 	@GetMapping("/allForYear/{startDate}/{endDate}")
-	public ResponseEntity<?> fetchAllTasksforYear(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,@PathVariable  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime endDate){
+	public ResponseEntity<List<Long>> fetchAllTasksforYear(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,@PathVariable  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime endDate){
 		log.info("TaskController.fetchAllTasksforYear() entered ");
 		System.out.println(startDate+" "+endDate);
 		try { 
@@ -468,7 +468,7 @@ public class TaskController {
 	
 	}
 	@GetMapping("/department-tasks")
-	public ResponseEntity<?> getAllTasksByDepartment(){
+	public ResponseEntity<List<Object[]>> getAllTasksByDepartment(){
 		log.info("TaskController.getAllTasksByDepartment() entered ");
 	
 		try { 
@@ -485,7 +485,7 @@ public class TaskController {
 	
 	}
 	@GetMapping("/taskCategory/{taskCategoryId}")
-	public ResponseEntity<?> getAllTasksByTaskCategoryId(@PathVariable("taskCategoryId") Long taskCategoryId){
+	public ResponseEntity<List<Task>> getAllTasksByTaskCategoryId(@PathVariable("taskCategoryId") Long taskCategoryId){
 		log.info("TaskController.getAllTasksByTaskCategoryId() entered ");
 	
 		try { 
@@ -502,7 +502,7 @@ public class TaskController {
 	
 	}
 	@GetMapping("/taskCategory-count")
-	public ResponseEntity<?> getAllTasksByCategoryCount(){
+	public ResponseEntity<List<Object[]>> getAllTasksByCategoryCount(){
 		log.info("TaskController.getAllTasks() entered ");
 		try { 
 			log.info("TaskController.getAllTasks() is under execution... ");
