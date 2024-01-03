@@ -539,7 +539,7 @@ public class TaskServiceImpl implements  TaskService{
 							emailBuilder.append("<b>Meeting ID</b> - "+ actionItem.getMeetingId()+"<br/>"
 							+"<b>Action Item ID</b> - "+task.getActionItemId()+"<br/>"
 							+"<b>Task ID</b> - "+task.getTaskId()+"<br/>"
-							+"<b>Task Description</b>: "+task.getTaskDescription()+"<br/><br/>"
+							+"<b>Task Description</b> - "+task.getTaskDescription()+"<br/><br/>"
 							+"A task has been assigned to you. Please see the below details"+"<br/><br/>"
 							+ "<table width='100%' border='1' align='center'>"
 							+"<tr>"
