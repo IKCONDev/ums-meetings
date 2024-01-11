@@ -65,8 +65,6 @@ public class TaskController {
 			return new ResponseEntity<>(res, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			// TODO: handle exception
-			//return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 			log.info("TaskController.createTask() exited with exception : Exception occured while saving task "+e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_SAVE_CODE,
 					ErrorCodeMessages.ERR_MEETINS_TASKS_SAVE_MSG);
@@ -194,7 +192,6 @@ public class TaskController {
 			log.info("TaskController.fetchTaskById() executed Successfully");
 			return new ResponseEntity<>(task,HttpStatus.OK);
 		}catch (Exception e) {
-			// TODO: handle exception
 			log.info("TaskController.fetchTasksById() exited with exception : Exception occured while getting the tasks :" +e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
@@ -223,7 +220,6 @@ public class TaskController {
 			log.info("TaskController.updateTaskDetails() is executed successfully");
 			return new ResponseEntity<>(update, HttpStatus.OK);
 		}catch (Exception e) {
-			// TODO: handle exception
 			log.info("TaskController.updateTaskDetails() exited with exception : Exception occured while updating : " +e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_UPDATE_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_UPDATE_MSG);	
@@ -250,7 +246,6 @@ public class TaskController {
 			log.info("TaskController.deleteTaskDetails() is executed Successfully");
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}catch (Exception e) {
-			// TODO: handle exception
 			log.info("TaskController.deleteTaskDetails() exited with Exception : Exception occured while deleting the task " +e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DELETE_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_DELETE_MEESAGE);
@@ -410,10 +405,12 @@ public class TaskController {
 	
 	@GetMapping("department/{departmentId}")
 	public ResponseEntity<List<Task>> getTaskListByDepartment(@PathVariable Long departmentId){
+		log.info("getTaskListByDepartment() is entered with args: taskstatus");
 		if(departmentId == 0 || departmentId == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 		}
+		log.info("getTaskListByDepartment() is under execution... ");
 		List<Task> taskList = taskService.getTasksByDepartment(departmentId);
 		System.out.println(taskList);
 		return new ResponseEntity<>(taskList, HttpStatus.OK);
@@ -421,32 +418,38 @@ public class TaskController {
 	
 	@GetMapping("priority/{taskPriority}")
 	public ResponseEntity<List<Task>> getTaskListByPriority(@PathVariable String taskPriority){
+		log.info("getTaskListByPriority() is entered with args: taskstatus");
 		if(taskPriority == "" || taskPriority == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 		}
+		log.info("getTaskListByPriority() is under execution... ");
 		List<Task> taskList = taskService.getTasksByTaskPriority(taskPriority);
-		System.out.println(taskList);
+		log.info("getTaskListByPriority() executed Successfully ");
 		return new ResponseEntity<>(taskList, HttpStatus.OK);
 	}
 	
 	@GetMapping("status/{taskStatus}")
 	public ResponseEntity<List<Task>> getTaskListByTaskStatus(@PathVariable String taskStatus){
+		log.info("getTaskListByTaskStatus() is entered with args: taskstatus");
 		if(taskStatus == "" || taskStatus == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 		}
+		log.info("getTaskListByTaskStatus() is under execution... ");
 		List<Task> taskList = taskService.getTasksByTaskStatus(taskStatus);
 		System.out.println(taskList);
+		log.info("getTaskListByTaskStatus() executed Successfully ");
 		return new ResponseEntity<>(taskList, HttpStatus.OK);
 	}
 	
 	@GetMapping("/aged/{dateTime}")
 	public ResponseEntity<List<Task>> getAgedTasksList(@PathVariable String dateTime){
-		log.info("getAgedTasksList() entered");
+		log.info("getAgedTasksList() is entered with args: dateTime");
 		LocalDate currentDateTime = LocalDate.parse(dateTime);
+		log.info("getAgedTasksList() is under execution... ");
 		List<Task> taskList = taskService.getAgedTasks(currentDateTime);
-		System.out.println(taskList);
+		log.info("getAgedTasksList() executed Successfully ");
 		return new ResponseEntity<>(taskList, HttpStatus.OK);
 	}
 	
@@ -470,7 +473,6 @@ public class TaskController {
 	@GetMapping("/department-tasks")
 	public ResponseEntity<List<Object[]>> getAllTasksByDepartment(){
 		log.info("TaskController.getAllTasksByDepartment() entered ");
-	
 		try { 
 			log.info("TaskController.getAllTasksByDepartment() is under execution... ");
 			List<Object[]> taskList = taskService.getAllTasksByDepartment();

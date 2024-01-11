@@ -53,9 +53,8 @@ public class TaskCategoryController {
 			throw taskCatagoryTitleExistsException;
 		} catch (Exception e) {
 			log.info("General Exception has encountered while creating Task Category. " + e.getMessage());
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_CREATE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_CREATE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 
@@ -77,8 +76,7 @@ public class TaskCategoryController {
 			throw taskCategoryBusinessException;
 		}catch (Exception e) {
 			log.info("General Exception has encountered while updating Task Category. " + e.getMessage());
-			ControllerException umsCE = new ControllerException(e.getCause().toString(), e.getMessage());
-			throw umsCE;
+			throw  new ControllerException(e.getCause().toString(), e.getMessage());
 		}
 	}
 
@@ -120,9 +118,8 @@ public class TaskCategoryController {
 			throw businessException;
 		} 
 		catch (Exception e) {
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_DELETE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_DELETE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	
@@ -143,9 +140,8 @@ public class TaskCategoryController {
 			throw businessException;
 		}
 		catch (Exception e) {
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_GET_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_GET_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 
@@ -161,7 +157,6 @@ public class TaskCategoryController {
 			throw businessException;
 		} 
 		catch (Exception e) {
-			// TODO: handle exception
 			log.info("TaskCategoryController.getAllTaskCategories() exited with exception : Exception occured fetching task categories list."
 					+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_GET_UNSUCCESS_CODE,

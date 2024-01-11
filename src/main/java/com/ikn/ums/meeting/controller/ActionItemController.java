@@ -135,7 +135,7 @@ public class ActionItemController {
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<Integer> deleteActionItem(@PathVariable("id") Integer actionItemid) {
 		log.info("ActionItemController.deleteActionItem() entered with args : actionItemid " + actionItemid);
-		if (actionItemid == null || actionItemid < 0) {
+		if (actionItemid == null || actionItemid <= 0) {
 			log.info(
 					"ActionItemController.deleteActionItem() Empty Input Exception : Action Item is empty or invalid.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE,
@@ -378,9 +378,9 @@ public class ActionItemController {
 		}catch (EmptyInputException businessException) {
 			throw businessException;
 		}catch (Exception e) {
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_CODE, 
+			
+			throw new ControllerException(ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_CODE, 
 					ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	
@@ -396,9 +396,8 @@ public class ActionItemController {
 		}catch (EmptyInputException businessException) {
 			throw businessException;
 		}catch (Exception e) {
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_CODE, 
+			throw new ControllerException(ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_CODE, 
 					ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	@GetMapping("/department-actions")
