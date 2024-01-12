@@ -60,7 +60,7 @@ public class MeetingController {
 			MeetingDto createdMeeting = meetingService.createMeeting(meetingModel);
 			return new ResponseEntity<>(createdMeeting, HttpStatus.CREATED);
 		}catch (Exception e) {
-			log.info("createMeeting() : Exception occured while saving meeting "+e.getMessage());
+			log.error("createMeeting() : Exception occured while saving meeting "+e.getMessage(), e);
 			throw new ControllerException( ErrorCodeMessages.ERR_MEETINGS_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_CREATE_UNSUCCESS_MSG);
 		}
@@ -74,20 +74,20 @@ public class MeetingController {
 	 */
 	@GetMapping("/delete/ac-items/{id}/{actionItemIds}")
 	public ResponseEntity<Boolean> deleteActionItemsOfEvent(@PathVariable("id") Integer meetingId, @PathVariable String actionItemIds){
-		log.info("EventController.deleteActionItemsOfEvent() entered with args : eventId - "+meetingId+" actionItemIds - "+actionItemIds);
+		log.info("deleteActionItemsOfEvent() entered with args : eventId - "+meetingId+" actionItemIds - "+actionItemIds);
 		try {
-			log.info("EventController.deleteActionItemsOfEvent() is under execution...");
+			log.info("deleteActionItemsOfEvent() is under execution...");
 			boolean isAllDeleted = meetingService.deleteActionItemsOfMeeting(actionItemIds, meetingId);
 			if(isAllDeleted) {
-				log.info("EventController.deleteActionItemsOfEvent() exiting successfully by returning "+isAllDeleted);
+				log.info("deleteActionItemsOfEvent() exiting successfully by returning "+isAllDeleted);
 				return new ResponseEntity<Boolean>(isAllDeleted,HttpStatus.OK);
 			}else {
-				log.info("EventController.deleteActionItemsOfEvent() exiting successfully by returning "+isAllDeleted);
+				log.info("deleteActionItemsOfEvent() exiting successfully by returning "+isAllDeleted);
 				return new ResponseEntity<Boolean>(isAllDeleted,HttpStatus.OK);
 			}
 		}
 		catch (Exception e) {
-			log.info("EventController.deleteActionItemsOfEvent() exited with exception "+e.getMessage());
+			log.error("deleteActionItemsOfEvent() exited with exception "+e.getMessage(), e);
 			throw new ControllerException( ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG+" "+e.fillInStackTrace());
 		}
@@ -123,7 +123,7 @@ public class MeetingController {
 				return new ResponseEntity<>(attendedMeetingList, HttpStatus.OK);
 			}
 		}catch (Exception e) {
-			log.info("MeetingController.getUserAttendedMeetings() exited with exception : "+e.getMessage());
+			log.error("getUserAttendedMeetings() exited with exception : "+e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG);
 		}
@@ -140,15 +140,15 @@ public class MeetingController {
 			@RequestParam(defaultValue = "",required = false) String meetingTitle,
 		@Nullable@RequestParam(required = false) String startDate,
 			@Nullable@RequestParam(required = false) String endDate){
-		log.info("MeetingController.getUserOrganizedMeetings() entered with args - userId/emailId : "+emailId);
+		log.info("getUserOrganizedMeetings() entered with args - userId/emailId : "+emailId);
 		if(emailId.equals("")) {
-			log.info("MeetingController.getUserOrganizedMeetings() userEmailId: isEmpty");
+			log.info("getUserOrganizedMeetings() userEmailId: isEmpty");
 		}
-		log.info("MeetingController.getUserOrganizedMeetings() under execution ");
+		log.info("getUserOrganizedMeetings() under execution ");
 		try {
 			if(meetingTitle.isBlank() && startDate==null && endDate==null) {
 				List<MeetingDto> meetingList=meetingService.getUserOrganizedMeetingsByUserId(emailId);
-				log.info("MeetingController.getUserOrganizedMeetings() exited Successfully without filters");
+				log.info("getUserOrganizedMeetings() exited Successfully without filters");
 				return new ResponseEntity<>(meetingList,HttpStatus.OK);
 			}else {
 				 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
@@ -157,14 +157,13 @@ public class MeetingController {
 				 LocalDateTime localStartDateTime = startDate.isBlank() ? null : LocalDateTime.parse(startDate, formatter);
 		            LocalDateTime localEndDateTime = endDate.isBlank() ? null : LocalDateTime.parse(endDate, formatter);
 				List<MeetingDto> filteredMeetingList = meetingService.getFilteredOrganizedMeetings(meetingTitle, localStartDateTime, localEndDateTime, emailId);
-				log.info("MeetingController.getUserOrganizedMeetings() exited Successfully with filters");
+				log.info("getUserOrganizedMeetings() exited Successfully with filters");
 				return new ResponseEntity<>(filteredMeetingList,HttpStatus.OK);
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
-			// TODO: handle exception
-			log.info("MeetingController.getUserOrganizedMeetings() exited with Exception: Exception occured while getting user organized meetings"
-					+e.getMessage());
+			log.error("getUserOrganizedMeetings() exited with Exception: Exception occured while getting user organized meetings"
+					+e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG);
 		}
@@ -191,7 +190,7 @@ public class MeetingController {
 			log.info("MeetingController.processCurrentBatchProcessingSourceData() executed successfully");
 			return new ResponseEntity<>(message, HttpStatus.CREATED);
 		}catch (Exception e) {
-			log.info("Exception occured while saving current batch process meetings : "+e.getMessage());
+			log.error("Exception occured while saving current batch process meetings : "+e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG);
 		}
@@ -216,7 +215,7 @@ public class MeetingController {
 			log.info("MeetingsServiceImpl.getAllMeetingsOfUser() is executed successfully");
 			return new ResponseEntity<>(userMeetingList, HttpStatus.OK);
 		}catch (Exception e) {
-			log.info("Exception occured while fetching user meetings : "+e.getMessage());
+			log.error("Exception occured while fetching user meetings : "+e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG);
 		}
@@ -229,23 +228,20 @@ public class MeetingController {
 	 */
 	@GetMapping(path = "attended/count/{userId}")
 	public ResponseEntity<Integer> getUserAttendedEventCount(@PathVariable("userId") String emailId) {
-		log.info(
-				"TeamsSourceDataBatchProcessController.getUserAttendedEventCount() entered with args : " + emailId);
+		log.info("getUserAttendedEventCount() entered with args : " + emailId);
 		if (emailId.equalsIgnoreCase("") || emailId == null) {
-			log.info("TeamsSourceDataBatchProcessController.getUserAttendedEventCount() userEmailId is empty or null");
+			log.info("getUserAttendedEventCount() userEmailId is empty or null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		try {
-			log.info("TeamsSourceDataBatchProcessController.getUserAttendedEventCount() is under execution ");
+			log.info("getUserAttendedEventCount() is under execution ");
 			Integer count = meetingService.getUserAttendedMeetingCountByUserId(emailId);
-			log.info(
-					"TeamsSourceDataBatchProcessController.getUserAttendedEventCount() exited sucessfully by retruning count : "
+			log.info("getUserAttendedEventCount() exited sucessfully by retruning count : "
 							+ count);
 			return new ResponseEntity<>(count, HttpStatus.OK);
 		} catch (Exception e) {
-			log.info(
-					"TeamsSourceDataBatchProcessController.getUserAttendedEventCount() exited with exception : Exception occured while getting user attended evebts count "
+			log.error("getUserAttendedEventCount() exited with exception : Exception occured while getting user attended evebts count "
 							+ e.fillInStackTrace());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ATTENDED_COUNT_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_GET_ATTENDED_COUNT_UNSUCCESS_MSG);
@@ -259,24 +255,21 @@ public class MeetingController {
 	 */
 	@GetMapping(path = "/organized/count/{userId}")
 	public ResponseEntity<Integer> getUserOragnizedMeetingCount(@PathVariable("userId") String emailId) {
-		log.info("TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() entered with args : userEmailId : "
+		log.info("getUserOragnizedEventCount() entered with args : userEmailId : "
 				+ emailId);
 		if (Strings.isNullOrEmpty(emailId) || emailId.isEmpty()) {
-			log.info(
-					"TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() EmptyInputException : userId / emailId is empty or null");
+			log.info("getUserOragnizedEventCount() EmptyInputException : userId / emailId is empty or null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		try {
-			log.info("TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() is under execution");
+			log.info("getUserOragnizedEventCount() is under execution");
 			Integer count = meetingService.getUserOragnizedMeetingCountByUserId(emailId);
-			log.info(
-					"TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() exited succesfully by returning organizedEventsCount : "
+			log.info("getUserOragnizedEventCount() exited succesfully by returning organizedEventsCount : "
 							+ count);
 			return new ResponseEntity<>(count, HttpStatus.OK);
 		} catch (Exception e) {
-			log.info(
-					"TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() exited with exeception : Exception occured while getting organizedEventsCount "
+			log.error("getUserOragnizedEventCount() exited with exeception : Exception occured while getting organizedEventsCount "
 							+ e.fillInStackTrace());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MSG);
@@ -290,13 +283,15 @@ public class MeetingController {
 	 */
 	@GetMapping("/{meetingId}")
 	public ResponseEntity<MeetingDto> getSingleMeeting(@PathVariable("meetingId") Long meetingId){
-		log.info("MeetingController.getSingleMeeting() entered with args - meetingId");
+		log.info("getSingleMeeting() entered with args - meetingId");
 		try {
-			log.info("MeetingController.getSingleMeeting() is under execution...");
+			log.info("getSingleMeeting() is under execution...");
 			MeetingDto meeting = meetingService.getMeetingDetails(meetingId);
-			log.info("MeetingController.getSingleMeeting() executed successfully");
+			log.info("getSingleMeeting() executed successfully");
 			return new ResponseEntity<>(meeting,HttpStatus.OK);
 		}catch (Exception e) {
+			log.error("getSingleMeeting() exited with exeception : Exception occured while meetings "
+					+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MSG);
 		}
@@ -305,14 +300,15 @@ public class MeetingController {
 	@GetMapping("/MeetingsChartData")
 	public ResponseEntity<List <Object>>getCountOfAttendedAndOrganisedMeetings(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
 			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate,@RequestParam("emailId") String email){
+		log.info("MeetingController.getCountOfAttendedAndOrganisedMeetings() is entered");
 		log.info("MeetingController.getCountOfAttendedAndOrganisedMeetings() is under execution...");
 		List <Object> MeetingdatasInWeek = new ArrayList<>();
-	List<Long>attendedMeetingInWeek=meetingService.countEmailOccurrences(startDate, endDate, email);
-	List<Long>OrganisedMeetingInWeek=meetingService.countOrganisedMeetingOccurrence(startDate, endDate, email);
-	MeetingdatasInWeek.add(attendedMeetingInWeek);
-	MeetingdatasInWeek.add(OrganisedMeetingInWeek);
-	System.out.println(attendedMeetingInWeek);
-	
+	    List<Long>attendedMeetingInWeek=meetingService.countEmailOccurrences(startDate, endDate, email);
+	    List<Long>OrganisedMeetingInWeek=meetingService.countOrganisedMeetingOccurrence(startDate, endDate, email);
+	    MeetingdatasInWeek.add(attendedMeetingInWeek);
+	    MeetingdatasInWeek.add(OrganisedMeetingInWeek);
+	    //System.out.println(attendedMeetingInWeek);
+	    log.info("MeetingController.getCountOfAttendedAndOrganisedMeetings() executed successfully");
 		return new ResponseEntity<>(MeetingdatasInWeek,HttpStatus.OK);
 		
 	}
@@ -320,15 +316,16 @@ public class MeetingController {
 	@GetMapping("/MeetingsChartDataForYear")
 	public ResponseEntity<List <Object>>getCountofAttendedAndOrganisedMeetingsInYear(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
 			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate,@RequestParam("emailId") String email){
-		log.info("MeetingController.getCountofAttendedAndOrganisedMeetingsInYear");
+		log.info("getCountofAttendedAndOrganisedMeetingsInYear is entered");
 		List <Object> MeetingdatasInYear = new ArrayList<>();
+		log.info("getCountofAttendedAndOrganisedMeetingsInYear is under execution...");
 		List<Long>attendedMeetingInYear=meetingService.countAttendedMeetingForYear(startDate, endDate, email);
 		List<Long>OrganisedMeetingInYear=meetingService.countOrganisedMeetingForYear(startDate, endDate, email);
 		MeetingdatasInYear.add(attendedMeetingInYear);
 		MeetingdatasInYear.add(OrganisedMeetingInYear);
 		System.out.println(OrganisedMeetingInYear);
-			
-			return new ResponseEntity<>(MeetingdatasInYear,HttpStatus.OK);
+		log.info("getCountofAttendedAndOrganisedMeetingsInYear executed successfully");
+		return new ResponseEntity<>(MeetingdatasInYear,HttpStatus.OK);
 	}
 	
 	@GetMapping("/department/{departmentId}")
@@ -340,26 +337,28 @@ public class MeetingController {
 			log.info("getMeetingsByDepartment() is executed sucessfully... ");
 			return new ResponseEntity<>(departmentMeetingList, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
-			log.info("getMeetingsByDepartment() exited with execption :Business Exception has encountered while fetching meetings by department.");
+			log.error("getMeetingsByDepartment() exited with execption :Business Exception has encountered while fetching meetings by department.");
 			throw businessException;
 		}catch (Exception e) {
-			log.info("getMeetingsByDepartment() exited with execption :General Exception has encountered while fetching meetings by department.");
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_BYDEPT_UNSUCCESS_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_GET_BYDEPT_UNSUCCESS_MSG);
-			throw umsCE;
+			log.error("getMeetingsByDepartment() exited with execption :General Exception has encountered while fetching meetings by department.");
+			 throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_BYDEPT_UNSUCCESS_CODE,
+								ErrorCodeMessages.ERR_MEETINGS_GET_BYDEPT_UNSUCCESS_MSG);
+
 		}
 	}
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<MeetingDto>> getAllMeetings(){
-		log.info("MeetingController.getAllMeetings() entered with args - meetingId");
+		log.info("getAllMeetings() entered with args - meetingId");
 		try {
-			log.info("MeetingController.getAllMeetings() is under execution...");
+			log.info("getAllMeetings() is under execution...");
 			//Meeting meetingObject = optionalMeetingObject.get();
 			List<MeetingDto> meetingObjectList = meetingService.getAllMeetings() ;
-			log.info("MeetingController.getAllMeetings() executed successfully");
+			log.info("getAllMeetings() executed successfully");
 			return new ResponseEntity<>(meetingObjectList,HttpStatus.OK);
 		}catch (Exception e) {
+			log.error("getAllMeetings() exited with execption :General Exception has encountered while fetching meetings"
+		                      + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MSG);
 		}
@@ -368,12 +367,12 @@ public class MeetingController {
 	
 	@GetMapping("/dept-count")
 	public ResponseEntity<List<Object[]>> getAllDepartmentsMeetingsCount(){
-		log.info("MeetingController.getAllDepartmentsMeetingsCount() entered");
+		log.info("getAllDepartmentsMeetingsCount() entered");
 		try {
-			log.info("MeetingController.getAllDepartmentsMeetingsCount() is under execution...");
+			log.info("getAllDepartmentsMeetingsCount() is under execution...");
 			List<Object[]> count = meetingService.getAllDepartmentsMeetingCount();
-			log.info("MeetingController.getAllDepartmentsMeetingsCount() executed successfully");
-			System.out.println(count);
+			log.info("getAllDepartmentsMeetingsCount() executed successfully");
+			//System.out.println(count);
 			return new ResponseEntity<>(count,HttpStatus.OK);
 		
 		}catch (Exception e) {
