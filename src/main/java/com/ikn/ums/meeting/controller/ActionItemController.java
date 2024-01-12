@@ -142,7 +142,7 @@ public class ActionItemController {
 			log.info("deleteActionItem() executed successfully.");
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
-			log.info("deleteActionItem() exited with exception : Exception occured while deleting action item. "
+			log.error("deleteActionItem() exited with exception : Exception occured while deleting action item. "
 							+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_DELETE_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_DELETE_MSG);
@@ -176,7 +176,7 @@ public class ActionItemController {
 			log.info("deleteActionItemsById() is executed succesfully");
 			return new ResponseEntity<>(isAllDeleted, HttpStatus.OK);
 		} catch (Exception e) {
-			log.info("deleteActionItemsById() exited with exception : Exception occured while deleting action items "
+			log.error("deleteActionItemsById() exited with exception : Exception occured while deleting action items "
 							+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_DELETE_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_DELETE_MSG);
@@ -259,7 +259,7 @@ public class ActionItemController {
 				return new ResponseEntity<>(actionItemList, HttpStatus.OK);
 			}
 		} catch (Exception e) {
-			log.info("FetchActionItemsByEmailId() exited with exception : Exception ocuured while fetching action items of a user : "
+			log.error("FetchActionItemsByEmailId() exited with exception : Exception ocuured while fetching action items of a user : "
 							+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MSG);
@@ -373,7 +373,7 @@ public class ActionItemController {
 		}catch (EmptyInputException businessException) {
 			throw businessException;
 		}catch (Exception e) {
-			
+			log.error("getActionItemsCountforUser() exited with exception : Exception occured while getting the actionItems:"+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_CODE, 
 					ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_MSG);
 		}
