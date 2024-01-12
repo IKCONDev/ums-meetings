@@ -92,6 +92,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_MEETINGS_DBENTITY_ISNULL_CODE = "ERR_MEETINGS_DBENTITY_ISNULL_CODE-1029";
 	 public static final String ERR_MEETINGS_DBENTITY_ISNULL_MSG = "Meeting object not found in DB.";
 	 
+	 public static final String ERR_MEETINGS_GET_REPORT_ORG_ATT_COUNT_UNSUCCESS_CODE = "ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE-1024";
+	 public static final String ERR_MEETINGS_GET_REPORT_ORG_ATT_COUNT_UNSUCCESS_MSG = "Exception occured while getting count of organized and attended meeting for reports.";
+	 
 	 //Task Category Error Codes
 	 public static final String ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE = "TASK_CATEGORY-ENTITY-IS-NULL-1029";
 	 public static final String ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG = "Task Category Entity is Null."; 

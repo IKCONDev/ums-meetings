@@ -214,7 +214,7 @@ public class MeetingsServiceImpl implements MeetingService {
 		log.info("getMeetingDetails() is under execution...");
 		Optional<Meeting> optMeeting = meetingRepository.findById(meetingId);
 		if(optMeeting.isEmpty()) {
-			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_DBENTITY_ISNULL_CODE, 
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MEETINGS_DBENTITY_ISNULL_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_DBENTITY_ISNULL_MSG);
 		}
 		Meeting meeting = optMeeting.get();
