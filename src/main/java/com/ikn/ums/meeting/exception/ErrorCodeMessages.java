@@ -139,4 +139,8 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_CODE = "ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_CODE-1001";
 	 public static final String ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_MSG = "Error while fetching action items by priority.";
 	 
+	 public static final String ERR_ACTIONITEMS_MOM_ENTITY_NULL_CODE = "ERR_ACTIONITEMS_MOM_ENTITY_NULL_CODE-1003";
+	 public static final String ERR_ACTIONITEMS_MOM_ENTITY_NULL_MSG = "mom Object is null";
+	 
+	 
 }
