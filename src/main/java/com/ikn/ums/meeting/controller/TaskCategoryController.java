@@ -36,23 +36,23 @@ public class TaskCategoryController {
 	@PostMapping("/create")
 	public ResponseEntity<TaskCategoryDTO> createTaskCategory(@RequestBody TaskCategoryDTO	taskCategoryDTO) {
 		
-		log.info("TaskCategoryController.createTaskCategory() entered ");
+		log.info("createTaskCategory() entered ");
 		if (taskCategoryDTO == null || taskCategoryDTO.equals(null)) {
 			log.info("TaskCategory Entity Not Found Exception has encountered while creating TaskCategory.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("TaskCategoryController.createTaskCategory() is under execution.");
+			log.info("createTaskCategory() is under execution.");
 
 			TaskCategoryDTO createdTaskCategoryDTO = taskCategoryService.createTaskCategory(taskCategoryDTO);
-			log.info("TaskCategoryController.createTaskCategory() executed successfully.");
+			log.info("createTaskCategory() executed successfully.");
 			return new ResponseEntity<>(createdTaskCategoryDTO, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | TaskCatagoryTitleExistsException taskCatagoryTitleExistsException) {
-			log.info("Business Exception has encountered while creating Task Category. " + taskCatagoryTitleExistsException.getMessage());
+			log.error("Business Exception has encountered while creating Task Category. " + taskCatagoryTitleExistsException.getMessage());
 			throw taskCatagoryTitleExistsException;
 		} catch (Exception e) {
-			log.info("General Exception has encountered while creating Task Category. " + e.getMessage());
+			log.error("General Exception has encountered while creating Task Category. " + e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_CREATE_UNSUCCESS_MSG);
 		}
@@ -72,10 +72,10 @@ public class TaskCategoryController {
 			log.info("TaskCategoryController.updateRole() executed successfully.");
 			return new ResponseEntity<>(updatedTaskCategoryDTO, HttpStatus.CREATED);
 		}catch (EntityNotFoundException taskCategoryBusinessException) {
-			log.info("Business Exception has encountered while updating Task Category. " + taskCategoryBusinessException.getMessage());
+			log.error("Business Exception has encountered while updating Task Category. " + taskCategoryBusinessException.getMessage());
 			throw taskCategoryBusinessException;
 		}catch (Exception e) {
-			log.info("General Exception has encountered while updating Task Category. " + e.getMessage());
+			log.error("General Exception has encountered while updating Task Category. " + e.getMessage());
 			throw  new ControllerException(e.getCause().toString(), e.getMessage());
 		}
 	}
@@ -133,13 +133,14 @@ public class TaskCategoryController {
 			log.info("TaskCategoryController.getTaskCategoryById() is under execution : taskCategoryId : " + taskCategoryId);
 			TaskCategoryDTO taskCategoryDTO = taskCategoryService.getTaskCategoryById(taskCategoryId);
 			log.info("TaskCategoryController.getTaskCategoryById() executed successfully");
-			//TODO:Check this code
 			return new ResponseEntity<>(taskCategoryDTO, HttpStatus.OK);
 			
 		}catch (EmptyInputException businessException) {
 			throw businessException;
 		}
 		catch (Exception e) {
+			log.error("getTaskCategoryById() exited with exception : Exception occured fetching task categories"
+					+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_GET_UNSUCCESS_MSG);
 		}
@@ -157,7 +158,7 @@ public class TaskCategoryController {
 			throw businessException;
 		} 
 		catch (Exception e) {
-			log.info("TaskCategoryController.getAllTaskCategories() exited with exception : Exception occured fetching task categories list."
+			log.error("getAllTaskCategories() exited with exception : Exception occured fetching task categories list."
 					+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_GET_UNSUCCESS_MSG);

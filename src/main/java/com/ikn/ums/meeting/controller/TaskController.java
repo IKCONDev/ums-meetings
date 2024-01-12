@@ -52,20 +52,20 @@ public class TaskController {
   */
 	@PostMapping("/create")
 	public ResponseEntity<Task> createTask(@RequestBody Task task){
-		log.info("TaskController.createTasks() entered with args : task");
+		log.info("createTasks() entered with args : task");
 	    if(task == null) {
-	    	log.info("TaskController.createTasks() Empty Input Exception : tasklist is Empty" );
+	    	log.info("createTasks() Empty Input Exception : tasklist is Empty" );
 	    	throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 	    			ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 	    }
 		try {
-			log.info("TaskController.createTasks() is under execution...");
+			log.info("createTasks() is under execution...");
 			Task res = taskService.saveTask(task);
-			log.info("TaskController.createTasks() is executed Successfully");
+			log.info("createTasks() is executed Successfully");
 			return new ResponseEntity<>(res, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			log.info("TaskController.createTask() exited with exception : Exception occured while saving task "+e.getMessage());
+			log.error("createTask() exited with exception : Exception occured while saving task "+e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_SAVE_CODE,
 					ErrorCodeMessages.ERR_MEETINS_TASKS_SAVE_MSG);
 		}
@@ -109,16 +109,16 @@ public class TaskController {
 	 */
 	@GetMapping("/all")
 	public ResponseEntity<List<Task>> fetchAllTasks(){
-		log.info("TaskController.fetchAllTasks() entered ");
+		log.info("fetchAllTasks() entered ");
 		
 		try {
-			log.info("TaskController.fetchAllTasks() is under execution... ");
+			log.info("fetchAllTasks() is under execution... ");
 			List<Task> taskList = taskService.getTasks();
-			log.info("TaskController.fetchAllTaskDetails() is executed Successfully");
+			log.info("fetchAllTaskDetails() is executed Successfully");
 			return new ResponseEntity<>(taskList, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			log.info("TaskController.fetchAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			log.error("fetchAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
 		}
@@ -137,9 +137,9 @@ public class TaskController {
 			@RequestParam(required = false, defaultValue = "") String taskOrganizer,
 			@RequestParam(required = false, defaultValue = "")String taskStartDate,
 			@RequestParam(required = false, defaultValue = "") String taskEndDate){
-		log.info("TaskController.fetchTasksByUserId() entered with args :" +emailId);
+		log.info("fetchTasksByUserId() entered with args :" +emailId);
 		if(emailId =="" || emailId==null) {
-			log.info("TaskController.fetchTaskByUserId() Empty Input Exception : emailId is empty ");
+			log.info("fetchTaskByUserId() Empty Input Exception : emailId is empty ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
@@ -150,21 +150,21 @@ public class TaskController {
 				    ("null".equals(taskStartDate) || "".equals(taskStartDate)) &&
 				    ("null".equals(taskEndDate) || "".equals(taskEndDate))) {
 				System.out.println(taskTitle+"---------");
-				log.info("TaskController.fetchTasksByUserId() is under execution without filters...");
+				log.info("fetchTasksByUserId() is under execution without filters...");
 				List<Task> taskList = taskService.getTasksByUserId(emailId);
-				log.info("TaskController.fetchTasksByUserId() is executed Successfully without filters");
+				log.info("fetchTasksByUserId() is executed Successfully without filters");
 				return new ResponseEntity<>(taskList,HttpStatus.OK);	
 			} else {			
-				log.info("TaskController.fetchTasksByUserId() is under execution with filters...");
+				log.info("fetchTasksByUserId() is under execution with filters...");
 				List<Task> taskList = taskService.getFilteredTasks(taskTitle, taskPriority, taskOrganizer, taskStartDate, taskEndDate, emailId);
-				log.info("TaskController.fetchTasksByUserId() is executed Successfully with filters");
+				log.info("fetchTasksByUserId() is executed Successfully with filters");
 				return new ResponseEntity<>(taskList,HttpStatus.OK);
 			}
 			
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			log.info("TaskController.fetchTasksByUserId() is exited with exception : Exception occured while getting the tasks of the user "+e.getMessage());
+			log.error("fetchTasksByUserId() is exited with exception : Exception occured while getting the tasks of the user "+e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
 		}
@@ -179,20 +179,20 @@ public class TaskController {
 	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Task> fetchTaskByTaskId(@PathVariable("id") Integer taskId){
-		log.info("TaskController.fetchTaskById() entered with args:"+ taskId);
+		log.info("fetchTaskById() entered with args:"+ taskId);
 		if(taskId <1 || taskId== null) {
-			log.info("TaskController.fetchTaskById() Empty Input Exception : taskId is Empty");
+			log.info("fetchTaskById() Empty Input Exception : taskId is Empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_MEESAGE);
 		}
 		try {
-			log.info("TaskController.fetchTaskById() is under execution...");
+			log.info("fetchTaskById() is under execution...");
 			Optional<Task> optTask = taskService.getTaskById(taskId);
 			Task task = optTask.get(); 
-			log.info("TaskController.fetchTaskById() executed Successfully");
+			log.info("fetchTaskById() executed Successfully");
 			return new ResponseEntity<>(task,HttpStatus.OK);
 		}catch (Exception e) {
-			log.info("TaskController.fetchTasksById() exited with exception : Exception occured while getting the tasks :" +e.getMessage());
+			log.error("fetchTasksById() exited with exception : Exception occured while getting the tasks :" +e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
 		}
@@ -207,20 +207,20 @@ public class TaskController {
 	 */
 	@PutMapping("/update/{id}")
 	public ResponseEntity<Task> updateTaskDetails(@RequestBody Task task,@PathVariable("id") Integer taskId){
-		log.info("TaskController.updateTaskDetails() entered with args - taskId : " +taskId);
+		log.info("updateTaskDetails() entered with args - taskId : " +taskId);
 		if(taskId < 1|| taskId == null) {
-			log.info("TaskController.updateTaskDetails() Empty Input Exception : taskId is empty");
+			log.info("updateTaskDetails() Empty Input Exception : taskId is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_MEESAGE);
 		}
 		try {
-			log.info("TaskController.updateTaskDetails() is under execution...");
+			log.info("updateTaskDetails() is under execution...");
 			task.setTaskId(taskId);
 			Task update = taskService.updateTask(task);
-			log.info("TaskController.updateTaskDetails() is executed successfully");
+			log.info("updateTaskDetails() is executed successfully");
 			return new ResponseEntity<>(update, HttpStatus.OK);
 		}catch (Exception e) {
-			log.info("TaskController.updateTaskDetails() exited with exception : Exception occured while updating : " +e.getMessage());
+			log.error("updateTaskDetails() exited with exception : Exception occured while updating : " +e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_UPDATE_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_UPDATE_MSG);	
 		}
@@ -234,19 +234,19 @@ public class TaskController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Integer> deleteTaskByTaskId(@PathVariable("id") Integer id){
-		log.info("TaskController.deleteTaskDetails() entered with args : " +id);
+		log.info("deleteTaskDetails() entered with args : " +id);
 		if(id < 1 || id == null) {
-			log.info("TaskController.deleteTaskDetails() Empty Input Exception : taskId is empty");
+			log.info("deleteTaskDetails() Empty Input Exception : taskId is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_MEESAGE);
 		}
 		try {
-			log.info("TaskController.deleteTaskDetails() is under execution...");
+			log.info("deleteTaskDetails() is under execution...");
 			Integer result = taskService.deleteTaskById(id);
-			log.info("TaskController.deleteTaskDetails() is executed Successfully");
+			log.info("deleteTaskDetails() is executed Successfully");
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}catch (Exception e) {
-			log.info("TaskController.deleteTaskDetails() exited with Exception : Exception occured while deleting the task " +e.getMessage());
+			log.error("deleteTaskDetails() exited with Exception : Exception occured while deleting the task " +e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DELETE_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_DELETE_MEESAGE);
 		}	
@@ -259,9 +259,9 @@ public class TaskController {
 	 */
 	@DeleteMapping("/deleteAll/{ids}")
 	public ResponseEntity<Boolean> deleteAllTasksById(@PathVariable("ids") String taskids){
-		log.info("TaskController.deleteAllTasksById() entered with args : taskIds");
+		log.info("deleteAllTasksById() entered with args : taskIds");
 		if(taskids == "" || taskids == null) {
-			log.info("TaskController.deleteAllTasksById() Empty Input Exceptio : taskId's is empty");
+			log.info("deleteAllTasksById() Empty Input Exceptio : taskId's is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_MEESAGE);
 		}
@@ -275,13 +275,13 @@ public class TaskController {
                      .collect(Collectors.toList());
 		}
 		try {
-			log.info("TaskController.deleteAllTasksById() is under execution...");
+			log.info("deleteAllTasksById() is under execution...");
 			boolean isAllDeleted = taskService.deleteAllTasksById(taskIds);
-			log.info("TaskController.deleteAllTasksBYId() executed Successfully");
+			log.info("deleteAllTasksBYId() executed Successfully");
 			return new ResponseEntity<>(isAllDeleted, HttpStatus.OK);
 		}catch (Exception e) {
-			log.info("TaskController.deleteAllTasksById() exited with exception : Exception occured while deleting tasks :" 
-					+e.getMessage()); 
+			log.error("deleteAllTasksById() exited with exception : Exception occured while deleting tasks :" 
+					+e.getMessage(), e); 
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DELETE_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_DELETE_MEESAGE);
 		}
@@ -293,9 +293,9 @@ public class TaskController {
 			@RequestParam(required = false, defaultValue = "") String taskPriority,
 			@RequestParam(required = false, defaultValue = "")String taskStartDate,
 			@RequestParam(required = false, defaultValue = "") String taskEndDate){
-		log.info("TaskController.getAssignedTasksByUserId() entered with args :" +emailId);
+		log.info("getAssignedTasksByUserId() entered with args :" +emailId);
 		if(emailId =="" || emailId==null) {
-			log.info("TaskController.getAssignedTasksByUserId() Empty Input Exception : emailId is empty ");
+			log.info("getAssignedTasksByUserId() Empty Input Exception : emailId is empty ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
@@ -304,19 +304,20 @@ public class TaskController {
 				    ("null".equals(taskPriority) || "".equals(taskPriority)) &&
 				    ("null".equals(taskStartDate) || "".equals(taskStartDate)) &&
 				    ("null".equals(taskEndDate) || "".equals(taskEndDate))) {
-				log.info("TaskController.getAssignedTasksByUserId() is under execution without filters...");
+				log.info("getAssignedTasksByUserId() is under execution without filters...");
 				List<Task> task = taskService.getAssignedTaskListOfUser(emailId);
-				log.info("TaskController.getAssignedTasksByUserId() is executed Successfully");
+				log.info("getAssignedTasksByUserId() is executed Successfully");
 				return new ResponseEntity<>(task,HttpStatus.OK);
 			} else {			
-				log.info("TaskController.getAssignedTasksByUserId() is under execution with filters...");
+				log.info("getAssignedTasksByUserId() is under execution with filters...");
 				List<Task> taskList = taskService.getFilteredAssignedTasks(taskTitle, taskPriority, taskStartDate, taskEndDate, emailId);
-				log.info("TaskController.getAssignedTasksByUserId() is executed Successfully with filters");
+				log.info("getAssignedTasksByUserId() is executed Successfully with filters");
 				return new ResponseEntity<>(taskList,HttpStatus.OK);
 			}
 			
 		}catch (Exception e) {
-			log.info("TaskController.getAssignedTasksByUserId() is exited with exception : Exception occured while getting the tasks of the user "+e.getMessage());
+			log.error("getAssignedTasksByUserId() is exited with exception : "
+					+ "Exception occured while getting the tasks of the user "+e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
 		}
@@ -413,6 +414,7 @@ public class TaskController {
 		log.info("getTaskListByDepartment() is under execution... ");
 		List<Task> taskList = taskService.getTasksByDepartment(departmentId);
 		System.out.println(taskList);
+		log.info("getTaskListByDepartment() executed successfully");
 		return new ResponseEntity<>(taskList, HttpStatus.OK);
 	}
 	
@@ -458,13 +460,13 @@ public class TaskController {
 		log.info("TaskController.fetchAllTasksforYear() entered ");
 		System.out.println(startDate+" "+endDate);
 		try { 
-			log.info("TaskController.fetchAllTasksforYear() is under execution... ");
+			log.info("fetchAllTasksforYear() is under execution... ");
 			List<Long> taskList = taskService.getTasksBetweenStartDateAndEndDate(startDate,endDate);
-			log.info("TaskController.fetchAllTaskDetailsfor year () is executed Successfully");
+			log.info("fetchAllTaskDetailsfor year () is executed Successfully");
 			return new ResponseEntity<>(taskList, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			log.info("TaskController.fetchAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			log.error("fetchAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
 		}
@@ -472,15 +474,15 @@ public class TaskController {
 	}
 	@GetMapping("/department-tasks")
 	public ResponseEntity<List<Object[]>> getAllTasksByDepartment(){
-		log.info("TaskController.getAllTasksByDepartment() entered ");
+		log.info("getAllTasksByDepartment() entered ");
 		try { 
-			log.info("TaskController.getAllTasksByDepartment() is under execution... ");
+			log.info("getAllTasksByDepartment() is under execution... ");
 			List<Object[]> taskList = taskService.getAllTasksByDepartment();
 			log.info("TaskController.getAllTasksByDepartment() is executed Successfully");
 			return new ResponseEntity<>(taskList, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			log.info("TaskController.getAllTasksByDepartment() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			log.error("getAllTasksByDepartment() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
@@ -488,16 +490,16 @@ public class TaskController {
 	}
 	@GetMapping("/taskCategory/{taskCategoryId}")
 	public ResponseEntity<List<Task>> getAllTasksByTaskCategoryId(@PathVariable("taskCategoryId") Long taskCategoryId){
-		log.info("TaskController.getAllTasksByTaskCategoryId() entered ");
+		log.info("getAllTasksByTaskCategoryId() entered ");
 	
 		try { 
-			log.info("TaskController.getAllTasksByTaskCategoryId() is under execution... ");
+			log.info("getAllTasksByTaskCategoryId() is under execution... ");
 			List<Task> taskList = taskService.getTasksByCategoryId(taskCategoryId);
-			log.info("TaskController.getAllTasksByTaskCategoryId() is executed Successfully");
+			log.info("getAllTasksByTaskCategoryId() is executed Successfully");
 			return new ResponseEntity<>(taskList, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			log.info("TaskController.getAllTasksByTaskCategoryId() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			log.error("getAllTasksByTaskCategoryId() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
@@ -505,15 +507,15 @@ public class TaskController {
 	}
 	@GetMapping("/taskCategory-count")
 	public ResponseEntity<List<Object[]>> getAllTasksByCategoryCount(){
-		log.info("TaskController.getAllTasks() entered ");
+		log.info("getAllTasks() entered ");
 		try { 
-			log.info("TaskController.getAllTasks() is under execution... ");
+			log.info("getAllTasks() is under execution... ");
 			List<Object[]> taskListCount = taskService.getAllTaskCategoryByCount();
-			log.info("TaskController.getAllTasks() is executed Successfully");
+			log.info("getAllTasks() is executed Successfully");
 			return new ResponseEntity<>(taskListCount, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			log.info("TaskController.getAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			log.error("getAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
