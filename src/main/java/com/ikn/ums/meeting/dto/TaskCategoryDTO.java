@@ -8,6 +8,10 @@ import lombok.Data;
 @Data
 public class TaskCategoryDTO implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long taskCategoryId;
 	private String taskCategoryTitle;
 	private String taskCategoryDescription;

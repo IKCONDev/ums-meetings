@@ -4,10 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -27,7 +25,6 @@ import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.EntityNotFoundException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
-import com.ikn.ums.meeting.model.DepartmentMeetingCount;
 import com.ikn.ums.meeting.model.MeetingModel;
 import com.ikn.ums.meeting.service.MeetingService;
 
