@@ -17,6 +17,8 @@ import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.ikn.ums.meeting.dto.MeetingDto;
 import com.ikn.ums.meeting.entity.Attendee;
 import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.exception.EmptyInputException;
@@ -73,7 +75,7 @@ public class MeetingsServiceImpl implements MeetingService {
 	}
 
 	@Override
-	public List<Meeting> getUserAttendedMeetingsByUserId(String emailId) {
+	public List<MeetingDto> getUserAttendedMeetingsByUserId(String emailId) {
 		log.info("getUserAttendedMeetingsByUserId() entered with args : " + emailId);
 		if (Strings.isNullOrEmpty(emailId) || emailId.isEmpty()) {
 			log.info("getUserAttendedMeetingsByUserId() EmptyInputException : user email is empty or null");
@@ -83,21 +85,34 @@ public class MeetingsServiceImpl implements MeetingService {
 		log.info(
 				"getUserAttendedMeetingsByUserId() calling batch process microservice to get user attended meetings");
 		List<Meeting> attendedMeetingList = meetingRepository.findAllAttendedMeetingsByUserId(emailId);
+		List<MeetingDto> meetingDTOList = new ArrayList<>();
+		attendedMeetingList.forEach(entity -> {
+			MeetingDto dto = new MeetingDto();
+			modelMapper.map(entity, dto);
+			meetingDTOList.add(dto);
+		});
 		log.info("getUserAttendedMeetingsByUserId() executed successfully");
-		return attendedMeetingList;
+		return meetingDTOList;
 	}
 
 	@Override
-	public List<Meeting> getUserOrganizedMeetingsByUserId(String emailId) {
+	public List<MeetingDto> getUserOrganizedMeetingsByUserId(String emailId) {
 		log.info("getUserOrganizedMeetingsByUserId() entered with args - emailId/userId : "+emailId);
 		if (Strings.isNullOrEmpty(emailId) || emailId.isEmpty()) {
+			log.info("getUserOrganizedMeetingsByUserId() EmptyInputException emailId / userId is empty or null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		log.info("getUserOrganizedMeetingsByUserId() is under execution...");
 		List<Meeting> meetingList = meetingRepository.findAllMeetingsByUserId(emailId);
+		List<MeetingDto> meetingDtoList = new ArrayList<>();
+		meetingList.forEach(entity -> {
+			MeetingDto dto = new MeetingDto();
+			modelMapper.map(entity, dto);
+			meetingDtoList.add(dto);
+		});
 		log.info("getUserOrganizedMeetingsByUserId() executed succesfully");
-		return meetingList;
+		return meetingDtoList;
 	}
 
 	@Transactional
@@ -138,7 +153,7 @@ public class MeetingsServiceImpl implements MeetingService {
 	}
 
 	@Override
-	public List<Meeting> getAllMeetingsByUserId(String emailId) {
+	public List<MeetingDto> getAllMeetingsByUserId(String emailId) {
 		log.info("getAllMeetingsByUserId() entered with args - emailId/userId : " + emailId);
 		if (Strings.isNullOrEmpty(emailId) || emailId.isEmpty()) {
 			log.info("getAllMeetingsByUserId() : userId/emailId is empty");
@@ -147,8 +162,14 @@ public class MeetingsServiceImpl implements MeetingService {
 		}
 		log.info("getAllMeetingsByUserId() is under execution");
 		List<Meeting> meetingList = meetingRepository.findAllMeetingsByUserId(emailId);
+		List<MeetingDto> meetingDtoList = new ArrayList<>();
+		meetingList.forEach(entity -> {
+			MeetingDto dto = new MeetingDto();
+			modelMapper.map(entity, dto);
+			meetingDtoList.add(dto);
+		});
 		log.info("getAllMeetingsByUserId() exiting successfully");
-		return meetingList;
+		return meetingDtoList;
 	}
 
 	@Override
@@ -162,7 +183,7 @@ public class MeetingsServiceImpl implements MeetingService {
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		log.info("getUserAttendedMeetingCountByUserId() is under execution...");
-		Integer dbAttendedMeetingsCount = meetingRepository.findUserAttendedMeetingCount(emailId);
+		var dbAttendedMeetingsCount = meetingRepository.findUserAttendedMeetingCount(emailId);
 		log.info("getUserAttendedMeetingCountByUserId() executed succesfully");
 		return dbAttendedMeetingsCount;
 	}
@@ -178,28 +199,35 @@ public class MeetingsServiceImpl implements MeetingService {
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		log.info("getUserOragnizedMeetingCountByUserId() is under execution...");
-		Integer dbCount = meetingRepository.findUserOrganizedMeetingCount(emailId);
+		var dbCount = meetingRepository.findUserOrganizedMeetingCount(emailId);
 		log.info("getUserOragnizedMeetingCountByUserId() executed succesfully");
 		return dbCount;
 	}
 
 	@Override
-	public Optional<Meeting> getMeetingDetails(Long meetingId) {
+	public MeetingDto getMeetingDetails(Long meetingId) {
 		log.info("getMeetingDetails() entered with args - meetingId : " + meetingId);
 		if (meetingId <= 0 || meetingId == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MSG);
 		}
 		log.info("getMeetingDetails() is under execution...");
-		Optional<Meeting> meeting = meetingRepository.findById(meetingId);
+		Optional<Meeting> optMeeting = meetingRepository.findById(meetingId);
+		if(optMeeting.isEmpty()) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_DBENTITY_ISNULL_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_DBENTITY_ISNULL_MSG);
+		}
+		Meeting meeting = optMeeting.get();
+		MeetingDto meetingDto = new MeetingDto();
+		modelMapper.map(meeting, meetingDto);
 		log.info("getMeetingDetails() executed successfully.");
-		return meeting;
+		return meetingDto;
 
 	}
 
 	@Transactional
 	@Override
-	public Meeting createMeeting(MeetingModel meetingModel) {
+	public MeetingDto createMeeting(MeetingModel meetingModel) {
 		log.info("createMeeting() entered with args : meeting object");
 		if (meetingModel == null || meetingModel.equals(null)) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_CODE,
@@ -235,9 +263,11 @@ public class MeetingsServiceImpl implements MeetingService {
 		meeting.setCreatedDateTime(LocalDateTime.now().toString());
 		meeting.setManualMeeting(true);
 		Meeting createdMeeting = meetingRepository.save(meeting);
+		MeetingDto meetingDto = new MeetingDto();
+		modelMapper.map(createdMeeting, meetingDto);
 		// send email to meeting attendees if required.
-		log.info("MeetingsServiceImpl.createMeeting() executed successfully");
-		return createdMeeting;
+		log.info("createMeeting() executed successfully");
+		return meetingDto;
 	}
 	public List<Long> countEmailOccurrences(LocalDateTime startDate, LocalDateTime endDate, String email) {
 		log.info("countEmailOccurrences() entered.");
@@ -340,7 +370,7 @@ public class MeetingsServiceImpl implements MeetingService {
 	}
 
 	@Override
-	public List<Meeting> getFilteredOrganizedMeetings(String meetingTitle, LocalDateTime startDateTime, LocalDateTime endDateTime,
+	public List<MeetingDto> getFilteredOrganizedMeetings(String meetingTitle, LocalDateTime startDateTime, LocalDateTime endDateTime,
 			String emailId) {
 		log.info("getFilteredOrganizedMeetings() entered");
 		if (Strings.isNullOrEmpty(emailId) || emailId.isEmpty()) {
@@ -350,12 +380,18 @@ public class MeetingsServiceImpl implements MeetingService {
 		}
 		log.info("getFilteredOrganizedMeetings() is under execution...");
 		List<Meeting> filteredMeetingList = meetingRepository.findAllFilteredMeetingsByUserId(meetingTitle.isBlank()?null : meetingTitle, startDateTime, endDateTime,emailId);
+		List<MeetingDto> meetingDtoList = filteredMeetingList.stream()
+                .map(meeting -> {
+                    MeetingDto meetingDto = new MeetingDto();
+                    return meetingDto;
+                })
+                .collect(Collectors.toList());
 		log.info("getFilteredOrganizedMeetings() executed successfully.");
-		return filteredMeetingList;
+		return meetingDtoList;
 	}
 
 	@Override
-	public List<Meeting> getFilteredAttendedMeetings(String meetingTitle, String startDateTime, String endDateTime,
+	public List<MeetingDto> getFilteredAttendedMeetings(String meetingTitle, String startDateTime, String endDateTime,
 			String emailId) {
 		log.info("getFilteredAttendedMeetings() entered");
 		if(Strings.isNullOrEmpty(emailId) || emailId.isEmpty()) {
@@ -373,12 +409,18 @@ public class MeetingsServiceImpl implements MeetingService {
 			actualEndDateTime = LocalDateTime.parse(endDateTime);
 		}
 		var filteredAttendedMeetingList = meetingRepository.findAllFilteredAttendedMeetingsByUserId(meetingTitle.isBlank()?null : meetingTitle, actualStartDateTime, actualEndDateTime,emailId);
+		List<MeetingDto> meetingDtoList = filteredAttendedMeetingList.stream()
+                .map(meeting -> {
+                    MeetingDto meetingDto = new MeetingDto();
+                    return meetingDto;
+                })
+                .collect(Collectors.toList());
 		log.info("getFilteredAttendedMeetings() executed successfully...");
-		return filteredAttendedMeetingList;
+		return meetingDtoList;
 	}
 
 	@Override
-	public List<Meeting> getMeetingsByDepartment(Long departmentId) {
+	public List<MeetingDto> getMeetingsByDepartment(Long departmentId) {
 		log.info("getMeetingsByDepartment() entered with args : departmentId - "+departmentId);
 		if(departmentId <= 0) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_DEPTID_EMPTY_CODE,
@@ -386,17 +428,29 @@ public class MeetingsServiceImpl implements MeetingService {
 		}
 		log.info("getMeetingsByDepartment() is under execution...");
 		var meetingsOfDepartmentList = meetingRepository.findByDepartmentId(departmentId);
+		List<MeetingDto> meetingsOfDepartmentDtoList = meetingsOfDepartmentList.stream()
+                .map(meeting -> {
+                    MeetingDto meetingDto = new MeetingDto();
+                    return meetingDto;
+                })
+                .collect(Collectors.toList());
 		log.info("getMeetingsByDepartment() is executed successfully.");
-		return meetingsOfDepartmentList;
+		return meetingsOfDepartmentDtoList;
 	}
 
 	@Override
-	public List<Meeting> getAllMeetings() {
+	public List<MeetingDto> getAllMeetings() {
 		log.info("getAllMeetings() is entered");
 		log.info("getAllMeetings() is under execution...");
 		var meetingList =  meetingRepository.findAll();
+		List<MeetingDto> meetingsDtoList = meetingList.stream()
+                .map(meeting -> {
+                    MeetingDto meetingDto = new MeetingDto();
+                    return meetingDto;
+                })
+                .collect(Collectors.toList());
 		log.info("getAllMeetings() is executed successfully.");
-		return meetingList;
+		return meetingsDtoList;
 	}
 
 	@Override

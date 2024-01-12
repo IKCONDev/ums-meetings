@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.entity.ActionItem;
-import com.ikn.ums.meeting.entity.Meeting;
-import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.model.MinutesOfMeeting;
 
 public interface ActionItemService {

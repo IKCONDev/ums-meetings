@@ -1,6 +1,5 @@
 package com.ikn.ums.meeting.service.impl;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -12,21 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.Collections;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.VO.EmployeeVO;
 import com.ikn.ums.meeting.VO.Notification;
+import com.ikn.ums.meeting.dto.MeetingDto;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Attendee;
 import com.ikn.ums.meeting.entity.Meeting;
@@ -34,7 +32,6 @@ import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
-import com.ikn.ums.meeting.exception.NotificationServiceUnavailableException;
 import com.ikn.ums.meeting.model.ActionItemModel;
 import com.ikn.ums.meeting.repository.TaskRepository;
 import com.ikn.ums.meeting.service.ActionItemService;
@@ -42,10 +39,8 @@ import com.ikn.ums.meeting.service.MeetingService;
 import com.ikn.ums.meeting.service.TaskService;
 import com.ikn.ums.meeting.utils.EmailService;
 import com.ikn.ums.meeting.utils.NotificationService;
-import com.netflix.discovery.DiscoveryClient;
 
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.asm.Advice.Local;
 
 @Service
 @Slf4j
@@ -68,6 +63,9 @@ public class TaskServiceImpl implements  TaskService{
 	
 	@Autowired
 	private ActionItemService actionItemService;
+	
+	@Autowired 
+	private ModelMapper mapper;
 	
 	//@Autowired
 	//private DiscoveryClient discoveryClient;
@@ -104,7 +102,6 @@ public class TaskServiceImpl implements  TaskService{
 
 	@Override
 	public List<Task> getTasks() {
-		// TODO Auto-generated method stub
 		log.info("TaskServiceImpl.getTasks() entered");
 		log.info("TaskServiceImpl.getTasks() is under execution...");
 		List<Task> taskList= taskRepository.findAll();
@@ -329,12 +326,9 @@ public class TaskServiceImpl implements  TaskService{
 	public void sendMinutesofMeetingEmail(List<String> emailList, List<ActionItem> actionItemList, Long meetingId,String discussionPoints, String HoursDiff, String minDiff) {
 		
 		//get meeting object from Repository
-		Optional<Meeting> optMeeting = meetingService.getMeetingDetails(meetingId);
-		Meeting meeting = null;
-		if(optMeeting.isPresent()) {
-		     meeting = optMeeting.get();
-		}
-		
+		MeetingDto meetingDto = meetingService.getMeetingDetails(meetingId);
+		Meeting meeting = new Meeting();
+		mapper.map(meetingDto, meeting);
 		// TODO Auto-generated method stub
 		StringBuilder actionItemBuilder = new StringBuilder();
 		StringBuilder attendeeListBuilder = new StringBuilder();
@@ -373,32 +367,24 @@ public class TaskServiceImpl implements  TaskService{
 			emailList.add(meeting.getOrganizerEmailId());
 		}
 		List<EmployeeVO> employeeVOList = responseEntity.getBody();
-		System.out.println(employeeVOList);
 		String[] emailArrayList = new String[emailList.size()];
 		for(int i=0; i<emailList.size(); i++) {
 			if(emailList.get(i)!=null) {
 				emailArrayList[i] = emailList.get(i);
-				System.out.println("filtered email is:"+emailArrayList[i]);
 			}
 		}
-		System.out.println("execution success");
 		List<String> mergedEmailList = new ArrayList<>(emailList); 
 		mergedEmailList.addAll(attendeeEmailList);
 		// LocalDateTime
      	LocalDateTime utcDateTime = meeting.getStartDateTime();
-     	System.out.println("UTC LocalDateTime: " + utcDateTime);
      	// Convert UTC LocalDateTime to ZonedDateTime in UTC
      	ZonedDateTime utcZonedDateTime = utcDateTime.atZone(ZoneOffset.UTC);
-     	System.out.println("UTC ZonedDateTime: " + utcZonedDateTime);
      	// Convert UTC ZonedDateTime to IST (Indian Standard Time)
      	ZonedDateTime istZonedDateTime = utcZonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata"));
-     	System.out.println("IST ZonedDateTime: " + istZonedDateTime);
      	// Get the equivalent OffsetDateTime in IST
     	OffsetDateTime meetingLocalStartDateTime = istZonedDateTime.toOffsetDateTime();
-    	System.out.println("OffsetDateTime in IST: " + meetingLocalStartDateTime);
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
         String formattedDateTimeInIST = meetingLocalStartDateTime.format(formatter);
-        System.out.println("Date and Time in IST: " + formattedDateTimeInIST);
 		String subject = meeting.getSubject()+"/"+"MOM";
 		actionItemBuilder.append("<b>"+"Title - "+"</b>"+meeting.getSubject()+"<br/>");
 		actionItemBuilder.append("<b>"+"Organizer - "+"</b>"+meeting.getOrganizerName()+"<br/>");
@@ -446,16 +432,13 @@ public class TaskServiceImpl implements  TaskService{
 	        	
 	        });
 	        actionModel.setActionOwner(actionItemOwnerList);
-	        System.out.println(actionItemOwnerList);
 	        String listString = "";
 
 	        int size = actionItemOwnerList.size();
-	        System.out.println("Size "+size);
 	        for (int i = 0; i < size; i++) {
 	            listString += actionItemOwnerList.get(i);
 	            
 	            if (i < size - 1) {
-	            	System.out.println(listString+"before comma");
 	                // Add a comma if it's not the last element
 	                listString += ",";
 	            }
@@ -472,7 +455,6 @@ public class TaskServiceImpl implements  TaskService{
 			);
 
 			List<EmployeeVO> actionOwnerNameList = res.getBody();
-			System.out.println("The employee List:"+actionOwnerNameList);
 			//Iterating the actionOwnerNameList 
 			StringBuilder actionOwnerName = new StringBuilder();
 
@@ -494,7 +476,6 @@ public class TaskServiceImpl implements  TaskService{
 	        //System.out.println(actionModelList);
 			    
 		});
- 	   System.out.println(actionModelList);
  	   
  	   for(int i= 0; i<actionModelList.size();i++) {
  		 actionItemBuilder.append("<tr><td>").append(actionModelList.get(i).getActionTitle()).append("</td>");

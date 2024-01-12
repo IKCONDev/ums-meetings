@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ser.impl.StringArraySerializer;
+import com.ikn.ums.meeting.dto.MeetingDto;
 import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
@@ -27,6 +29,7 @@ import com.ikn.ums.meeting.exception.EntityNotFoundException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.model.MeetingModel;
 import com.ikn.ums.meeting.service.MeetingService;
+import com.netflix.servo.util.Strings;
 
 import io.micrometer.core.lang.Nullable;
 import lombok.extern.slf4j.Slf4j;
@@ -47,22 +50,22 @@ public class MeetingController {
 	 * @return
 	 */
 	@PostMapping("/create")
-	public ResponseEntity<Meeting> createMeeting(@RequestBody MeetingModel meetingModel){
-		log.info("MeetingController.createMeeting() entered with args : meeting object");
-		if(meetingModel.equals(null) || meetingModel == null) {
+	public ResponseEntity<MeetingDto> createMeeting(@RequestBody MeetingModel meetingModel){
+		log.info("createMeeting() entered with args : meeting object");
+		if(meetingModel == null) {
+			log.info("createMeeting() EntityNotFoundException : meeting object is null ");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_MSG);
 			
 		}
 		try {
-			log.info("MeetingController.createMeeting() is under execution...");
-			Meeting createdMeeting = meetingService.createMeeting(meetingModel);
+			log.info("createMeeting() is under execution...");
+			MeetingDto createdMeeting = meetingService.createMeeting(meetingModel);
 			return new ResponseEntity<>(createdMeeting, HttpStatus.CREATED);
 		}catch (Exception e) {
-			log.info("MeetingController.createMeeting() : Exception occured while saving meeting "+e.getMessage());
-			ControllerException umsCE = new ControllerException( ErrorCodeMessages.ERR_MEETINGS_CREATE_UNSUCCESS_CODE,
+			log.info("createMeeting() : Exception occured while saving meeting "+e.getMessage());
+			throw new ControllerException( ErrorCodeMessages.ERR_MEETINGS_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_CREATE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	
@@ -88,9 +91,8 @@ public class MeetingController {
 		}
 		catch (Exception e) {
 			log.info("EventController.deleteActionItemsOfEvent() exited with exception "+e.getMessage());
-			ControllerException umsCE = new ControllerException( ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE,
+			throw new ControllerException( ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_CONTROLLER_EXCEPTION_MSG+" "+e.fillInStackTrace());
-			throw umsCE;
 		}
 		
 	}
@@ -101,25 +103,26 @@ public class MeetingController {
 	 * @return
 	 */
 	@GetMapping(path = "/attended/{userId}")
-	public ResponseEntity<List<Meeting>> getUserAttendedMeetings(@PathVariable("userId") String emailId,
+	public ResponseEntity<List<MeetingDto>> getUserAttendedMeetings(@PathVariable("userId") String emailId,
 			@RequestParam(defaultValue = "", required = false) String meetingTitle,
 			@RequestParam(defaultValue = "", required = false) String startDateTime,
 			@RequestParam(defaultValue = "", required = false) String endDateTime) {
-		if(emailId == "" || emailId == null) {
+		if(Strings.isNullOrEmpty(emailId) || emailId.isEmpty()) {
+			log.info("getUserAttendedMeetings() EmptyInputException : userId / emailId is empty.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
-		log.info("MeetingController.getUserAttendedMeetings() entered with args - userId/emailId : "+emailId);
+		log.info("getUserAttendedMeetings() entered with args - userId/emailId : "+emailId);
 		try {
 			if(meetingTitle.isBlank() && startDateTime.isBlank() && endDateTime.isBlank()) {
-				log.info("MeetingController.getUserAttendedMeetings() is under excution...");
-				List<Meeting> attendedMeetingList =  meetingService.getUserAttendedMeetingsByUserId(emailId);
-				log.info("MeetingController.getUserAttendedMeetings() is executed successfully...");
+				log.info("getUserAttendedMeetings() is under excution...");
+				List<MeetingDto> attendedMeetingList =  meetingService.getUserAttendedMeetingsByUserId(emailId);
+				log.info("getUserAttendedMeetings() is executed successfully...");
 				return new ResponseEntity<>(attendedMeetingList, HttpStatus.OK);
 			}else {
-				log.info("MeetingController.getUserAttendedMeetings() is under excution...");
-				List<Meeting> attendedMeetingList =  meetingService.getFilteredAttendedMeetings(meetingTitle, startDateTime, endDateTime, emailId);
-				log.info("MeetingController.getUserAttendedMeetings() is executed successfully...");
+				log.info("getUserAttendedMeetings() is under excution...");
+				List<MeetingDto> attendedMeetingList =  meetingService.getFilteredAttendedMeetings(meetingTitle, startDateTime, endDateTime, emailId);
+				log.info("getUserAttendedMeetings() is executed successfully...");
 				return new ResponseEntity<>(attendedMeetingList, HttpStatus.OK);
 			}
 		}catch (Exception e) {
@@ -136,7 +139,7 @@ public class MeetingController {
      * @return
      */
 	@GetMapping("/organized/{userId}")
-	public ResponseEntity<List<Meeting>> getUserOrganizedMeetings(@PathVariable("userId") String emailId,
+	public ResponseEntity<List<MeetingDto>> getUserOrganizedMeetings(@PathVariable("userId") String emailId,
 			@RequestParam(defaultValue = "",required = false) String meetingTitle,
 		@Nullable@RequestParam(required = false) String startDate,
 			@Nullable@RequestParam(required = false) String endDate){
@@ -146,23 +149,17 @@ public class MeetingController {
 		}
 		log.info("MeetingController.getUserOrganizedMeetings() under execution ");
 		try {
-			System.out.println(meetingTitle+"--------");
-			System.out.println(startDate+"---------");
-			System.out.println(endDate+"------++---");
 			if(meetingTitle.isBlank() && startDate==null && endDate==null) {
-				System.out.println("executed if");
-				List<Meeting> meetingList=meetingService.getUserOrganizedMeetingsByUserId(emailId);
+				List<MeetingDto> meetingList=meetingService.getUserOrganizedMeetingsByUserId(emailId);
 				log.info("MeetingController.getUserOrganizedMeetings() exited Successfully without filters");
 				return new ResponseEntity<>(meetingList,HttpStatus.OK);
 			}else {
-				System.out.println("executed else");
-				System.out.println(endDate+"+_=_=_+_");
 				 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
 			        // Parse the string to LocalDateTime
 				 LocalDateTime localStartDateTime = startDate.isBlank() ? null : LocalDateTime.parse(startDate, formatter);
 		            LocalDateTime localEndDateTime = endDate.isBlank() ? null : LocalDateTime.parse(endDate, formatter);
-				List<Meeting> filteredMeetingList = meetingService.getFilteredOrganizedMeetings(meetingTitle, localStartDateTime, localEndDateTime, emailId);
+				List<MeetingDto> filteredMeetingList = meetingService.getFilteredOrganizedMeetings(meetingTitle, localStartDateTime, localEndDateTime, emailId);
 				log.info("MeetingController.getUserOrganizedMeetings() exited Successfully with filters");
 				return new ResponseEntity<>(filteredMeetingList,HttpStatus.OK);
 			}
@@ -191,7 +188,7 @@ public class MeetingController {
 		}
 		log.info("MeetingController.processCurrentBatchProcessingSourceData() is under execution");
 		try {
-			String message = "";
+			var message = "";
 			meetingService.saveAllUserMeetingsListOfCurrentBatchProcess(currentBatchProcessUserMeetingsList);
 			message = "Current batch meeting details saved sucessfully";
 			log.info("MeetingController.processCurrentBatchProcessingSourceData() executed successfully");
@@ -209,7 +206,7 @@ public class MeetingController {
 	 * @return
 	 */
 	@GetMapping("/all/{userId}")
-	public ResponseEntity<List<Meeting>> getAllMeetingsOfUser(@PathVariable("userId") String emailId){
+	public ResponseEntity<List<MeetingDto>> getAllMeetingsOfUser(@PathVariable("userId") String emailId){
 		log.info("MeetingController.getAllMeetingsOfUser() entered with args : "+emailId);
 		if(emailId.equalsIgnoreCase("") || emailId == null) {
 			log.info("MeetingsServiceImpl.getAllMeetingsOfUser() : userId/emailId is empty");
@@ -218,7 +215,7 @@ public class MeetingController {
 		}
 		try {
 			log.info("MeetingsServiceImpl.getAllMeetingsOfUser() is under execution...");
-			List<Meeting> userMeetingList = meetingService.getAllMeetingsByUserId(emailId);
+			List<MeetingDto> userMeetingList = meetingService.getAllMeetingsByUserId(emailId);
 			log.info("MeetingsServiceImpl.getAllMeetingsOfUser() is executed successfully");
 			return new ResponseEntity<>(userMeetingList, HttpStatus.OK);
 		}catch (Exception e) {
@@ -267,9 +264,9 @@ public class MeetingController {
 	public ResponseEntity<Integer> getUserOragnizedMeetingCount(@PathVariable("userId") String emailId) {
 		log.info("TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() entered with args : userEmailId : "
 				+ emailId);
-		if (emailId.equalsIgnoreCase("") || emailId == null) {
+		if (Strings.isNullOrEmpty(emailId) || emailId.isEmpty()) {
 			log.info(
-					"TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() exited with exception : userEmailid is empty or null");
+					"TeamsSourceDataBatchProcessController.getUserOragnizedEventCount() EmptyInputException : userId / emailId is empty or null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
@@ -295,14 +292,13 @@ public class MeetingController {
 	 * @return
 	 */
 	@GetMapping("/{meetingId}")
-	public ResponseEntity<Meeting> getSingleMeeting(@PathVariable("meetingId") Long meetingId){
+	public ResponseEntity<MeetingDto> getSingleMeeting(@PathVariable("meetingId") Long meetingId){
 		log.info("MeetingController.getSingleMeeting() entered with args - meetingId");
-		Optional<Meeting> optionalMeetingObject = meetingService.getMeetingDetails(meetingId);
 		try {
 			log.info("MeetingController.getSingleMeeting() is under execution...");
-			Meeting meetingObject = optionalMeetingObject.get();
+			MeetingDto meeting = meetingService.getMeetingDetails(meetingId);
 			log.info("MeetingController.getSingleMeeting() executed successfully");
-			return new ResponseEntity<>(meetingObject,HttpStatus.OK);
+			return new ResponseEntity<>(meeting,HttpStatus.OK);
 		}catch (Exception e) {
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MSG);
@@ -339,11 +335,11 @@ public class MeetingController {
 	}
 	
 	@GetMapping("/department/{departmentId}")
-	public ResponseEntity<List<Meeting>> getMeetingsByDepartment(@PathVariable Long departmentId){
+	public ResponseEntity<List<MeetingDto>> getMeetingsByDepartment(@PathVariable Long departmentId){
 		log.info("getMeetingsByDepartment() entered with args : departmentId - "+departmentId);
 		try {
 			log.info("getMeetingsByDepartment() is under execution... ");
-			List<Meeting> departmentMeetingList =  meetingService.getMeetingsByDepartment(departmentId);
+			List<MeetingDto> departmentMeetingList =  meetingService.getMeetingsByDepartment(departmentId);
 			log.info("getMeetingsByDepartment() is executed sucessfully... ");
 			return new ResponseEntity<>(departmentMeetingList, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
@@ -358,12 +354,12 @@ public class MeetingController {
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<Meeting>> getAllMeetings(){
+	public ResponseEntity<List<MeetingDto>> getAllMeetings(){
 		log.info("MeetingController.getAllMeetings() entered with args - meetingId");
 		try {
 			log.info("MeetingController.getAllMeetings() is under execution...");
 			//Meeting meetingObject = optionalMeetingObject.get();
-			List<Meeting> meetingObjectList = meetingService.getAllMeetings() ;
+			List<MeetingDto> meetingObjectList = meetingService.getAllMeetings() ;
 			log.info("MeetingController.getAllMeetings() executed successfully");
 			return new ResponseEntity<>(meetingObjectList,HttpStatus.OK);
 		}catch (Exception e) {
@@ -384,7 +380,6 @@ public class MeetingController {
 			return new ResponseEntity<>(count,HttpStatus.OK);
 		
 		}catch (Exception e) {
-			// TODO: handle exception
 		     e.printStackTrace();
 		    return null;
 		}
