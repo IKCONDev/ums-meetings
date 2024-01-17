@@ -68,8 +68,8 @@ public class ErrorCodeMessages {
 	 public static final String ERR_MEETINGS_GET_ATTENDED_COUNT_UNSUCCESS_CODE = "ERR_MEETINGS_GETATTENDED_COUNT_UNSUCCESS_CODE-1022";
 	 public static final String ERR_MEETINGS_GET_ATTENDED_COUNT_UNSUCCESS_MSG = "Exception occured while getting user attended meetings count";
 
-	 public static final String ERR_MEETINGS_TASKS_GET_CODE = "ERR_MEETINGS_TASKS_GET_CODE-1023";
-	 public static final String ERR_MEETINGS_TASKS_GET_MSG = "An Exception occured while getting the task";
+	 public static final String ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE = "ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE-1023";
+	 public static final String ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG = "An Exception occured while getting the task";
 	 
 	 public static final String ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE = "ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_CODE-1024";
 	 public static final String ERR_MEETINGS_GET_ORGANIZED_COUNT_UNSUCCESS_MSG = "Exception occured while getting user organized meetings count";
@@ -145,11 +145,15 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ACTIONITEMS_PRIORITY_EMPTY_CODE = "ERR_ACTIONITEMS_PRIORITY_EMPTY_CODE-1003";
 	 public static final String ERR_ACTIONITEMS_PRIORITY_EMPTY_MSG = "Department id is empty";
 	 
-	 public static final String ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_CODE = "ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_CODE-1001";
+	 public static final String ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_CODE = "ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_CODE-1004";
 	 public static final String ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_MSG = "Error while fetching action items by priority.";
 	 
-	 public static final String ERR_ACTIONITEMS_MOM_ENTITY_NULL_CODE = "ERR_ACTIONITEMS_MOM_ENTITY_NULL_CODE-1003";
+	 public static final String ERR_ACTIONITEMS_MOM_ENTITY_NULL_CODE = "ERR_ACTIONITEMS_MOM_ENTITY_NULL_CODE-1005";
 	 public static final String ERR_ACTIONITEMS_MOM_ENTITY_NULL_MSG = "mom Object is null";
+	 
+	 public static final String ERR_TASK_DATE_IS_EMPTY_CODE = "ERR_TASK_DATE_IS_EMPTY_CODE-1006";
+	 public static final String ERR_TASK_DATE_IS_EMPTY_MSG = "task startDate is null";
+	 
 	 
 	 
 }

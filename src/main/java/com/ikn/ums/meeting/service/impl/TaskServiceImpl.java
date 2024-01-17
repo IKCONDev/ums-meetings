@@ -24,7 +24,9 @@ import org.springframework.web.client.RestTemplate;
 
 import com.ikn.ums.meeting.VO.EmployeeVO;
 import com.ikn.ums.meeting.VO.Notification;
+import com.ikn.ums.meeting.VO.TaskVO;
 import com.ikn.ums.meeting.dto.MeetingDto;
+import com.ikn.ums.meeting.dto.TaskDto;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Attendee;
 import com.ikn.ums.meeting.entity.Meeting;
@@ -72,7 +74,7 @@ public class TaskServiceImpl implements  TaskService{
 
 	@Override
 	@Transactional
-	public Task saveTask(Task task) {
+	public TaskDto saveTask(TaskDto task) {
 		log.info("TaskServiceImpl.saveTask() entered with args - task");
 		if(task == null ) {
 			log.info("TaskServiceImpl.saveTask() Empty List Exception : Exception occured while saving the task");
@@ -80,9 +82,13 @@ public class TaskServiceImpl implements  TaskService{
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
 		log.info("TaskServiceImpl.saveTask() is under execution...");
-		Task createdTask= taskRepository.save(task);
+		Task saveTask = new Task();
+		TaskDto taskDto = new TaskDto();
+		mapper.map(task, saveTask);
+		Task createdTask= taskRepository.save(saveTask);
 		//send email to task Owner
 		sendEmailToTaskOwner(createdTask, true);
+		mapper.map(createdTask, taskDto);
 		//send notification to task owner
 		/*
 		if((discoveryClient.getInstancesById("UMS-NOTIFICATION_SERVICE").size() < 1)) {
@@ -97,7 +103,7 @@ public class TaskServiceImpl implements  TaskService{
 		notification.setEmailId(createdTask.getEmailId());	
 		notificationService.createNotification(notification);
 		log.info("TaskServiceImpl.saveTask() is executed Successfully");
-		return createdTask;
+		return taskDto;
 	}
 
 	@Override
@@ -110,15 +116,18 @@ public class TaskServiceImpl implements  TaskService{
 	}
 
 	@Override
-	public Task updateTask(Task task) {
+	public TaskDto updateTask(TaskDto entity) {
 		log.info("TaskServiceImpl.updateTask() entered with args - task ");
 		// TODO Auto-generated method stub
-		if(task == null ) {
+		if(entity == null ) {
 			log.info("TaskServiceImpl.updateTask() Empty List Exception : Exception occured while updating the task");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
 		log.info("TaskServiceImpl.updateTask() is under execution...");
+		Task task = new Task();
+		TaskDto resultDto = new TaskDto();
+		mapper.map(entity,task);
 	    Task updatetask = taskRepository.findById( task.getTaskId() ).get();
 	    updatetask.setTaskTitle(task.getTaskTitle());
 	    updatetask.setTaskDescription(task.getTaskDescription());
@@ -148,8 +157,9 @@ public class TaskServiceImpl implements  TaskService{
 	    
 	    //send email to task owner
 	    sendEmailToTaskOwner(modifiedtask, false);
+	    mapper.map(modifiedtask, resultDto);
 	    log.info("TaskServiceImpl.updateTask() is executed Successfully");
-	    return modifiedtask;
+	    return resultDto;
 	}
 
 	@Override

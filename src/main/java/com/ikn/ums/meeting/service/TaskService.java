@@ -5,18 +5,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
+import com.ikn.ums.meeting.dto.TaskDto;
 import com.ikn.ums.meeting.entity.ActionItem;
-import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.entity.Task;
 
 public interface TaskService {
 
 	
-	Task saveTask(Task task);
-	Task updateTask(Task task);
+	TaskDto saveTask(TaskDto task);
+	TaskDto updateTask(TaskDto task);
 	List<Task> getTasks();
 	Integer deleteTaskById(Integer taskId);
 	boolean deleteAllTasksById(List<Integer> ids);

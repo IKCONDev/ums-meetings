@@ -7,12 +7,10 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,14 +22,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.ikn.ums.meeting.entity.ActionItem;
-import com.ikn.ums.meeting.entity.Meeting;
+
+import com.ikn.ums.meeting.dto.TaskDto;
 import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
-import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
-import com.ikn.ums.meeting.model.TaskStatusModel;
 import com.ikn.ums.meeting.service.TaskService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +47,7 @@ public class TaskController {
   * @return
   */
 	@PostMapping("/create")
-	public ResponseEntity<Task> createTask(@RequestBody Task task){
+	public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto task){
 		log.info("createTasks() entered with args : task");
 	    if(task == null) {
 	    	log.info("createTasks() Empty Input Exception : tasklist is Empty" );
@@ -60,7 +56,7 @@ public class TaskController {
 	    }
 		try {
 			log.info("createTasks() is under execution...");
-			Task res = taskService.saveTask(task);
+			TaskDto res = taskService.saveTask(task);
 			log.info("createTasks() is executed Successfully");
 			return new ResponseEntity<>(res, HttpStatus.OK);
 			
@@ -119,8 +115,8 @@ public class TaskController {
 			
 		}catch (Exception e) {
 			log.error("fetchAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
-			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG);
 		}
 		
 	}
@@ -165,8 +161,8 @@ public class TaskController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			log.error("fetchTasksByUserId() is exited with exception : Exception occured while getting the tasks of the user "+e.getMessage());
-			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG);
 		}
 		
 	}
@@ -193,8 +189,8 @@ public class TaskController {
 			return new ResponseEntity<>(task,HttpStatus.OK);
 		}catch (Exception e) {
 			log.error("fetchTasksById() exited with exception : Exception occured while getting the tasks :" +e.getMessage());
-			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG);
 		}
 		
 	}
@@ -206,7 +202,7 @@ public class TaskController {
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	public ResponseEntity<Task> updateTaskDetails(@RequestBody Task task,@PathVariable("id") Integer taskId){
+	public ResponseEntity<TaskDto> updateTaskDetails(@RequestBody TaskDto task,@PathVariable("id") Integer taskId){
 		log.info("updateTaskDetails() entered with args - taskId : " +taskId);
 		if(taskId < 1|| taskId == null) {
 			log.info("updateTaskDetails() Empty Input Exception : taskId is empty");
@@ -216,7 +212,7 @@ public class TaskController {
 		try {
 			log.info("updateTaskDetails() is under execution...");
 			task.setTaskId(taskId);
-			Task update = taskService.updateTask(task);
+			TaskDto update = taskService.updateTask(task);
 			log.info("updateTaskDetails() is executed successfully");
 			return new ResponseEntity<>(update, HttpStatus.OK);
 		}catch (Exception e) {
@@ -318,8 +314,8 @@ public class TaskController {
 		}catch (Exception e) {
 			log.error("getAssignedTasksByUserId() is exited with exception : "
 					+ "Exception occured while getting the tasks of the user "+e.getMessage(), e);
-			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG);
 		}
 		
 	}
@@ -358,8 +354,20 @@ public class TaskController {
 	
 	@GetMapping("/organized/count/{userId}")
 	public ResponseEntity<Long> getOrganizedTasksCountByUserId(@PathVariable("userId") String emailId){
-		Long count = taskService.getOrganizedTasksCountOfUser(emailId);
-		return new ResponseEntity<>(count, HttpStatus.OK);
+		if(emailId == null) {
+	    	log.info("getOrganizedTasksCountByUserId() Empty Input Exception : tasklist is Empty" );
+	    	throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
+	    			ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
+	    }
+		try {
+			Long count = taskService.getOrganizedTasksCountOfUser(emailId);
+			return new ResponseEntity<>(count, HttpStatus.OK);
+		}catch(Exception e) {
+			log.error("getOrganizedTasksCountByUserId() exited with exception : Exception occured while fetching "+e.getMessage(), e);
+		    throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE,
+		    		ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG);
+		}
+		
 	}
 	
 	@GetMapping("/assigned/count/{userId}")
@@ -421,7 +429,7 @@ public class TaskController {
 	@GetMapping("priority/{taskPriority}")
 	public ResponseEntity<List<Task>> getTaskListByPriority(@PathVariable String taskPriority){
 		log.info("getTaskListByPriority() is entered with args: taskstatus");
-		if(taskPriority == "" || taskPriority == null) {
+		if(taskPriority == null || taskPriority == "") {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 		}
@@ -448,11 +456,22 @@ public class TaskController {
 	@GetMapping("/aged/{dateTime}")
 	public ResponseEntity<List<Task>> getAgedTasksList(@PathVariable String dateTime){
 		log.info("getAgedTasksList() is entered with args: dateTime");
+		if(dateTime == null) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_DATE_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_TASK_DATE_IS_EMPTY_MSG);
+		}
 		LocalDate currentDateTime = LocalDate.parse(dateTime);
 		log.info("getAgedTasksList() is under execution... ");
-		List<Task> taskList = taskService.getAgedTasks(currentDateTime);
-		log.info("getAgedTasksList() executed Successfully ");
-		return new ResponseEntity<>(taskList, HttpStatus.OK);
+		try {
+			List<Task> taskList = taskService.getAgedTasks(currentDateTime);
+			log.info("getAgedTasksList() executed Successfully ");
+			return new ResponseEntity<>(taskList, HttpStatus.OK);
+		}catch (Exception e) {
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG);
+		}
+		
+	
 	}
 	
 	@GetMapping("/allForYear/{startDate}/{endDate}")
@@ -467,8 +486,8 @@ public class TaskController {
 			
 		}catch (Exception e) {
 			log.error("fetchAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
-			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_CODE,
-					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_MSG);
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG);
 		}
 	
 	}

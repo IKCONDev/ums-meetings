@@ -72,7 +72,7 @@ public class ActionItemController {
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateActionItem(@PathVariable("id") Integer actionItemId,
+	public ResponseEntity<ActionItem> updateActionItem(@PathVariable("id") Integer actionItemId,
 			@RequestBody ActionItem actionItem) {
 		log.info("updateActionItem() entered with args : actionItemid " + actionItemId);
 		if (actionItemId < 1 || actionItemId == null) {
