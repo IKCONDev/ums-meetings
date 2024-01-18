@@ -97,7 +97,7 @@ public class TaskServiceImpl implements  TaskService{
 		}
 		*/
 		Notification notification = new Notification();
-		notification.setMessage("The task T000"+createdTask.getTaskId()+" has been assigned to you.");
+		notification.setMessage("The task "+createdTask.getTaskId()+" has been assigned to you.");
 		notification.setModuleType("Tasks");
 		notification.setNotificationTo(createdTask.getTaskOwner());
 		notification.setEmailId(createdTask.getEmailId());	
@@ -147,7 +147,7 @@ public class TaskServiceImpl implements  TaskService{
 			@Override
 			public void run() {
 			    Notification notification = new Notification();
-			    notification.setMessage("Task T000"+modifiedtask.getTaskId()+" has been updated.");
+			    notification.setMessage("Task "+modifiedtask.getTaskId()+" has been updated.");
 			    notification.setModuleType("Tasks");
 			    notification.setNotificationTo(modifiedtask.getTaskOwner());
 			    notification.setEmailId(modifiedtask.getEmailId());
@@ -200,7 +200,7 @@ public class TaskServiceImpl implements  TaskService{
 			public void run() {
 				//send noti
 				Notification notification = new Notification();
-				notification.setMessage("The task T000"+deletedTask.getTaskId()+" has been deleted and it is no more available");
+				notification.setMessage("The task "+deletedTask.getTaskId()+" has been deleted and it is no more available");
 				notification.setModuleType("Tasks");
 				notification.setNotificationTo(deletedTask.getTaskOwner());
 				notification.setEmailId(deletedTask.getEmailId());
@@ -293,7 +293,7 @@ public class TaskServiceImpl implements  TaskService{
 			public void run() {
 				tasksToBeDeleted.forEach(deletedTask -> {
 					Notification notification = new Notification();
-					notification.setMessage("The task T000"+deletedTask.getTaskId()+" has been deleted and it is no more available");
+					notification.setMessage("The task "+deletedTask.getTaskId()+" has been deleted and it is no more available");
 	 			    notification.setModuleType("Tasks");
 	 			    notification.setNotificationTo(deletedTask.getTaskOwner());
 	 			    notification.setEmailId(deletedTask.getEmailId());
