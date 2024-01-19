@@ -3,14 +3,15 @@ package com.ikn.ums.meeting.service;
 import java.util.List;
 import java.util.Optional;
 import com.ikn.ums.meeting.VO.ActionItemListVO;
+import com.ikn.ums.meeting.dto.ActionItemDto;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.model.MinutesOfMeeting;
 
 public interface ActionItemService {
 
-	ActionItem saveActionItem(ActionItem actions);
+	ActionItemDto saveActionItem(ActionItemDto actions);
 	Optional<ActionItem> getActionItemById(Integer actionItemId);
-	ActionItem updateActionItem(ActionItem action);
+	ActionItemDto updateActionItem(ActionItemDto action);
 	Integer deleteActionItemById(Integer actionItemId);
 	boolean deleteAllActionItemsById(List<Integer> actionItemIds);
 	ActionItemListVO getActionItems();

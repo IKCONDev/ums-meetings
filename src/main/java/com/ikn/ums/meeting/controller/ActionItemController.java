@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
+import com.ikn.ums.meeting.dto.ActionItemDto;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Meeting;
-import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
@@ -29,7 +29,6 @@ import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.model.MinutesOfMeeting;
 import com.ikn.ums.meeting.service.ActionItemService;
 
-import ch.qos.logback.core.joran.action.Action;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -46,7 +45,7 @@ public class ActionItemController {
 	 * @return
 	 */
 	@PostMapping("/save")
-	public ResponseEntity<ActionItem> createActionItem(@RequestBody ActionItem actionItem) {
+	public ResponseEntity<ActionItemDto> createActionItem(@RequestBody ActionItemDto actionItem) {
 		log.info("createActionItem() entered with args : actionItem");
 		if (actionItem == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_CODE,
@@ -54,7 +53,7 @@ public class ActionItemController {
 		}
 		try {
 			log.info("createActionItem() is under execution...");
-			ActionItem savedActionItem = actionItemService.saveActionItem(actionItem);
+			ActionItemDto savedActionItem = actionItemService.saveActionItem(actionItem);
 			log.info("createActionItem() executed successfully");
 			return new ResponseEntity<>(savedActionItem, HttpStatus.OK);
 		} catch (Exception e) {
@@ -72,8 +71,8 @@ public class ActionItemController {
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ActionItem> updateActionItem(@PathVariable("id") Integer actionItemId,
-			@RequestBody ActionItem actionItem) {
+	public ResponseEntity<ActionItemDto> updateActionItem(@PathVariable("id") Integer actionItemId,
+			@RequestBody ActionItemDto actionItem) {
 		log.info("updateActionItem() entered with args : actionItemid " + actionItemId);
 		if (actionItemId < 1 || actionItemId == null) {
 			log.info("updateActionItem() EmptyInputException : Empty or invalid actionItemId");
@@ -83,7 +82,7 @@ public class ActionItemController {
 		try {
 			log.info("updateActionItem() is under execution...");
 			actionItem.setActionItemId(actionItemId);
-			ActionItem updatedActionItem = actionItemService.updateActionItem(actionItem);
+			ActionItemDto updatedActionItem = actionItemService.updateActionItem(actionItem);
 			log.info("updateActionItem() executed successfully");
 			return new ResponseEntity<>(updatedActionItem, HttpStatus.OK);
 		} catch (Exception e) {

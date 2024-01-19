@@ -9,10 +9,12 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikn.ums.meeting.VO.ActionItemListVO;
+import com.ikn.ums.meeting.dto.ActionItemDto;
 import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.entity.Task;
@@ -23,6 +25,7 @@ import com.ikn.ums.meeting.model.MinutesOfMeeting;
 import com.ikn.ums.meeting.repository.ActionItemRepository;
 import com.ikn.ums.meeting.service.TaskService;
 import com.ikn.ums.meeting.utils.EmailService;
+import com.thoughtworks.xstream.mapper.Mapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,10 +41,13 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 
 	@Autowired
 	private TaskService taskService;
+	
+	@Autowired
+	private ModelMapper mapper;
 
 	@Override
 	@Transactional
-	public ActionItem saveActionItem(ActionItem actionItem) {
+	public ActionItemDto saveActionItem(ActionItemDto actionItem) {
 		log.info("ActionItemServiceImpl.saveActionItem() entered with args - actionItem object");
 		if (actionItem == null) {
 			log.info(
@@ -51,14 +57,18 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		}
 		log.info("ActionItemServiceImpl.saveActionItem() is under execution...");
 		actionItem.setActionStatus("Not Submitted");
-		ActionItem savedActionItem = actionItemRepository.save(actionItem);
+		ActionItem entity = new ActionItem();
+		mapper.map(actionItem, entity);
+		ActionItem savedActionItem = actionItemRepository.save(entity);
+		ActionItemDto savedDto = new ActionItemDto();
+		mapper.map(savedActionItem, savedDto);
 		log.info("ActionItemServiceImpl.saveActionItem() executed successfully...");
-		return savedActionItem;
+		return savedDto;
 	}
 
 	@Transactional
 	@Override
-	public ActionItem updateActionItem(ActionItem actionItem) {
+	public ActionItemDto updateActionItem(ActionItemDto actionItem) {
 		log.info("ActionItemServiceImpl.updateActionItem() entered with args - actionItem");
 		if (actionItem == null) {
 			log.info("ActionItemService.updateActionItem() Empty Input Exception : ActionItem object is null");
@@ -66,7 +76,9 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_EMPTY_MSG);
 		}
 		log.info("ActionItemServiceImpl.updateActionItem() is under execution...");
-		ActionItem dbActionItem = actionItemRepository.findById(actionItem.getActionItemId()).get();
+		ActionItem entity = new ActionItem();
+		mapper.map(actionItem, entity);
+		ActionItem dbActionItem = actionItemRepository.findById(entity.getActionItemId()).get();
 		dbActionItem.setMeetingId(actionItem.getMeetingId());
 		dbActionItem.setActionItemTitle(actionItem.getActionItemTitle());
 		dbActionItem.setActionItemDescription(actionItem.getActionItemDescription());
@@ -76,8 +88,10 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		dbActionItem.setStartDate(actionItem.getStartDate());
 		dbActionItem.setEndDate(actionItem.getEndDate());
 		ActionItem updateAction = actionItemRepository.save(dbActionItem);
+		ActionItemDto updatedActionDto = new ActionItemDto();
+		mapper.map(updateAction, updatedActionDto);
 		log.info("ActionItemServiceImpl.updateActionItem() executed successfully...");
-		return updateAction;
+		return updatedActionDto;
 	}
 
 	@Override
