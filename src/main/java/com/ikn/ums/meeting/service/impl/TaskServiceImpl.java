@@ -24,7 +24,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.ikn.ums.meeting.VO.EmployeeVO;
 import com.ikn.ums.meeting.VO.Notification;
-import com.ikn.ums.meeting.VO.TaskVO;
 import com.ikn.ums.meeting.dto.MeetingDto;
 import com.ikn.ums.meeting.dto.TaskDto;
 import com.ikn.ums.meeting.entity.ActionItem;

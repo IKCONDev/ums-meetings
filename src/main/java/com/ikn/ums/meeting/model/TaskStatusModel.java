@@ -1,6 +1,5 @@
 package com.ikn.ums.meeting.model;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.AllArgsConstructor;

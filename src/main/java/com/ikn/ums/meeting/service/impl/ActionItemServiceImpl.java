@@ -1,9 +1,7 @@
 package com.ikn.ums.meeting.service.impl;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,8 +14,6 @@ import org.springframework.stereotype.Service;
 import com.ikn.ums.meeting.VO.ActionItemListVO;
 import com.ikn.ums.meeting.dto.ActionItemDto;
 import com.ikn.ums.meeting.entity.ActionItem;
-import com.ikn.ums.meeting.entity.Meeting;
-import com.ikn.ums.meeting.entity.Task;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
@@ -25,7 +21,6 @@ import com.ikn.ums.meeting.model.MinutesOfMeeting;
 import com.ikn.ums.meeting.repository.ActionItemRepository;
 import com.ikn.ums.meeting.service.TaskService;
 import com.ikn.ums.meeting.utils.EmailService;
-import com.thoughtworks.xstream.mapper.Mapper;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,7 +1,5 @@
 package com.ikn.ums.meeting.utils;
 
-import java.util.List;
-
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;

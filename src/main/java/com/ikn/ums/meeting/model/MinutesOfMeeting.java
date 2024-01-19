@@ -2,7 +2,6 @@ package com.ikn.ums.meeting.model;
 
 import java.util.List;
 
-import com.ikn.ums.meeting.entity.ActionItem;
 import com.ikn.ums.meeting.entity.Meeting;
 
 import lombok.Data;
