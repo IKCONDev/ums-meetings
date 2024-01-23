@@ -39,6 +39,7 @@ import com.ikn.ums.meeting.service.ActionItemService;
 import com.ikn.ums.meeting.service.MeetingService;
 import com.ikn.ums.meeting.service.TaskService;
 import com.ikn.ums.meeting.utils.EmailService;
+import com.ikn.ums.meeting.utils.MeetingConstants;
 import com.ikn.ums.meeting.utils.NotificationService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -97,7 +98,7 @@ public class TaskServiceImpl implements  TaskService{
 		*/
 		Notification notification = new Notification();
 		notification.setMessage("The task "+createdTask.getTaskId()+" has been assigned to you.");
-		notification.setModuleType("Tasks");
+		notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 		notification.setNotificationTo(createdTask.getTaskOwner());
 		notification.setEmailId(createdTask.getEmailId());	
 		notificationService.createNotification(notification);
@@ -147,7 +148,7 @@ public class TaskServiceImpl implements  TaskService{
 			public void run() {
 			    Notification notification = new Notification();
 			    notification.setMessage("Task "+modifiedtask.getTaskId()+" has been updated.");
-			    notification.setModuleType("Tasks");
+			    notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 			    notification.setNotificationTo(modifiedtask.getTaskOwner());
 			    notification.setEmailId(modifiedtask.getEmailId());
 			    notificationService.createNotification(notification);
@@ -200,7 +201,7 @@ public class TaskServiceImpl implements  TaskService{
 				//send noti
 				Notification notification = new Notification();
 				notification.setMessage("The task "+deletedTask.getTaskId()+" has been deleted and it is no more available");
-				notification.setModuleType("Tasks");
+				notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 				notification.setNotificationTo(deletedTask.getTaskOwner());
 				notification.setEmailId(deletedTask.getEmailId());
 				notificationService.createNotification(notification);
@@ -293,7 +294,7 @@ public class TaskServiceImpl implements  TaskService{
 				tasksToBeDeleted.forEach(deletedTask -> {
 					Notification notification = new Notification();
 					notification.setMessage("The task "+deletedTask.getTaskId()+" has been deleted and it is no more available");
-	 			    notification.setModuleType("Tasks");
+	 			    notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 	 			    notification.setNotificationTo(deletedTask.getTaskOwner());
 	 			    notification.setEmailId(deletedTask.getEmailId());
 	 			    notificationList.add(notification);	
