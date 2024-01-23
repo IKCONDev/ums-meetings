@@ -41,6 +41,7 @@ import com.ikn.ums.meeting.service.TaskService;
 import com.ikn.ums.meeting.utils.EmailService;
 import com.ikn.ums.meeting.utils.MeetingConstants;
 import com.ikn.ums.meeting.utils.NotificationService;
+import com.netflix.servo.util.Strings;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -309,7 +310,7 @@ public class TaskServiceImpl implements  TaskService{
 	@Override
 	public List<Task> getTasksByUserId(String email) {
 		log.info("getTasksByUserId() entered with args : " +email);
-		if(email == "" || email == null) {
+		if(email == null || email == "") {
 			log.info("getTasksByUserId() Empty Input Exception : Exception occured while fetching the user tasks");
 		    throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 		    		ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
@@ -569,6 +570,10 @@ public class TaskServiceImpl implements  TaskService{
 	@Override
 	public Long getOrganizedTasksCountOfUser(String emailId) {
 		log.info("getOrganizedTasksCountOfUser() is entered");
+		if(Strings.isNullOrEmpty(emailId)) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_EMAILID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_TASK_EMAILID_IS_EMPTY_MSG);
+		}
 		log.info("getOrganizedTasksCountOfUser() is under execution...");
 		Long count = taskRepository.findOrganizedTaskCountByUserId(emailId);
 		log.info("getOrganizedTasksCountOfUser() executed succesfully");
@@ -578,6 +583,10 @@ public class TaskServiceImpl implements  TaskService{
 	@Override
 	public Long getUserAssignedTasksCountOfUser(String emailId) {
 		log.info("getUserAssignedTasksCountOfUser() is entered");
+		if(Strings.isNullOrEmpty(emailId)) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_EMAILID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_TASK_EMAILID_IS_EMPTY_MSG);
+		}
 		log.info("getUserAssignedTasksCountOfUser() is under execution...");
 		Long count = taskRepository.findAssignedTaskCountByUserId(emailId);
 		log.info("getUserAssignedTasksCountOfUser() executed succesfully");
@@ -799,7 +808,7 @@ public class TaskServiceImpl implements  TaskService{
 		public List<Task> getTasksByTaskStatus(String taskStatus) {
 			log.info("getTasksByTaskStatus() is entered");
 			log.info("getTasksByTaskStatus() is under execution...");
-			if(taskStatus == "" || taskStatus == null) {
+			if(taskStatus == null || taskStatus == "") {
 				throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
 						ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 			}

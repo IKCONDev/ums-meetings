@@ -154,6 +154,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_TASK_DATE_IS_EMPTY_CODE = "ERR_TASK_DATE_IS_EMPTY_CODE-1006";
 	 public static final String ERR_TASK_DATE_IS_EMPTY_MSG = "task startDate is null";
 	 
+	 public static final String ERR_TASK_EMAILID_IS_EMPTY_CODE = "ERR_TASK_EMAILID_IS_EMPTY_CODE-1007";
+	 public static final String ERR_TASK_EMAILID_IS_EMPTY_MSG = "email Id is empty";
+	 
 	 
 	 
 }
