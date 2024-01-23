@@ -75,9 +75,9 @@ public class TaskServiceImpl implements  TaskService{
 	@Override
 	@Transactional
 	public TaskDto saveTask(TaskDto task) {
-		log.info("TaskServiceImpl.saveTask() entered with args - task");
+		log.info("saveTask() entered with args - task");
 		if(task == null ) {
-			log.info("TaskServiceImpl.saveTask() Empty List Exception : Exception occured while saving the task");
+			log.info("saveTask() Empty List Exception : Exception occured while saving the task");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
@@ -102,29 +102,28 @@ public class TaskServiceImpl implements  TaskService{
 		notification.setNotificationTo(createdTask.getTaskOwner());
 		notification.setEmailId(createdTask.getEmailId());	
 		notificationService.createNotification(notification);
-		log.info("TaskServiceImpl.saveTask() is executed Successfully");
+		log.info("saveTask() is executed Successfully");
 		return taskDto;
 	}
 
 	@Override
 	public List<Task> getTasks() {
-		log.info("TaskServiceImpl.getTasks() entered");
-		log.info("TaskServiceImpl.getTasks() is under execution...");
+		log.info("getTasks() entered");
+		log.info("getTasks() is under execution...");
 		List<Task> taskList= taskRepository.findAll();
-		log.info("TaskServiceImpl.getTasks() is executed successfully");
+		log.info("getTasks() is executed successfully");
 		return taskList;
 	}
 
 	@Override
 	public TaskDto updateTask(TaskDto entity) {
-		log.info("TaskServiceImpl.updateTask() entered with args - task ");
-		// TODO Auto-generated method stub
+		log.info("updateTask() entered with args - task ");
 		if(entity == null ) {
 			log.info("TaskServiceImpl.updateTask() Empty List Exception : Exception occured while updating the task");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
-		log.info("TaskServiceImpl.updateTask() is under execution...");
+		log.info("updateTask() is under execution...");
 		Task task = new Task();
 		TaskDto resultDto = new TaskDto();
 		mapper.map(entity,task);
@@ -158,30 +157,30 @@ public class TaskServiceImpl implements  TaskService{
 	    //send email to task owner
 	    sendEmailToTaskOwner(modifiedtask, false);
 	    mapper.map(modifiedtask, resultDto);
-	    log.info("TaskServiceImpl.updateTask() is executed Successfully");
+	    log.info("updateTask() is executed Successfully");
 	    return resultDto;
 	}
 
 	@Override
 	public Optional<Task> getTaskById(Integer taskId) {
-		log.info("TaskServiceImpl.getTaskById() entred with args : " + taskId);
+		log.info("getTaskById() entred with args : " + taskId);
 		if(taskId < 1 || taskId == null) {
-			log.info("TaskServiceImpl.getTaskById() : Empty Input Exception - taskId is empty");
+			log.info("getTaskById() : Empty Input Exception - taskId is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MSG);
 		}
-		log.info("TaskServiceImpl.getTaskById() is under execution");
+		log.info("getTaskById() is under execution");
 		Optional<Task>  task = taskRepository.findById(taskId);
-		log.info("TaskServiceImpl.getTaskById() is executed successfully");
+		log.info("getTaskById() is executed successfully");
 		return task;
 	}
 
 	@Override
 	@Transactional
 	public Integer deleteTaskById(Integer taskId) {
-		log.info("TaskServiceImpl.deleteTaskById() entered with args : " + taskId);
+		log.info("deleteTaskById() entered with args : " + taskId);
 		if(taskId < 1 || taskId == null) {
-			log.info("TaskServiceImpl.deleteTaskById() Empty Input Exception : Exception occured while deleting the task");
+			log.info("deleteTaskById() Empty Input Exception : Exception occured while deleting the task");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_MEESAGE);
 		}
@@ -191,7 +190,7 @@ public class TaskServiceImpl implements  TaskService{
 			taskToBeDeleted = optTask.get();
 			taskRepository.delete(taskToBeDeleted);
 		}
-		log.info("TaskServiceImpl.deleteTaskById() is under execution");
+		log.info("deleteTaskById() is under execution");
 		
 		Task deletedTask = taskToBeDeleted;
 		//send notification to task owner
@@ -208,7 +207,7 @@ public class TaskServiceImpl implements  TaskService{
 			}
 		}).start();
 		
-		log.info("TaskServiceImpl.deleteTaskById() is executed successfully");
+		log.info("deleteTaskById() is executed successfully");
 		return 1;
 	}
 
@@ -274,13 +273,13 @@ public class TaskServiceImpl implements  TaskService{
     
 	@Override
 	public boolean deleteAllTasksById(List<Integer> taskIds) {
-		log.info("TaskServiceImpl.deleteAllTasksById() entered with args : " +taskIds);
+		log.info("deleteAllTasksById() entered with args : " +taskIds);
 		if(taskIds.size() == 0 || taskIds == null) {
-			log.info("TaskServiceImpl.deleteAllTasksById() Empty List Exception : Exception occured while deleting the tasks");
+			log.info("deleteAllTasksById() Empty List Exception : Exception occured while deleting the tasks");
 		    throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 		    		ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
-		log.info("TaskServiceImpl.deleteAllTasksById() is under execution...");
+		log.info("deleteAllTasksById() is under execution...");
 		boolean isAllDeleted = false;
 		List<Task> tasksToBeDeleted = taskRepository.findAllById(taskIds);
 		taskRepository.deleteAll(tasksToBeDeleted);
@@ -303,43 +302,43 @@ public class TaskServiceImpl implements  TaskService{
 			}
 		}).start();
 		
-		log.info("TaskServiceImpl.deleteAllTasksById() is executed successfully");
+		log.info("deleteAllTasksById() is executed successfully");
 		return isAllDeleted;
 	}
 
 	@Override
 	public List<Task> getTasksByUserId(String email) {
-		log.info("TaskServiceImpl.getTasksByUserId() entered with args : " +email);
+		log.info("getTasksByUserId() entered with args : " +email);
 		if(email == "" || email == null) {
-			log.info("TaskServiceImpl.getTasksByUserId() Empty Input Exception : Exception occured while fetching the user tasks");
+			log.info("getTasksByUserId() Empty Input Exception : Exception occured while fetching the user tasks");
 		    throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 		    		ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
-		log.info("TaskServiceImpl.getTasksByUserId() is under execution...");
+		log.info("getTasksByUserId() is under execution...");
 		List<Task> list = taskRepository.findByUserId(email);
-		log.info("TaskServiceImpl.getTasksByUserId() is executed successfully");
+		log.info("getTasksByUserId() is executed successfully");
 		return list;
 	}
 	@Override
 	public List<Task> getAssignedTaskListOfUser(String emailId) {
-		log.info("TaskServiceImpl.getAssignedTaskListOfUser() entered with args - emailId : "+emailId);
+		log.info("getAssignedTaskListOfUser() entered with args - emailId : "+emailId);
 		if(emailId == null || emailId.equals("")) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
-		log.info("TaskServiceImpl.getAssignedTaskListOfUser() is under execution...");
+		log.info("getAssignedTaskListOfUser() is under execution...");
 		List<Task> assignedTaskList = taskRepository.findUserAssignedTasksByUserId(emailId);
-		log.info("TaskServiceImpl.getAssignedTaskListOfUser() is executed successfully");
+		log.info("getAssignedTaskListOfUser() is executed successfully");
 		return assignedTaskList;
 	}
 		
 	public void sendMinutesofMeetingEmail(List<String> emailList, List<ActionItem> actionItemList, Long meetingId,String discussionPoints, String HoursDiff, String minDiff) {
-		
+		log.info("sendMinutesofMeetingEmail() is entered");
 		//get meeting object from Repository
+		log.info("sendMinutesofMeetingEmail() is under execution...");
 		MeetingDto meetingDto = meetingService.getMeetingDetails(meetingId);
 		Meeting meeting = new Meeting();
 		mapper.map(meetingDto, meeting);
-		// TODO Auto-generated method stub
 		StringBuilder actionItemBuilder = new StringBuilder();
 		StringBuilder attendeeListBuilder = new StringBuilder();
 		Set<Attendee> attendeeList =  meeting.getAttendees();
@@ -503,11 +502,12 @@ public class TaskServiceImpl implements  TaskService{
  	   actionItemBuilder.append("<b>").append("Thanks & Regards").append("<br/>");
  	   actionItemBuilder.append(meeting.getOrganizerName()+"</b>"+"<br/><br/>");
  	   String[] convertedMergeList = mergedEmailList.toArray(new String[0]);
-	   emailService.sendMail(convertedMergeList, subject, actionItemBuilder.toString(),true);	
+	   emailService.sendMail(convertedMergeList, subject, actionItemBuilder.toString(),true);
+		log.info("sendMinutesofMeetingEmail() executed successfully");
 	}
 	
 	private void sendEmailToTaskOwner(Task task, boolean isNew) {
-		log.info("TaskServiceImpl.sendEmailToTaskOwner() entered with args - taskObject, isNew? : "+isNew);
+		log.info("sendEmailToTaskOwner() entered with args - taskObject, isNew? : "+isNew);
 		//send email to task owner
 				
 					new Thread(new Runnable() {
@@ -559,27 +559,35 @@ public class TaskServiceImpl implements  TaskService{
 						    	
 						    }
 							
-							log.info("TaskServiceImpl.sendEmailToTaskOwner(): Task email sent to "+task.getTaskOwner()+" sucessfully");
+							log.info("sendEmailToTaskOwner(): Task email sent to "+task.getTaskOwner()+" sucessfully");
 							emailService.sendMail(to,subject, emailBuilder.toString(),true);
 						}
 					}).start();	
-					System.out.println("TaskServiceImpl.sendEmailToTaskOwner() executed succesfully");
+					//System.out.println("sendEmailToTaskOwner() executed succesfully");
 	}
 	
 	@Override
 	public Long getOrganizedTasksCountOfUser(String emailId) {
+		log.info("getOrganizedTasksCountOfUser() is entered");
+		log.info("getOrganizedTasksCountOfUser() is under execution...");
 		Long count = taskRepository.findOrganizedTaskCountByUserId(emailId);
+		log.info("getOrganizedTasksCountOfUser() executed succesfully");
 		return count;
 	}
 
 	@Override
 	public Long getUserAssignedTasksCountOfUser(String emailId) {
+		log.info("getUserAssignedTasksCountOfUser() is entered");
+		log.info("getUserAssignedTasksCountOfUser() is under execution...");
 		Long count = taskRepository.findAssignedTaskCountByUserId(emailId);
+		log.info("getUserAssignedTasksCountOfUser() executed succesfully");
 		return count;
 	}
 	
 	@Override
 	 public List<Long> getTaskCountsByDayOfWeek(LocalDate startTime, LocalDate endTime,String email) {
+		log.info("getTaskCountsByDayOfWeek() is entered");
+		log.info("getTaskCountsByDayOfWeek() is under execution...");
        List<Object[]> taskCountsByDay = taskRepository.findTaskCountsByDayOfWeek(startTime, endTime,email);
  
         // Create an array to store counts for each day, initialized with zeros
@@ -594,13 +602,16 @@ public class TaskServiceImpl implements  TaskService{
             Long completedCount = (Long) result[1];
             int dayIndex = Integer.parseInt(dayOfWeek) - 1;
             totalTaskCount.set(dayIndex, completedCount);
-        }     
-       return totalTaskCount;
+        } 
+    	log.info("getUserAssignedTasksCountOfUser() executed succesfully");
+        return totalTaskCount;
     }
 	
     
 	 @Override
 	    public List<Long> getCompletedTaskCountsByDayOfWeek(LocalDate startTime, LocalDate endTime, String email) {
+		    log.info("getCompletedTaskCountsByDayOfWeek() is entered");
+			log.info("getCompletedTaskCountsByDayOfWeek() is under execution...");
 	        List<Object[]> taskCountsByDay = taskRepository.findCompletedTaskCountsByDayOfWeek(startTime, endTime ,email);
 	 
 	        // Initialize an array to store completed task counts for each day
@@ -617,13 +628,15 @@ public class TaskServiceImpl implements  TaskService{
 	            int dayIndex = Integer.parseInt(dayOfWeek) - 1;
 	            completedTaskCounts.set(dayIndex, completedCount);
 	        }
-	 
+	    	log.info("getCompletedTaskCountsByDayOfWeek() executed succesfully");
 	        return completedTaskCounts;
 	    }
 	 
 	    @Override
 	    public List<Long> findInProgressTaskCountsByDayOfWeek(LocalDate startTime, LocalDate endTime,String email) {
-	        List<Object[]> taskCountsByDay = taskRepository.findInProgressTaskCountsByDayOfWeek(startTime, endTime ,email);
+	    	log.info("findInProgressTaskCountsByDayOfWeek() is entered");
+			log.info("findInProgressTaskCountsByDayOfWeek() is under execution...");
+	    	List<Object[]> taskCountsByDay = taskRepository.findInProgressTaskCountsByDayOfWeek(startTime, endTime ,email);
 	 
 	        // Initialize an array to store in-progress task counts for each day
 	        List<Long> inProgressTaskCounts = new ArrayList<>();
@@ -639,12 +652,15 @@ public class TaskServiceImpl implements  TaskService{
 	            int dayIndex = Integer.parseInt(dayOfWeek) - 1;
 	            inProgressTaskCounts.set(dayIndex, inProgressCount);
 	        }
+	    	log.info("findInProgressTaskCountsByDayOfWeek() executed successfully");
 	        return inProgressTaskCounts;
 	    }
 
 		@Override
 		public List<Task> getFilteredTasks(String taskTitle, String taskPriority, String taskOwner, 
 				String startDate,String dueDate, String emailId) {
+			log.info("getFilteredTasks() is entered");
+			log.info("getFilteredTasks() is under execution...");
 			LocalDate orgStartDateTime = null;
 			LocalDate orgDueDateTime = null;
 			//DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd ");
@@ -663,13 +679,15 @@ public class TaskServiceImpl implements  TaskService{
 			if(taskPriority.equals("null") || taskPriority == null || taskPriority.isBlank()) {
 				taskPriority = null;
 			}
-			System.out.println(taskTitle+"+++++++++++");
+			log.info("getFilteredTasks() executed successfully");
 			return taskRepository.findFilteredTasks(taskTitle, taskPriority, taskOwner, orgStartDateTime, orgDueDateTime, emailId);
 		}
 			
 		@Override
 		 public List<Long> findTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email) {
-		        List<Object[]> taskCountsByMonth = taskRepository.findTaskCountsByMonth(startTime, endTime, email);
+			log.info("findTaskCountsByMonth() is entered");
+			log.info("findTaskCountsByMonth() is under execution...");    
+			List<Object[]> taskCountsByMonth = taskRepository.findTaskCountsByMonth(startTime, endTime, email);
 		        List<Long> monthlyTaskCounts = new ArrayList<>();
 		        for (int i = 0; i < 12; i++) {
 		        	monthlyTaskCounts.add(0L);
@@ -682,12 +700,14 @@ public class TaskServiceImpl implements  TaskService{
 		            int dayIndex = Integer.parseInt(month)-1;
 		            monthlyTaskCounts.set(dayIndex, taskCount);
 		        }
-
+		        log.info("findTaskCountsByMonth() executed successfully");
 		        return monthlyTaskCounts;
-}
+        }
 		@Override
 		 public List<Long> findInprogressTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email) {
-		        List<Object[]> inprogressTaskCountsByMonth = taskRepository.findInProgressTaskCountsByMonth(startTime, endTime, email);
+			log.info("findInprogressTaskCountsByMonth() entered");
+			log.info("findInprogressTaskCountsByMonth() is under execution...");       
+			List<Object[]> inprogressTaskCountsByMonth = taskRepository.findInProgressTaskCountsByMonth(startTime, endTime, email);
 		        List<Long> monthlyInprogressTaskCounts = new ArrayList<>();
 		        for (int i = 0; i < 12; i++) {
 		        	monthlyInprogressTaskCounts.add(0L);
@@ -700,12 +720,14 @@ public class TaskServiceImpl implements  TaskService{
 		            int monthIndex = Integer.parseInt(month)-1;
 		            monthlyInprogressTaskCounts.set(monthIndex, taskCount);
 		        }
-
+				log.info("findInprogressTaskCountsByMonth() execueted successfully");  
 		        return monthlyInprogressTaskCounts;
-}
+        }
 		@Override
 		 public List<Long> findCompletedTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email) {
-		        List<Object[]> completedTaskCountsByMonth = taskRepository.findCompletedTaskCountsByMonth(startTime, endTime, email);
+			log.info("findCompletedTaskCountsByMonth() entered");
+			log.info("findCompletedTaskCountsByMonth() is under execution...");   
+			List<Object[]> completedTaskCountsByMonth = taskRepository.findCompletedTaskCountsByMonth(startTime, endTime, email);
 		        List<Long> completedMonthlyTaskCounts = new ArrayList<>();
 		        for (int i = 0; i < 12; i++) {
 		        	completedMonthlyTaskCounts.add(0L);
@@ -718,13 +740,15 @@ public class TaskServiceImpl implements  TaskService{
 		            int monthIndex = Integer.parseInt(month)-1;
 		            completedMonthlyTaskCounts.set(monthIndex, taskCount);
 		        }
-
+		        log.info("findCompletedTaskCountsByMonth() executed successfully"); 
 		        return completedMonthlyTaskCounts;
 }
 
 		@Override
 		public List<Task> getFilteredAssignedTasks(String taskTitle, String taskPriority,
 				String startDate, String dueDate, String emailId) {
+			log.info("getFilteredAssignedTasks() entered");
+			log.info("getFilteredAssignedTasks() is under execution...");
 			LocalDate orgStartDateTime = null;
 			LocalDate orgDueDateTime = null;
 			//DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd ");
@@ -740,51 +764,64 @@ public class TaskServiceImpl implements  TaskService{
 			if(taskPriority.equals("null") || taskPriority == null || taskPriority.isBlank()) {
 				taskPriority = null;
 			}
+			log.info("getFilteredAssignedTasks() executed successfully");
 			return taskRepository.findFilteredAssignedTasks(taskTitle, taskPriority, orgStartDateTime, orgDueDateTime, emailId);
 		}
 
 		@Override
 		public List<Task> getTasksByDepartment(Long departmentId) {
+			log.info("getTasksByDepartment() entered");
+			log.info("getTasksByDepartment() is under execution...");
 			if(departmentId == 0 || departmentId == null) {
 				throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
 						ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 			}
 			List<Task> taskList = taskRepository.findByDepartmentId(departmentId);
+			log.info("getTasksByDepartment() executed successfully");
 			return taskList;
 		}
 
 		@Override
 		public List<Task> getTasksByTaskPriority(String taskPriority) {
 			log.info("findByTaskPriority() entered");
+			log.info("getTasksByTaskPriority() is under execution...");
 			if(taskPriority == "" || taskPriority == null) {
 				throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
 						ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 			}
 			List<Task> taskList = taskRepository.findByTaskPriority(taskPriority);
 			System.out.println(taskList);
+			log.info("getTasksByTaskPriority() executed successfully");
 			return taskList;
 		}
 
 		@Override
 		public List<Task> getTasksByTaskStatus(String taskStatus) {
+			log.info("getTasksByTaskStatus() is entered");
+			log.info("getTasksByTaskStatus() is under execution...");
 			if(taskStatus == "" || taskStatus == null) {
 				throw new EmptyInputException(ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_CODE, 
 						ErrorCodeMessages.ERR_TASKS_DEPTID_EMPTY_MSG);
 			}
 			List<Task> taskList = taskRepository.findByStatus(taskStatus);
+			log.info("getTasksByTaskStatus() executed successfully");
 			return taskList;
 		}
 
 		@Override
 		public List<Task> getAgedTasks(LocalDate dateTime) {
+			log.info("getAgedTasks() is entered");
+			log.info("getAgedTasks() is under execution...");
 			System.out.println(dateTime);
 			List<Task> taskList = taskRepository.findAgedTasks(dateTime);
+			log.info("getAgedTasks() executed successfully");
 			return taskList;
 		}
 
 		@Override
 		public List<Long> getTasksBetweenStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate) {
-			System.out.println(startDate+"  "+"+++++++++ in taskserviceimpl");
+			log.info("getTasksBetweenStartDateAndEndDate() is entered");
+			log.info("getTasksBetweenStartDateAndEndDate() is under execution...");
 			 List<Object[]> taskCountsByMonth = taskRepository.findTaskCountsforYear(startDate, endDate);
 		        List<Long> monthlyTaskCounts = new ArrayList<>();
 		        for (int i = 0; i < 12; i++) {
@@ -798,13 +835,16 @@ public class TaskServiceImpl implements  TaskService{
 		            int dayIndex = Integer.parseInt(month)-1;
 		            monthlyTaskCounts.set(dayIndex, taskCount);
 		        }
-
+		        log.info("getTasksBetweenStartDateAndEndDate() executed successfully");
 		        return monthlyTaskCounts;
 		}
 
 		@Override
 		public List<Long> getYetToStartTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId) {
-			 List<Object[]> YetToStartTaskCountsByDay = taskRepository.findYetToStartTaskCountsByDayOfWeek(startDate, endDate ,emailId);
+			log.info("getYetToStartTaskCountsByDayOfWeek() is entered");
+			log.info("getYetToStartTaskCountsByDayOfWeek() is under execution...");
+ 
+			List<Object[]> YetToStartTaskCountsByDay = taskRepository.findYetToStartTaskCountsByDayOfWeek(startDate, endDate ,emailId);
 
 		        // Initialize an array to store completed task counts for each day
 		        List<Long> YetToStartTaskCounts = new ArrayList<>();
@@ -820,12 +860,14 @@ public class TaskServiceImpl implements  TaskService{
 		            int dayIndex = Integer.parseInt(dayOfWeek) - 1;
 		            YetToStartTaskCounts.set(dayIndex, completedCount);
 		        }
-		 
+		        log.info("getYetToStartTaskCountsByDayOfWeek() executed successfully");
 		        return YetToStartTaskCounts;
 		}
 
 		@Override
 		public List<Long> findYetToStartTaskCountsByMonth(LocalDate startDate, LocalDate endDate, String emailId) {
+			log.info("findYetToStartTaskCountsByMonth() is entered");
+			log.info("findYetToStartTaskCountsByMonth() is under execution...");
 			List<Object[]> YetToStartTaskCountsByMonth = taskRepository.findYetToStartTaskCountsByMonth(startDate, endDate, emailId);
 	        List<Long> monthlyYetToSatrtTaskCounts = new ArrayList<>();
 	        for (int i = 0; i < 12; i++) {
@@ -839,7 +881,7 @@ public class TaskServiceImpl implements  TaskService{
 	            int monthIndex = Integer.parseInt(month)-1;
 	            monthlyYetToSatrtTaskCounts.set(monthIndex, taskCount);
 	        }
-
+	        log.info("findYetToStartTaskCountsByMonth() executed successfully");
 	        return monthlyYetToSatrtTaskCounts;
 		}
 

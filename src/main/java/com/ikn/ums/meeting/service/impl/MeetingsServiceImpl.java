@@ -119,8 +119,7 @@ public class MeetingsServiceImpl implements MeetingService {
 	@Override
 	public void saveAllUserMeetingsListOfCurrentBatchProcess(
 			List<List<Meeting>> currentBatchProcessingUsersMeetingList) {
-		log.info(
-				"saveAllUserMeetingsListOfCurrentBatchProcess() entered with args : currentBatchProcessingUsersMeetingList ");
+		log.info("saveAllUserMeetingsListOfCurrentBatchProcess() entered with args : currentBatchProcessingUsersMeetingList ");
 		if (currentBatchProcessingUsersMeetingList.isEmpty()) {
 			log.info("saveAllUserMeetingsListOfCurrentBatchProcess() EmptyListException :  Empty meetings list from current batch processing");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MEETINGS_LIST_EMPTY_CODE,
@@ -342,7 +341,7 @@ public class MeetingsServiceImpl implements MeetingService {
 	        OrganisedMeetingCountsForYear.set(monthIndex, OrganisedMeetings);
         }
 		log.info("countOrganisedMeetingForYear() executed successfully.");
-	return OrganisedMeetingCountsForYear;
+	    return OrganisedMeetingCountsForYear;
 	}
 	
 	public List<Long> countAttendedMeetingForYear(LocalDateTime startDate, LocalDateTime endDate, String email){
@@ -366,7 +365,7 @@ public class MeetingsServiceImpl implements MeetingService {
             AttendedMeetingCountsForYear.set(monthIndex, attendedMeetings);
         }
 		log.info("countAttendedMeetingForYear() executed successfully");
-	return AttendedMeetingCountsForYear;
+	    return AttendedMeetingCountsForYear;
 	}
 
 	@Override

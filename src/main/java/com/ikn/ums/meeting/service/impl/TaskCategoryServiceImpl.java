@@ -35,14 +35,14 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
     
 	@Override
 	public TaskCategoryDTO createTaskCategory(TaskCategoryDTO taskCategoryDTO) {
-		log.info("TaskCategoryServiceImpl.createTaskCategory() ENTERED");
+		log.info("createTaskCategory() is ENTERED");
 		if (taskCategoryDTO == null) 
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG);
 		if (isTaskCategoryTitleExists(taskCategoryDTO))
 			throw new TaskCatagoryTitleExistsException(ErrorCodeMessages.ERR_TASK_CATEGORY_TITLE_EXISTS_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_TITLE_EXISTS_EXCEPTION_MSG);
-		log.info("TaskCategoryServiceImpl.createTaskCategory() is under execution...");
+		log.info("createTaskCategory() is under execution...");
 		taskCategoryDTO.setCreatedDateTime(LocalDateTime.now());
 		taskCategoryDTO.setTaskCategoryStatus(MeetingConstants.STATUS_ACTIVE);
 		TaskCategory taskCategory = new TaskCategory();
@@ -50,20 +50,20 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 		TaskCategory savedTaskCategory = taskCategoryRepository.save(taskCategory);
 		TaskCategoryDTO savedTaskCategoryDTO = new TaskCategoryDTO();
 		mapper.map(savedTaskCategory, savedTaskCategory);
-		log.info("TaskCategoryServiceImpl.createTaskCategory() executed successfully");
+		log.info("createTaskCategory() executed successfully");
 		return savedTaskCategoryDTO;
 	}
 
 	@Transactional 
 	@Override
 	public TaskCategoryDTO updateTaskCategory(TaskCategoryDTO taskCategoryDTO) {
-		log.info("TaskCategoryServiceImpl.updateTaskCategory() entered with args - taskCategoryDTO");
+		log.info("updateTaskCategory() entered with args - taskCategoryDTO");
 		if(taskCategoryDTO == null || taskCategoryDTO.equals(null)) {
-			log.info("TaskCategoryServiceImpl.updateTaskCategory() EntityNotFoundException : user object is null");
+			log.info("updateTaskCategory() EntityNotFoundException : user object is null");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG);
 		}
-		log.info("TaskCategoryServiceImpl.updateTaskCategory() is under execution.");
+		log.info("updateTaskCategory() is under execution.");
 		Optional<TaskCategory> optTaskCategory = taskCategoryRepository.findById(taskCategoryDTO.getTaskCategoryId());
 		TaskCategory dbTaskCategory = null;
 		if(optTaskCategory.isPresent()) {
@@ -77,20 +77,20 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 		TaskCategory updatedTaskCategory =  taskCategoryRepository.save(dbTaskCategory);
 		TaskCategoryDTO updatedTaskCategoryDTO = new TaskCategoryDTO();
 		mapper.map(updatedTaskCategory, taskCategoryDTO);
-		log.info("TaskCategoryServiceImpl.updateTaskCategory() executed successfully.");
+		log.info("updateTaskCategory() executed successfully.");
 		return updatedTaskCategoryDTO;
 	}
 
 	@Transactional 
 	@Override
 	public boolean deleteTaskCategoryById(Long taskCategoryId) {
-		log.info("TaskCategoryServiceImpl.deleteTaskCategory() ENTERED ");
+		log.info("deleteTaskCategory() is ENTERED ");
 		boolean deleteTaskCategory = false;
 		if (taskCategoryId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG);
 
-		log.info("TaskCategoryServiceImpl.deleteTaskCategory() is under execution...");
+		log.info("deleteTaskCategory() is under execution...");
 		Optional<TaskCategory> optTaskCategory = taskCategoryRepository.findById(taskCategoryId);
 		
 		if ( !optTaskCategory.isPresent() || optTaskCategory == null ) {
@@ -104,7 +104,7 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 			mapper.map(taskCategory, taskCategoryDTO);
 			updateTaskCategory(taskCategoryDTO);
 			deleteTaskCategory = true;
-			log.info("TaskCategoryServiceImpl.deleteTaskCategory() executed successfully");
+			log.info("deleteTaskCategory() executed successfully");
 		}
 		return deleteTaskCategory;
 	}
@@ -112,12 +112,12 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 	@Transactional 
 	@Override
 	public boolean deleteSelectedTaskCatgoriesByIds(List<Long> taskCategoriesIds) {
-		log.info("TaskCategoryServiceImpl.deleteTaskCategoryById() ENTERED : taskCategoriesIds Size : " + taskCategoriesIds.size() );
+		log.info("deleteTaskCategoryById() ENTERED : taskCategoriesIds Size : " + taskCategoriesIds.size() );
 		boolean deleteSelectedTaskCatgoriesByIds = false;
 		if ( taskCategoriesIds.size() <= 0 )
 			throw new EmptyListException(ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_MSG);		
-			
+		log.info("deleteSelectedTaskCatgoriesByIds() is under execution...");
 			List<TaskCategory> taskCategoryDTOList = taskCategoryRepository.findAllById(taskCategoriesIds);
 			if(taskCategoryDTOList.size() > 0) {
 				taskCategoryDTOList.forEach(taskCategoryDTO -> {
@@ -125,28 +125,29 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 				});
 				deleteSelectedTaskCatgoriesByIds = true;
 			}
+		log.info("deleteSelectedTaskCatgoriesByIds() executed successfully");
 		return deleteSelectedTaskCatgoriesByIds;
 	}
 	
 	@Override
 	public TaskCategoryDTO getTaskCategoryById(Long taskCategoryId) {
-		log.info("TaskCategoryServiceImpl.getTaskCategoryById() ENTERED : taskCategoryId : " + taskCategoryId);
-		log.info("TaskCategoryServiceImpl.getTaskCategoryById() is under execution...");
+		log.info("getTaskCategoryById() ENTERED : taskCategoryId : " + taskCategoryId);
+		log.info("getTaskCategoryById() is under execution...");
 		if (taskCategoryId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG);
 		TaskCategory taskCategory  = taskCategoryRepository.findById(taskCategoryId).get(); //return TaskCategoryDTO
 		TaskCategoryDTO taskCategoryDTO = new TaskCategoryDTO();
 		mapper.map(taskCategory, taskCategoryDTO);
-		log.info("TaskCategoryServiceImpl.getTaskCategoryById() executed successfully");
+		log.info("getTaskCategoryById() executed successfully");
 		return taskCategoryDTO;
 	}
 
 	@Override
 	public List<TaskCategoryDTO> getAllTaskCategories() {
-		log.info("TaskCategoryServiceImpl.getAllTaskCategories() ENTERED.");
+		log.info("getAllTaskCategories() is ENTERED.");
 		List<TaskCategory> taskCategoryList = null;
-		log.info("TaskCategoryServiceImpl.getAllTaskCategories() is under execution...");
+		log.info("getAllTaskCategories() is under execution...");
 		taskCategoryList = taskCategoryRepository.findAllTaskCategories(MeetingConstants.STATUS_ACTIVE);
 //		if ( taskCategoryList == null || taskCategoryList.isEmpty() || taskCategoryList.size() == 0 )
 //			throw new EmptyListException(ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_CODE,
@@ -160,24 +161,23 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 				taskCategoryDTOList.add(taskcategoryDTO);
 			});
 		}
-		System.out.println(taskCategoryDTOList);
 		log.info("getAllTaskCategories() executed successfully");
 		return taskCategoryDTOList;
 	}
 
 	public boolean isTaskCategoryTitleExists(TaskCategoryDTO taskCategoryDTO) {
-		log.info("TaskCategoryServiceImpl.isTaskCategoryExists() ENTERED");
+		log.info("isTaskCategoryExists() is ENTERED");
 		boolean isTaskCategoryTitleExists = false;
 		if (taskCategoryDTO == null) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG);
 		} else {
-			log.info("TaskCategoryServiceImpl  : Task Category Id : " + taskCategoryDTO.getTaskCategoryId() + " || Task Category Title : " + taskCategoryDTO.getTaskCategoryTitle());
+			log.info("Task Category Id : " + taskCategoryDTO.getTaskCategoryId() + " || Task Category Title : " + taskCategoryDTO.getTaskCategoryTitle());
 			Optional<TaskCategory> optTaskCategory = taskCategoryRepository.findByTaskCategoryTitle(taskCategoryDTO.getTaskCategoryTitle());
 			isTaskCategoryTitleExists = optTaskCategory.isPresent();
-			log.info("TaskCategoryServiceImpl  : isTaskCategoryTitleExists : " + isTaskCategoryTitleExists);
+			log.info("isTaskCategoryTitleExists : " + isTaskCategoryTitleExists);
 		}
-		log.info("TaskCategoryServiceImpl.isTaskCategoryTitleExists() executed successfully" );
+		log.info("isTaskCategoryTitleExists() executed successfully" );
 		return isTaskCategoryTitleExists;
 	}
 
