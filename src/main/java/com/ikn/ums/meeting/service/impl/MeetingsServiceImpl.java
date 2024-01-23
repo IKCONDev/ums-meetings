@@ -245,7 +245,6 @@ public class MeetingsServiceImpl implements MeetingService {
 		meetingModel.setEndDateTime(utcEndDateTime.toLocalDateTime());
 
 		Set<Attendee> attendeeList = new HashSet<>();
-		modelMapper.map(meetingModel, meeting);
 		for (int i = 0; i < meetingModel.getAttendees().length; i++) {
 			Attendee attendee = new Attendee();
 			attendee.setEmail(meetingModel.getAttendees()[i]);
@@ -254,7 +253,16 @@ public class MeetingsServiceImpl implements MeetingService {
 			attendee.setStatus("Accepted");
 			attendeeList.add(attendee);
 		}
-		meeting.setEventId("IKCON UMS MANUAL MEETING " + new Random(9999999).nextInt());
+		//add organizer also as an attendee
+		Attendee organizerAsAnAttendee = new Attendee();
+		organizerAsAnAttendee.setEmail(meetingModel.getOrganizerEmailId());
+		organizerAsAnAttendee.setEmailId(meetingModel.getOrganizerEmailId());
+		organizerAsAnAttendee.setType("Required");
+		organizerAsAnAttendee.setStatus("Accepted");
+		attendeeList.add(organizerAsAnAttendee);
+		//set remaining props
+		modelMapper.map(meetingModel, meeting);
+		meeting.setEventId("UMS MANUAL MEETING " + new Random(9999999).nextInt());
 		meeting.setAttendees(attendeeList);
 		meeting.setCreatedBy(meetingModel.getCreatedBy());
 		meeting.setEmailId(meetingModel.getEmailId());
