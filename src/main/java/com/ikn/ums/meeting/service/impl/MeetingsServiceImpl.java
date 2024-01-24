@@ -420,6 +420,7 @@ public class MeetingsServiceImpl implements MeetingService {
 		List<MeetingDto> meetingDtoList = filteredAttendedMeetingList.stream()
                 .map(meeting -> {
                     MeetingDto meetingDto = new MeetingDto();
+                    modelMapper.map(meeting, meetingDto);
                     return meetingDto;
                 })
                 .collect(Collectors.toList());
