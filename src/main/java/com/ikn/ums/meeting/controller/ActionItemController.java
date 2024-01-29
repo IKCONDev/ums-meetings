@@ -328,7 +328,7 @@ public class ActionItemController {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_CODE);
 		}
-		log.info("entered the controller of send Minutes of Meeting");
+		log.info("sendMinutesOfMeeting() is under execution...");
 		MinutesOfMeeting momObject1 = new MinutesOfMeeting();
 		momObject1.setMeeting(momObject.getMeeting());
 		momObject1.setEmailList(momObject.getEmailList());
@@ -336,7 +336,7 @@ public class ActionItemController {
 		momObject1.setHoursDiff(momObject.getHoursDiff());
 		momObject1.setMinutesDiff(momObject.getMinutesDiff());
 		boolean resultValue = actionItemService.sendMinutesofMeetingEmail(momObject1);
-		log.info("entered the controller of send Minutes of Meeting");
+		log.info("sendMinutesOfMeeting() executed successfully");
 		return new ResponseEntity<>(resultValue, HttpStatus.OK);
 	}
 
@@ -375,6 +375,8 @@ public class ActionItemController {
 			log.info("getActionItemsByDepartment() executed successfully");
 			return new ResponseEntity<>(actionItemsListByDepartment, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
+			log.error("getActionItemsByDepartment() exited with exception : Exception occured while getting the actionItems:"
+		          + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
 			log.error("getActionItemsByDepartment() exited with exception : Exception occured while getting the actionItems:"+ e.getMessage(), e);

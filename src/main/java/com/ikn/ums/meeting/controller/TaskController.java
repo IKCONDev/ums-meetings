@@ -476,7 +476,7 @@ public class TaskController {
 	
 	@GetMapping("/allForYear/{startDate}/{endDate}")
 	public ResponseEntity<List<Long>> fetchAllTasksforYear(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,@PathVariable  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime endDate){
-		log.info("TaskController.fetchAllTasksforYear() entered ");
+		log.info("fetchAllTasksforYear() entered ");
 		System.out.println(startDate+" "+endDate);
 		try { 
 			log.info("fetchAllTasksforYear() is under execution... ");
@@ -497,7 +497,7 @@ public class TaskController {
 		try { 
 			log.info("getAllTasksByDepartment() is under execution... ");
 			List<Object[]> taskList = taskService.getAllTasksByDepartment();
-			log.info("TaskController.getAllTasksByDepartment() is executed Successfully");
+			log.info("getAllTasksByDepartment() is executed Successfully");
 			return new ResponseEntity<>(taskList, HttpStatus.OK);
 			
 		}catch (Exception e) {
@@ -526,15 +526,15 @@ public class TaskController {
 	}
 	@GetMapping("/taskCategory-count")
 	public ResponseEntity<List<Object[]>> getAllTasksByCategoryCount(){
-		log.info("getAllTasks() entered ");
+		log.info("getAllTasksByCategoryCount() entered ");
 		try { 
-			log.info("getAllTasks() is under execution... ");
+			log.info("getAllTasksByCategoryCount() is under execution... ");
 			List<Object[]> taskListCount = taskService.getAllTaskCategoryByCount();
-			log.info("getAllTasks() is executed Successfully");
+			log.info("getAllTasksByCategoryCount() is executed Successfully");
 			return new ResponseEntity<>(taskListCount, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			log.error("getAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			log.error("getAllTasksByCategoryCount() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}

@@ -60,22 +60,22 @@ public class TaskCategoryController {
 
 	@PutMapping("/update")
 	public ResponseEntity<TaskCategoryDTO> updateRole(@RequestBody TaskCategoryDTO taskCategoryDTO) {
-		log.info("TaskCategoryController.updateRole() entered");
+		log.info("updateRole() entered");
 		if (taskCategoryDTO == null || taskCategoryDTO.equals(null)) {
 			log.info("Entity Not Found Exception has encountered while updating Task Category.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("TaskCategoryController.updateRole() is under execution...");
+			log.info("updateRole() is under execution...");
 			TaskCategoryDTO updatedTaskCategoryDTO = taskCategoryService.updateTaskCategory(taskCategoryDTO);
-			log.info("TaskCategoryController.updateRole() executed successfully.");
+			log.info("updateRole() executed successfully.");
 			return new ResponseEntity<>(updatedTaskCategoryDTO, HttpStatus.CREATED);
 		}catch (EntityNotFoundException taskCategoryBusinessException) {
-			log.error("Business Exception has encountered while updating Task Category. " + taskCategoryBusinessException.getMessage());
+			log.error("updateRole() Business Exception has encountered while updating Task Category. " + taskCategoryBusinessException.getMessage());
 			throw taskCategoryBusinessException;
 		}catch (Exception e) {
-			log.error("General Exception has encountered while updating Task Category. " + e.getMessage());
+			log.error("updateRole() General Exception has encountered while updating Task Category. " + e.getMessage());
 			throw  new ControllerException(e.getCause().toString(), e.getMessage());
 		}
 	}
@@ -104,15 +104,15 @@ public class TaskCategoryController {
 	public ResponseEntity<Boolean> deleteSelectedTaskCatgoriesByIds(@PathVariable("ids") List<Long> taskCategoryIds) {
 		boolean deleteSelectedTaskCatgoriesByIds = false;
 		if (taskCategoryIds.equals(null) || taskCategoryIds == null || taskCategoryIds.size() <= 0 ) {
-			log.info("TaskCategoryController.deleteSelectedTaskCatgoriesByIds() entered with args - ids : roleIds size (): " + taskCategoryIds.size());
+			log.info("deleteSelectedTaskCatgoriesByIds() entered with args - ids : roleIds size (): " + taskCategoryIds.size());
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG);
 		}
 		try {
-			log.info("TaskCategoryController.deleteSelectedTaskCatgoriesByIds() is under execution...");
+			log.info("deleteSelectedTaskCatgoriesByIds() is under execution...");
 			taskCategoryService.deleteSelectedTaskCatgoriesByIds(taskCategoryIds);
 			deleteSelectedTaskCatgoriesByIds = true;
-			log.info("TaskCategoryController.deleteSelectedTaskCatgoriesByIds() executed successfully");
+			log.info("deleteSelectedTaskCatgoriesByIds() executed successfully");
 			return new ResponseEntity<>(deleteSelectedTaskCatgoriesByIds, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
 			throw businessException;
@@ -130,9 +130,9 @@ public class TaskCategoryController {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG);
 		try {
-			log.info("TaskCategoryController.getTaskCategoryById() is under execution : taskCategoryId : " + taskCategoryId);
+			log.info("getTaskCategoryById() is under execution : taskCategoryId : " + taskCategoryId);
 			TaskCategoryDTO taskCategoryDTO = taskCategoryService.getTaskCategoryById(taskCategoryId);
-			log.info("TaskCategoryController.getTaskCategoryById() executed successfully");
+			log.info("getTaskCategoryById() executed successfully");
 			return new ResponseEntity<>(taskCategoryDTO, HttpStatus.OK);
 			
 		}catch (EmptyInputException businessException) {
@@ -148,11 +148,11 @@ public class TaskCategoryController {
 
 	@GetMapping("/all")
 	public ResponseEntity<List<TaskCategoryDTO>> getAllTaskCategories() {
-		log.info("TaskCategoryController.getAllTaskCategories() ENTERED.");
+		log.info("getAllTaskCategories() ENTERED.");
 		try {
-			log.info("TaskCategoryController.getAllTaskCategories() is under execution...");
+			log.info("getAllTaskCategories() is under execution...");
 			List<TaskCategoryDTO> taskCategoryDTOList = taskCategoryService.getAllTaskCategories();
-			log.info("TaskCategoryController.getAllTaskCategories() executed successfully");
+			log.info("getAllTaskCategories() executed successfully");
 			return new ResponseEntity<>(taskCategoryDTOList, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
 			throw businessException;

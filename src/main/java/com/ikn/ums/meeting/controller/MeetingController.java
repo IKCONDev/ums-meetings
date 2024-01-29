@@ -355,15 +355,15 @@ public class MeetingController {
 	@GetMapping("/MeetingsChartDataForYear")
 	public ResponseEntity<List <Object>>getCountofAttendedAndOrganisedMeetingsInYear(@RequestParam("startdate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime startDate ,
 			@RequestParam("endDate")@DateTimeFormat(iso =ISO.DATE_TIME) LocalDateTime endDate,@RequestParam("emailId") String email){
-		log.info("getCountofAttendedAndOrganisedMeetingsInYear entered");
+		log.info("getCountofAttendedAndOrganisedMeetingsInYear() entered");
 		try {
-			log.info("getCountofAttendedAndOrganisedMeetingsInYear is under execution...");
+			log.info("getCountofAttendedAndOrganisedMeetingsInYear() is under execution...");
 			List <Object> MeetingdatasInYear = new ArrayList<>();
 			List<Long>attendedMeetingInYear=meetingService.countAttendedMeetingForYear(startDate, endDate, email);
 			List<Long>OrganisedMeetingInYear=meetingService.countOrganisedMeetingForYear(startDate, endDate, email);
 			MeetingdatasInYear.add(attendedMeetingInYear);
 			MeetingdatasInYear.add(OrganisedMeetingInYear);
-			log.info("getCountofAttendedAndOrganisedMeetingsInYear executed successfully.");
+			log.info("getCountofAttendedAndOrganisedMeetingsInYear() executed successfully.");
 			return new ResponseEntity<>(MeetingdatasInYear,HttpStatus.OK);
 		}
 		catch (EmptyInputException businessEx) {
