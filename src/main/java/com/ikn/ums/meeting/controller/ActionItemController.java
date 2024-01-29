@@ -233,7 +233,7 @@ public class ActionItemController {
 	 * @return
 	 */
 	@GetMapping("/all/{emailId}")
-	public ResponseEntity<List<ActionItem>> FetchActionItemsByEmailId(@PathVariable("emailId") String email,
+	public ResponseEntity<List<ActionItem>> getActionItemsByEmailId(@PathVariable("emailId") String email,
 			@RequestParam(defaultValue = "", required = false) String actionItemTitle,
 			@RequestParam(defaultValue = "", required = false) String actionItemOwner,
 			@RequestParam(defaultValue = "", required = false) String actionItemStartDate,
@@ -322,6 +322,12 @@ public class ActionItemController {
 
 	@PostMapping("/send-momdata")
 	public ResponseEntity<Boolean> sendMinutesOfMeeting(@RequestBody MinutesOfMeeting momObject) {
+		log.info("sendMinutesOfMeeting() entered with args : minutes of meeting object");
+		if(momObject == null) {
+			log.info("sendMinutesOfMeeting() EmptyInputException : mom object is null / empty.");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_CODE);
+		}
 		log.info("entered the controller of send Minutes of Meeting");
 		MinutesOfMeeting momObject1 = new MinutesOfMeeting();
 		momObject1.setMeeting(momObject.getMeeting());
@@ -330,18 +336,17 @@ public class ActionItemController {
 		momObject1.setHoursDiff(momObject.getHoursDiff());
 		momObject1.setMinutesDiff(momObject.getMinutesDiff());
 		boolean resultValue = actionItemService.sendMinutesofMeetingEmail(momObject1);
+		log.info("entered the controller of send Minutes of Meeting");
 		return new ResponseEntity<>(resultValue, HttpStatus.OK);
 	}
 
 	@PostMapping("/send-mom/{meeting}/{emailList}")
 	public ResponseEntity<Boolean> sendMinutesOfMeetingObject(@PathVariable("meeting") Meeting meeting,
 			@PathVariable("emailList") List<String> emailList) {
-
-		log.info("sendMinutesOfMeetingObject() is entered)");
+		log.info("sendMinutesOfMeetingObject() is entered");
 		MinutesOfMeeting momObject = new MinutesOfMeeting();
 		momObject.setMeeting(meeting);
 		momObject.setEmailList(emailList);
-		// System.out.println(discussionPoints);
 		log.info("sendMinutesOfMeetingObject() is under execution");
 		boolean resultValue = actionItemService.sendMinutesofMeetingEmail(momObject);
 		log.info("sendMinutesOfMeetingObject() executed successfully)");
@@ -365,14 +370,14 @@ public class ActionItemController {
 					ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_MSG);
 		}
 		try {
-			log.info("getActionItemsCountforUser() is under execution");
+			log.info("getActionItemsByDepartment() is under execution");
 			List<ActionItem> actionItemsListByDepartment = actionItemService.getActionItemsByDepartmentId(departmentId);
-			log.info("getActionItemsCountforUser() executed successfully");
+			log.info("getActionItemsByDepartment() executed successfully");
 			return new ResponseEntity<>(actionItemsListByDepartment, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
 			throw businessException;
 		}catch (Exception e) {
-			log.error("getActionItemsCountforUser() exited with exception : Exception occured while getting the actionItems:"+ e.getMessage(), e);
+			log.error("getActionItemsByDepartment() exited with exception : Exception occured while getting the actionItems:"+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_CODE, 
 					ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_MSG);
 		}

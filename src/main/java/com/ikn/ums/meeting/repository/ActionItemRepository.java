@@ -13,8 +13,8 @@ public interface ActionItemRepository extends JpaRepository<ActionItem, Integer>
 	@Query("FROM ActionItem WHERE meetingId=:meetingId")
 	public List<ActionItem> findActionItemsByEventId(Long meetingId);
 	
-	@Query("FROM ActionItem WHERE emailId=:emailId")
-	List<ActionItem> findByUserId(String emailId);
+	@Query("FROM ActionItem WHERE emailId=:emailId AND actionStatus=:actionStatus")
+	List<ActionItem> findActionItemsByUserId(String emailId, String actionStatus);
 	
 	@Query("SELECT COUNT(*) FROM ActionItem WHERE emailId=:emailId")
 	Long findOrganizedActionItemsCountByUserId(String emailId);
@@ -24,15 +24,15 @@ public interface ActionItemRepository extends JpaRepository<ActionItem, Integer>
 	//@Query("FROM ActionItem WHERE emailId=:emailId AND (actionItemTitle LIKE %:actionItemTitle% OR :actionItemOwner IS NULL OR startDate<=:startDate OR endDate<=:endDate)")
 	@Query(value = "SELECT a.* FROM actionitem_tab a " +
 	        "JOIN action_item_owners o ON o.action_item_id = a.id " +
-	        "WHERE a.user_id = :emailId AND " +
+	        "WHERE a.user_id = :emailId AND action_status = :actionItemStatus AND" +
 	        "(:actionItemTitle IS NULL OR a.action_item_title LIKE %:actionItemTitle%) AND " +
 	        "(:actionItemOwner IS NULL OR o.action_item_owner = :actionItemOwner) AND " +
 	        "(CAST(:startDate AS DATE) IS NULL OR a.start_date >= :startDate ) AND " +
-	        "(CAST(:endDate AS DATE) IS NULL OR a.start_date <= :endDate ) " +
+	        "(CAST(:endDate AS DATE) IS NULL OR a.start_date <= :endDate )" +
 	        "GROUP BY a.id",
 	        nativeQuery = true)
 	public List<ActionItem> findAllFilteredActionItemsByUserId(String actionItemTitle, String actionItemOwner,
-			LocalDate startDate, LocalDate endDate, String emailId);
+			LocalDate startDate, LocalDate endDate, String emailId, String actionItemStatus);
 	
 	//Reports methods
 	List<ActionItem> findByDepartmentId(Long departmentId);

@@ -223,8 +223,9 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		log.info("getActionItemsByUserId() is under execution...");
-		List<ActionItem> actionItemList = actionItemRepository.findByUserId(emailId);
-		log.info("getActionItemsByUserId() executed successfully");
+		var actionItemStatus = "Submitted";
+		List<ActionItem> actionItemList = actionItemRepository.findActionItemsByUserId(emailId, actionItemStatus);
+		log.info("getActionItemsByUserId() executed successfully.");
 		return actionItemList;
 	}
 
@@ -265,6 +266,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 			String actionItemStartDate, String actionItemEndDate, String emailId) {
 		log.info("getFilteredActionItems() is entered");
 		log.info("getFilteredActionItems() is under execution...");
+		var actionItemStatus = "Submitted";
 		LocalDate actualStartDate = null;
 		if (!actionItemStartDate.isBlank()) {
 			actualStartDate = LocalDate.parse(actionItemStartDate);
@@ -276,7 +278,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		List<ActionItem> filteredActionItemList = actionItemRepository.findAllFilteredActionItemsByUserId(
 				actionItemTitle.isBlank() ? null : actionItemTitle,
 				actionItemOwner.isBlank() ? null : actionItemOwner, actualStartDate,
-				actualEndDate, emailId);
+				actualEndDate, emailId, actionItemStatus);
 		log.info("getFilteredActionItems() executed successfully");
 		return filteredActionItemList;
 	}
