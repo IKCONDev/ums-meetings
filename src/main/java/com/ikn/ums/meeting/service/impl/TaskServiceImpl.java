@@ -358,8 +358,6 @@ public class TaskServiceImpl implements  TaskService{
 		        emails = emails.substring(0, lastIndex) + emails.substring(lastIndex + 1); // Remove the last comma
 		    }
 		}
-
-		System.out.println("Modified string: " + emails);
 		String url = "http://UMS-EMPLOYEE-SERVICE/employees/attendees/" + emails;
 
 		// Make the request using exchange method to retrieve a List<EmployeeVO>
@@ -510,7 +508,7 @@ public class TaskServiceImpl implements  TaskService{
 	private void sendEmailToTaskOwner(Task task, boolean isNew) {
 		log.info("sendEmailToTaskOwner() entered with args - taskObject, isNew? : "+isNew);
 		//send email to task owner
-				
+		log.info("sendEmailToTaskOwner() is under execution...");	
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
@@ -564,7 +562,8 @@ public class TaskServiceImpl implements  TaskService{
 							emailService.sendMail(to,subject, emailBuilder.toString(),true);
 						}
 					}).start();	
-					//System.out.println("sendEmailToTaskOwner() executed succesfully");
+					log.info("sendEmailToTaskOwner() executed successfully");	
+					
 	}
 	
 	@Override
@@ -612,7 +611,7 @@ public class TaskServiceImpl implements  TaskService{
             int dayIndex = Integer.parseInt(dayOfWeek) - 1;
             totalTaskCount.set(dayIndex, completedCount);
         } 
-    	log.info("getUserAssignedTasksCountOfUser() executed succesfully");
+    	log.info("getTaskCountsByDayOfWeek() executed succesfully");
         return totalTaskCount;
     }
 	
