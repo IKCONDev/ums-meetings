@@ -114,7 +114,7 @@ public class TaskController {
 			return new ResponseEntity<>(taskList, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			log.error("fetchAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			log.error("fetchAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG);
 		}
@@ -160,7 +160,7 @@ public class TaskController {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			log.error("fetchTasksByUserId() is exited with exception : Exception occured while getting the tasks of the user "+e.getMessage());
+			log.error("fetchTasksByUserId() is exited with exception : Exception occured while getting the tasks of the user "+e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG);
 		}
@@ -188,7 +188,7 @@ public class TaskController {
 			log.info("fetchTaskById() executed Successfully");
 			return new ResponseEntity<>(task,HttpStatus.OK);
 		}catch (Exception e) {
-			log.error("fetchTasksById() exited with exception : Exception occured while getting the tasks :" +e.getMessage());
+			log.error("fetchTasksById() exited with exception : Exception occured while getting the tasks :" +e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG);
 		}
@@ -230,19 +230,19 @@ public class TaskController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Integer> deleteTaskByTaskId(@PathVariable("id") Integer id){
-		log.info("deleteTaskDetails() entered with args : " +id);
+		log.info("deleteTaskByTaskId() entered with args : " +id);
 		if(id < 1 || id == null) {
-			log.info("deleteTaskDetails() Empty Input Exception : taskId is empty");
+			log.info("deleteTaskByTaskId() Empty Input Exception : taskId is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_ID_EMPTY_MEESAGE);
 		}
 		try {
-			log.info("deleteTaskDetails() is under execution...");
+			log.info("deleteTaskByTaskId() is under execution...");
 			Integer result = taskService.deleteTaskById(id);
-			log.info("deleteTaskDetails() is executed Successfully");
+			log.info("deleteTaskByTaskId() is executed Successfully");
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}catch (Exception e) {
-			log.error("deleteTaskDetails() exited with Exception : Exception occured while deleting the task " +e.getMessage(), e);
+			log.error("deleteTaskByTaskId() exited with Exception : Exception occured while deleting the task " +e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_DELETE_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_DELETE_MEESAGE);
 		}	
@@ -354,13 +354,16 @@ public class TaskController {
 	
 	@GetMapping("/organized/count/{userId}")
 	public ResponseEntity<Long> getOrganizedTasksCountByUserId(@PathVariable("userId") String emailId){
+		log.info("getOrganizedTasksCountByUserId() is entered with args:");
 		if(emailId == null) {
 	    	log.info("getOrganizedTasksCountByUserId() Empty Input Exception : tasklist is Empty" );
 	    	throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 	    			ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 	    }
 		try {
+			log.info("getOrganizedTasksCountByUserId() is under execution...");
 			Long count = taskService.getOrganizedTasksCountOfUser(emailId);
+			log.info("getOrganizedTasksCountByUserId() is executed Successfully");
 			return new ResponseEntity<>(count, HttpStatus.OK);
 		}catch(Exception e) {
 			log.error("getOrganizedTasksCountByUserId() exited with exception : Exception occured while fetching "+e.getMessage(), e);
@@ -372,15 +375,24 @@ public class TaskController {
 	
 	@GetMapping("/assigned/count/{userId}")
 	public ResponseEntity<Long> getAssignedTasksCountByUserId(@PathVariable("userId") String emailId){
+		log.info("getAssignedTasksCountByUserId() is entered with args");
+		if(emailId == null) {
+	    	log.info("getAssignedTasksCountByUserId() Empty Input Exception : tasklist is Empty" );
+	    	throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
+	    			ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
+	    }
+		log.info("getAssignedTasksCountByUserId() is under execution...");
 		Long count = taskService.getUserAssignedTasksCountOfUser(emailId);
+		log.info("getAssignedTasksCountByUserId() executed successfully");
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
 	@GetMapping("/weekTaskCount")
 	public ResponseEntity<List<Object>> getWeekTasks(@RequestParam("startdate") String startDate ,
 			@RequestParam("endDate") String endDate,String emailId){
+		log.info("getWeekTasks() is entered");
 		LocalDate startdate = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
         LocalDate enddate = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
-		
+        log.info("getWeekTasks() is under execution...");
 		List<Long> assignedTask=taskService.getTaskCountsByDayOfWeek(startdate, enddate,emailId);
 		List<Long> yetToStartTask=taskService.getYetToStartTaskCountsByDayOfWeek(startdate, enddate,emailId);
 		List<Long> inprogressTask=taskService.findInProgressTaskCountsByDayOfWeek(startdate, enddate,emailId);
@@ -390,14 +402,16 @@ public class TaskController {
 		obj.add(yetToStartTask);
 		obj.add(inprogressTask);
 		obj.add(completedTask);
+		log.info("getWeekTasks() executed successfully");
 		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
 	@GetMapping("/TaskCountForYear")
 	public ResponseEntity<List<Object>> getTaskCountForYear(@RequestParam("startdate") String startDate ,
 			@RequestParam("endDate") String endDate,@RequestParam String emailId){
+		log.info("getTaskCountForYear() is entered");
 		LocalDate startdate = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
         LocalDate enddate = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
-		
+        log.info("getTaskCountForYear() is under execution...");
 		List<Long> assignedTaskForYear=taskService.findTaskCountsByMonth(startdate, enddate, emailId);
 		List<Long> YetToSartTaskForYear= taskService.findYetToStartTaskCountsByMonth(startdate, enddate, emailId);
 		List<Long> inprogressTaskForYear= taskService.findInprogressTaskCountsByMonth(startdate, enddate, emailId);
@@ -408,6 +422,7 @@ public class TaskController {
 		totalTaskStatusForYear.add(YetToSartTaskForYear);
 		totalTaskStatusForYear.add(inprogressTaskForYear);
 		totalTaskStatusForYear.add(completedTaskCountForYear);
+		log.info("getTaskCountForYear() executed successfully");
 		return new ResponseEntity<>(totalTaskStatusForYear,HttpStatus.OK);
 		
 	}
@@ -467,6 +482,7 @@ public class TaskController {
 			log.info("getAgedTasksList() executed Successfully ");
 			return new ResponseEntity<>(taskList, HttpStatus.OK);
 		}catch (Exception e) {
+			log.error("getAgedTasksList() exited with exception : Exception occured while getting the tasks:"+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG);
 		}
@@ -476,16 +492,15 @@ public class TaskController {
 	
 	@GetMapping("/allForYear/{startDate}/{endDate}")
 	public ResponseEntity<List<Long>> fetchAllTasksforYear(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,@PathVariable  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime endDate){
-		log.info("TaskController.fetchAllTasksforYear() entered ");
-		System.out.println(startDate+" "+endDate);
+		log.info("fetchAllTasksforYear() entered ");
 		try { 
 			log.info("fetchAllTasksforYear() is under execution... ");
 			List<Long> taskList = taskService.getTasksBetweenStartDateAndEndDate(startDate,endDate);
-			log.info("fetchAllTaskDetailsfor year () is executed Successfully");
+			log.info("fetchAllTaskDetailsforyear() is executed Successfully");
 			return new ResponseEntity<>(taskList, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			log.error("fetchAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			log.error("fetchAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_GET_UNSUCCESS_MSG);
 		}
@@ -497,11 +512,11 @@ public class TaskController {
 		try { 
 			log.info("getAllTasksByDepartment() is under execution... ");
 			List<Object[]> taskList = taskService.getAllTasksByDepartment();
-			log.info("TaskController.getAllTasksByDepartment() is executed Successfully");
+			log.info("getAllTasksByDepartment() is executed Successfully");
 			return new ResponseEntity<>(taskList, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			log.error("getAllTasksByDepartment() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			log.error("getAllTasksByDepartment() exited with exception : Exception occured while getting the tasks:"+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
@@ -518,7 +533,7 @@ public class TaskController {
 			return new ResponseEntity<>(taskList, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			log.error("getAllTasksByTaskCategoryId() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			log.error("getAllTasksByTaskCategoryId() exited with exception : Exception occured while getting the tasks:"+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
@@ -526,15 +541,15 @@ public class TaskController {
 	}
 	@GetMapping("/taskCategory-count")
 	public ResponseEntity<List<Object[]>> getAllTasksByCategoryCount(){
-		log.info("getAllTasks() entered ");
+		log.info("getAllTasksByCategoryCount() entered ");
 		try { 
-			log.info("getAllTasks() is under execution... ");
+			log.info("getAllTasksByCategoryCount() is under execution... ");
 			List<Object[]> taskListCount = taskService.getAllTaskCategoryByCount();
-			log.info("getAllTasks() is executed Successfully");
+			log.info("getAllTasksByCategoryCount() is executed Successfully");
 			return new ResponseEntity<>(taskListCount, HttpStatus.OK);
 			
 		}catch (Exception e) {
-			log.error("getAllTasks() exited with exception : Exception occured while getting the tasks:"+ e.getMessage());
+			log.error("getAllTasksByCategoryCount() exited with exception : Exception occured while getting the tasks:"+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}

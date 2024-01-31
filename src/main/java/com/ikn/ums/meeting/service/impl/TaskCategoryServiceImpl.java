@@ -86,11 +86,12 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 	public boolean deleteTaskCategoryById(Long taskCategoryId) {
 		log.info("deleteTaskCategory() is ENTERED ");
 		boolean deleteTaskCategory = false;
-		if (taskCategoryId <= 0)
+		if (taskCategoryId <= 0) {
+			log.info("deleteTaskCategoryById() taskcategoryId is null or Empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG);
-
-		log.info("deleteTaskCategory() is under execution...");
+		}
+		log.info("deleteTaskCategoryById() is under execution...");
 		Optional<TaskCategory> optTaskCategory = taskCategoryRepository.findById(taskCategoryId);
 		
 		if ( !optTaskCategory.isPresent() || optTaskCategory == null ) {
@@ -104,7 +105,7 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 			mapper.map(taskCategory, taskCategoryDTO);
 			updateTaskCategory(taskCategoryDTO);
 			deleteTaskCategory = true;
-			log.info("deleteTaskCategory() executed successfully");
+			log.info("deleteTaskCategoryById() executed successfully");
 		}
 		return deleteTaskCategory;
 	}
@@ -112,7 +113,7 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 	@Transactional 
 	@Override
 	public boolean deleteSelectedTaskCatgoriesByIds(List<Long> taskCategoriesIds) {
-		log.info("deleteTaskCategoryById() ENTERED : taskCategoriesIds Size : " + taskCategoriesIds.size() );
+		log.info("deleteSelectedTaskCatgoriesByIds() ENTERED : taskCategoriesIds Size : " + taskCategoriesIds.size() );
 		boolean deleteSelectedTaskCatgoriesByIds = false;
 		if ( taskCategoriesIds.size() <= 0 )
 			throw new EmptyListException(ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_CODE,
@@ -169,9 +170,11 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 		log.info("isTaskCategoryExists() is ENTERED");
 		boolean isTaskCategoryTitleExists = false;
 		if (taskCategoryDTO == null) {
+			log.info("isTaskCategoryExists() taskcategory name already exists");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG);
 		} else {
+			log.info("isTaskCategoryExists() is under execution...");
 			log.info("Task Category Id : " + taskCategoryDTO.getTaskCategoryId() + " || Task Category Title : " + taskCategoryDTO.getTaskCategoryTitle());
 			Optional<TaskCategory> optTaskCategory = taskCategoryRepository.findByTaskCategoryTitle(taskCategoryDTO.getTaskCategoryTitle());
 			isTaskCategoryTitleExists = optTaskCategory.isPresent();

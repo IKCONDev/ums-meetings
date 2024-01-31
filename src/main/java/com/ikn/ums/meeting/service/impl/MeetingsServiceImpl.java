@@ -52,10 +52,13 @@ public class MeetingsServiceImpl implements MeetingService {
 		log.info("deleteActionItemsOfMeeting() entered with args - actionItemIds : " + acItemIds
 				+ " evenId : " + meetingId);
 		if (meetingId <= 0 || meetingId == null) {
+			boolean isDeleted = Boolean.FALSE;
+			log.info("deleteActionItemsOfMeeting() meeting Id is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MSG);
 		}
 		if(Strings.isNullOrEmpty(acItemIds) || acItemIds.isEmpty()) {
+			log.info("deleteActionItemsOfMeeting() actionItems is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MSG);
 		}
@@ -82,8 +85,7 @@ public class MeetingsServiceImpl implements MeetingService {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
-		log.info(
-				"getUserAttendedMeetingsByUserId() calling batch process microservice to get user attended meetings");
+		log.info("getUserAttendedMeetingsByUserId() calling batch process microservice to get user attended meetings");
 		List<Meeting> attendedMeetingList = meetingRepository.findAllAttendedMeetingsByUserId(emailId);
 		List<MeetingDto> meetingDTOList = new ArrayList<>();
 		attendedMeetingList.forEach(entity -> {
@@ -176,8 +178,7 @@ public class MeetingsServiceImpl implements MeetingService {
 		log.info("getUserAttendedMeetingCountByUserId() entered with args - emailId/userId : "
 				+ emailId);
 		if (Strings.isNullOrEmpty(emailId) || emailId.isEmpty()) {
-			log.info(
-					"getUserAttendedMeetingCountByUserId() : EmptyInputException - emailId/userId is empty or null");
+			log.info("getUserAttendedMeetingCountByUserId() : EmptyInputException - emailId/userId is empty or null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
@@ -192,8 +193,7 @@ public class MeetingsServiceImpl implements MeetingService {
 		log.info("getUserOragnizedMeetingCountByUserId() entered with args - emailId/userId : "
 				+ emailId);
 		if (Strings.isNullOrEmpty(emailId) || emailId.isEmpty()) {
-			log.info(
-					"getUserOragnizedMeetingCountByUserId() : EmptyInputException - emailId/userId is empty or null");
+			log.info("getUserOragnizedMeetingCountByUserId() : EmptyInputException - emailId/userId is empty or null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
@@ -277,7 +277,7 @@ public class MeetingsServiceImpl implements MeetingService {
 		return meetingDto;
 	}
 	public List<Long> countEmailOccurrences(LocalDateTime startDate, LocalDateTime endDate, String email) {
-		log.info("countEmailOccurrences() entered.");
+		log.info("countEmailOccurrences() is entered.");
 		if(Strings.isNullOrEmpty(email) || email.isEmpty()) {
 			log.info("countEmailOccurrences() EmptyInputException : userId / emailId is empty or null.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_CODE, 
