@@ -292,7 +292,7 @@ public class MeetingsServiceImpl implements MeetingService {
         }
 		  for (Object[] result : MeetingCountsByDay) {
 	            String dayOfWeek = (String) result[0];
-	            Long completedCount = (Long) result[1];
+	            Long completedCount = Long.parseLong((String)result[1]);
 	            int dayIndex = (Integer.parseInt(dayOfWeek)) - 1;
 	      	    attendedMeetingCounts.set(dayIndex, completedCount);
 	        }
@@ -318,7 +318,7 @@ public class MeetingsServiceImpl implements MeetingService {
         }
 	   for (Object[] result : MeetingCountsByDay1) {
 	            String dayOfWeek1 = (String) result[0];
-	            Long completedCount1 = (Long) result[1];
+	            Long completedCount1 =  Long.parseLong( (String) result[1]);
 	            int dayIndex = Integer.parseInt(dayOfWeek1) - 1;
 	            OrganisedMeetingCounts.set(dayIndex, completedCount1);
 	            System.out.println(dayOfWeek1);
