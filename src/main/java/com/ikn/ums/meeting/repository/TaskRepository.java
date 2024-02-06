@@ -130,4 +130,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	
 	@Query(value="SELECT task_category_id, count(*) from task_tab Group By task_category_id", nativeQuery = true)
 	List<Object[]> getAllTasksCategoryCount();
+	
+	@Query(value ="SELECT * from task_tab where user_id = :email", nativeQuery = true)
+	List<Task> getTasksByOrganizerName(String email);
 }

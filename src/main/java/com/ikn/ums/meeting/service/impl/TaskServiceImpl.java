@@ -917,10 +917,19 @@ public class TaskServiceImpl implements  TaskService{
 		@Override
 		public List<Object[]> getAllTaskCategoryByCount() {
 		
-			log.info("getAllTaskCategoryByCount()t is entered");
+			log.info("getAllTaskCategoryByCount() is entered");
 			log.info("getAllTaskCategoryByCount() is under execution...");
 			List<Object[]> taskCountList = taskRepository.getAllTasksCategoryCount();
 			log.info("getAllTaskCategoryByCount() executed successfully");
+			return taskCountList;
+		}
+
+		@Override
+		public List<Task> getAllTasksByOrganizerName(String email) {
+			log.info("getAllTasksByOrganizerName() is entered");
+			log.info("getAllTasksByOrganizerName() is under execution...");
+			List<Task> taskCountList = taskRepository.getTasksByOrganizerName(email);
+			log.info("getAllTasksByOrganizerName() executed successfully");
 			return taskCountList;
 		}
 		

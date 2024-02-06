@@ -556,4 +556,23 @@ public class TaskController {
 	
 	}
 	
+	@GetMapping("/task-organized/{email}")
+	public ResponseEntity<List<Task>> getAllTasksByOrganizer(@PathVariable String email){
+		log.info("getAllTasksByOrganizer() entered ");
+		try { 
+			log.info("getAllTasksByOrganizer() is under execution... ");
+			List<Task> taskListCount = taskService.getAllTasksByOrganizerName(email);
+			log.info("getAllTasksByOrganizer() is executed Successfully");
+			return new ResponseEntity<>(taskListCount, HttpStatus.OK);
+			
+		}catch (Exception e) {
+			log.error("getAllTasksByOrganizer() exited with exception : Exception occured while getting the tasks:"+ e.getMessage(),e);
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
+		}
+	
+	}
+	
+	
+	
 }//class
