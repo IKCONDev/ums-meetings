@@ -48,4 +48,6 @@ public interface TaskService {
 	//List<Task> getAllTasks();
 	List<Object[]>  getAllTaskCategoryByCount();
 	
+	List<Task> getAllTasksByOrganizerName(String email);
+	
 }

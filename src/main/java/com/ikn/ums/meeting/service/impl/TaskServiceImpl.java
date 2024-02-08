@@ -429,7 +429,7 @@ public class TaskServiceImpl implements  TaskService{
 			    actionItemBuilder.append("<br/>");
 		}
 		actionItemBuilder.append("<table border='1'>");
-		actionItemBuilder.append("<tr><th>Action Item</th><th>Action Item Owner Email Id</th><th>Action Item Owner Name</th></tr>");		
+		actionItemBuilder.append("<tr><th>Action Item</th><th>Action Item Owner Name</th><th>Action Item Email Id</th></tr>");		
 		List<ActionItemModel> actionModelList = new ArrayList<>();
  	    actionItemList.forEach(action ->{
 	    	ActionItemModel actionModel = new ActionItemModel();
@@ -487,13 +487,12 @@ public class TaskServiceImpl implements  TaskService{
  	   
  	   for(int i= 0; i<actionModelList.size();i++) {
  		 actionItemBuilder.append("<tr><td>").append(actionModelList.get(i).getActionTitle()).append("</td>");
- 		 //actionItemBuilder.append("<td>").append(actionModelList.get(i).getActionOwner().toString()).append("</td></tr>");
+ 		 actionItemBuilder.append("<td>").append(actionModelList.get(i).getOwner()).append("</td>");
  		 actionItemBuilder.append("<td>");
  		 actionItemList.get(i).getActionItemOwner().forEach(owner->{
  			actionItemBuilder.append(owner+" ");
  		 });
- 		 actionItemBuilder.append("</td>");
- 		 actionItemBuilder.append("<td>").append(actionModelList.get(i).getOwner()).append("</td></tr>");
+ 		 actionItemBuilder.append("</td></tr>");
  	   }
  	   actionItemBuilder.append("<br/>");
  	   actionItemBuilder.append("</table>");
@@ -917,10 +916,19 @@ public class TaskServiceImpl implements  TaskService{
 		@Override
 		public List<Object[]> getAllTaskCategoryByCount() {
 		
-			log.info("getAllTaskCategoryByCount()t is entered");
+			log.info("getAllTaskCategoryByCount() is entered");
 			log.info("getAllTaskCategoryByCount() is under execution...");
 			List<Object[]> taskCountList = taskRepository.getAllTasksCategoryCount();
 			log.info("getAllTaskCategoryByCount() executed successfully");
+			return taskCountList;
+		}
+
+		@Override
+		public List<Task> getAllTasksByOrganizerName(String email) {
+			log.info("getAllTasksByOrganizerName() is entered");
+			log.info("getAllTasksByOrganizerName() is under execution...");
+			List<Task> taskCountList = taskRepository.getTasksByOrganizerName(email);
+			log.info("getAllTasksByOrganizerName() executed successfully");
 			return taskCountList;
 		}
 		
