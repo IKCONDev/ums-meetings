@@ -60,7 +60,7 @@ public class TaskCategoryController {
 	}
 
 	@PutMapping("/update")
-	public ResponseEntity<TaskCategoryDTO> updateRole(@RequestBody TaskCategoryDTO taskCategoryDTO) {
+	public ResponseEntity<TaskCategoryDTO> updateTaskCategory(@RequestBody TaskCategoryDTO taskCategoryDTO) {
 		log.info("updateRole() is entered");
 		if (taskCategoryDTO == null || taskCategoryDTO.equals(null)) {
 			log.info("Entity Not Found Exception has encountered while updating Task Category.");
@@ -104,7 +104,6 @@ public class TaskCategoryController {
 	
 	@DeleteMapping("/delete/{ids}")
 	public ResponseEntity<Boolean> deleteSelectedTaskCatgoriesByIds(@PathVariable("ids") List<Long> taskCategoryIds) {
-		boolean deleteSelectedTaskCatgoriesByIds = false;
 		if (taskCategoryIds.equals(null) || taskCategoryIds == null || taskCategoryIds.size() <= 0 ) {
 			log.info("deleteSelectedTaskCatgoriesByIds() entered with args - ids : roleIds size (): " + taskCategoryIds.size());
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE,
@@ -112,10 +111,9 @@ public class TaskCategoryController {
 		}
 		try {
 			log.info("deleteSelectedTaskCatgoriesByIds() is under execution...");
-			taskCategoryService.deleteSelectedTaskCatgoriesByIds(taskCategoryIds);
-			deleteSelectedTaskCatgoriesByIds = true;
+			Boolean isDeleted = taskCategoryService.deleteSelectedTaskCatgoriesByIds(taskCategoryIds);
 			log.info("deleteSelectedTaskCatgoriesByIds() executed successfully");
-			return new ResponseEntity<>(deleteSelectedTaskCatgoriesByIds, HttpStatus.OK);
+			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
 			log.error("deleteSelectedTaskCatgoriesByIds() exited with business exception : Exception occured while deleting the taskcategory"
 					+ businessException.getMessage(), businessException);

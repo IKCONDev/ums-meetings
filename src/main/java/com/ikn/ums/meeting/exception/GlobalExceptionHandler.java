@@ -110,7 +110,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(TaskCatagoryTitleExistsException.class)
 	public ResponseEntity<String> handleTaskCatagoryTitleExistsException(TaskCatagoryTitleExistsException taskCatagoryTitleExistsException) {
 		log.info("GlobalExceptionHandler.handleTaskCatagoryTitleExistsException() ENTERED" + taskCatagoryTitleExistsException.getMessage());
-		return new ResponseEntity<String>("Role Name Already Exists.", HttpStatus.FOUND);
+		return new ResponseEntity<String>("Task Catagory title already exists.", HttpStatus.FOUND);
 	}
 
 }

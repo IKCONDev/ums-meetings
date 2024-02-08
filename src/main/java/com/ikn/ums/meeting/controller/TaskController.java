@@ -386,6 +386,7 @@ public class TaskController {
 		log.info("getAssignedTasksCountByUserId() executed successfully");
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
+	
 	@GetMapping("/weekTaskCount")
 	public ResponseEntity<List<Object>> getWeekTasks(@RequestParam("startdate") String startDate ,
 			@RequestParam("endDate") String endDate,String emailId){
@@ -405,6 +406,7 @@ public class TaskController {
 		log.info("getWeekTasks() executed successfully");
 		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
+	
 	@GetMapping("/TaskCountForYear")
 	public ResponseEntity<List<Object>> getTaskCountForYear(@RequestParam("startdate") String startDate ,
 			@RequestParam("endDate") String endDate,@RequestParam String emailId){

@@ -49,7 +49,7 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 		mapper.map(taskCategoryDTO, taskCategory);
 		TaskCategory savedTaskCategory = taskCategoryRepository.save(taskCategory);
 		TaskCategoryDTO savedTaskCategoryDTO = new TaskCategoryDTO();
-		mapper.map(savedTaskCategory, savedTaskCategory);
+		mapper.map(savedTaskCategory, savedTaskCategoryDTO);
 		log.info("createTaskCategory() executed successfully");
 		return savedTaskCategoryDTO;
 	}
@@ -76,7 +76,7 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 		dbTaskCategory.setModifiedDateTime(LocalDateTime.now());
 		TaskCategory updatedTaskCategory =  taskCategoryRepository.save(dbTaskCategory);
 		TaskCategoryDTO updatedTaskCategoryDTO = new TaskCategoryDTO();
-		mapper.map(updatedTaskCategory, taskCategoryDTO);
+		mapper.map(updatedTaskCategory, updatedTaskCategoryDTO);
 		log.info("updateTaskCategory() executed successfully.");
 		return updatedTaskCategoryDTO;
 	}

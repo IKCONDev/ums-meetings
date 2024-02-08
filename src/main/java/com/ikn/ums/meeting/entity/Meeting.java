@@ -103,7 +103,7 @@ public class Meeting {
 	private List<Transcript> meetingTranscripts;
 	                 
 	@Column(name = "insertedBy")
-	private String insertedBy = "AUTO-BATCH-PROCESS";
+	private String insertedBy = "MANUAL-ENTRY";
     
 	@Column(name = "insertedDate")
     private String insertedDate = LocalDateTime.now().toString();
