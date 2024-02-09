@@ -18,5 +18,7 @@ public interface TaskCategoryRepository extends JpaRepository<TaskCategory, Long
 	 @Query ("FROM TaskCategory WHERE taskCategoryStatus=:taskCategoryStatus")
 	 List<TaskCategory> findAllTaskCategories(String taskCategoryStatus);
 	
+	 @Query(value = "SELECT COUNT(*) FROM task_tab WHERE task_category_id =:taskCategoryId", nativeQuery = true)
+	 Integer findTaskCategoryInUsageCount(Long taskCategoryId);
 	 
 }

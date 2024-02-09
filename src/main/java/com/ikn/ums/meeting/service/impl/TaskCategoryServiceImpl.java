@@ -16,6 +16,7 @@ import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.EntityNotFoundException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
+import com.ikn.ums.meeting.exception.TaskCatagoryInUsageException;
 import com.ikn.ums.meeting.exception.TaskCatagoryTitleExistsException;
 import com.ikn.ums.meeting.repository.TaskCategoryRepository;
 import com.ikn.ums.meeting.service.TaskCategoryService;
@@ -93,13 +94,19 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 		}
 		log.info("deleteTaskCategoryById() is under execution...");
 		Optional<TaskCategory> optTaskCategory = taskCategoryRepository.findById(taskCategoryId);
-		
 		if ( !optTaskCategory.isPresent() || optTaskCategory == null ) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ENTITY_IS_NULL_MSG);
 		} else {
 			TaskCategory taskCategory = null;
 			taskCategory = optTaskCategory.get();
+			//check task category usage
+			Integer count = taskCategoryRepository.findTaskCategoryInUsageCount(taskCategory.getTaskCategoryId());
+			if(count > 0) {
+				log.info("deleteSelectedTaskCatgoriesByIds() TaskCatagoryInUsageException : Error while deleting task category.");
+				throw new TaskCatagoryInUsageException(ErrorCodeMessages.ERR_TASK_CATEGORY_INUSAGE_EXCEPTION_CODE, 
+						ErrorCodeMessages.ERR_TASK_CATEGORY_INUSAGE_EXCEPTION_MSG);
+			}
 			taskCategory.setTaskCategoryStatus(MeetingConstants.STATUS_IN_ACTIVE);
 			TaskCategoryDTO taskCategoryDTO = new TaskCategoryDTO();
 			mapper.map(taskCategory, taskCategoryDTO);
@@ -120,8 +127,15 @@ public class TaskCategoryServiceImpl implements TaskCategoryService {
 					ErrorCodeMessages.ERR_TASK_CATEGORY_LIST_IS_EMPTY_MSG);		
 		log.info("deleteSelectedTaskCatgoriesByIds() is under execution...");
 			List<TaskCategory> taskCategoryDTOList = taskCategoryRepository.findAllById(taskCategoriesIds);
+			//check if task Category is in use
 			if(taskCategoryDTOList.size() > 0) {
 				taskCategoryDTOList.forEach(taskCategoryDTO -> {
+					Integer count = taskCategoryRepository.findTaskCategoryInUsageCount(taskCategoryDTO.getTaskCategoryId());
+					if(count > 0) {
+						log.info("deleteSelectedTaskCatgoriesByIds() TaskCatagoryInUsageException : Error while deleting task category.");
+						throw new TaskCatagoryInUsageException(ErrorCodeMessages.ERR_TASK_CATEGORY_INUSAGE_EXCEPTION_CODE, 
+								ErrorCodeMessages.ERR_TASK_CATEGORY_INUSAGE_EXCEPTION_MSG);
+					}
 					taskCategoryDTO.setTaskCategoryStatus(MeetingConstants.STATUS_IN_ACTIVE);
 				});
 				deleteSelectedTaskCatgoriesByIds = true;

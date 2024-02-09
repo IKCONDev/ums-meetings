@@ -508,6 +508,7 @@ public class TaskController {
 		}
 	
 	}
+	
 	@GetMapping("/department-tasks")
 	public ResponseEntity<List<Object[]>> getAllTasksByDepartment(){
 		log.info("getAllTasksByDepartment() entered ");
@@ -524,6 +525,7 @@ public class TaskController {
 		}
 	
 	}
+	
 	@GetMapping("/taskCategory/{taskCategoryId}")
 	public ResponseEntity<List<Task>> getAllTasksByTaskCategoryId(@PathVariable("taskCategoryId") Long taskCategoryId){
 		log.info("getAllTasksByTaskCategoryId() entered ");

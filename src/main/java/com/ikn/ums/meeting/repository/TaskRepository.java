@@ -133,4 +133,5 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	
 	@Query(value ="SELECT * from task_tab where user_id = :email", nativeQuery = true)
 	List<Task> getTasksByOrganizerName(String email);
+
 }

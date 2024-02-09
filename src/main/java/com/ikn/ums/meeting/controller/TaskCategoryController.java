@@ -20,6 +20,7 @@ import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.EntityNotFoundException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
+import com.ikn.ums.meeting.exception.TaskCatagoryInUsageException;
 import com.ikn.ums.meeting.exception.TaskCatagoryTitleExistsException;
 import com.ikn.ums.meeting.service.TaskCategoryService;
 
@@ -114,7 +115,7 @@ public class TaskCategoryController {
 			Boolean isDeleted = taskCategoryService.deleteSelectedTaskCatgoriesByIds(taskCategoryIds);
 			log.info("deleteSelectedTaskCatgoriesByIds() executed successfully");
 			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
-		}catch (EmptyListException businessException) {
+		}catch (EmptyListException | TaskCatagoryInUsageException businessException) {
 			log.error("deleteSelectedTaskCatgoriesByIds() exited with business exception : Exception occured while deleting the taskcategory"
 					+ businessException.getMessage(), businessException);
 			throw businessException;

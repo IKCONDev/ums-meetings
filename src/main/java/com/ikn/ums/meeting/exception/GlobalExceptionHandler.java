@@ -112,5 +112,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("GlobalExceptionHandler.handleTaskCatagoryTitleExistsException() ENTERED" + taskCatagoryTitleExistsException.getMessage());
 		return new ResponseEntity<String>("Task Catagory title already exists.", HttpStatus.FOUND);
 	}
+	
+	/**
+	 * TaskCatagoryTitleExistsException handles the exception when the Role Name is exists
+	 * @param taskCatagoryTitleExistsException
+	 * @return
+	 */
+	@ExceptionHandler(TaskCatagoryInUsageException.class)
+	public ResponseEntity<String> handleTaskCatagoryInUsageException(TaskCatagoryInUsageException taskCatagoryInUsageException) {
+		log.info("GlobalExceptionHandler.handleTaskCatagoryInUsageException() ENTERED" + taskCatagoryInUsageException.getMessage());
+		return new ResponseEntity<String>("Task Catagory is in usage, cannot be deleted.", HttpStatus.IM_USED);
+	}
 
 }
