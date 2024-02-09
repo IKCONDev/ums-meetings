@@ -391,7 +391,7 @@ public class TaskServiceImpl implements  TaskService{
      	ZonedDateTime istZonedDateTime = utcZonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata"));
      	// Get the equivalent OffsetDateTime in IST
     	OffsetDateTime meetingLocalStartDateTime = istZonedDateTime.toOffsetDateTime();
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd ; hh:mm a");
         String formattedDateTimeInIST = meetingLocalStartDateTime.format(formatter);
 		String subject = meeting.getSubject()+"/"+"MOM";
 		actionItemBuilder.append("<b>"+"Title - "+"</b>"+meeting.getSubject()+"<br/>");
