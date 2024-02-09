@@ -135,6 +135,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_TASKS_DEPTID_EMPTY_CODE = "ERR_TASKS_DEPTID_EMPTY_CODE-1040";
 	 public static final String ERR_TASKS_DEPTID_EMPTY_MSG = "Error while fecthing tasks by department id";
 	 
+	 public static final String ERR_TASK_CATEGORY_INUSAGE_EXCEPTION_CODE = "ERR_TASK_CATEGORY_INUSAGE_EXCEPTION_CODE-1041";
+	 public static final String ERR_TASK_CATEGORY_INUSAGE_EXCEPTION_MSG = "Task Category in usage cannot be deleted !"; 
+	 
 	 //ACTION ITEMS CODES
 	 public static final String ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_CODE = "ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_CODE-1001";
 	 public static final String ERR_ACTIONITEMS_GET_BYDEPT_UNSUCCESS_MSG = "Error while fetching action items by department Id.";
