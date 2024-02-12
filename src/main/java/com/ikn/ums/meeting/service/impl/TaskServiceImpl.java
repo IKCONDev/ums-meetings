@@ -200,14 +200,13 @@ public class TaskServiceImpl implements  TaskService{
 			public void run() {
 				//send noti
 				Notification notification = new Notification();
-				notification.setMessage("The task "+deletedTask.getTaskId()+" has been deleted and it is no more available");
+				notification.setMessage("The task "+deletedTask.getTaskId()+" has been deleted and it is no more available.");
 				notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 				notification.setNotificationTo(deletedTask.getTaskOwner());
 				notification.setEmailId(deletedTask.getEmailId());
 				notificationService.createNotification(notification);
 			}
 		}).start();
-		
 		log.info("deleteTaskById() is executed successfully");
 		return 1;
 	}
@@ -293,7 +292,7 @@ public class TaskServiceImpl implements  TaskService{
 			public void run() {
 				tasksToBeDeleted.forEach(deletedTask -> {
 					Notification notification = new Notification();
-					notification.setMessage("The task "+deletedTask.getTaskId()+" has been deleted and it is no more available");
+					notification.setMessage("The task "+deletedTask.getTaskId()+" has been deleted and it is no more available.");
 	 			    notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 	 			    notification.setNotificationTo(deletedTask.getTaskOwner());
 	 			    notification.setEmailId(deletedTask.getEmailId());
