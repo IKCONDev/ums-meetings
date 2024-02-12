@@ -25,6 +25,7 @@ import com.ikn.ums.meeting.entity.Meeting;
 import com.ikn.ums.meeting.exception.ControllerException;
 import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
+import com.ikn.ums.meeting.exception.EntityNotFoundException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.model.MinutesOfMeeting;
 import com.ikn.ums.meeting.service.ActionItemService;
@@ -56,7 +57,14 @@ public class ActionItemController {
 			ActionItemDto savedActionItem = actionItemService.saveActionItem(actionItem);
 			log.info("createActionItem() executed successfully");
 			return new ResponseEntity<>(savedActionItem, HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (EmptyInputException businessException) {
+			log.error(
+					"createActionItem() exited with exception :Business Exception occured while creating action item : "
+							+ businessException.getMessage(),
+					businessException);
+			throw businessException;
+		} 
+		catch (Exception  e) {
 			log.error("createActionItem() exited with exception : Exception occured while creating action item : "
 							+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_SAVE_CODE,
@@ -85,6 +93,12 @@ public class ActionItemController {
 			ActionItemDto updatedActionItem = actionItemService.updateActionItem(actionItem);
 			log.info("updateActionItem() executed successfully");
 			return new ResponseEntity<>(updatedActionItem, HttpStatus.OK);
+		} catch (EntityNotFoundException businessException) {
+			log.error(
+					"updateActionItem() exited with exception :Business Exception occured while creating action item : "
+							+ businessException.getMessage(),
+					businessException);
+			throw businessException;
 		} catch (Exception e) {
 			log.error("updateActionItem() exited with exception : Exception occured while upadating action item "
 							+ e.getMessage(), e);
@@ -113,6 +127,11 @@ public class ActionItemController {
 			ActionItem actionItem = optActionItem.get();
 			log.info("getSingleActionItem() executed successfully.");
 			return new ResponseEntity<>(actionItem, HttpStatus.OK);
+		} catch (EmptyInputException businessException) {
+			log.error(
+					"getSingleActionItem() exited with exception :Business Exception occured while creating action item : "
+							+ businessException.getMessage(),businessException);
+			throw businessException;
 		} catch (Exception e) {
 			log.error("getSingleActionItem() exited with exception : Exception ocuured while fetching action item details : "
 							+ e.getMessage(), e);
@@ -140,6 +159,11 @@ public class ActionItemController {
 			Integer result = actionItemService.deleteActionItemById(actionItemid);
 			log.info("deleteActionItem() executed successfully.");
 			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (EmptyInputException businessException) {
+			log.error(
+					"deleteActionItem() exited with exception :Business Exception occured while creating action item : "
+							+ businessException.getMessage(),businessException);
+			throw businessException;
 		} catch (Exception e) {
 			log.error("deleteActionItem() exited with exception : Exception occured while deleting action item. "
 							+ e.getMessage(), e);
@@ -174,6 +198,11 @@ public class ActionItemController {
 			boolean isAllDeleted = actionItemService.deleteAllActionItemsById(actualAcIds);
 			log.info("deleteActionItemsById() is executed succesfully");
 			return new ResponseEntity<>(isAllDeleted, HttpStatus.OK);
+		}catch (EmptyInputException businessException) {
+			log.error(
+					"deleteActionItemsById() exited with exception :Business Exception occured while creating action item : "
+							+ businessException.getMessage(),businessException);
+			throw businessException;
 		} catch (Exception e) {
 			log.error("deleteActionItemsById() exited with exception : Exception occured while deleting action items "
 							+ e.getMessage(), e);
@@ -200,7 +229,12 @@ public class ActionItemController {
 			boolean isGenerated = actionItemService.generateActionItems(actionItemList);
 			log.info("generateActionItems() executed sucessfully");
 			return new ResponseEntity<>(isGenerated, HttpStatus.OK);
-		} catch (Exception e) {
+		}catch (EmptyListException businessException) {
+			log.error(
+					"deleteActionItemsById() exited with exception :Business Exception occured while creating action item : "
+							+ businessException.getMessage(),businessException);
+			throw businessException;
+		}  catch (Exception e) {
 			log.error("generateActionItems() exited with exception : " + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GENERATE_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GENERATE_MSG);
@@ -258,7 +292,12 @@ public class ActionItemController {
 				log.info("FetchActionItemsByEmailId() executed succesfully");
 				return new ResponseEntity<>(actionItemList, HttpStatus.OK);
 			}
-		} catch (Exception e) {
+		}catch (EmptyInputException businessException) {
+			log.error(
+					"FetchActionItemsByEmailId() exited with exception :Business Exception occured while creating action item : "
+							+ businessException.getMessage(),businessException);
+			throw businessException;
+		}  catch (Exception e) {
 			log.error("FetchActionItemsByEmailId() exited with exception : Exception ocuured while fetching action items of a user : "
 							+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE,
@@ -285,7 +324,12 @@ public class ActionItemController {
 			ActionItemListVO acItemsListVO = actionItemService.getActionItemsByMeetingId(meetingId);
 			log.info("getActionItemsByMeetingId() executed sucessfully");
 			return new ResponseEntity<>(acItemsListVO, HttpStatus.OK);
-		} catch (Exception e) {
+		}catch (EmptyInputException businessException) {
+			log.error(
+					"getActionItemsByMeetingId() exited with exception :Business Exception occured while creating action item : "
+							+ businessException.getMessage(),businessException);
+			throw businessException;
+		}  catch (Exception e) {
 			log.error("getActionItemsByMeetingId() exited with exception : " + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MSG);
@@ -312,13 +356,17 @@ public class ActionItemController {
 			boolean isActionItemSubmitted = actionItemService.submitActionItems(actionItemList, meetingId);
 			log.info("processActionItemsToTasks() executed successfully");
 			return new ResponseEntity<>(isActionItemSubmitted, HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (EmptyListException businessException) {
+			log.error(
+					"processActionItemsToTasks() exited with exception :Business Exception occured while creating action item : "
+							+ businessException.getMessage(),businessException);
+			throw businessException;
+		}  catch (Exception e) {
 			log.error("processActionItemsToTasks() exited with exception : An Exception occurred while converting action items to tasks "
 							+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_CONVERTTOTASK_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_CONVERTTOTASK_MSG);
 		}
-
 	}
 
 	@PostMapping("/send-momdata")
@@ -329,38 +377,67 @@ public class ActionItemController {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_CODE);
 		}
-		log.info("sendMinutesOfMeeting() is under execution...");
-		MinutesOfMeeting momObject1 = new MinutesOfMeeting();
-		momObject1.setMeeting(momObject.getMeeting());
-		momObject1.setEmailList(momObject.getEmailList());
-		momObject1.setDiscussionPoints(momObject.getDiscussionPoints());
-		momObject1.setHoursDiff(momObject.getHoursDiff());
-		momObject1.setMinutesDiff(momObject.getMinutesDiff());
-		boolean resultValue = actionItemService.sendMinutesofMeetingEmail(momObject1);
-		log.info("sendMinutesOfMeeting() executed successfully");
-		return new ResponseEntity<>(resultValue, HttpStatus.OK);
+		try {
+			log.info("sendMinutesOfMeeting() is under execution...");
+			MinutesOfMeeting momObject1 = new MinutesOfMeeting();
+			momObject1.setMeeting(momObject.getMeeting());
+			momObject1.setEmailList(momObject.getEmailList());
+			momObject1.setDiscussionPoints(momObject.getDiscussionPoints());
+			momObject1.setHoursDiff(momObject.getHoursDiff());
+			momObject1.setMinutesDiff(momObject.getMinutesDiff());
+			boolean resultValue = actionItemService.sendMinutesofMeetingEmail(momObject1);
+			log.info("sendMinutesOfMeeting() executed successfully");
+			return new ResponseEntity<>(resultValue, HttpStatus.OK);
+		}catch (EmptyInputException businessException) {
+			log.error(
+					"sendMinutesOfMeeting() exited with exception :Business Exception occured while creating action item : "
+							+ businessException.getMessage(),businessException);
+			throw businessException;
+		}catch (Exception e) {
+			log.error("sendMinutesOfMeeting() exited with exception : " + e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MSG);
+		}
 	}
 
 	@PostMapping("/send-mom/{meeting}/{emailList}")
 	public ResponseEntity<Boolean> sendMinutesOfMeetingObject(@PathVariable("meeting") Meeting meeting,
 			@PathVariable("emailList") List<String> emailList) {
-		log.info("sendMinutesOfMeetingObject() is entered");
-		MinutesOfMeeting momObject = new MinutesOfMeeting();
-		momObject.setMeeting(meeting);
-		momObject.setEmailList(emailList);
-		log.info("sendMinutesOfMeetingObject() is under execution");
-		boolean resultValue = actionItemService.sendMinutesofMeetingEmail(momObject);
-		log.info("sendMinutesOfMeetingObject() executed successfully)");
-		return new ResponseEntity<>(resultValue, HttpStatus.OK);
+		try {
+			log.info("sendMinutesOfMeetingObject() is entered");
+			MinutesOfMeeting momObject = new MinutesOfMeeting();
+			momObject.setMeeting(meeting);
+			momObject.setEmailList(emailList);
+			log.info("sendMinutesOfMeetingObject() is under execution");
+			boolean resultValue = actionItemService.sendMinutesofMeetingEmail(momObject);
+			log.info("sendMinutesOfMeetingObject() executed successfully)");
+			return new ResponseEntity<>(resultValue, HttpStatus.OK);
+		}
+		catch (EmptyInputException businessException) {
+			log.error(
+					"sendMinutesOfMeetingObject() exited with exception :Business Exception occured while creating action item : "
+							+ businessException.getMessage(),businessException);
+			throw businessException;
+		}catch (Exception e) {
+			log.error("sendMinutesOfMeetingObject() exited with exception : " + e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MSG);
+		}
 	}
 
 	@GetMapping("/organized/count/{userId}")
 	public ResponseEntity<Long> getActionItemsCountforUser(@PathVariable("userId") String emailId) {
-		log.info("getActionItemsCountforUser() is entered)");
-		log.info("getActionItemsCountforUser() is under execution");
-		Long count = actionItemService.getUserOrganizedActionItemsCount(emailId);
-		log.info("getActionItemsCountforUser() executed successfully");
-		return new ResponseEntity<>(count, HttpStatus.OK);
+		try {
+			log.info("getActionItemsCountforUser() is entered)");
+			log.info("getActionItemsCountforUser() is under execution");
+			Long count = actionItemService.getUserOrganizedActionItemsCount(emailId);
+			log.info("getActionItemsCountforUser() executed successfully");
+			return new ResponseEntity<>(count, HttpStatus.OK);
+		}catch (Exception e) {
+			log.error("getActionItemsCountforUser() exited with exception : " + e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_CODE,
+					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_GET_MSG);
+		}
 	}
 	
 	@GetMapping("/all/department/{departmentId}")
@@ -407,6 +484,7 @@ public class ActionItemController {
 					ErrorCodeMessages.ERR_ACTIONITEMS_GET_BYPRIORITY_UNSUCCESS_MSG);
 		}
 	}
+	
 	@GetMapping("/department-actions")
 	public ResponseEntity<List<Object[]>> getAllActionItemsByDepartment(){
 		log.info("getAllActionItemsByDepartment() entered ");
@@ -414,24 +492,30 @@ public class ActionItemController {
 			log.info("getAllActionItemsByDepartment() is under execution... ");
 			List<Object[]> actionItemList = actionItemService.getAllActionItemsCountByDepartment();
 			log.info("getAllActionItemsByDepartment() is executed Successfully");
-			return new ResponseEntity<>(actionItemList, HttpStatus.OK);
-			
+			return new ResponseEntity<>(actionItemList, HttpStatus.OK);	
 		}catch (Exception e) {
 			log.error("getAllActionItemsByDepartment() exited with exception : Exception occured while getting the actionItems:"+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_IDLIST_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_LIST_EMPTY_MSG);
 		}
-	
 	}
+	
 	@GetMapping("/meeting-actions/{meetingId}")
 	public ResponseEntity<List<ActionItem>> getAllActionItemsByMeetingId(@PathVariable("meetingId") Long meetingId){
 		log.info("getAllActionItemsByMeetingId() entered ");
+		if(meetingId < 0 || meetingId == null) {
+			log.info("getAllActionItemsByMeetingId() EmptyInputException :  MeetingId is empty or null.");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_CODE, 
+					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MSG);
+		}
 		try { 
 			log.info("getAllActionItemsByMeetingId() is under execution... ");
 			List<ActionItem> actionItemList = actionItemService.getAllMeetingActionItems(meetingId);
 			log.info("getAllActionItemsByMeetingId() is executed Successfully");
 			return new ResponseEntity<>(actionItemList, HttpStatus.OK);
-			
+		}catch (EmptyInputException businessException) {
+			log.error("getAllActionItemsByMeetingId() exited with business exception : Exception occured while getting the actionItems:"+ businessException.getMessage(), businessException);
+			throw businessException;
 		}catch (Exception e) {
 			log.error("getAllActionItemsByMeetingId() exited with exception : Exception occured while getting the actionItems:"+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_IDLIST_EMPTY_CODE,
