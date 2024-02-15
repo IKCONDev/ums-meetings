@@ -113,7 +113,7 @@ public class MeetingsServiceImpl implements MeetingService {
 			meetingDtoList.add(dto);
 		});
 		meetingDtoList.sort((m1, m2) -> {
-			return (int)(m1.getMeetingId() - m2.getMeetingId());
+			return (int)(m2.getMeetingId() - m1.getMeetingId());
 		}); 
 		log.info("getUserOrganizedMeetingsByUserId() executed succesfully");
 		return meetingDtoList;
