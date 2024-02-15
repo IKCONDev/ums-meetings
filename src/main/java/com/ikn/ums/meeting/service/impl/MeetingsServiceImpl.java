@@ -51,8 +51,8 @@ public class MeetingsServiceImpl implements MeetingService {
 	public boolean deleteActionItemsOfMeeting(String acItemIds, Integer meetingId) {
 		log.info("deleteActionItemsOfMeeting() entered with args - actionItemIds : " + acItemIds
 				+ " evenId : " + meetingId);
+		boolean isDeleted = Boolean.FALSE;
 		if (meetingId <= 0 || meetingId == null) {
-			boolean isDeleted = Boolean.FALSE;
 			log.info("deleteActionItemsOfMeeting() meeting Id is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MEETINGS_ID_EMPTY_MSG);
@@ -62,7 +62,6 @@ public class MeetingsServiceImpl implements MeetingService {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_MEETINGS_ACTIONITEMS_ID_MSG);
 		}
-		boolean isDeleted = Boolean.FALSE;
 		log.info("deleteActionItemsOfMeeting() is under execution...");
 		List<Integer> actualAcIds = null;
 		if (acItemIds != "") {
@@ -113,6 +112,9 @@ public class MeetingsServiceImpl implements MeetingService {
 			modelMapper.map(entity, dto);
 			meetingDtoList.add(dto);
 		});
+		meetingDtoList.sort((m1, m2) -> {
+			return (int)(m1.getMeetingId() - m2.getMeetingId());
+		}); 
 		log.info("getUserOrganizedMeetingsByUserId() executed succesfully");
 		return meetingDtoList;
 	}
@@ -169,6 +171,9 @@ public class MeetingsServiceImpl implements MeetingService {
 			modelMapper.map(entity, dto);
 			meetingDtoList.add(dto);
 		});
+		meetingDtoList.sort((m1, m2) -> {
+			return (int)(m1.getMeetingId() - m2.getMeetingId());
+		}); 
 		log.info("getAllMeetingsByUserId() exiting successfully");
 		return meetingDtoList;
 	}
@@ -276,6 +281,7 @@ public class MeetingsServiceImpl implements MeetingService {
 		log.info("createMeeting() executed successfully");
 		return meetingDto;
 	}
+	
 	public List<Long> countEmailOccurrences(LocalDateTime startDate, LocalDateTime endDate, String email) {
 		log.info("countEmailOccurrences() is entered.");
 		if(Strings.isNullOrEmpty(email) || email.isEmpty()) {

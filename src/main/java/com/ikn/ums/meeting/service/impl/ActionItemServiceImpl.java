@@ -225,6 +225,9 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		log.info("getActionItemsByUserId() is under execution...");
 		var actionItemStatus = "Submitted";
 		List<ActionItem> actionItemList = actionItemRepository.findActionItemsByUserId(emailId, actionItemStatus);
+		actionItemList.sort((o1, o2) -> {
+			return o2.getActionItemId()-o1.getActionItemId();
+		});
 		log.info("getActionItemsByUserId() executed successfully.");
 		return actionItemList;
 	}
