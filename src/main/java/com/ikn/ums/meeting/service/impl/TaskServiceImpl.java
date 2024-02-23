@@ -201,7 +201,7 @@ public class TaskServiceImpl implements TaskService {
 				// send noti
 				Notification notification = new Notification();
 				notification.setMessage(
-						"The task " + deletedTask.getTaskId() + " has been deleted and it is no more available.");
+						"Task " + deletedTask.getTaskId() + " has been deleted and it is no longer available.");
 				notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 				notification.setNotificationTo(deletedTask.getTaskOwner());
 				notification.setEmailId(deletedTask.getEmailId());
@@ -279,7 +279,7 @@ public class TaskServiceImpl implements TaskService {
 				tasksToBeDeleted.forEach(deletedTask -> {
 					Notification notification = new Notification();
 					notification.setMessage(
-							"The task " + deletedTask.getTaskId() + " has been deleted and it is no more available.");
+							"Task " + deletedTask.getTaskId() + " has been deleted and it is no longer available.");
 					notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 					notification.setNotificationTo(deletedTask.getTaskOwner());
 					notification.setEmailId(deletedTask.getEmailId());

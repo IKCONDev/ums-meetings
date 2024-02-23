@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -19,8 +20,7 @@ import lombok.NoArgsConstructor;
 public class TaskCategory {
 	
 	@Id
-	@SequenceGenerator(name = "taskCategoryId_gen", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(generator = "taskCategoryId_gen")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="taskCategoryId")
 	private Long taskCategoryId;
 	
