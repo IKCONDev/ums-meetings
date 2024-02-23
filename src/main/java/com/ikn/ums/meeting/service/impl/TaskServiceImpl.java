@@ -375,13 +375,13 @@ public class TaskServiceImpl implements TaskService {
 		ZonedDateTime istZonedDateTime = utcZonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata"));
 		// Get the equivalent OffsetDateTime in IST
 		OffsetDateTime meetingLocalStartDateTime = istZonedDateTime.toOffsetDateTime();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd ; HH:MM a");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd ; HH:MM");
 		String formattedDateTimeInIST = meetingLocalStartDateTime.format(formatter);
-		String newformattedDateTimeInIST = formattedDateTimeInIST.replace("am", "AM").replace("pm", "PM");
+		//String newformattedDateTimeInIST = formattedDateTimeInIST.replace("am", "AM").replace("pm", "PM");
 		String subject = meeting.getSubject() + "/" + "MOM";
 		actionItemBuilder.append("<b>" + "Title - " + "</b>" + meeting.getSubject() + "<br/>");
 		actionItemBuilder.append("<b>" + "Organizer - " + "</b>" + meeting.getOrganizerName() + "<br/>");
-		actionItemBuilder.append("<b>" + "Date & Time - " + "</b>" + newformattedDateTimeInIST + "<br/>");
+		actionItemBuilder.append("<b>" + "Date & Time - " + "</b>" +formattedDateTimeInIST + "<br/>");
 		actionItemBuilder
 				.append("<b>" + "Duration of Meeting - " + "</b>" + HoursDiff + "H:" + minDiff + "M" + "<br/>");
 		StringBuilder attendeesName = new StringBuilder();
