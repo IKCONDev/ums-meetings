@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.ikn.ums.meetings</groupId>
 	<artifactId>ums-meetings</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>ALPHA-0.1</version>
 	<name>ums-meetings</name>
 	<description>UMS Meetings Service</description>
 	<properties>
