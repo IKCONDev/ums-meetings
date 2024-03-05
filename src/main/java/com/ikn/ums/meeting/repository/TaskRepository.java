@@ -41,7 +41,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	List<Object[]> findCompletedTaskCountsByDayOfWeek( LocalDate startTime,LocalDate endTime, String email);
 		 
 	@Query("SELECT TO_CHAR(t.startDate, 'D'), " +
-		           "SUM(CASE WHEN t.status = 'Inprogress' THEN 1 ELSE 0 END) " +
+		           "SUM(CASE WHEN t.status = 'In progress' THEN 1 ELSE 0 END) " +
 		           "FROM Task t " +
 		           "WHERE t.startDate BETWEEN :startTime AND :endTime " +
 		           "AND t.taskOwner= :email " +
@@ -84,7 +84,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	List<Object[]> findCompletedTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email);
 
 	@Query("SELECT TO_CHAR(t.startDate, 'MM'), " +
-	        "SUM(CASE WHEN t.status = 'Inprogress' THEN 1 ELSE 0 END) " +
+	        "SUM(CASE WHEN t.status = 'In progress' THEN 1 ELSE 0 END) " +
 	        "FROM Task t " +
 	        "WHERE t.startDate BETWEEN :startTime AND :endTime " +
 	        "AND t.taskOwner = :email " +  

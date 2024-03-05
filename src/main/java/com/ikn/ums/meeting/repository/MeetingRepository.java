@@ -26,7 +26,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 		       "CAST(SUM(CASE WHEN attendee_tab.email_id = :email THEN 1 ELSE 0 END) AS text) " +
 		       "FROM meeting_tab " +
 		       "INNER JOIN attendee_tab ON meeting_tab.meeting_id = attendee_tab.meeting_id " +
-		       "WHERE DATE(meeting_actual_start_date_time) >= DATE(:startDate) AND DATE(meeting_actual_start_date_time) < DATE(:endDate) " +
+		       "WHERE DATE(meeting_actual_start_date_time) >= DATE(:startDate) AND DATE(meeting_actual_start_date_time) <= DATE(:endDate) " +
 		       "AND email_id = :email " +
 		       "GROUP BY TO_CHAR(meeting_actual_start_date_time + INTERVAL '5 hours 30 minutes', 'D')", nativeQuery = true)
 		List<Object[]> findAttendedMeetingCountsByDayOfWeek(
@@ -37,7 +37,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 		@Query(value = "SELECT TO_CHAR(meeting_actual_start_date_time + INTERVAL '5 hours 30 minutes', 'D'), "
 		           + "CAST(SUM(CASE WHEN user_Id = :email THEN 1 ELSE 0 END) AS text) "
 		           + "FROM meeting_tab "
-		           + "WHERE DATE(meeting_actual_start_date_time) >= DATE(:startDate) AND DATE(meeting_actual_start_date_time) < DATE(:endDate) "
+		           + "WHERE DATE(meeting_actual_start_date_time) >= DATE(:startDate) AND DATE(meeting_actual_start_date_time) <= DATE(:endDate) "
 		           + "AND organizer_email_id = :email "
 		           + "GROUP BY TO_CHAR(meeting_actual_start_date_time + INTERVAL '5 hours 30 minutes', 'D')", nativeQuery = true)
 	 List<Object[]> findCompletedMeetingCountsByDayOfWeek(LocalDateTime startDate,LocalDateTime endDate,String email);
