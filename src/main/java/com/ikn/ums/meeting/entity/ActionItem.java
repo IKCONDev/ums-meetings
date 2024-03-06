@@ -19,70 +19,69 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="actionitem_tab")
+@Table(name = "actionitem_tab")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class ActionItem {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "id")
 	private Integer actionItemId;
-	
-	@Column(name="meetingId",nullable = false)
+
+	@Column(name = "meetingId", nullable = false)
 	private Long meetingId;
 
-	@Column(name="user_id", nullable = false)
+	@Column(name = "user_id", nullable = false)
 	private String emailId;
-	
+
 	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-	@CollectionTable(name = "actionItemOwners", 
-	joinColumns = @JoinColumn(name = "actionItemId"))
-	@Column(name="actionItemOwner",nullable = false)
+	@CollectionTable(name = "actionItemOwners", joinColumns = @JoinColumn(name = "actionItemId"))
+	@Column(name = "actionItemOwner", nullable = false)
 	private List<String> actionItemOwner;
-	
-	@Column(name="actionItemTitle",nullable = false)
+
+	@Column(name = "actionItemTitle", nullable = false)
 	private String actionItemTitle;
-	
-	@Column(name="actionItemDescription",nullable = false)
+
+	@Column(name = "actionItemDescription", nullable = false)
 	private String actionItemDescription;
-		
-	@Column(name="actionPriority",nullable = true)
+
+	@Column(name = "actionPriority", nullable = true)
 	private String actionPriority;
-	
-	@Column(name="actionStatus",nullable = false)
+
+	@Column(name = "actionStatus", nullable = false)
 	private String actionStatus = "Not Submitted";
-	
-	@Column(name="startDate",nullable = true)
+
+	@Column(name = "startDate", nullable = true)
 	private LocalDate startDate;
-	
-	@Column(name="endDate",nullable = true)
+
+	@Column(name = "endDate", nullable = true)
 	private LocalDate endDate;
-	
+
 	@Column(name = "departmentId")
 	private Long departmentId;
-	
+
 	@Column(name = "createdDateTime")
 	private LocalDateTime createdDateTime;
-	
+
 	@Column(name = "modifiedDateTime")
 	private LocalDateTime modifiedDateTime;
-	
+
 	@Column(name = "createdBy")
 	private String createdBy;
-	
+
 	@Column(name = "modifiedBy")
 	private String modifiedBy;
-	
+
 	@Column(name = "createdByEmailId")
 	private String createdByEmailId;
-	
+
 	@Column(name = "modifiedByEmailId")
 	private String modifiedByEmailId;
-	
-	//relation
-	//@OneToOne(fetch = FetchType.LAZY)
-	//private Meeting meeting;
-	
+
+	// relation
+	// @OneToOne(fetch = FetchType.LAZY)
+	// private Meeting meeting;
+
 }

@@ -1,6 +1,6 @@
 package com.ikn.ums.meeting.exception;
 
-public class TaskCatagoryInUsageException extends RuntimeException{
+public class TaskCatagoryInUsageException extends RuntimeException {
 
 	/**
 	 * 
@@ -9,7 +9,7 @@ public class TaskCatagoryInUsageException extends RuntimeException{
 
 	private String errorCode;
 	private String errorMessage;
-	
+
 	public String getErrorCode() {
 		return errorCode;
 	}
@@ -29,9 +29,9 @@ public class TaskCatagoryInUsageException extends RuntimeException{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 	public TaskCatagoryInUsageException(String errorCode, String errorMessage) {
-		super(errorMessage , new Throwable(errorCode) );
+		super(errorMessage, new Throwable(errorCode));
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}

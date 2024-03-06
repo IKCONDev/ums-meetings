@@ -31,9 +31,9 @@ public class MeetingDto implements Serializable {
 	private String startTimeZone;
 	private String endTimeZone;
 	private String location;
-    private Set<AttendeeDto> attendees;
-    private String organizerEmailId;
-    private String organizerName;
+	private Set<AttendeeDto> attendees;
+	private String organizerEmailId;
+	private String organizerName;
 	private Long departmentId;
 	private String onlineMeetingId;
 	private String onlineMeetingProvider;
@@ -41,10 +41,10 @@ public class MeetingDto implements Serializable {
 	private String joinUrl;
 	private List<TranscriptDto> meetingTranscripts;
 	private String insertedBy = "AUTO-BATCH-PROCESS";
-    private String insertedDate = LocalDateTime.now().toString();
-    private boolean isActionItemsGenerated = false;
-    private boolean isManualMeeting = false;
-    private Integer batchId;
+	private String insertedDate = LocalDateTime.now().toString();
+	private boolean isActionItemsGenerated = false;
+	private boolean isManualMeeting = false;
+	private Integer batchId;
 	private String createdDateTime;
 	private LocalDateTime modifiedDateTime;
 	private String createdBy;

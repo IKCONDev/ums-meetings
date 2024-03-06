@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Transcript {
-	
+
 	@Id
 	@SequenceGenerator(name = "transcriptId_gen", initialValue = 1, allocationSize = 1)
 	@GeneratedValue(generator = "transcriptId_gen")
@@ -31,5 +31,5 @@ public class Transcript {
 	private String transcriptFilePath;
 	@Column(length = 6000)
 	private String transcriptContent;
-	
+
 }

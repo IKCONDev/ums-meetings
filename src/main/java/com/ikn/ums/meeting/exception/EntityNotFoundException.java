@@ -9,7 +9,7 @@ public class EntityNotFoundException extends RuntimeException {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private String errorCode;
 	private String errorMessage;
 
@@ -38,9 +38,9 @@ public class EntityNotFoundException extends RuntimeException {
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
-	
+
 	public EntityNotFoundException() {
-		
+
 	}
 
 }

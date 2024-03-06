@@ -12,13 +12,13 @@ import com.ikn.ums.meeting.entity.TaskCategory;
 @Repository
 public interface TaskCategoryRepository extends JpaRepository<TaskCategory, Long> {
 
-	//TODO : Check This
-	 Optional<TaskCategory> findByTaskCategoryTitle(String taskCategoryTitle);
-	 
-	 @Query ("FROM TaskCategory WHERE taskCategoryStatus=:taskCategoryStatus")
-	 List<TaskCategory> findAllTaskCategories(String taskCategoryStatus);
-	
-	 @Query(value = "SELECT COUNT(*) FROM task_tab WHERE task_category_id =:taskCategoryId", nativeQuery = true)
-	 Integer findTaskCategoryInUsageCount(Long taskCategoryId);
-	 
+	// TODO : Check This
+	Optional<TaskCategory> findByTaskCategoryTitle(String taskCategoryTitle);
+
+	@Query("FROM TaskCategory WHERE taskCategoryStatus=:taskCategoryStatus")
+	List<TaskCategory> findAllTaskCategories(String taskCategoryStatus);
+
+	@Query(value = "SELECT COUNT(*) FROM task_tab WHERE task_category_id =:taskCategoryId", nativeQuery = true)
+	Integer findTaskCategoryInUsageCount(Long taskCategoryId);
+
 }

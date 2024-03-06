@@ -3,7 +3,7 @@ package com.ikn.ums.meeting.exception;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmptyListException extends RuntimeException{
+public class EmptyListException extends RuntimeException {
 
 	/**
 	 * 
@@ -38,8 +38,8 @@ public class EmptyListException extends RuntimeException{
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
-	
+
 	public EmptyListException() {
-		
+
 	}
 }

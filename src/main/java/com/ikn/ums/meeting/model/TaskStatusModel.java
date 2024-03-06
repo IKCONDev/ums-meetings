@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class TaskStatusModel {
 	Long[] assignedTask;
 	List<Long> inprogressTask;
-	List<Long>completedTask;
+	List<Long> completedTask;
 }

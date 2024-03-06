@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Attendee {
-	
+
 	@Id
 	@SequenceGenerator(name = "attendeeId_gen", initialValue = 1, allocationSize = 1)
 	@GeneratedValue(generator = "attendeeId_gen")
@@ -30,11 +30,12 @@ public class Attendee {
 	private String email;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "meet_Id", referencedColumnName = "meetingId", nullable = true)
-    private Meeting meeting;
+	private Meeting meeting;
 	/*
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_fk_id",nullable = true)
-	*/
-	private String emailId; //userId
+	 * @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	 * 
+	 * @JoinColumn(name = "user_fk_id",nullable = true)
+	 */
+	private String emailId; // userId
 
 }

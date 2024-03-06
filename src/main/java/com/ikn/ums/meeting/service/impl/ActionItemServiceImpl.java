@@ -32,7 +32,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 
 	@Autowired
 	private TaskService taskService;
-	
+
 	@Autowired
 	private ModelMapper mapper;
 
@@ -226,7 +226,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		var actionItemStatus = "Submitted";
 		List<ActionItem> actionItemList = actionItemRepository.findActionItemsByUserId(emailId, actionItemStatus);
 		actionItemList.sort((o1, o2) -> {
-			return o2.getActionItemId()-o1.getActionItemId();
+			return o2.getActionItemId() - o1.getActionItemId();
 		});
 		log.info("getActionItemsByUserId() executed successfully.");
 		return actionItemList;
@@ -242,7 +242,8 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		String discussionPoints = momObject.getDiscussionPoints();
 		String hoursDiff = momObject.getHoursDiff();
 		String minsDiff = momObject.getMinutesDiff();
-		taskService.sendMinutesofMeetingEmail(emailList, actionItemList, meetingId, discussionPoints,hoursDiff,minsDiff);
+		taskService.sendMinutesofMeetingEmail(emailList, actionItemList, meetingId, discussionPoints, hoursDiff,
+				minsDiff);
 		log.info("sendMinutesofMeetingEmail() executed successfully");
 		return true;
 	}
@@ -275,9 +276,8 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 			actualEndDate = LocalDate.parse(actionItemEndDate);
 		}
 		List<ActionItem> filteredActionItemList = actionItemRepository.findAllFilteredActionItemsByUserId(
-				actionItemTitle.isBlank() ? null : actionItemTitle,
-				actionItemOwner.isBlank() ? null : actionItemOwner, actualStartDate,
-				actualEndDate, emailId, actionItemStatus);
+				actionItemTitle.isBlank() ? null : actionItemTitle, actionItemOwner.isBlank() ? null : actionItemOwner,
+				actualStartDate, actualEndDate, emailId, actionItemStatus);
 		log.info("getFilteredActionItems() executed successfully");
 		return filteredActionItemList;
 	}
@@ -286,8 +286,8 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	public List<ActionItem> getActionItemsByDepartmentId(Long departmentId) {
 		log.info("getActionItemsByDepartmentId() is entered");
 		log.info("getActionItemsByDepartmentId() is under execution...");
-		if(departmentId == 0) {
-			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_CODE, 
+		if (departmentId == 0) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ACTIONITEMS_DEPTID_EMPTY_MSG);
 		}
 		List<ActionItem> actionItemsListOfDepartment = actionItemRepository.findByDepartmentId(departmentId);
@@ -299,8 +299,8 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 	public List<ActionItem> getActionItemsByPriority(String priority) {
 		log.info("getActionItemsByPriority() is entered");
 		log.info("getActionItemsByPriority() is under execution...");
-		if(priority.isBlank()) {
-			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_PRIORITY_EMPTY_CODE, 
+		if (priority.isBlank()) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ACTIONITEMS_PRIORITY_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ACTIONITEMS_PRIORITY_EMPTY_MSG);
 		}
 		List<ActionItem> actionItemsListOfDepartment = actionItemRepository.findByActionPriority(priority);
@@ -315,7 +315,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		List<Object[]> actionItemsList = actionItemRepository.getCountOfActionItemsByDepartment();
 		log.info("getAllActionItemsCountByDepartment() executed successfully");
 		return actionItemsList;
-		
+
 	}
 
 	@Override

@@ -23,5 +23,5 @@ public class TranscriptDto implements Serializable {
 	private String createdDateTime;
 	private String transcriptFilePath;
 	private String transcriptContent;
-	
+
 }

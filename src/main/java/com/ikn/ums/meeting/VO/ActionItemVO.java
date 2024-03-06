@@ -11,25 +11,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ActionItemVO {
 
-	
-    private Integer id;
-	
+	private Integer id;
+
 	private Integer eventid;
-	
+
 	private String actionTitle;
-	
+
 	private String Description;
-	
+
 	private String actionOwner;
-		
-    private String actionPriority;
-	
+
+	private String actionPriority;
+
 	private String actionStatus;
-	
+
 	private LocalDate startDate;
-	
+
 	private LocalDate endDate;
-	
+
 	private String emailId;
 
 	private Long departmentId;

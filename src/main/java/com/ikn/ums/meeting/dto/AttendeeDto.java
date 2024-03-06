@@ -19,7 +19,7 @@ public class AttendeeDto implements Serializable {
 	private String type;
 	private String status;
 	private String email;
-    private MeetingDto meeting;
-	private String emailId; //userId
+	private MeetingDto meeting;
+	private String emailId; // userId
 
 }

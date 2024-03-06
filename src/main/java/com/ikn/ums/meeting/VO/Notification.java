@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Notification {
 
 	private Long id;
-	private String  message;
+	private String message;
 	private String moduleType;
 	private Long moduleRecordId;
 	private String notificationTo;

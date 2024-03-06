@@ -17,5 +17,5 @@ public class TranscriptVO {
 	private String createdDateTime;
 	private String transcriptFilePath;
 	private String transcriptContent;
-	
+
 }

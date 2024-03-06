@@ -33,10 +33,10 @@ public class TaskCategoryController {
 
 	@Autowired
 	private TaskCategoryService taskCategoryService;
-	
+
 	@PostMapping("/create")
-	public ResponseEntity<TaskCategoryDTO> createTaskCategory(@RequestBody TaskCategoryDTO	taskCategoryDTO) {
-		
+	public ResponseEntity<TaskCategoryDTO> createTaskCategory(@RequestBody TaskCategoryDTO taskCategoryDTO) {
+
 		log.info("createTaskCategory() entered ");
 		if (taskCategoryDTO == null || taskCategoryDTO.equals(null)) {
 			log.info("TaskCategory Entity Not Found Exception has encountered while creating TaskCategory.");
@@ -51,10 +51,11 @@ public class TaskCategoryController {
 			return new ResponseEntity<>(createdTaskCategoryDTO, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | TaskCatagoryTitleExistsException taskCatagoryTitleExistsException) {
 			log.error("createTaskCategory() Business Exception has encountered while creating Task Category. "
-		               + taskCatagoryTitleExistsException.getMessage(),taskCatagoryTitleExistsException);
+					+ taskCatagoryTitleExistsException.getMessage(), taskCatagoryTitleExistsException);
 			throw taskCatagoryTitleExistsException;
 		} catch (Exception e) {
-			log.error("createTaskCategory() General Exception has encountered while creating Task Category. " + e.getMessage(), e);
+			log.error("createTaskCategory() General Exception has encountered while creating Task Category. "
+					+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_CREATE_UNSUCCESS_MSG);
 		}
@@ -73,40 +74,39 @@ public class TaskCategoryController {
 			TaskCategoryDTO updatedTaskCategoryDTO = taskCategoryService.updateTaskCategory(taskCategoryDTO);
 			log.info("updateRole() executed successfully.");
 			return new ResponseEntity<>(updatedTaskCategoryDTO, HttpStatus.CREATED);
-		}catch (EntityNotFoundException taskCategoryBusinessException) {
-			log.error("updateRole() Business Exception has encountered while updating Task Category. " + taskCategoryBusinessException.getMessage(), 
-					taskCategoryBusinessException);
+		} catch (EntityNotFoundException taskCategoryBusinessException) {
+			log.error("updateRole() Business Exception has encountered while updating Task Category. "
+					+ taskCategoryBusinessException.getMessage(), taskCategoryBusinessException);
 			throw taskCategoryBusinessException;
-		}catch (Exception e) {
-			log.error("updateRole() General Exception has encountered while updating Task Category. " + e.getMessage(), e);
-			throw  new ControllerException(e.getCause().toString(), e.getMessage());
+		} catch (Exception e) {
+			log.error("updateRole() General Exception has encountered while updating Task Category. " + e.getMessage(),
+					e);
+			throw new ControllerException(e.getCause().toString(), e.getMessage());
 		}
 	}
 
 	/*
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteTaskCategoryById(@PathVariable("id") Long taskCategoryId) {
-		log.info("TaskCategoryController.deleteTaskCategoryById() ENTERED : taskCategoryId : " + taskCategoryId);
-		if (taskCategoryId <= 0)
-			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG);
-		try {
-			taskCategoryService.deleteTaskCategoryById(taskCategoryId);
-			return ResponseEntity.ok(true);
-		} catch (Exception e) {
-			log.info("TaskCategoryController.deleteTaskCategoryById() : Exception Occured while deleting Task Category !"
-					+ e.fillInStackTrace());
-			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_DELETE_UNSUCCESS_CODE,
-					ErrorCodeMessages.ERR_TASK_CATEGORY_DELETE_UNSUCCESS_MSG);
-		}
-		
-	}
-	*/
-	
+	 * @DeleteMapping("/delete/{id}") public ResponseEntity<?>
+	 * deleteTaskCategoryById(@PathVariable("id") Long taskCategoryId) { log.
+	 * info("TaskCategoryController.deleteTaskCategoryById() ENTERED : taskCategoryId : "
+	 * + taskCategoryId); if (taskCategoryId <= 0) throw new
+	 * EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE,
+	 * ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG); try {
+	 * taskCategoryService.deleteTaskCategoryById(taskCategoryId); return
+	 * ResponseEntity.ok(true); } catch (Exception e) { log.
+	 * info("TaskCategoryController.deleteTaskCategoryById() : Exception Occured while deleting Task Category !"
+	 * + e.fillInStackTrace()); throw new ControllerException(ErrorCodeMessages.
+	 * ERR_TASK_CATEGORY_DELETE_UNSUCCESS_CODE,
+	 * ErrorCodeMessages.ERR_TASK_CATEGORY_DELETE_UNSUCCESS_MSG); }
+	 * 
+	 * }
+	 */
+
 	@DeleteMapping("/delete/{ids}")
 	public ResponseEntity<Boolean> deleteSelectedTaskCatgoriesByIds(@PathVariable("ids") List<Long> taskCategoryIds) {
-		if (taskCategoryIds.equals(null) || taskCategoryIds == null || taskCategoryIds.size() <= 0 ) {
-			log.info("deleteSelectedTaskCatgoriesByIds() entered with args - ids : roleIds size (): " + taskCategoryIds.size());
+		if (taskCategoryIds.equals(null) || taskCategoryIds == null || taskCategoryIds.size() <= 0) {
+			log.info("deleteSelectedTaskCatgoriesByIds() entered with args - ids : roleIds size (): "
+					+ taskCategoryIds.size());
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG);
 		}
@@ -115,23 +115,26 @@ public class TaskCategoryController {
 			Boolean isDeleted = taskCategoryService.deleteSelectedTaskCatgoriesByIds(taskCategoryIds);
 			log.info("deleteSelectedTaskCatgoriesByIds() executed successfully");
 			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
-		}catch (EmptyListException | TaskCatagoryInUsageException businessException) {
-			log.error("deleteSelectedTaskCatgoriesByIds() exited with business exception : Exception occured while deleting the taskcategory"
-					+ businessException.getMessage(), businessException);
+		} catch (EmptyListException | TaskCatagoryInUsageException businessException) {
+			log.error(
+					"deleteSelectedTaskCatgoriesByIds() exited with business exception : Exception occured while deleting the taskcategory"
+							+ businessException.getMessage(),
+					businessException);
 			throw businessException;
-		} 
-		catch (Exception e) {
-			log.error("deleteSelectedTaskCatgoriesByIds() exited with General exception : Exception occured while deleting the taskcategory"
-					+ e.getMessage(), e);
+		} catch (Exception e) {
+			log.error(
+					"deleteSelectedTaskCatgoriesByIds() exited with General exception : Exception occured while deleting the taskcategory"
+							+ e.getMessage(),
+					e);
 			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_DELETE_UNSUCCESS_MSG);
 		}
 	}
-	
+
 	@GetMapping("/{taskCategoryId}")
 	public ResponseEntity<TaskCategoryDTO> getTaskCategoryById(@PathVariable Long taskCategoryId) {
-		
-		if (taskCategoryId <= 0) 
+
+		if (taskCategoryId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_ID_IS_EMPTY_MSG);
 		try {
@@ -139,13 +142,14 @@ public class TaskCategoryController {
 			TaskCategoryDTO taskCategoryDTO = taskCategoryService.getTaskCategoryById(taskCategoryId);
 			log.info("getTaskCategoryById() executed successfully");
 			return new ResponseEntity<>(taskCategoryDTO, HttpStatus.OK);
-			
-		}catch (EmptyInputException businessException) {
-			log.error("getTaskCategoryById() exited with business exception : Exception occured fetching task categories"
-					+ businessException.getMessage(), businessException);
+
+		} catch (EmptyInputException businessException) {
+			log.error(
+					"getTaskCategoryById() exited with business exception : Exception occured fetching task categories"
+							+ businessException.getMessage(),
+					businessException);
 			throw businessException;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error("getTaskCategoryById() exited with exception : Exception occured fetching task categories"
 					+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_GET_UNSUCCESS_CODE,
@@ -161,15 +165,14 @@ public class TaskCategoryController {
 			List<TaskCategoryDTO> taskCategoryDTOList = taskCategoryService.getAllTaskCategories();
 			log.info("getAllTaskCategories() executed successfully");
 			return new ResponseEntity<>(taskCategoryDTOList, HttpStatus.OK);
-		}catch (EmptyListException businessException) {
+		} catch (EmptyListException businessException) {
 			throw businessException;
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error("getAllTaskCategories() exited with exception : Exception occured fetching task categories list."
 					+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_TASK_CATEGORY_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_TASK_CATEGORY_GET_UNSUCCESS_MSG);
 		}
 	}
-	
+
 }

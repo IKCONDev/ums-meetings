@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Bean;
 
 import org.springframework.web.client.RestTemplate;
 
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -23,17 +22,15 @@ public class UMSMeetingApplication {
 		SpringApplication.run(UMSMeetingApplication.class, args);
 	}
 
-	
 	@Bean
 	@LoadBalanced
 	public RestTemplate createLoadBalancedRestTemplate() {
 		log.info("UMSMeetingApplication.createLoadBalancedRestTemplate() entered");
 		RestTemplate loadBalancedRestTemplate = new RestTemplate();
-	    log.info("UMSMeetingApplication.createLoadBalancedRestTemplate() : RestTemplate object created.");
+		log.info("UMSMeetingApplication.createLoadBalancedRestTemplate() : RestTemplate object created.");
 		return loadBalancedRestTemplate;
 	}
-	
-	
+
 	@Bean
 	public ModelMapper createMapper() {
 		ModelMapper mapper = new ModelMapper();

@@ -34,8 +34,8 @@ public class BusinessException extends RuntimeException {
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
-	
+
 	public BusinessException() {
-		
+
 	}
 }

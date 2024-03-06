@@ -1,6 +1,6 @@
 package com.ikn.ums.meeting.exception;
 
-public class TaskCatagoryTitleExistsException extends RuntimeException{
+public class TaskCatagoryTitleExistsException extends RuntimeException {
 
 	/**
 	 * 
@@ -9,7 +9,7 @@ public class TaskCatagoryTitleExistsException extends RuntimeException{
 
 	private String errorCode;
 	private String errorMessage;
-	
+
 	public String getErrorCode() {
 		return errorCode;
 	}
@@ -29,9 +29,9 @@ public class TaskCatagoryTitleExistsException extends RuntimeException{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 	public TaskCatagoryTitleExistsException(String errorCode, String errorMessage) {
-		super(errorMessage , new Throwable(errorCode) );
+		super(errorMessage, new Throwable(errorCode));
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}

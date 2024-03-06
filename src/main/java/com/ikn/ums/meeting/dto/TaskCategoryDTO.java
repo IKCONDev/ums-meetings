@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class TaskCategoryDTO implements Serializable{
+public class TaskCategoryDTO implements Serializable {
 
 	/**
 	 * 
@@ -22,5 +22,5 @@ public class TaskCategoryDTO implements Serializable{
 	private String createdByEmailId;
 	private String modifiedByEmailId;
 	private String taskCategoryStatus;
-	
+
 }
