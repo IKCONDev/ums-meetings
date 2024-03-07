@@ -504,7 +504,13 @@ public class MeetingsServiceImpl implements MeetingService {
 					ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_MSG);
 		}
 		log.info("updateMeetingDetailsFromBatchProcess() is under execution...");
-		Meeting dbTeamsMeeting = meetingRepository.findByEventId(updatedMeetingFromBatchProcess.getEventId());
+		Meeting dbTeamsMeeting = null;
+		if(updatedMeetingFromBatchProcess.getType().equalsIgnoreCase("singleInstance")) {
+			dbTeamsMeeting = meetingRepository.findByEventId(updatedMeetingFromBatchProcess.getEventId());
+			//else it is an recurrence meeting
+		}else {
+			dbTeamsMeeting = meetingRepository.findByOccurrenceId(updatedMeetingFromBatchProcess.getOccurrenceId());
+		}
 		var dbAttendanceReportList = dbTeamsMeeting.getAttendanceReport();
 		var updatedAttendanceReportListFromBatchProcess = updatedMeetingFromBatchProcess.getAttendanceReport();
 		dbAttendanceReportList.forEach(dbAttendanceReport -> {

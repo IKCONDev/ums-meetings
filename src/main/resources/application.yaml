@@ -27,11 +27,11 @@ spring:
         '[format_sql]': true
   mail:
     host: smtp.gmail.com
-    password: qshd bgwz wurs pivv
+    password: fceu fdef cxwh dzpi
     port: 587
     properties:
       mail:
         smtp:
           starttls:
             enable: true
-    username: vaishnavdev05@gmail.com
+    username: umsassist@gmail.com

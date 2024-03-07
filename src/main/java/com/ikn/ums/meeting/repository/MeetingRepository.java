@@ -78,5 +78,6 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 	List<Object[]> getCountOfMeetingsByDepartment();
 	
 	Meeting findByEventId(String eventId);
+	Meeting findByOccurrenceId(String occurrenceId);
 
 }
