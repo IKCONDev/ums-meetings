@@ -29,7 +29,7 @@ public class Transcript {
 	private String transcriptContentUrl;
 	private String createdDateTime;
 	private String transcriptFilePath;
-	@Column(length = 6000)
+	@Column(length = 10485760)
 	private String transcriptContent;
 
 }

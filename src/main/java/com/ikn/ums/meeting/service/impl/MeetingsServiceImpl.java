@@ -513,13 +513,24 @@ public class MeetingsServiceImpl implements MeetingService {
 		}
 		var dbAttendanceReportList = dbTeamsMeeting.getAttendanceReport();
 		var updatedAttendanceReportListFromBatchProcess = updatedMeetingFromBatchProcess.getAttendanceReport();
-		dbAttendanceReportList.forEach(dbAttendanceReport -> {
-			updatedAttendanceReportListFromBatchProcess.remove(dbAttendanceReport);
+		var updatedAttendanceReportListFromBatchProcessCopy = updatedMeetingFromBatchProcess.getAttendanceReport();
+		
+		Iterator<AttendanceReport> dbAttendanceReportIterator = dbAttendanceReportList.iterator();
+		//Iterator<AttendanceReport> updatedAttendanceReportListFromBatchProcessIterator = updatedAttendanceReportListFromBatchProcess.iterator();
+		while(dbAttendanceReportIterator.hasNext()) {
+			var dbAttendanceReport = dbAttendanceReportIterator.next();
+			for(int i = 0; i < updatedAttendanceReportListFromBatchProcess.size(); i++) {
+				var updatedAttendanceReportFromBatchProcess = updatedAttendanceReportListFromBatchProcess.get(i);
+				if(dbAttendanceReport.getAttendanceReportId().equalsIgnoreCase(updatedAttendanceReportFromBatchProcess.getAttendanceReportId())) {
+					updatedAttendanceReportListFromBatchProcessCopy.remove(updatedAttendanceReportFromBatchProcess);
+					break;
+				}
+			}
+		}
+		updatedAttendanceReportListFromBatchProcessCopy.forEach(newReport -> {
+			newReport.setId(null);
+			dbAttendanceReportList.add(newReport);
 		});
-		Iterator<AttendanceReport> uniqueAttendanceReportIterator = updatedAttendanceReportListFromBatchProcess.iterator();
-		AttendanceReport uniqueAttendanceReportDto = uniqueAttendanceReportIterator.next();
-		uniqueAttendanceReportDto.setId(null);
-		dbAttendanceReportList.add(uniqueAttendanceReportDto);
 		Meeting updatedTeamsMeeting = meetingRepository.save(dbTeamsMeeting);
 		log.info("updateMeetingDetailsFromBatchProcess() executed successfully");
 		return updatedTeamsMeeting;
