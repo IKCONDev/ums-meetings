@@ -1,5 +1,8 @@
 package com.ikn.ums.meeting.service.impl;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -158,6 +161,19 @@ public class MeetingsServiceImpl implements MeetingService {
 				if(userMeeting.getAttendanceReport() != null) {
 					userMeeting.getAttendanceReport().forEach(attendanceReport -> {
 						attendanceReport.setId(null);
+						 Instant instant1 = Instant.parse(attendanceReport.getMeetingStartDateTime());
+					     Instant instant2 = Instant.parse(attendanceReport.getMeetingEndDateTime());
+					     Duration duration = Duration.between(instant1, instant2);
+					        long seconds = 0;
+					        seconds = duration.getSeconds();
+					        //long nanoAdjustment = duration.getNano();
+					        long hours = 0;
+					         hours = seconds / 3600;
+					        long minutes = 0;
+					        minutes = (seconds % 3600) / 60;
+					       // long remainingSeconds = seconds % 60;
+					        userMeeting.setActualMeetingDuration(hours+"H:"+minutes+"M:"+seconds+"S");
+
 						List<AttendanceRecord> attendanceRecordList = attendanceReport.getAttendanceRecords();
 						attendanceRecordList.forEach(attendanceRecord -> {
 							attendanceRecord.setId(null);
@@ -495,6 +511,7 @@ public class MeetingsServiceImpl implements MeetingService {
 		return count;
 	}
 
+	Meeting dbTeamsMeeting = null;
 	@Override
 	public Meeting updateMeetingDetailsFromBatchProcess(Meeting updatedMeetingFromBatchProcess) {
 		log.info("updateMeetingDetailsFromBatchProcess() entered with args : Meeting object");
@@ -504,7 +521,6 @@ public class MeetingsServiceImpl implements MeetingService {
 					ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_MSG);
 		}
 		log.info("updateMeetingDetailsFromBatchProcess() is under execution...");
-		Meeting dbTeamsMeeting = null;
 		if(updatedMeetingFromBatchProcess.getType().equalsIgnoreCase("singleInstance")) {
 			dbTeamsMeeting = meetingRepository.findByEventId(updatedMeetingFromBatchProcess.getEventId());
 			//else it is an recurrence meeting
@@ -530,6 +546,19 @@ public class MeetingsServiceImpl implements MeetingService {
 		updatedAttendanceReportListFromBatchProcessCopy.forEach(newReport -> {
 			newReport.setId(null);
 			dbAttendanceReportList.add(newReport);
+		});
+		dbAttendanceReportList.forEach(report -> {
+			 Instant instant1 = Instant.parse(report.getMeetingStartDateTime());
+		     Instant instant2 = Instant.parse(report.getMeetingEndDateTime());
+		     Duration duration = Duration.between(instant1, instant2);
+		        long seconds = 0;
+		        seconds = seconds+duration.getSeconds();
+		        long hours = 0;
+		         hours = seconds / 3600;
+		        long minutes = 0;
+		        minutes = (seconds % 3600) / 60;
+		       // long remainingSeconds = seconds % 60;
+		        dbTeamsMeeting.setActualMeetingDuration(hours+"H:"+minutes+"M:"+seconds+"S");
 		});
 		Meeting updatedTeamsMeeting = meetingRepository.save(dbTeamsMeeting);
 		log.info("updateMeetingDetailsFromBatchProcess() executed successfully");

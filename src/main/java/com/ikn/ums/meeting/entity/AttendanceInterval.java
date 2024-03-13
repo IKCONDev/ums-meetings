@@ -22,7 +22,7 @@ public class AttendanceInterval {
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Long Id;
+	private Long id;
 	@Column(name = "joinDateTime")
 	private String joinDateTime;
 	@Column(name = "leaveDateTime")

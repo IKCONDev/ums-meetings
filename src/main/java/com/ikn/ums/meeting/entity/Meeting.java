@@ -144,5 +144,8 @@ public class Meeting {
 	// = true)
 	// @JoinColumn(name = "meeting_fk_id", nullable = false)
 	// private Set<ActionItem> actionItems;
+	
+	@Column(name = "actualMeetingDuration")
+	private String actualMeetingDuration;
 
 }
