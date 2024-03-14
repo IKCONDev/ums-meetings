@@ -152,9 +152,16 @@ public class TaskServiceImpl implements TaskService {
 				notification.setNotificationTo(modifiedtask.getTaskOwner());
 				notification.setEmailId(modifiedtask.getEmailId());
 				notificationService.createNotification(notification);
+				
+				Notification notification1 = new Notification();
+				notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated.");
+				notification1.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
+				notification1.setNotificationTo(modifiedtask.getEmailId());
+				notification1.setEmailId(modifiedtask.getEmailId());
+				notificationService.createNotification(notification1);
 			}
 		}).start();
-
+		
 		// send email to task owner
 		sendEmailToTaskOwner(modifiedtask, false);
 		mapper.map(modifiedtask, resultDto);
@@ -532,7 +539,8 @@ public class TaskServiceImpl implements TaskService {
 				}
 
 				log.info("sendEmailToTaskOwner(): Task email sent to " + task.getTaskOwner() + " sucessfully");
-				emailService.sendMail(to, subject, emailBuilder.toString(), true);
+				//emailService.sendMail(to, subject, emailBuilder.toString(), true);
+				emailService.sendMail(to, subject, emailBuilder.toString(), new String[] {task.getEmailId()}, null, null, true);
 			}
 		}).start();
 		log.info("sendEmailToTaskOwner() executed successfully");
