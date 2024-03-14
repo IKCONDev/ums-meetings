@@ -21,7 +21,9 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ikn.ums.meeting.dto.MeetingDto;
 import com.ikn.ums.meeting.entity.AttendanceInterval;
@@ -556,6 +558,18 @@ public class MeetingsServiceImpl implements MeetingService {
 		return updatedTeamsMeeting;
 	}
 	
+	public Meeting updateMeetingDetails(MeetingDto meetingDto){
+	    Optional<Meeting>meeting = meetingRepository.findById(meetingDto.getMeetingId()) ;  
+	    
+	    Meeting meetingObject = null;
+	    if(meeting.isPresent()) {
+	    	meetingObject = meeting.get();
+	    }
+		meetingObject.setMomEmailCount(meetingDto.getMomEmailCount());
+		meetingRepository.save(meetingObject);
+		return meetingObject;
+    }
+
 	private String getMeetingDuration(Long totalSeconds){
 	    if (totalSeconds < 120) {
 	        return totalSeconds + " sec";

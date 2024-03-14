@@ -34,6 +34,7 @@ import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.model.ActionItemModel;
+import com.ikn.ums.meeting.repository.MeetingRepository;
 import com.ikn.ums.meeting.repository.TaskRepository;
 import com.ikn.ums.meeting.service.ActionItemService;
 import com.ikn.ums.meeting.service.MeetingService;
@@ -327,6 +328,8 @@ public class TaskServiceImpl implements TaskService {
 		return assignedTaskList;
 	}
 
+	@Transactional
+	@Override
 	public void sendMinutesofMeetingEmail(List<String> emailList, List<ActionItem> actionItemList, Long meetingId,
 			String discussionPoints, String HoursDiff, String minDiff) {
 		log.info("sendMinutesofMeetingEmail() is entered");
@@ -494,6 +497,18 @@ public class TaskServiceImpl implements TaskService {
 		actionItemBuilder.append(meeting.getOrganizerName() + "</b>" + "<br/><br/>");
 		String[] convertedMergeList = mergedEmailList.toArray(new String[0]);
 		emailService.sendMail(convertedMergeList, subject, actionItemBuilder.toString(), true);
+		int count = 0;
+		MeetingDto updatingMeeting = meetingService.getMeetingDetails(meetingId);
+		if(updatingMeeting.getMomEmailCount() == null) {
+			count =1;
+			updatingMeeting.setMomEmailCount(count);
+		}
+		else if(updatingMeeting.getMomEmailCount() >= 1){
+			count = updatingMeeting.getMomEmailCount();
+			count++;
+			updatingMeeting.setMomEmailCount(count);
+		}
+		meetingService.updateMeetingDetails(updatingMeeting);
 		log.info("sendMinutesofMeetingEmail() executed successfully");
 	}
 

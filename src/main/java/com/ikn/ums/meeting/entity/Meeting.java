@@ -147,5 +147,8 @@ public class Meeting {
 	
 	@Column(name = "actualMeetingDuration")
 	private String actualMeetingDuration;
+	
+	@Column(name="momEmail_Count")
+	private Integer momEmailCount;
 
 }
