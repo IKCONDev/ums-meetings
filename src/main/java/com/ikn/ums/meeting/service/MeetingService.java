@@ -48,5 +48,7 @@ public interface MeetingService {
 	List<Object[]> getAllDepartmentsMeetingCount();
 	
 	Meeting updateMeetingDetailsFromBatchProcess(Meeting meeting);
+	
+	public Meeting updateMeetingDetails(MeetingDto meetingDto);
 
 }

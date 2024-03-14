@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,5 +53,6 @@ public class MeetingDto implements Serializable {
 	private String modifiedBy;
 	private String createdByEmailId;
 	private String modifiedByEmailId;
+	private Integer momEmailCount;
 
 }
