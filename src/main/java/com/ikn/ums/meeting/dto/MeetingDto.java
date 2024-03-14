@@ -54,5 +54,6 @@ public class MeetingDto implements Serializable {
 	private String createdByEmailId;
 	private String modifiedByEmailId;
 	private Integer momEmailCount;
+	private String actualMeetingDuration;
 
 }

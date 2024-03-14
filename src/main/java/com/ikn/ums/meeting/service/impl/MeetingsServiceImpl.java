@@ -163,19 +163,13 @@ public class MeetingsServiceImpl implements MeetingService {
 				if(userMeeting.getAttendanceReport() != null) {
 					userMeeting.getAttendanceReport().forEach(attendanceReport -> {
 						attendanceReport.setId(null);
-						 Instant instant1 = Instant.parse(attendanceReport.getMeetingStartDateTime());
-					     Instant instant2 = Instant.parse(attendanceReport.getMeetingEndDateTime());
-					     Duration duration = Duration.between(instant1, instant2);
-					        long seconds = 0;
-					        seconds = duration.getSeconds();
-					        //long nanoAdjustment = duration.getNano();
-					        long hours = 0;
-					         hours = seconds / 3600;
-					        long minutes = 0;
-					        minutes = (seconds % 3600) / 60;
-					       // long remainingSeconds = seconds % 60;
-					        userMeeting.setActualMeetingDuration(hours+"H:"+minutes+"M:"+seconds+"S");
-
+						Instant startTime = Instant.parse(attendanceReport.getMeetingStartDateTime());
+				        Instant endTime = Instant.parse(attendanceReport.getMeetingEndDateTime());
+				        Duration duration = Duration.between(startTime, endTime);
+				        long secondsDifference = 0;
+				        secondsDifference = secondsDifference+duration.getSeconds();
+				        String meetingDuration = getMeetingDuration(secondsDifference);
+						userMeeting.setActualMeetingDuration(meetingDuration);
 						List<AttendanceRecord> attendanceRecordList = attendanceReport.getAttendanceRecords();
 						attendanceRecordList.forEach(attendanceRecord -> {
 							attendanceRecord.setId(null);
@@ -193,7 +187,8 @@ public class MeetingsServiceImpl implements MeetingService {
 		});
 		log.info("saveAllUserMeetingsListOfCurrentBatchProcess() executed successfully");
 	}
-
+	
+	
 	@Override
 	public List<MeetingDto> getAllMeetingsByUserId(String emailId) {
 		log.info("getAllMeetingsByUserId() entered with args - emailId/userId : " + emailId);
@@ -513,6 +508,7 @@ public class MeetingsServiceImpl implements MeetingService {
 		return count;
 	}
 
+	long secondsDifference = 0;
 	Meeting dbTeamsMeeting = null;
 	@Override
 	public Meeting updateMeetingDetailsFromBatchProcess(Meeting updatedMeetingFromBatchProcess) {
@@ -550,17 +546,12 @@ public class MeetingsServiceImpl implements MeetingService {
 			dbAttendanceReportList.add(newReport);
 		});
 		dbAttendanceReportList.forEach(report -> {
-			 Instant instant1 = Instant.parse(report.getMeetingStartDateTime());
-		     Instant instant2 = Instant.parse(report.getMeetingEndDateTime());
-		     Duration duration = Duration.between(instant1, instant2);
-		        long seconds = 0;
-		        seconds = seconds+duration.getSeconds();
-		        long hours = 0;
-		         hours = seconds / 3600;
-		        long minutes = 0;
-		        minutes = (seconds % 3600) / 60;
-		       // long remainingSeconds = seconds % 60;
-		        dbTeamsMeeting.setActualMeetingDuration(hours+"H:"+minutes+"M:"+seconds+"S");
+			Instant startTime = Instant.parse(report.getMeetingStartDateTime());
+	        Instant endTime = Instant.parse(report.getMeetingEndDateTime());
+	        Duration duration = Duration.between(startTime, endTime);
+	        secondsDifference = secondsDifference+duration.getSeconds();
+	        String meetingDuration = getMeetingDuration(secondsDifference);
+			dbTeamsMeeting.setActualMeetingDuration(meetingDuration);
 		});
 		Meeting updatedTeamsMeeting = meetingRepository.save(dbTeamsMeeting);
 		log.info("updateMeetingDetailsFromBatchProcess() executed successfully");
@@ -577,7 +568,31 @@ public class MeetingsServiceImpl implements MeetingService {
 		meetingObject.setMomEmailCount(meetingDto.getMomEmailCount());
 		meetingRepository.save(meetingObject);
 		return meetingObject;
-		
+    }
+
+	private String getMeetingDuration(Long totalSeconds){
+	    if (totalSeconds < 120) {
+	        return totalSeconds + " sec";
+	    }else if (totalSeconds >= 120 && totalSeconds <= 3600) {
+	        long minutes = totalSeconds / 60;
+	        long seconds = totalSeconds % 60;
+	        if (seconds > 0)
+	            return minutes + " min " + seconds + " sec";
+	        else
+	            return minutes + " min";
+	    } else {
+	        var hours = totalSeconds / 3600;
+	        var remainingSeconds = totalSeconds % 3600;
+	        var minutes = remainingSeconds / 60;
+	        var seconds = remainingSeconds % 60;
+	        if (minutes > 0 && seconds > 0) {
+	            return hours + " hour " + minutes + " min " + seconds + " sec";
+	        } else if (minutes > 0) {
+	            return hours + " hour " + minutes + " min";
+	        } else {
+	            return hours + " hour";
+	        }
+	    }
 	}
 
 }
