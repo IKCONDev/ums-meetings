@@ -25,9 +25,9 @@ public class ActionItemDto {
 
 	private String actionStatus = "Not Submitted";
 
-	private LocalDate startDate;
+	private LocalDateTime startDate;
 
-	private LocalDate endDate;
+	private LocalDateTime endDate;
 
 	private Long departmentId;
 

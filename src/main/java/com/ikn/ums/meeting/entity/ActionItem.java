@@ -54,10 +54,10 @@ public class ActionItem {
 	private String actionStatus = "Not Submitted";
 
 	@Column(name = "startDate", nullable = true)
-	private LocalDate startDate;
+	private LocalDateTime startDate;
 
 	@Column(name = "endDate", nullable = true)
-	private LocalDate endDate;
+	private LocalDateTime endDate;
 
 	@Column(name = "departmentId")
 	private Long departmentId;

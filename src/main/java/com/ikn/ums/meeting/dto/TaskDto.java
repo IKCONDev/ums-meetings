@@ -21,13 +21,13 @@ public class TaskDto implements Serializable {
 
 	private String taskPriority;
 
-	private LocalDate startDate;
+	private LocalDateTime startDate;
 
-	private LocalDate dueDate;
+	private LocalDateTime dueDate;
 
-	private LocalDate plannedStartDate;
+	private LocalDateTime plannedStartDate;
 
-	private LocalDate plannedEndDate;
+	private LocalDateTime plannedEndDate;
 
 	private String taskOwner;
 

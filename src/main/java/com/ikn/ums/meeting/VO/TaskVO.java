@@ -1,6 +1,8 @@
 package com.ikn.ums.meeting.VO;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,13 +26,13 @@ public class TaskVO {
 
 	private String assignee;
 
-	private LocalDate startDate;
+	private LocalDateTime startDate;
 
-	private LocalDate dueDate;
+	private LocalDateTime dueDate;
 
-	private LocalDate plannedStartDate;
+	private LocalDateTime plannedStartDate;
 
-	private LocalDate plannedEndDate;
+	private LocalDateTime plannedEndDate;
 
 	private String actionTitle;
 
