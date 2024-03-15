@@ -22,6 +22,8 @@ public class MeetingModel {
 	private Long departmentId;
 	private String insertedBy = "MANUAL-ENTRY";
 	private String insertedDate = LocalDateTime.now().toString();
+	private String originalStartTimeZone;
+	private String originalEndTimeZone;
 
 	private String createdDateTime;
 

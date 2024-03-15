@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Column;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

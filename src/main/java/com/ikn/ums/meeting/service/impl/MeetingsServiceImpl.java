@@ -39,6 +39,7 @@ import com.ikn.ums.meeting.model.MeetingModel;
 import com.ikn.ums.meeting.repository.MeetingRepository;
 import com.ikn.ums.meeting.service.ActionItemService;
 import com.ikn.ums.meeting.service.MeetingService;
+import com.ikn.ums.meeting.utils.EmailService;
 import com.netflix.servo.util.Strings;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,9 @@ public class MeetingsServiceImpl implements MeetingService {
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@Transactional
 	@Override
@@ -306,10 +310,32 @@ public class MeetingsServiceImpl implements MeetingService {
 		meeting.setCreatedByEmailId(meetingModel.getCreatedByEmailId());
 		meeting.setCreatedDateTime(LocalDateTime.now().toString());
 		meeting.setManualMeeting(true);
+		meeting.setOriginalStartTimeZone(meetingModel.getOriginalStartTimeZone());
+		meeting.setOriginalEndTimeZone(meetingModel.getOriginalEndTimeZone());;
+		Instant startTime = Instant.parse(meetingModel.getStartDateTime().toInstant(ZoneOffset.UTC).toString());
+        Instant endTime = Instant.parse(meetingModel.getEndDateTime().toInstant(ZoneOffset.UTC).toString());
+        Duration duration = Duration.between(startTime, endTime);
+        long secondsDifference = 0;
+        secondsDifference = secondsDifference+duration.getSeconds();
+        String meetingDuration = getMeetingDuration(secondsDifference);
+        meeting.setActualMeetingDuration(meetingDuration);
 		Meeting createdMeeting = meetingRepository.save(meeting);
+		if(createdMeeting != null) {
+			if(!createdMeeting.getCreatedByEmailId().equalsIgnoreCase(createdMeeting.getOrganizerEmailId())) {
+				//if create person of the meeting and organizer is not same send email to organizer of meeting that
+				//some other person has created a meeting in their account on behalf
+				String subject = "Meeting "+createdMeeting.getMeetingId()+" created by "+createdMeeting.getCreatedBy();
+				String emailBody = "MeetingID - "+createdMeeting.getMeetingId()+" \r\n"+
+				"MeetingTitle - "+createdMeeting.getSubject()+". \r\n \r\n"+
+				"Please be informed that a meeting has been created on your behalf by "+createdMeeting.getCreatedBy()+" ("+createdMeeting.getCreatedByEmailId()+"). \r\n \r\n"+
+				"Kindly visit the provided link for further details. \r\n"+
+				"http://132.145.196.4:4200/#/meetings"+" \r\n \r\n";
+				emailService.sendMail(createdMeeting.getOrganizerEmailId(), subject, emailBody, false);
+			}
+		}
 		MeetingDto meetingDto = new MeetingDto();
 		modelMapper.map(createdMeeting, meetingDto);
-		// send email to meeting attendees if required.
+		//send email to meeting attendees if required.
 		log.info("createMeeting() executed successfully");
 		return meetingDto;
 	}
