@@ -39,16 +39,16 @@ public class Task {
 	private String taskPriority;
 
 	@Column(name = "startDate", nullable = true)
-	private LocalDate startDate;
+	private LocalDateTime startDate;
 
 	@Column(name = "dueDate", nullable = true)
-	private LocalDate dueDate;
+	private LocalDateTime dueDate;
 
 	@Column(name = "plannedStartDate")
-	private LocalDate plannedStartDate;
+	private LocalDateTime plannedStartDate;
 
 	@Column(name = "plannedEndDate")
-	private LocalDate plannedEndDate;
+	private LocalDateTime plannedEndDate;
 
 	@Column(name = "taskOwner", nullable = false)
 	private String taskOwner;
