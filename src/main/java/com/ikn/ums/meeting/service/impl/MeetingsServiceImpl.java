@@ -324,11 +324,11 @@ public class MeetingsServiceImpl implements MeetingService {
 			if(!createdMeeting.getCreatedByEmailId().equalsIgnoreCase(createdMeeting.getOrganizerEmailId())) {
 				//if create person of the meeting and organizer is not same send email to organizer of meeting that
 				//some other person has created a meeting in their account on behalf
-				String subject = "Meeting "+createdMeeting.getMeetingId()+" created by "+createdMeeting.getCreatedBy();
+				String subject = "Meeting "+createdMeeting.getMeetingId()+" created by "+createdMeeting.getCreatedBy()+" on behalf of you";
 				String emailBody = "MeetingID - "+createdMeeting.getMeetingId()+" \r\n"+
 				"MeetingTitle - "+createdMeeting.getSubject()+". \r\n \r\n"+
 				"Please be informed that a meeting has been created on your behalf by "+createdMeeting.getCreatedBy()+" ("+createdMeeting.getCreatedByEmailId()+"). \r\n \r\n"+
-				"Kindly visit the provided link for further details. \r\n"+
+				"Please click the below link for further details. \r\n"+
 				"http://132.145.196.4:4200/#/meetings"+" \r\n \r\n";
 				emailService.sendMail(createdMeeting.getOrganizerEmailId(), subject, emailBody, false);
 			}

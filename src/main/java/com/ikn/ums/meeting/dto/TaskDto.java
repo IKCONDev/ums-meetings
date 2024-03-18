@@ -3,6 +3,11 @@ package com.ikn.ums.meeting.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -20,9 +25,9 @@ public class TaskDto implements Serializable {
 	private String taskDescription;
 
 	private String taskPriority;
-
+	
 	private LocalDateTime startDate;
-
+	
 	private LocalDateTime dueDate;
 
 	private LocalDateTime plannedStartDate;
@@ -52,4 +57,8 @@ public class TaskDto implements Serializable {
 	private String createdByEmailId;
 
 	private String modifiedByEmailId;
+	
+	private String plannedDuration;
+	
+	private String actualDuration;
 }
