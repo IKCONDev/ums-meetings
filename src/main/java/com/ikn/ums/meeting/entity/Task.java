@@ -87,4 +87,10 @@ public class Task {
 
 	@Column(name = "modifiedByEmailId")
 	private String modifiedByEmailId;
+	
+	@Column(name ="plannedDuration")
+	private String plannedDuration;
+	
+	@Column(name="actualDuration")
+	private String actualDuration;
 }
