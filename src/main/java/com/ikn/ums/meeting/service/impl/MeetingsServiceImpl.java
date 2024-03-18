@@ -295,12 +295,12 @@ public class MeetingsServiceImpl implements MeetingService {
 			attendeeList.add(attendee);
 		}
 		// add organizer also as an attendee
-		Attendee organizerAsAnAttendee = new Attendee();
-		organizerAsAnAttendee.setEmail(meetingModel.getOrganizerEmailId().toLowerCase());
-		organizerAsAnAttendee.setEmailId(meetingModel.getOrganizerEmailId().toLowerCase());
-		organizerAsAnAttendee.setType("Required");
-		organizerAsAnAttendee.setStatus("Accepted");
-		attendeeList.add(organizerAsAnAttendee);
+//		Attendee organizerAsAnAttendee = new Attendee();
+//		organizerAsAnAttendee.setEmail(meetingModel.getOrganizerEmailId().toLowerCase());
+//		organizerAsAnAttendee.setEmailId(meetingModel.getOrganizerEmailId().toLowerCase());
+//		organizerAsAnAttendee.setType("Required");
+//		organizerAsAnAttendee.setStatus("Accepted");
+//		attendeeList.add(organizerAsAnAttendee);
 		// set remaining props
 		modelMapper.map(meetingModel, meeting);
 		meeting.setEventId("UMS MANUAL MEETING " + new Random(9999999).nextInt());
