@@ -1,6 +1,7 @@
 package com.ikn.ums.meeting.service.impl;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.model.MinutesOfMeeting;
 import com.ikn.ums.meeting.repository.ActionItemRepository;
 import com.ikn.ums.meeting.service.TaskService;
+import com.ikn.ums.meeting.utils.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +37,9 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 
 	@Autowired
 	private ModelMapper mapper;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@Override
 	@Transactional
@@ -52,6 +57,20 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		ActionItem savedActionItem = actionItemRepository.save(entity);
 		ActionItemDto savedDto = new ActionItemDto();
 		mapper.map(savedActionItem, savedDto);
+		//send email, if createdBy and action item owner is diffrent
+		if(savedActionItem != null) {
+			if(!savedActionItem.getCreatedByEmailId().equalsIgnoreCase(savedActionItem.getEmailId())) {
+				//if create person of the action item and organizer is not same, send email to organizer of action item that
+				//some other person has created a action item in their account on behalf
+				String subject = "ActionItem "+savedActionItem.getActionItemId()+" created by "+savedActionItem.getCreatedBy();
+				String emailBody = "ActionItemID - "+savedActionItem.getActionItemId()+" \r\n"+
+				"ActionItemTitle - "+savedActionItem.getActionItemTitle()+". \r\n \r\n"+
+				"Please be informed that a action item has been created on your behalf by "+savedActionItem.getCreatedBy()+" ("+savedActionItem.getCreatedByEmailId()+"). \r\n \r\n"+
+				"Kindly visit the provided link for further details. \r\n"+
+				"http://132.145.196.4:4200/#/actions"+" \r\n \r\n";
+				emailService.sendMail(savedActionItem.getEmailId(), subject, emailBody, false);
+			}
+		}
 		log.info("saveActionItem() executed successfully...");
 		return savedDto;
 	}
@@ -77,9 +96,26 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 		dbActionItem.setActionItemOwner(actionItem.getActionItemOwner());
 		dbActionItem.setStartDate(actionItem.getStartDate());
 		dbActionItem.setEndDate(actionItem.getEndDate());
+		dbActionItem.setModifiedBy(actionItem.getModifiedBy());
+		dbActionItem.setModifiedByEmailId(actionItem.getModifiedByEmailId());
+		dbActionItem.setModifiedDateTime(LocalDateTime.now());
 		ActionItem updateAction = actionItemRepository.save(dbActionItem);
 		ActionItemDto updatedActionDto = new ActionItemDto();
 		mapper.map(updateAction, updatedActionDto);
+		//send email, if createdBy and action item owner is diffrent
+				if(updateAction != null) {
+					if(!updateAction.getModifiedByEmailId().equalsIgnoreCase(updateAction.getEmailId())) {
+						//if create person of the action item and organizer is not same, send email to organizer of action item that
+						//some other person has created a action item in their account on behalf
+						String subject = "ActionItem "+updateAction.getActionItemId()+" updated by "+updateAction.getModifiedBy();
+						String emailBody = "ActionItemID - "+updateAction.getActionItemId()+" \r\n"+
+						"ActionItemTitle - "+updateAction.getActionItemTitle()+". \r\n \r\n"+
+						"Please be informed that a action item has been updated on your behalf by "+updateAction.getModifiedBy()+" ("+updateAction.getModifiedByEmailId()+"). \r\n \r\n"+
+						"Kindly visit the provided link for further details. \r\n"+
+						"http://132.145.196.4:4200/#/actions"+" \r\n \r\n";
+						emailService.sendMail(updateAction.getEmailId(), subject, emailBody, false);
+					}
+				}
 		log.info("updateActionItem() executed successfully...");
 		return updatedActionDto;
 	}
