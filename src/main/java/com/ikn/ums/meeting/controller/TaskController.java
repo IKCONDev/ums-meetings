@@ -393,8 +393,8 @@ public class TaskController {
 	public ResponseEntity<List<Object>> getWeekTasks(@RequestParam("startdate") String startDate,
 			@RequestParam("endDate") String endDate, String emailId) {
 		log.info("getWeekTasks() is entered");
-		LocalDate startdate = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
-		LocalDate enddate = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
+		LocalDateTime startdate = LocalDateTime.parse(startDate, DateTimeFormatter.ISO_DATE_TIME);
+		LocalDateTime enddate = LocalDateTime.parse(endDate, DateTimeFormatter.ISO_DATE_TIME);
 		log.info("getWeekTasks() is under execution...");
 		List<Long> assignedTask = taskService.getTaskCountsByDayOfWeek(startdate, enddate, emailId);
 		List<Long> yetToStartTask = taskService.getYetToStartTaskCountsByDayOfWeek(startdate, enddate, emailId);
@@ -413,8 +413,8 @@ public class TaskController {
 	public ResponseEntity<List<Object>> getTaskCountForYear(@RequestParam("startdate") String startDate,
 			@RequestParam("endDate") String endDate, @RequestParam String emailId) {
 		log.info("getTaskCountForYear() is entered");
-		LocalDate startdate = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
-		LocalDate enddate = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
+		LocalDateTime startdate = LocalDateTime.parse(startDate, DateTimeFormatter.ISO_DATE_TIME);
+		LocalDateTime enddate = LocalDateTime.parse(endDate, DateTimeFormatter.ISO_DATE_TIME); 
 		log.info("getTaskCountForYear() is under execution...");
 		List<Long> assignedTaskForYear = taskService.findTaskCountsByMonth(startdate, enddate, emailId);
 		List<Long> YetToSartTaskForYear = taskService.findYetToStartTaskCountsByMonth(startdate, enddate, emailId);
