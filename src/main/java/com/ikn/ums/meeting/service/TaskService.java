@@ -35,11 +35,11 @@ public interface TaskService {
 
 	Long getUserAssignedTasksCountOfUser(String emailId);
 
-	List<Long> getTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId);
+	List<Long> getTaskCountsByDayOfWeek(LocalDateTime startDate, LocalDateTime endDate, String emailId);
 
-	List<Long> getCompletedTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId);
+	List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startdate, LocalDateTime enddate, String emailId);
 
-	List<Long> findInProgressTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId);
+	List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startdate, LocalDateTime enddate, String emailId);
 
 	List<Task> getFilteredTasks(String taskTitle, String taskPriority, String taskOwner, String startDate,
 			String dueDate, String emailId);
@@ -47,11 +47,11 @@ public interface TaskService {
 	List<Task> getFilteredAssignedTasks(String taskTitle, String taskPriority, String startDate, String dueDate,
 			String emailId);
 
-	List<Long> findTaskCountsByMonth(LocalDate startDate, LocalDate endDate, String email);
+	List<Long> findTaskCountsByMonth(LocalDateTime startdate, LocalDateTime enddate, String email);
 
-	List<Long> findInprogressTaskCountsByMonth(LocalDate startDate, LocalDate endDate, String email);
+	List<Long> findInprogressTaskCountsByMonth(LocalDateTime startdate, LocalDateTime enddate, String email);
 
-	List<Long> findCompletedTaskCountsByMonth(LocalDate startDate, LocalDate endDate, String email);
+	List<Long> findCompletedTaskCountsByMonth(LocalDateTime startdate, LocalDateTime enddate, String email);
 
 	// reporting methods
 	List<Task> getTasksByDepartment(Long departmentId);
@@ -64,9 +64,9 @@ public interface TaskService {
 
 	List<Long> getTasksBetweenStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate);
 
-	List<Long> getYetToStartTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId);
+	List<Long> getYetToStartTaskCountsByDayOfWeek(LocalDateTime startdate, LocalDateTime enddate, String emailId);
 
-	List<Long> findYetToStartTaskCountsByMonth(LocalDate startDate, LocalDate endDate, String emailId);
+	List<Long> findYetToStartTaskCountsByMonth(LocalDateTime startdate, LocalDateTime enddate, String emailId);
 
 	List<Object[]> getAllTasksByDepartment();
 

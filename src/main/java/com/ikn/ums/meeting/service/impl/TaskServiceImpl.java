@@ -630,7 +630,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Long> getTaskCountsByDayOfWeek(LocalDate startTime, LocalDate endTime, String email) {
+	public List<Long> getTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime, String email) {
 		log.info("getTaskCountsByDayOfWeek() is entered");
 		log.info("getTaskCountsByDayOfWeek() is under execution...");
 		List<Object[]> taskCountsByDay = taskRepository.findTaskCountsByDayOfWeek(startTime, endTime, email);
@@ -653,7 +653,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Long> getCompletedTaskCountsByDayOfWeek(LocalDate startTime, LocalDate endTime, String email) {
+	public List<Long> getCompletedTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime, String email) {
 		log.info("getCompletedTaskCountsByDayOfWeek() is entered");
 		log.info("getCompletedTaskCountsByDayOfWeek() is under execution...");
 		List<Object[]> taskCountsByDay = taskRepository.findCompletedTaskCountsByDayOfWeek(startTime, endTime, email);
@@ -677,7 +677,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Long> findInProgressTaskCountsByDayOfWeek(LocalDate startTime, LocalDate endTime, String email) {
+	public List<Long> findInProgressTaskCountsByDayOfWeek(LocalDateTime startTime, LocalDateTime endTime, String email) {
 		log.info("findInProgressTaskCountsByDayOfWeek() is entered");
 		log.info("findInProgressTaskCountsByDayOfWeek() is under execution...");
 		List<Object[]> taskCountsByDay = taskRepository.findInProgressTaskCountsByDayOfWeek(startTime, endTime, email);
@@ -730,7 +730,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Long> findTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email) {
+	public List<Long> findTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email) {
 		log.info("findTaskCountsByMonth() is entered");
 		log.info("findTaskCountsByMonth() is under execution...");
 		List<Object[]> taskCountsByMonth = taskRepository.findTaskCountsByMonth(startTime, endTime, email);
@@ -750,7 +750,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Long> findInprogressTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email) {
+	public List<Long> findInprogressTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email) {
 		log.info("findInprogressTaskCountsByMonth() entered");
 		log.info("findInprogressTaskCountsByMonth() is under execution...");
 		List<Object[]> inprogressTaskCountsByMonth = taskRepository.findInProgressTaskCountsByMonth(startTime, endTime,
@@ -771,7 +771,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Long> findCompletedTaskCountsByMonth(LocalDate startTime, LocalDate endTime, String email) {
+	public List<Long> findCompletedTaskCountsByMonth(LocalDateTime startTime, LocalDateTime endTime, String email) {
 		log.info("findCompletedTaskCountsByMonth() entered");
 		log.info("findCompletedTaskCountsByMonth() is under execution...");
 		List<Object[]> completedTaskCountsByMonth = taskRepository.findCompletedTaskCountsByMonth(startTime, endTime,
@@ -888,7 +888,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Long> getYetToStartTaskCountsByDayOfWeek(LocalDate startDate, LocalDate endDate, String emailId) {
+	public List<Long> getYetToStartTaskCountsByDayOfWeek(LocalDateTime startDate, LocalDateTime endDate, String emailId) {
 		log.info("getYetToStartTaskCountsByDayOfWeek() is entered");
 		log.info("getYetToStartTaskCountsByDayOfWeek() is under execution...");
 
@@ -914,7 +914,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Long> findYetToStartTaskCountsByMonth(LocalDate startDate, LocalDate endDate, String emailId) {
+	public List<Long> findYetToStartTaskCountsByMonth(LocalDateTime startDate, LocalDateTime endDate, String emailId) {
 		log.info("findYetToStartTaskCountsByMonth() is entered");
 		log.info("findYetToStartTaskCountsByMonth() is under execution...");
 		List<Object[]> YetToStartTaskCountsByMonth = taskRepository.findYetToStartTaskCountsByMonth(startDate, endDate,
