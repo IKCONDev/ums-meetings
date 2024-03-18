@@ -1,5 +1,6 @@
 package com.ikn.ums.meeting.service.impl;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -87,6 +88,8 @@ public class TaskServiceImpl implements TaskService {
 		Task saveTask = new Task();
 		TaskDto taskDto = new TaskDto();
 		mapper.map(task, saveTask);
+		String result = getDuartionOfTask(saveTask.getPlannedStartDate(), saveTask.getPlannedEndDate());
+		saveTask.setPlannedDuration(result);
 		Task createdTask = taskRepository.save(saveTask);
 		
 		//send email to task owner that a task has been created on behalf of them
@@ -160,8 +163,11 @@ public class TaskServiceImpl implements TaskService {
 		updatetask.setModifiedBy(task.getModifiedBy());
 		updatetask.setModifiedByEmailId(task.getModifiedByEmailId());
 		updatetask.setModifiedDateTime(LocalDateTime.now());
+		if(task.getStatus().equals("Completed")) {
+			String duration = getDuartionOfTask(task.getStartDate(), task.getDueDate());
+			updatetask.setActualDuration(duration);
+		}
 		Task modifiedtask = taskRepository.save(updatetask);
-		
 		//send email to task creator that a task has been modified on behalf of them
 		if(modifiedtask != null) {
 			if(!modifiedtask.getModifiedByEmailId().equalsIgnoreCase(modifiedtask.getEmailId())) {
@@ -969,4 +975,17 @@ public class TaskServiceImpl implements TaskService {
 		return taskCountList;
 	}
 
+	public String getDuartionOfTask(LocalDateTime startDateTime, LocalDateTime enddateTime) {
+		log.info("getDuartionOfTask() is entered");
+		log.info("getDuartionOfTask() is under execution...");
+		Duration duration = Duration.between(startDateTime, enddateTime);
+		long days = duration.toDays();
+        long hours = duration.toHours() % 24;
+        long minutes = duration.toMinutes() % 60;
+       // long seconds = duration.getSeconds() % 60;
+		String resultvalue = days +"D -"+hours+"H:"+minutes+"M:";
+		log.info("getDuartionOfTask() executed successfully");
+		return resultvalue;
+		
+	}
 }
