@@ -62,11 +62,12 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 			if(!savedActionItem.getCreatedByEmailId().equalsIgnoreCase(savedActionItem.getEmailId())) {
 				//if create person of the action item and organizer is not same, send email to organizer of action item that
 				//some other person has created a action item in their account on behalf
-				String subject = "ActionItem "+savedActionItem.getActionItemId()+" created by "+savedActionItem.getCreatedBy();
-				String emailBody = "ActionItemID - "+savedActionItem.getActionItemId()+" \r\n"+
-				"ActionItemTitle - "+savedActionItem.getActionItemTitle()+". \r\n \r\n"+
-				"Please be informed that a action item has been created on your behalf by "+savedActionItem.getCreatedBy()+" ("+savedActionItem.getCreatedByEmailId()+"). \r\n \r\n"+
-				"Kindly visit the provided link for further details. \r\n"+
+				String subject = "Action Item "+savedActionItem.getActionItemId()+" created by "+savedActionItem.getCreatedBy()+" on behalf of you";
+				String emailBody = "Meeting ID - "+savedActionItem.getMeetingId()+" \r\n"+
+				"Action Item ID - "+savedActionItem.getActionItemId()+" \r\n"+
+				"Action Item Title - "+savedActionItem.getActionItemTitle()+". \r\n \r\n"+
+				"Please be informed that an action item has been created on your behalf by "+savedActionItem.getCreatedBy()+" ("+savedActionItem.getCreatedByEmailId()+"). \r\n \r\n"+
+				"Please click the below link for further details. \r\n"+
 				"http://132.145.196.4:4200/#/actions"+" \r\n \r\n";
 				emailService.sendMail(savedActionItem.getEmailId(), subject, emailBody, false);
 			}
@@ -110,7 +111,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 						String subject = "ActionItem "+updateAction.getActionItemId()+" updated by "+updateAction.getModifiedBy();
 						String emailBody = "ActionItemID - "+updateAction.getActionItemId()+" \r\n"+
 						"ActionItemTitle - "+updateAction.getActionItemTitle()+". \r\n \r\n"+
-						"Please be informed that a action item has been updated on your behalf by "+updateAction.getModifiedBy()+" ("+updateAction.getModifiedByEmailId()+"). \r\n \r\n"+
+						"Please be informed that an action item has been updated on your behalf by "+updateAction.getModifiedBy()+" ("+updateAction.getModifiedByEmailId()+"). \r\n \r\n"+
 						"Kindly visit the provided link for further details. \r\n"+
 						"http://132.145.196.4:4200/#/actions"+" \r\n \r\n";
 						emailService.sendMail(updateAction.getEmailId(), subject, emailBody, false);

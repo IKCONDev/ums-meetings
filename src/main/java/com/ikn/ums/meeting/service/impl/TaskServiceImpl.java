@@ -92,11 +92,13 @@ public class TaskServiceImpl implements TaskService {
 		//send email to task owner that a task has been created on behalf of them
 				if(createdTask != null) {
 					if(!createdTask.getCreatedByEmailId().equalsIgnoreCase(createdTask.getEmailId())) {
-						String subject = "Task "+createdTask.getTaskId()+" updated by "+createdTask.getCreatedBy();
-						String emailBody = "TaskID - "+createdTask.getTaskId()+" \r\n"+
-						"TaskTitle - "+createdTask.getTaskTitle()+". \r\n \r\n"+
+						String subject = "Task "+createdTask.getTaskId()+" created by "+createdTask.getCreatedBy()+" on behalf of you";
+						String emailBody = 
+						"Action Item ID - "+createdTask.getActionItemId()+"\r\n"+
+						"Task ID - "+createdTask.getTaskId()+" \r\n"+
+						"Task Title - "+createdTask.getTaskTitle()+". \r\n \r\n"+
 						"Please be informed that a task has been created on your behalf by "+createdTask.getCreatedBy()+" ("+createdTask.getCreatedByEmailId()+"). \r\n \r\n"+
-						"Kindly visit the provided link for further details. \r\n"+
+						"Please click the below link for further details. \r\n"+
 						"http://132.145.196.4:4200/#/task"+" \r\n \r\n";
 						emailService.sendMail(createdTask.getEmailId(), subject, emailBody, false);
 					}
@@ -165,11 +167,13 @@ public class TaskServiceImpl implements TaskService {
 			if(!modifiedtask.getModifiedByEmailId().equalsIgnoreCase(modifiedtask.getEmailId())) {
 				//if create person of the meeting and organizer is not same send email to organizer of meeting that
 				//some other person has created a meeting in their account on behalf
-				String subject = "Task "+modifiedtask.getTaskId()+" updated by "+modifiedtask.getModifiedBy();
-				String emailBody = "TaskID - "+modifiedtask.getTaskId()+" \r\n"+
-				"TaskTitle - "+modifiedtask.getTaskTitle()+". \r\n \r\n"+
+				String subject = "Task "+modifiedtask.getTaskId()+" updated by "+modifiedtask.getModifiedBy()+" on behalf of you";
+				String emailBody = 
+				"Action Item ID - "+modifiedtask.getActionItemId()+"\r\n"+
+				"Task ID - "+modifiedtask.getTaskId()+" \r\n"+
+				"Task Title - "+modifiedtask.getTaskTitle()+". \r\n \r\n"+
 				"Please be informed that a task has been updated on your behalf by "+modifiedtask.getModifiedBy()+" ("+modifiedtask.getModifiedByEmailId()+"). \r\n \r\n"+
-				"Kindly visit the provided link for further details. \r\n"+
+				"Please click the below link for further details. \r\n"+
 				"http://132.145.196.4:4200/#/task"+" \r\n \r\n";
 				emailService.sendMail(modifiedtask.getEmailId(), subject, emailBody, false);
 			}
@@ -186,7 +190,7 @@ public class TaskServiceImpl implements TaskService {
 				notificationService.createNotification(notification);
 				
 				Notification notification1 = new Notification();
-				notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated.");
+				notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by"+modifiedtask.getModifiedBy()+".");
 				notification1.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 				notification1.setNotificationTo(modifiedtask.getEmailId());
 				notification1.setEmailId(modifiedtask.getEmailId());
@@ -566,7 +570,7 @@ public class TaskServiceImpl implements TaskService {
 
 				emailBuilder.append("<b>Meeting ID</b> - " + actionItem.getMeetingId() + "<br/>"
 						+ "<b>Action Item ID</b> - " + task.getActionItemId() + "<br/>" + "<b>Task ID</b> - "
-						+ task.getTaskId() + "<br/>" + "<b>Task Description</b> - " + task.getTaskDescription()
+						+ task.getTaskId() + "<br/>" + "<b>Task Title</b> - " + task.getTaskTitle()
 						+ "<br/><br/>" + "A task has been assigned to you. Please see the below details" + "<br/><br/>"
 						+ "<table width='100%' border='1' align='center'>" + "<tr>"
 						+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
