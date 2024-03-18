@@ -88,6 +88,20 @@ public class TaskServiceImpl implements TaskService {
 		TaskDto taskDto = new TaskDto();
 		mapper.map(task, saveTask);
 		Task createdTask = taskRepository.save(saveTask);
+		
+		//send email to task owner that a task has been created on behalf of them
+				if(createdTask != null) {
+					if(!createdTask.getCreatedByEmailId().equalsIgnoreCase(createdTask.getEmailId())) {
+						String subject = "Task "+createdTask.getTaskId()+" updated by "+createdTask.getCreatedBy();
+						String emailBody = "TaskID - "+createdTask.getTaskId()+" \r\n"+
+						"TaskTitle - "+createdTask.getTaskTitle()+". \r\n \r\n"+
+						"Please be informed that a task has been created on your behalf by "+createdTask.getCreatedBy()+" ("+createdTask.getCreatedByEmailId()+"). \r\n \r\n"+
+						"Kindly visit the provided link for further details. \r\n"+
+						"http://132.145.196.4:4200/#/task"+" \r\n \r\n";
+						emailService.sendMail(createdTask.getEmailId(), subject, emailBody, false);
+					}
+				}
+		
 		// send email to task Owner
 		sendEmailToTaskOwner(createdTask, true);
 		mapper.map(createdTask, taskDto);
@@ -99,7 +113,7 @@ public class TaskServiceImpl implements TaskService {
 		 * ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_MSG); }
 		 */
 		Notification notification = new Notification();
-		notification.setMessage("The task " + createdTask.getTaskId() + " has been assigned to you.");
+		notification.setMessage("The task " + createdTask.getTaskId() + " has been assigned to you by "+createdTask.getCreatedBy()+".");
 		notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 		notification.setNotificationTo(createdTask.getTaskOwner());
 		notification.setEmailId(createdTask.getEmailId());
@@ -141,14 +155,31 @@ public class TaskServiceImpl implements TaskService {
 		updatetask.setPlannedStartDate(task.getPlannedStartDate());
 		updatetask.setPlannedEndDate(task.getPlannedEndDate());
 		updatetask.setTaskCategory(task.getTaskCategory());
+		updatetask.setModifiedBy(task.getModifiedBy());
+		updatetask.setModifiedByEmailId(task.getModifiedByEmailId());
+		updatetask.setModifiedDateTime(LocalDateTime.now());
 		Task modifiedtask = taskRepository.save(updatetask);
-
+		
+		//send email to task creator that a task has been modified on behalf of them
+		if(modifiedtask != null) {
+			if(!modifiedtask.getModifiedByEmailId().equalsIgnoreCase(modifiedtask.getEmailId())) {
+				//if create person of the meeting and organizer is not same send email to organizer of meeting that
+				//some other person has created a meeting in their account on behalf
+				String subject = "Task "+modifiedtask.getTaskId()+" updated by "+modifiedtask.getModifiedBy();
+				String emailBody = "TaskID - "+modifiedtask.getTaskId()+" \r\n"+
+				"TaskTitle - "+modifiedtask.getTaskTitle()+". \r\n \r\n"+
+				"Please be informed that a task has been updated on your behalf by "+modifiedtask.getModifiedBy()+" ("+modifiedtask.getModifiedByEmailId()+"). \r\n \r\n"+
+				"Kindly visit the provided link for further details. \r\n"+
+				"http://132.145.196.4:4200/#/task"+" \r\n \r\n";
+				emailService.sendMail(modifiedtask.getEmailId(), subject, emailBody, false);
+			}
+		}
 		// send notification to task owner
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				Notification notification = new Notification();
-				notification.setMessage("Task " + modifiedtask.getTaskId() + " has been updated.");
+				notification.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+modifiedtask.getModifiedBy()+".");
 				notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 				notification.setNotificationTo(modifiedtask.getTaskOwner());
 				notification.setEmailId(modifiedtask.getEmailId());
