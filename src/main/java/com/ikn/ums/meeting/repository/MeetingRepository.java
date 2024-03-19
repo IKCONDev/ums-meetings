@@ -19,8 +19,10 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 	@Query("SELECT COUNT(*) FROM Meeting WHERE emailId=:emailId")
 	Integer findUserOrganizedMeetingCount(String emailId);
 
-	@Query("SELECT m  FROM Meeting m JOIN m.attendees a WHERE LOWER(a.email)=:emailId")
-	//@Query(value = "Select distinct m.* from meeting_tab m join attendance_report_tab a ON m.meeting_id = a.meeting_id join attendance_record_tab ar ON a.id = ar.attendance_report_id where ar.attendee_email_address=:emailId", nativeQuery = true)
+	//@Query("SELECT m  FROM Meeting m JOIN m.attendees a WHERE LOWER(a.email)=:emailId")
+	@Query(value = "Select distinct m.* from meeting_tab m join attendance_report_tab a ON m.meeting_id = a.meeting_id join "
+			+ "attendance_record_tab ar ON a.id = ar.attendance_report_id where ar.attendee_email_address=:emailId",
+			nativeQuery = true)
 	List<Meeting> findAllAttendedMeetingsByEmailId(String emailId);
 	
 	@Query(value = "SELECT TO_CHAR(meeting_actual_start_date_time + INTERVAL '5 hours 30 minutes', 'D'), " +
@@ -64,12 +66,13 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 	List<Meeting> findAllFilteredMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime,
 			LocalDateTime endDateTime, String emailId);
 
-	@Query("FROM Meeting m JOIN m.attendees a WHERE a.emailId = :emailId AND "
-			+ "((:meetingTitle IS NULL OR lower(m.subject) LIKE lower(concat('%', :meetingTitle, '%'))) "
-			+ "AND (cast(:startDateTime as timestamp) IS NULL OR m.startDateTime >= cast(:startDateTime as timestamp)) "
-			+ "AND (cast(:endDateTime as timestamp) IS NULL OR m.startDateTime <= cast(:endDateTime as timestamp)))")
-	// List<Meeting> findAllFilteredAttendedMeetingsByUserId(String meetingTitle,
-	// LocalDateTime startDateTime, LocalDateTime endDateTime, String emailId);
+	@Query(value = "Select distinct m.* from meeting_tab m join attendance_report_tab a "
+			+ "ON m.meeting_id = a.meeting_id join attendance_record_tab ar "
+			+ "ON a.id = ar.attendance_report_id where ar.attendee_email_address=:emailId AND "
+			+ "((:meetingTitle IS NULL OR lower(m.meeting_subject) LIKE lower(concat('%', :meetingTitle, '%'))) "
+			+ "AND (cast(:startDateTime as timestamp) IS NULL OR m.meeting_actual_start_date_time >= cast(:startDateTime as timestamp)) "
+			+ "AND (cast(:endDateTime as timestamp) IS NULL OR m.meeting_actual_start_date_time <= cast(:endDateTime as timestamp)))"
+			,nativeQuery = true)
 	List<Meeting> findAllFilteredAttendedMeetingsByUserId(String meetingTitle, LocalDateTime startDateTime,
 			LocalDateTime endDateTime, String emailId);
 
