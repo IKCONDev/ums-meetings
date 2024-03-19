@@ -99,7 +99,7 @@ public class MeetingsServiceImpl implements MeetingService {
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		log.info("getUserAttendedMeetingsByUserId() calling batch process microservice to get user attended meetings");
-		List<Meeting> attendedMeetingList = meetingRepository.findAllAttendedMeetingsByUserId(emailId);
+		List<Meeting> attendedMeetingList = meetingRepository.findAllAttendedMeetingsByEmailId(emailId);
 		List<MeetingDto> meetingDTOList = new ArrayList<>();
 		attendedMeetingList.forEach(entity -> {
 			MeetingDto dto = new MeetingDto();
@@ -296,8 +296,8 @@ public class MeetingsServiceImpl implements MeetingService {
 		}
 		// add organizer also as an attendee
 //		Attendee organizerAsAnAttendee = new Attendee();
-//		organizerAsAnAttendee.setEmail(meetingModel.getOrganizerEmailId());
-//		organizerAsAnAttendee.setEmailId(meetingModel.getOrganizerEmailId());
+//		organizerAsAnAttendee.setEmail(meetingModel.getOrganizerEmailId().toLowerCase());
+//		organizerAsAnAttendee.setEmailId(meetingModel.getOrganizerEmailId().toLowerCase());
 //		organizerAsAnAttendee.setType("Required");
 //		organizerAsAnAttendee.setStatus("Accepted");
 //		attendeeList.add(organizerAsAnAttendee);
