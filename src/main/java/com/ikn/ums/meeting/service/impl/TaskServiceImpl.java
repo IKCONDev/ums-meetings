@@ -9,6 +9,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -35,7 +36,6 @@ import com.ikn.ums.meeting.exception.EmptyInputException;
 import com.ikn.ums.meeting.exception.EmptyListException;
 import com.ikn.ums.meeting.exception.ErrorCodeMessages;
 import com.ikn.ums.meeting.model.ActionItemModel;
-import com.ikn.ums.meeting.repository.MeetingRepository;
 import com.ikn.ums.meeting.repository.TaskRepository;
 import com.ikn.ums.meeting.service.ActionItemService;
 import com.ikn.ums.meeting.service.MeetingService;
@@ -476,6 +476,9 @@ public class TaskServiceImpl implements TaskService {
 		actionItemBuilder
 				.append("<tr><th>Action Item</th><th>Action Item Owner Name</th><th>Action Item Email Id</th></tr>");
 		List<ActionItemModel> actionModelList = new ArrayList<>();
+		System.out.println("action item list"+ actionItemList);
+		//Action Item list
+	
 		actionItemList.forEach(action -> {
 			ActionItemModel actionModel = new ActionItemModel();
 			actionModel.setActionTitle(action.getActionItemTitle());
@@ -484,9 +487,9 @@ public class TaskServiceImpl implements TaskService {
 				actionItemOwnerList.add(owner);
 
 			});
-			actionModel.setActionOwner(actionItemOwnerList);
+			//actionModel.setActionOwner(actionItemOwnerList);
 			String listString = "";
-
+            System.out.println("the owner list is:"+ actionModel.getActionOwner());
 			int size = actionItemOwnerList.size();
 			for (int i = 0; i < size; i++) {
 				listString += actionItemOwnerList.get(i);
@@ -505,15 +508,19 @@ public class TaskServiceImpl implements TaskService {
 					});
 
 			List<EmployeeVO> actionOwnerNameList = res.getBody();
+			
 			// Iterating the actionOwnerNameList
-			StringBuilder actionOwnerName = new StringBuilder();
-
+			
+            StringBuilder actionOwnerEmail = new StringBuilder();
+            List<String> actionItemOwnerEmailList = new LinkedList<>();
+    		StringBuilder actionOwnerName = new StringBuilder();
 			int sizes = actionOwnerNameList.size();
 			int count = 0;
-
 			for (EmployeeVO employee : actionOwnerNameList) {
 				actionOwnerName.append(employee.getFirstName()).append(" ").append(employee.getLastName());
-
+				actionOwnerEmail.append(employee.getEmail());
+				actionItemOwnerEmailList.add(employee.getEmail());
+                 
 				// Check if it's not the last element
 				if (count < sizes - 1) {
 					actionOwnerName.append(",");
@@ -522,19 +529,22 @@ public class TaskServiceImpl implements TaskService {
 				count++;
 			}
 			actionModel.setOwner(actionOwnerName.toString());
+			actionModel.setActionOwner(actionItemOwnerEmailList);
 			actionModelList.add(actionModel);
+			
 			// System.out.println(actionModelList);
 
 		});
-
+		
 		for (int i = 0; i < actionModelList.size(); i++) {
 			actionItemBuilder.append("<tr><td>").append(actionModelList.get(i).getActionTitle()).append("</td>");
 			actionItemBuilder.append("<td>").append(actionModelList.get(i).getOwner()).append("</td>");
 			actionItemBuilder.append("<td>");
-			actionItemList.get(i).getActionItemOwner().forEach(owner -> {
-				actionItemBuilder.append(owner + " ");
-			});
-			actionItemBuilder.append("</td></tr>");
+			actionModelList.get(i).getActionOwner().forEach(owner -> {
+				actionItemBuilder.append(owner + "  ");
+		});
+			
+		 actionItemBuilder.append("</td></tr>");
 		}
 		actionItemBuilder.append("<br/>");
 		actionItemBuilder.append("</table>");
