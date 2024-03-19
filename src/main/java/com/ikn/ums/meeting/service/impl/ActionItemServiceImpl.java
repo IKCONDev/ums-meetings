@@ -68,7 +68,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 				"Action Item Title - "+savedActionItem.getActionItemTitle()+". \r\n \r\n"+
 				"Please be informed that an action item has been created on your behalf by "+savedActionItem.getCreatedBy()+" ("+savedActionItem.getCreatedByEmailId()+"). \r\n \r\n"+
 				"Please click the below link for further details. \r\n"+
-				"http://132.145.196.4:4200/#/actions"+" \r\n \r\n";
+				"http://132.145.186.188:4200/#/actions"+" \r\n \r\n";
 				emailService.sendMail(savedActionItem.getEmailId(), subject, emailBody, false);
 			}
 		}
@@ -113,7 +113,7 @@ public class ActionItemServiceImpl implements com.ikn.ums.meeting.service.Action
 						"ActionItemTitle - "+updateAction.getActionItemTitle()+". \r\n \r\n"+
 						"Please be informed that an action item has been updated on your behalf by "+updateAction.getModifiedBy()+" ("+updateAction.getModifiedByEmailId()+"). \r\n \r\n"+
 						"Kindly visit the provided link for further details. \r\n"+
-						"http://132.145.196.4:4200/#/actions"+" \r\n \r\n";
+						"http://132.145.186.188:4200/#/actions"+" \r\n \r\n";
 						emailService.sendMail(updateAction.getEmailId(), subject, emailBody, false);
 					}
 				}

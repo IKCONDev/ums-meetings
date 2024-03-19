@@ -331,7 +331,7 @@ public class MeetingsServiceImpl implements MeetingService {
 				"MeetingTitle - "+createdMeeting.getSubject()+". \r\n \r\n"+
 				"Please be informed that a meeting has been created on your behalf by "+createdMeeting.getCreatedBy()+" ("+createdMeeting.getCreatedByEmailId()+"). \r\n \r\n"+
 				"Please click the below link for further details. \r\n"+
-				"http://132.145.196.4:4200/#/meetings"+" \r\n \r\n";
+				"http://132.145.186.188:4200/#/meetings"+" \r\n \r\n";
 				emailService.sendMail(createdMeeting.getOrganizerEmailId(), subject, emailBody, false);
 			}
 		}

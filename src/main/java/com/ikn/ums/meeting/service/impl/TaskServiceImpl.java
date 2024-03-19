@@ -102,7 +102,7 @@ public class TaskServiceImpl implements TaskService {
 						"Task Title - "+createdTask.getTaskTitle()+". \r\n \r\n"+
 						"Please be informed that a task has been created on your behalf by "+createdTask.getCreatedBy()+" ("+createdTask.getCreatedByEmailId()+"). \r\n \r\n"+
 						"Please click the below link for further details. \r\n"+
-						"http://132.145.196.4:4200/#/task"+" \r\n \r\n";
+						"http://132.145.186.188:4200/#/task"+" \r\n \r\n";
 						emailService.sendMail(createdTask.getEmailId(), subject, emailBody, false);
 					}
 				}
@@ -185,7 +185,7 @@ public class TaskServiceImpl implements TaskService {
 				"Task Title - "+modifiedtask.getTaskTitle()+". \r\n \r\n"+
 				"Please be informed that a task has been updated on your behalf by "+modifiedtask.getModifiedBy()+" ("+modifiedtask.getModifiedByEmailId()+"). \r\n \r\n"+
 				"Please click the below link for further details. \r\n"+
-				"http://132.145.196.4:4200/#/task"+" \r\n \r\n";
+				"http://132.145.186.188:4200/#/task"+" \r\n \r\n";
 				emailService.sendMail(modifiedtask.getEmailId(), subject, emailBody, false);
 			}
 		}
