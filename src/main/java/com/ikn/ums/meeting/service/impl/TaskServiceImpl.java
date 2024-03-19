@@ -167,6 +167,11 @@ public class TaskServiceImpl implements TaskService {
 			String duration = getDuartionOfTask(task.getStartDate(), task.getDueDate());
 			updatetask.setActualDuration(duration);
 		}
+		if(task.getStatus().equals("Yet to start")) {
+			updatetask.setActualDuration(null);
+			updatetask.setStartDate(null);
+			updatetask.setDueDate(null);
+		}
 		Task modifiedtask = taskRepository.save(updatetask);
 		//send email to task creator that a task has been modified on behalf of them
 		if(modifiedtask != null) {
@@ -983,7 +988,7 @@ public class TaskServiceImpl implements TaskService {
         long hours = duration.toHours() % 24;
         long minutes = duration.toMinutes() % 60;
        // long seconds = duration.getSeconds() % 60;
-		String resultvalue = days +"D -"+hours+"H:"+minutes+"M:";
+		String resultvalue = days +"D - "+hours+"H:"+minutes+"M";
 		log.info("getDuartionOfTask() executed successfully");
 		return resultvalue;
 		
