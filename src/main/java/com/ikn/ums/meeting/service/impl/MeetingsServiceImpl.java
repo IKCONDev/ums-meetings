@@ -311,7 +311,8 @@ public class MeetingsServiceImpl implements MeetingService {
 		meeting.setCreatedDateTime(LocalDateTime.now().toString());
 		meeting.setManualMeeting(true);
 		meeting.setOriginalStartTimeZone(meetingModel.getOriginalStartTimeZone());
-		meeting.setOriginalEndTimeZone(meetingModel.getOriginalEndTimeZone());;
+		meeting.setOriginalEndTimeZone(meetingModel.getOriginalEndTimeZone());
+		meeting.setType("manual");
 		Instant startTime = Instant.parse(meetingModel.getStartDateTime().toInstant(ZoneOffset.UTC).toString());
         Instant endTime = Instant.parse(meetingModel.getEndDateTime().toInstant(ZoneOffset.UTC).toString());
         Duration duration = Duration.between(startTime, endTime);

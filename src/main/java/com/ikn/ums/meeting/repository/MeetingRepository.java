@@ -20,7 +20,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 	Integer findUserOrganizedMeetingCount(String emailId);
 
 	@Query("SELECT m  FROM Meeting m JOIN m.attendees a WHERE LOWER(a.email)=:emailId")
-	//@Query(name = "Select * from meeting_tab m join attendance_report_tab a ON m.meeting_id = a.meeting_id join attendance_record_tab ar ON a.id = ar.attendance_report_id where ar.attendee_email_address=:emailId", nativeQuery = true)
+	//@Query(value = "Select distinct m.* from meeting_tab m join attendance_report_tab a ON m.meeting_id = a.meeting_id join attendance_record_tab ar ON a.id = ar.attendance_report_id where ar.attendee_email_address=:emailId", nativeQuery = true)
 	List<Meeting> findAllAttendedMeetingsByEmailId(String emailId);
 	
 	@Query(value = "SELECT TO_CHAR(meeting_actual_start_date_time + INTERVAL '5 hours 30 minutes', 'D'), " +
