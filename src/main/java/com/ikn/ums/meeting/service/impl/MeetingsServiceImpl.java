@@ -59,6 +59,8 @@ public class MeetingsServiceImpl implements MeetingService {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	long secondsDifference = 0;
 
 	@Transactional
 	@Override
@@ -170,7 +172,6 @@ public class MeetingsServiceImpl implements MeetingService {
 						Instant startTime = Instant.parse(attendanceReport.getMeetingStartDateTime());
 				        Instant endTime = Instant.parse(attendanceReport.getMeetingEndDateTime());
 				        Duration duration = Duration.between(startTime, endTime);
-				        long secondsDifference = 0;
 				        secondsDifference = secondsDifference+duration.getSeconds();
 				        String meetingDuration = getMeetingDuration(secondsDifference);
 						userMeeting.setActualMeetingDuration(meetingDuration);
@@ -535,7 +536,6 @@ public class MeetingsServiceImpl implements MeetingService {
 		return count;
 	}
 
-	long secondsDifference = 0;
 	Meeting dbTeamsMeeting = null;
 	@Override
 	public Meeting updateMeetingDetailsFromBatchProcess(Meeting updatedMeetingFromBatchProcess) {
