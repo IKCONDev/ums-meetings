@@ -226,7 +226,7 @@ public class MeetingsServiceImpl implements MeetingService {
 					ErrorCodeMessages.ERR_MEETINGS_USERID_EMPTY_EXCEPTION_MSG);
 		}
 		log.info("getUserAttendedMeetingCountByUserId() is under execution...");
-		var dbAttendedMeetingsCount = meetingRepository.findUserAttendedMeetingCount(emailId);
+		var dbAttendedMeetingsCount = meetingRepository.findAllAttendedMeetingsByEmailId(emailId).size();
 		log.info("getUserAttendedMeetingCountByUserId() executed succesfully");
 		return dbAttendedMeetingsCount;
 	}
@@ -586,17 +586,24 @@ public class MeetingsServiceImpl implements MeetingService {
 	}
 	
 	public Meeting updateMeetingDetails(MeetingDto meetingDto){
+		log.info("updateMeetingDetails entered with args: meeting object");
+		log.info("updateMeetingDetails is under execution...");
 	    Optional<Meeting>meeting = meetingRepository.findById(meetingDto.getMeetingId()) ;  
-	    
 	    Meeting meetingObject = null;
 	    if(meeting.isPresent()) {
 	    	meetingObject = meeting.get();
 	    }
 		meetingObject.setMomEmailCount(meetingDto.getMomEmailCount());
 		meetingRepository.save(meetingObject);
+		log.info("updateMeetingDetails executed successfully.");
 		return meetingObject;
     }
 
+	/**
+	 * helper method : log not required
+	 * @param totalSeconds
+	 * @return
+	 */
 	private String getMeetingDuration(Long totalSeconds){
 	    if (totalSeconds < 120) {
 	        return totalSeconds + " sec";

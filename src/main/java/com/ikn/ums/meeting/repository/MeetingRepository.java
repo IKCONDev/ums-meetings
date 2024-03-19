@@ -13,7 +13,13 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 	@Query("FROM Meeting WHERE emailId=:emailId")
 	List<Meeting> findAllMeetingsByUserId(String emailId);
 
-	@Query("SELECT COUNT(*) FROM Attendee WHERE emailId=:emailId")
+	//@Query(value = "Select distinct m.* from meeting_tab m join attendance_report_tab a ON m.meeting_id = a.meeting_id join "
+	//		+ "attendance_record_tab ar ON a.id = ar.attendance_report_id where ar.attendee_email_address=:emailId",
+	//	nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM meeting_tab m JOIN attendance_report_tab a ON m.meeting_id = a.meeting_id JOIN "
+	        + "attendance_record_tab ar ON a.id = ar.attendance_report_id WHERE ar.attendee_email_address=:emailId",
+	        nativeQuery = true)
+
 	Integer findUserAttendedMeetingCount(String emailId);
 
 	@Query("SELECT COUNT(*) FROM Meeting WHERE emailId=:emailId")
