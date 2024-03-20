@@ -201,7 +201,7 @@ public class TaskServiceImpl implements TaskService {
 				notificationService.createNotification(notification);
 				
 				Notification notification1 = new Notification();
-				notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by"+modifiedtask.getModifiedBy()+".");
+				notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+modifiedtask.getModifiedBy()+".");
 				notification1.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 				notification1.setNotificationTo(modifiedtask.getEmailId());
 				notification1.setEmailId(modifiedtask.getEmailId());
