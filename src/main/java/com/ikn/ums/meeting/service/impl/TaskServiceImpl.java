@@ -118,7 +118,7 @@ public class TaskServiceImpl implements TaskService {
 		 * ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_MSG); }
 		 */
 		Notification notification = new Notification();
-		notification.setMessage("The task " + createdTask.getTaskId() + " has been assigned to you by "+createdTask.getCreatedBy()+".");
+		notification.setMessage("The task " + createdTask.getTaskId() + " has been assigned to you by "+createdTask.getEmailId()+".");
 		notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 		notification.setNotificationTo(createdTask.getTaskOwner());
 		notification.setEmailId(createdTask.getEmailId());
@@ -194,14 +194,14 @@ public class TaskServiceImpl implements TaskService {
 			@Override
 			public void run() {
 				Notification notification = new Notification();
-				notification.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+modifiedtask.getModifiedBy()+".");
+				notification.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+modifiedtask.getEmailId()+".");
 				notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 				notification.setNotificationTo(modifiedtask.getTaskOwner());
 				notification.setEmailId(modifiedtask.getEmailId());
 				notificationService.createNotification(notification);
 				
 				Notification notification1 = new Notification();
-				notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+modifiedtask.getModifiedBy()+".");
+				notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+modifiedtask.getEmailId()+".");
 				notification1.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 				notification1.setNotificationTo(modifiedtask.getEmailId());
 				notification1.setEmailId(modifiedtask.getEmailId());
