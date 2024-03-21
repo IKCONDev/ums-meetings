@@ -453,7 +453,7 @@ public class TaskServiceImpl implements TaskService {
 		ZonedDateTime istZonedDateTime = utcZonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata"));
 		// Get the equivalent OffsetDateTime in IST
 		OffsetDateTime meetingLocalStartDateTime = istZonedDateTime.toOffsetDateTime();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd ; HH:MM");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy ; HH:MM");
 		String formattedDateTimeInIST = meetingLocalStartDateTime.format(formatter);
 		// String newformattedDateTimeInIST = formattedDateTimeInIST.replace("am",
 		// "AM").replace("pm", "PM");
@@ -480,7 +480,7 @@ public class TaskServiceImpl implements TaskService {
 		actionItemBuilder.append("<b>" + "Attendees - " + "</b>" + dislayAttendeeName + "<br/>");
 		actionItemBuilder.append("<h4>").append("Discussion Points -").append("</h4>");
 		if (discussionPoints == null) {
-			actionItemBuilder.append("There are no Discussion points" + "<br/><br/>");
+			actionItemBuilder.append("There are no discussion points" + "<br/><br/>");
 		} else {
 			// Split the paragraph into sentences based on full stops
 			String[] sentences = discussionPoints.split("\\.");
@@ -496,7 +496,7 @@ public class TaskServiceImpl implements TaskService {
 		}
 		actionItemBuilder.append("<table border='1'>");
 		actionItemBuilder
-				.append("<tr><th>Action Item</th><th>Action Item Owner Name's</th><th>Action Item Owner Email ID's</th></tr>");
+				.append("<tr><th>Action Item</th><th>Action Item Owner Name</th><th>Action Item Owner Email ID</th></tr>");
 		List<ActionItemModel> actionModelList = new ArrayList<>();
 		System.out.println("action item list"+ actionItemList);
 		//Action Item list
