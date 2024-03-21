@@ -186,6 +186,7 @@ public class MeetingsServiceImpl implements MeetingService {
 					});
 				}
 			});
+			secondsDifference = 0;
 			// save each users meeting batch processing records
 			List<Meeting> batchProcessedMeetingList = meetingRepository.saveAll(userMeetingList);
 			log.info("Batch process Meetings " + batchProcessedMeetingList);
@@ -580,6 +581,7 @@ public class MeetingsServiceImpl implements MeetingService {
 	        String meetingDuration = getMeetingDuration(secondsDifference);
 			dbTeamsMeeting.setActualMeetingDuration(meetingDuration);
 		});
+		secondsDifference = 0;
 		Meeting updatedTeamsMeeting = meetingRepository.save(dbTeamsMeeting);
 		log.info("updateMeetingDetailsFromBatchProcess() executed successfully");
 		return updatedTeamsMeeting;
