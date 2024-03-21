@@ -175,7 +175,7 @@ public class TaskServiceImpl implements TaskService {
 		Task modifiedtask = taskRepository.save(updatetask);
 		//send email to task creator that a task has been modified on behalf of them
 		if(modifiedtask != null) {
-			if(!modifiedtask.getModifiedByEmailId().equalsIgnoreCase(modifiedtask.getEmailId())) {
+			if(!modifiedtask.getModifiedByEmailId().equalsIgnoreCase(modifiedtask.getTaskOwner())) {
 				//if create person of the meeting and organizer is not same send email to organizer of meeting that
 				//some other person has created a meeting in their account on behalf
 				String subject = "Task "+modifiedtask.getTaskId()+" updated by "+modifiedtask.getModifiedBy()+" on behalf of you";
@@ -186,7 +186,7 @@ public class TaskServiceImpl implements TaskService {
 				"Please be informed that a task has been updated on your behalf by "+modifiedtask.getModifiedBy()+" ("+modifiedtask.getModifiedByEmailId()+"). \r\n \r\n"+
 				"Please click the below link for further details. \r\n"+
 				"http://132.145.186.188:4200/#/task"+" \r\n \r\n";
-				emailService.sendMail(modifiedtask.getEmailId(), subject, emailBody, false);
+				emailService.sendMail(new String[] {modifiedtask.getEmailId(), modifiedtask.getTaskOwner()}, subject, emailBody, false);
 			}
 		}
 		// send notification to task owner
@@ -610,6 +610,15 @@ public class TaskServiceImpl implements TaskService {
 				if (optionalActionItem.isPresent()) {
 					actionItem = optionalActionItem.get();
 				}
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE MMMM dd hh:mm a");
+				LocalDateTime timestamp = task.getPlannedStartDate();
+		        String formattedPlannedStartDateTime = timestamp.format(formatter);
+		        LocalDateTime timestamp1 = task.getPlannedEndDate();
+		        String formattedPlannedEndDateTime = timestamp1.format(formatter);
+		        LocalDateTime timestamp2 = task.getStartDate();
+		        String formattedStartDateTime = timestamp2.format(formatter);
+		        LocalDateTime timestamp3 = task.getStartDate();
+		        String formattedEndDateTime = timestamp3.format(formatter);
 				emailBuilder.append("<b>Meeting ID</b> - " + actionItem.getMeetingId() + "<br/>"
 						+ "<b>Action Item ID</b> - " + task.getActionItemId() + "<br/>" + "<b>Task ID</b> - "
 						+ task.getTaskId() + "<br/>" + "<b>Task Title</b> - " + task.getTaskTitle()
@@ -619,13 +628,13 @@ public class TaskServiceImpl implements TaskService {
 						+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() + "</td>"
 						+ "<td><b>Priority</b> : " + task.getTaskPriority() + "</td>" + "</tr>" + "<tr>");
 				if (task.getStartDate() == null) {
-					emailBuilder.append("<td><b>Planned Start Date</b> : " + task.getPlannedStartDate() + "</td>"
-							+ "<td><b>Planned Due Date</b> : " + task.getPlannedEndDate() + "</td>"
+					emailBuilder.append("<td><b>Planned Start Date</b> : " + formattedPlannedStartDateTime + "</td>"
+							+ "<td><b>Planned Due Date</b> : " + formattedPlannedEndDateTime + "</td>"
 							+ "<td><b>Status</b> : " + task.getStatus() + "</td>" + "</tr>" + "</table><br/>");
 
 				} else {
-					emailBuilder.append("<td><b>Start Date</b> : " + task.getPlannedStartDate() + "</td>"
-							+ "<td><b>Due Date</b> : " + task.getStartDate() + "</td>" + "<td><b>Status</b> : "
+					emailBuilder.append("<td><b>Start Date</b> : " + formattedStartDateTime + "</td>"
+							+ "<td><b>Due Date</b> : " + formattedEndDateTime + "</td>" + "<td><b>Status</b> : "
 							+ task.getStatus() + "</td>" + "</tr>" + "</table><br/>");
 
 				}
