@@ -193,19 +193,41 @@ public class TaskServiceImpl implements TaskService {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				Notification notification = new Notification();
-				notification.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+modifiedtask.getEmailId()+".");
-				notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
-				notification.setNotificationTo(modifiedtask.getTaskOwner());
-				notification.setEmailId(modifiedtask.getEmailId());
-				notificationService.createNotification(notification);
 				
-				Notification notification1 = new Notification();
-				notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+modifiedtask.getEmailId()+".");
-				notification1.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
-				notification1.setNotificationTo(modifiedtask.getEmailId());
-				notification1.setEmailId(modifiedtask.getEmailId());
-				notificationService.createNotification(notification1);
+				//noti to actual owner or assignee of task
+				if(modifiedtask.getModifiedByEmailId().equalsIgnoreCase(modifiedtask.getEmailId())) {
+					//noti to task organizer
+					EmployeeVO  employee = restTemplate.getForObject("http://UMS-EMPLOYEE-SERVICE/employees/"+modifiedtask.getEmailId(), EmployeeVO.class);
+					Notification notification1 = new Notification();
+					notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+employee.getFirstName()+" "+employee.getLastName()+".");
+					notification1.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
+					notification1.setNotificationTo(modifiedtask.getEmailId());
+					notification1.setEmailId(modifiedtask.getEmailId());
+					notificationService.createNotification(notification1);
+					
+					Notification notification = new Notification();
+					notification.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+employee.getFirstName()+" "+employee.getLastName()+".");
+					notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
+					notification.setNotificationTo(modifiedtask.getTaskOwner());
+					notification.setEmailId(modifiedtask.getEmailId());
+					notificationService.createNotification(notification);
+				}else {
+					EmployeeVO  employee = restTemplate.getForObject("http://UMS-EMPLOYEE-SERVICE/employees/"+modifiedtask.getTaskOwner(), EmployeeVO.class);
+					//noti to task organizer
+					Notification notification1 = new Notification();
+					notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+employee.getFirstName()+" "+employee.getLastName()+".");
+					notification1.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
+					notification1.setNotificationTo(modifiedtask.getEmailId());
+					notification1.setEmailId(modifiedtask.getEmailId());
+					notificationService.createNotification(notification1);
+					
+					Notification notification = new Notification();
+					notification.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+employee.getFirstName()+" "+employee.getLastName()+".");
+					notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
+					notification.setNotificationTo(modifiedtask.getTaskOwner());
+					notification.setEmailId(modifiedtask.getEmailId());
+					notificationService.createNotification(notification);
+				}
 			}
 		}).start();
 		
@@ -588,11 +610,10 @@ public class TaskServiceImpl implements TaskService {
 				if (optionalActionItem.isPresent()) {
 					actionItem = optionalActionItem.get();
 				}
-
 				emailBuilder.append("<b>Meeting ID</b> - " + actionItem.getMeetingId() + "<br/>"
 						+ "<b>Action Item ID</b> - " + task.getActionItemId() + "<br/>" + "<b>Task ID</b> - "
 						+ task.getTaskId() + "<br/>" + "<b>Task Title</b> - " + task.getTaskTitle()
-						+ "<br/><br/>" + "A task has been assigned to you. Please see the below details" + "<br/><br/>"
+						+ "<br/><br/>" + "A task has been "+emailBuilder.append(String.valueOf(isNew).equals("true")?"assigned to you":"updated.")+" Please see the below details" + "<br/><br/>"
 						+ "<table width='100%' border='1' align='center'>" + "<tr>"
 						+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
 						+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() + "</td>"
