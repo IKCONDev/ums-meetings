@@ -465,7 +465,7 @@ public class TaskServiceImpl implements TaskService {
 				.append("<b>" + "Duration of Meeting - " + "</b>" + HoursDiff + "H:" + minDiff + "M" + "<br/>");
 		StringBuilder attendeesName = new StringBuilder();
 		employeeVOList.forEach(employee -> {
-			attendeesName.append(employee.getFirstName() + " " + employee.getLastName() + ",");
+			attendeesName.append(employee.getFirstName() + " " + employee.getLastName() + ", ");
 		});
 		// actionItemBuilder.append("<h4>").append("Attendees -
 		// "+attendeesName).append("</h4>");
@@ -540,12 +540,12 @@ public class TaskServiceImpl implements TaskService {
 			int count = 0;
 			for (EmployeeVO employee : actionOwnerNameList) {
 				actionOwnerName.append(employee.getFirstName()).append(" ").append(employee.getLastName());
-				actionOwnerEmail.append(employee.getEmail());
+				actionOwnerEmail.append(employee.getEmail()+", ");
 				actionItemOwnerEmailList.add(employee.getEmail());
                  
 				// Check if it's not the last element
 				if (count < sizes - 1) {
-					actionOwnerName.append(",");
+					actionOwnerName.append(", ");
 				}
 
 				count++;
@@ -562,10 +562,18 @@ public class TaskServiceImpl implements TaskService {
 			actionItemBuilder.append("<tr><td>").append(actionModelList.get(i).getActionTitle()).append("</td>");
 			actionItemBuilder.append("<td>").append(actionModelList.get(i).getOwner()).append("</td>");
 			actionItemBuilder.append("<td>");
-			actionModelList.get(i).getActionOwner().forEach(owner -> {
-				actionItemBuilder.append(owner + "  ");
-		});
-			
+			List<String> owners = actionModelList.get(i).getActionOwner();
+			int size = owners.size();
+//			actionModelList.get(i).getActionOwner().forEach(owner -> {
+//				actionItemBuilder.append(owner+", ");
+//	      	});
+			for (int j = 0; j < size; j++) {
+			    String owner = owners.get(j);
+			    actionItemBuilder.append(owner);
+			    if (j < size - 1) {
+			        actionItemBuilder.append(", ");
+			    }
+			}
 		 actionItemBuilder.append("</td></tr>");
 		}
 		actionItemBuilder.append("<br/>");
