@@ -619,14 +619,24 @@ public class TaskServiceImpl implements TaskService {
 		        String formattedStartDateTime = timestamp2.format(formatter);
 		        LocalDateTime timestamp3 = task.getStartDate();
 		        String formattedEndDateTime = timestamp3.format(formatter);
+		       // var message = String.valueOf(isNew).equals("true")?"assigned to you.":"updated.";
 				emailBuilder.append("<b>Meeting ID</b> - " + actionItem.getMeetingId() + "<br/>"
 						+ "<b>Action Item ID</b> - " + task.getActionItemId() + "<br/>" + "<b>Task ID</b> - "
 						+ task.getTaskId() + "<br/>" + "<b>Task Title</b> - " + task.getTaskTitle()
-						+ "<br/><br/>" + "A task has been "+emailBuilder.append(String.valueOf(isNew).equals("true")?"assigned to you":"updated.")+" Please see the below details" + "<br/><br/>"
-						+ "<table width='100%' border='1' align='center'>" + "<tr>"
-						+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
-						+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() + "</td>"
-						+ "<td><b>Priority</b> : " + task.getTaskPriority() + "</td>" + "</tr>" + "<tr>");
+						+ "<br/><br/>");
+				if(!isNew) {
+					emailBuilder.append("A task has been updated. <br/><br/>"
+							+ "<table width='100%' border='1' align='center'>" + "<tr>"
+							+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
+							+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() + "</td>"
+							+ "<td><b>Priority</b> : " + task.getTaskPriority() + "</td>" + "</tr>" + "<tr>");
+				}else {
+					emailBuilder.append("A task has been assigned to you. <br/><br/>"
+							+ "<table width='100%' border='1' align='center'>" + "<tr>"
+							+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
+							+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() + "</td>"
+							+ "<td><b>Priority</b> : " + task.getTaskPriority() + "</td>" + "</tr>" + "<tr>");
+				}
 				if (task.getStartDate() == null) {
 					emailBuilder.append("<td><b>Planned Start Date</b> : " + formattedPlannedStartDateTime + "</td>"
 							+ "<td><b>Planned Due Date</b> : " + formattedPlannedEndDateTime + "</td>"
