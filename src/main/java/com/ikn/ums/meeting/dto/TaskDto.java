@@ -61,4 +61,6 @@ public class TaskDto implements Serializable {
 	private String plannedDuration;
 	
 	private String actualDuration;
+	
+	private String taskUpdatedFrom;
 }

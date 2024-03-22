@@ -117,8 +117,9 @@ public class TaskServiceImpl implements TaskService {
 		 * ERR_MEETINGS_NOTIFICATION_SERVICE_NOTFOUND_CODE,
 		 * ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_MSG); }
 		 */
+		EmployeeVO  employee = restTemplate.getForObject("http://UMS-EMPLOYEE-SERVICE/employees/"+saveTask.getEmailId(), EmployeeVO.class);
 		Notification notification = new Notification();
-		notification.setMessage("The task " + createdTask.getTaskId() + " has been assigned to you by "+createdTask.getEmailId()+".");
+		notification.setMessage("The task " + createdTask.getTaskId() + " has been assigned to you by "+employee.getFirstName()+" "+employee.getLastName()+".");
 		notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 		notification.setNotificationTo(createdTask.getTaskOwner());
 		notification.setEmailId(createdTask.getEmailId());
@@ -145,10 +146,12 @@ public class TaskServiceImpl implements TaskService {
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
 		log.info("updateTask() is under execution...");
+		var taskUpdatedFrom = entity.getTaskUpdatedFrom();
 		Task task = new Task();
 		TaskDto resultDto = new TaskDto();
 		mapper.map(entity, task);
 		Task updatetask = taskRepository.findById(task.getTaskId()).get();
+		var dbTaskOwner = updatetask.getTaskOwner();
 		updatetask.setTaskTitle(task.getTaskTitle());
 		updatetask.setTaskDescription(task.getTaskDescription());
 		updatetask.setStartDate(task.getStartDate());
@@ -175,7 +178,21 @@ public class TaskServiceImpl implements TaskService {
 		Task modifiedtask = taskRepository.save(updatetask);
 		//send email to task creator that a task has been modified on behalf of them
 		if(modifiedtask != null) {
-			if(!modifiedtask.getModifiedByEmailId().equalsIgnoreCase(modifiedtask.getTaskOwner())) {
+			if(taskUpdatedFrom.equalsIgnoreCase("AssignedTask")) {
+				if(!modifiedtask.getModifiedByEmailId().equalsIgnoreCase(modifiedtask.getTaskOwner())) {
+					//if create person of the meeting and organizer is not same send email to organizer of meeting that
+					//some other person has created a meeting in their account on behalf
+					String subject = "Task "+modifiedtask.getTaskId()+" updated by "+modifiedtask.getModifiedBy()+" on behalf of you";
+					String emailBody = 
+					"Action Item ID - "+modifiedtask.getActionItemId()+"\r\n"+
+					"Task ID - "+modifiedtask.getTaskId()+" \r\n"+
+					"Task Title - "+modifiedtask.getTaskTitle()+". \r\n \r\n"+
+					"Please be informed that a task has been updated on your behalf by "+modifiedtask.getModifiedBy()+" ("+modifiedtask.getModifiedByEmailId()+"). \r\n \r\n"+
+					"Please click the below link for further details. \r\n"+
+					"http://132.145.186.188:4200/#/task"+" \r\n \r\n";
+					emailService.sendMail(new String[] {modifiedtask.getTaskOwner()}, subject, emailBody, false);
+				}
+			}else {
 				//if create person of the meeting and organizer is not same send email to organizer of meeting that
 				//some other person has created a meeting in their account on behalf
 				String subject = "Task "+modifiedtask.getTaskId()+" updated by "+modifiedtask.getModifiedBy()+" on behalf of you";
@@ -186,7 +203,7 @@ public class TaskServiceImpl implements TaskService {
 				"Please be informed that a task has been updated on your behalf by "+modifiedtask.getModifiedBy()+" ("+modifiedtask.getModifiedByEmailId()+"). \r\n \r\n"+
 				"Please click the below link for further details. \r\n"+
 				"http://132.145.186.188:4200/#/task"+" \r\n \r\n";
-				emailService.sendMail(new String[] {modifiedtask.getEmailId(), modifiedtask.getTaskOwner()}, subject, emailBody, false);
+				emailService.sendMail(new String[] {modifiedtask.getEmailId()}, subject, emailBody, false);
 			}
 		}
 		// send notification to task owner
@@ -465,7 +482,7 @@ public class TaskServiceImpl implements TaskService {
 				.append("<b>" + "Duration of Meeting - " + "</b>" + HoursDiff + "H:" + minDiff + "M" + "<br/>");
 		StringBuilder attendeesName = new StringBuilder();
 		employeeVOList.forEach(employee -> {
-			attendeesName.append(employee.getFirstName() + " " + employee.getLastName() + ",");
+			attendeesName.append(employee.getFirstName() + " " + employee.getLastName() + ", ");
 		});
 		// actionItemBuilder.append("<h4>").append("Attendees -
 		// "+attendeesName).append("</h4>");
@@ -540,12 +557,12 @@ public class TaskServiceImpl implements TaskService {
 			int count = 0;
 			for (EmployeeVO employee : actionOwnerNameList) {
 				actionOwnerName.append(employee.getFirstName()).append(" ").append(employee.getLastName());
-				actionOwnerEmail.append(employee.getEmail());
+				actionOwnerEmail.append(employee.getEmail()+", ");
 				actionItemOwnerEmailList.add(employee.getEmail());
                  
 				// Check if it's not the last element
 				if (count < sizes - 1) {
-					actionOwnerName.append(",");
+					actionOwnerName.append(", ");
 				}
 
 				count++;
@@ -562,10 +579,18 @@ public class TaskServiceImpl implements TaskService {
 			actionItemBuilder.append("<tr><td>").append(actionModelList.get(i).getActionTitle()).append("</td>");
 			actionItemBuilder.append("<td>").append(actionModelList.get(i).getOwner()).append("</td>");
 			actionItemBuilder.append("<td>");
-			actionModelList.get(i).getActionOwner().forEach(owner -> {
-				actionItemBuilder.append(owner + "  ");
-		});
-			
+			List<String> owners = actionModelList.get(i).getActionOwner();
+			int size = owners.size();
+//			actionModelList.get(i).getActionOwner().forEach(owner -> {
+//				actionItemBuilder.append(owner+", ");
+//	      	});
+			for (int j = 0; j < size; j++) {
+			    String owner = owners.get(j);
+			    actionItemBuilder.append(owner);
+			    if (j < size - 1) {
+			        actionItemBuilder.append(", ");
+			    }
+			}
 		 actionItemBuilder.append("</td></tr>");
 		}
 		actionItemBuilder.append("<br/>");
@@ -619,14 +644,24 @@ public class TaskServiceImpl implements TaskService {
 		        String formattedStartDateTime = timestamp2.format(formatter);
 		        LocalDateTime timestamp3 = task.getStartDate();
 		        String formattedEndDateTime = timestamp3.format(formatter);
+		       // var message = String.valueOf(isNew).equals("true")?"assigned to you.":"updated.";
 				emailBuilder.append("<b>Meeting ID</b> - " + actionItem.getMeetingId() + "<br/>"
 						+ "<b>Action Item ID</b> - " + task.getActionItemId() + "<br/>" + "<b>Task ID</b> - "
 						+ task.getTaskId() + "<br/>" + "<b>Task Title</b> - " + task.getTaskTitle()
-						+ "<br/><br/>" + "A task has been "+emailBuilder.append(String.valueOf(isNew).equals("true")?"assigned to you":"updated.")+" Please see the below details" + "<br/><br/>"
-						+ "<table width='100%' border='1' align='center'>" + "<tr>"
-						+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
-						+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() + "</td>"
-						+ "<td><b>Priority</b> : " + task.getTaskPriority() + "</td>" + "</tr>" + "<tr>");
+						+ "<br/><br/>");
+				if(!isNew) {
+					emailBuilder.append("A task has been updated. <br/><br/>"
+							+ "<table width='100%' border='1' align='center'>" + "<tr>"
+							+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
+							+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() + "</td>"
+							+ "<td><b>Priority</b> : " + task.getTaskPriority() + "</td>" + "</tr>" + "<tr>");
+				}else {
+					emailBuilder.append("A task has been assigned to you. <br/><br/>"
+							+ "<table width='100%' border='1' align='center'>" + "<tr>"
+							+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
+							+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() + "</td>"
+							+ "<td><b>Priority</b> : " + task.getTaskPriority() + "</td>" + "</tr>" + "<tr>");
+				}
 				if (task.getStartDate() == null) {
 					emailBuilder.append("<td><b>Planned Start Date</b> : " + formattedPlannedStartDateTime + "</td>"
 							+ "<td><b>Planned Due Date</b> : " + formattedPlannedEndDateTime + "</td>"
