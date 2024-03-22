@@ -219,14 +219,14 @@ public class TaskServiceImpl implements TaskService {
 					notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+employee.getFirstName()+" "+employee.getLastName()+".");
 					notification1.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 					notification1.setNotificationTo(modifiedtask.getEmailId());
-					notification1.setEmailId(modifiedtask.getEmailId());
+					notification1.setEmailId(modifiedtask.getModifiedByEmailId());
 					notificationService.createNotification(notification1);
 					
 					Notification notification = new Notification();
 					notification.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+employee.getFirstName()+" "+employee.getLastName()+".");
 					notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 					notification.setNotificationTo(modifiedtask.getTaskOwner());
-					notification.setEmailId(modifiedtask.getEmailId());
+					notification.setEmailId(modifiedtask.getModifiedByEmailId());
 					notificationService.createNotification(notification);
 				}else {
 					EmployeeVO  employee = restTemplate.getForObject("http://UMS-EMPLOYEE-SERVICE/employees/"+modifiedtask.getTaskOwner(), EmployeeVO.class);
@@ -235,14 +235,14 @@ public class TaskServiceImpl implements TaskService {
 					notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+employee.getFirstName()+" "+employee.getLastName()+".");
 					notification1.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 					notification1.setNotificationTo(modifiedtask.getEmailId());
-					notification1.setEmailId(modifiedtask.getEmailId());
+					notification1.setEmailId(modifiedtask.getModifiedByEmailId());
 					notificationService.createNotification(notification1);
 					
 					Notification notification = new Notification();
 					notification.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+employee.getFirstName()+" "+employee.getLastName()+".");
 					notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 					notification.setNotificationTo(modifiedtask.getTaskOwner());
-					notification.setEmailId(modifiedtask.getEmailId());
+					notification.setEmailId(modifiedtask.getModifiedByEmailId());
 					notificationService.createNotification(notification);
 				}
 			}
