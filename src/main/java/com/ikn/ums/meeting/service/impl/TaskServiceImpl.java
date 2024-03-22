@@ -193,6 +193,7 @@ public class TaskServiceImpl implements TaskService {
 					emailService.sendMail(new String[] {modifiedtask.getTaskOwner()}, subject, emailBody, false);
 				}
 			}else {
+				if(!modifiedtask.getModifiedByEmailId().equalsIgnoreCase(modifiedtask.getEmailId())) {
 				//if create person of the meeting and organizer is not same send email to organizer of meeting that
 				//some other person has created a meeting in their account on behalf
 				String subject = "Task "+modifiedtask.getTaskId()+" updated by "+modifiedtask.getModifiedBy()+" on behalf of you";
@@ -205,16 +206,14 @@ public class TaskServiceImpl implements TaskService {
 				"http://132.145.186.188:4200/#/task"+" \r\n \r\n";
 				emailService.sendMail(new String[] {modifiedtask.getEmailId()}, subject, emailBody, false);
 			}
+		  }
 		}
 		// send notification to task owner
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				
-				//noti to actual owner or assignee of task
-				if(modifiedtask.getModifiedByEmailId().equalsIgnoreCase(modifiedtask.getEmailId())) {
 					//noti to task organizer
-					EmployeeVO  employee = restTemplate.getForObject("http://UMS-EMPLOYEE-SERVICE/employees/"+modifiedtask.getEmailId(), EmployeeVO.class);
+					EmployeeVO  employee = restTemplate.getForObject("http://UMS-EMPLOYEE-SERVICE/employees/"+modifiedtask.getModifiedByEmailId(), EmployeeVO.class);
 					Notification notification1 = new Notification();
 					notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+employee.getFirstName()+" "+employee.getLastName()+".");
 					notification1.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
@@ -228,23 +227,6 @@ public class TaskServiceImpl implements TaskService {
 					notification.setNotificationTo(modifiedtask.getTaskOwner());
 					notification.setEmailId(modifiedtask.getModifiedByEmailId());
 					notificationService.createNotification(notification);
-				}else {
-					EmployeeVO  employee = restTemplate.getForObject("http://UMS-EMPLOYEE-SERVICE/employees/"+modifiedtask.getTaskOwner(), EmployeeVO.class);
-					//noti to task organizer
-					Notification notification1 = new Notification();
-					notification1.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+employee.getFirstName()+" "+employee.getLastName()+".");
-					notification1.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
-					notification1.setNotificationTo(modifiedtask.getEmailId());
-					notification1.setEmailId(modifiedtask.getModifiedByEmailId());
-					notificationService.createNotification(notification1);
-					
-					Notification notification = new Notification();
-					notification.setMessage("Task " + modifiedtask.getTaskId() + " has been updated by "+employee.getFirstName()+" "+employee.getLastName()+".");
-					notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
-					notification.setNotificationTo(modifiedtask.getTaskOwner());
-					notification.setEmailId(modifiedtask.getModifiedByEmailId());
-					notificationService.createNotification(notification);
-				}
 			}
 		}).start();
 		
