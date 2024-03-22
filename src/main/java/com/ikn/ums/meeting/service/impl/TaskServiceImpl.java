@@ -117,8 +117,9 @@ public class TaskServiceImpl implements TaskService {
 		 * ERR_MEETINGS_NOTIFICATION_SERVICE_NOTFOUND_CODE,
 		 * ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_MSG); }
 		 */
+		EmployeeVO  employee = restTemplate.getForObject("http://UMS-EMPLOYEE-SERVICE/employees/"+saveTask.getEmailId(), EmployeeVO.class);
 		Notification notification = new Notification();
-		notification.setMessage("The task " + createdTask.getTaskId() + " has been assigned to you by "+createdTask.getEmailId()+".");
+		notification.setMessage("The task " + createdTask.getTaskId() + " has been assigned to you by "+employee.getFirstName()+" "+employee.getLastName()+".");
 		notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 		notification.setNotificationTo(createdTask.getTaskOwner());
 		notification.setEmailId(createdTask.getEmailId());
@@ -145,10 +146,12 @@ public class TaskServiceImpl implements TaskService {
 					ErrorCodeMessages.ERR_MEETINGS_TASKS_LIST_EMPTY_MEESAGE);
 		}
 		log.info("updateTask() is under execution...");
+		var taskUpdatedFrom = entity.getTaskUpdatedFrom();
 		Task task = new Task();
 		TaskDto resultDto = new TaskDto();
 		mapper.map(entity, task);
 		Task updatetask = taskRepository.findById(task.getTaskId()).get();
+		var dbTaskOwner = updatetask.getTaskOwner();
 		updatetask.setTaskTitle(task.getTaskTitle());
 		updatetask.setTaskDescription(task.getTaskDescription());
 		updatetask.setStartDate(task.getStartDate());
@@ -175,7 +178,21 @@ public class TaskServiceImpl implements TaskService {
 		Task modifiedtask = taskRepository.save(updatetask);
 		//send email to task creator that a task has been modified on behalf of them
 		if(modifiedtask != null) {
-			if(!modifiedtask.getModifiedByEmailId().equalsIgnoreCase(modifiedtask.getTaskOwner())) {
+			if(taskUpdatedFrom.equalsIgnoreCase("AssignedTask")) {
+				if(!modifiedtask.getModifiedByEmailId().equalsIgnoreCase(modifiedtask.getTaskOwner())) {
+					//if create person of the meeting and organizer is not same send email to organizer of meeting that
+					//some other person has created a meeting in their account on behalf
+					String subject = "Task "+modifiedtask.getTaskId()+" updated by "+modifiedtask.getModifiedBy()+" on behalf of you";
+					String emailBody = 
+					"Action Item ID - "+modifiedtask.getActionItemId()+"\r\n"+
+					"Task ID - "+modifiedtask.getTaskId()+" \r\n"+
+					"Task Title - "+modifiedtask.getTaskTitle()+". \r\n \r\n"+
+					"Please be informed that a task has been updated on your behalf by "+modifiedtask.getModifiedBy()+" ("+modifiedtask.getModifiedByEmailId()+"). \r\n \r\n"+
+					"Please click the below link for further details. \r\n"+
+					"http://132.145.186.188:4200/#/task"+" \r\n \r\n";
+					emailService.sendMail(new String[] {modifiedtask.getTaskOwner()}, subject, emailBody, false);
+				}
+			}else {
 				//if create person of the meeting and organizer is not same send email to organizer of meeting that
 				//some other person has created a meeting in their account on behalf
 				String subject = "Task "+modifiedtask.getTaskId()+" updated by "+modifiedtask.getModifiedBy()+" on behalf of you";
@@ -186,7 +203,7 @@ public class TaskServiceImpl implements TaskService {
 				"Please be informed that a task has been updated on your behalf by "+modifiedtask.getModifiedBy()+" ("+modifiedtask.getModifiedByEmailId()+"). \r\n \r\n"+
 				"Please click the below link for further details. \r\n"+
 				"http://132.145.186.188:4200/#/task"+" \r\n \r\n";
-				emailService.sendMail(new String[] {modifiedtask.getEmailId(), modifiedtask.getTaskOwner()}, subject, emailBody, false);
+				emailService.sendMail(new String[] {modifiedtask.getEmailId()}, subject, emailBody, false);
 			}
 		}
 		// send notification to task owner
