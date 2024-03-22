@@ -92,8 +92,8 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 
 	List<Task> findByStatus(String status);
 
-	@Query("FROM Task WHERE plannedEndDate < :currentDate")
-	List<Task> findAgedTasks(LocalDate currentDate);
+	@Query("FROM Task WHERE plannedEndDate < :dateTime")
+	List<Task> findAgedTasks(LocalDateTime dateTime);
 
 	@Query("SELECT TO_CHAR(t.plannedStartDate, 'MM'), COUNT(*) " + "FROM Task t "
 			+ "WHERE t.plannedStartDate BETWEEN :startDate AND :endDate "

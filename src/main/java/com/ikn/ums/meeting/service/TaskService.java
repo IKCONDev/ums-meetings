@@ -60,7 +60,7 @@ public interface TaskService {
 
 	List<Task> getTasksByTaskStatus(String taskStatus);
 
-	List<Task> getAgedTasks(LocalDate dateTime);
+	List<Task> getAgedTasks(LocalDateTime currentDateTime);
 
 	List<Long> getTasksBetweenStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate);
 
