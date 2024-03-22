@@ -479,7 +479,7 @@ public class TaskController {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_TASK_DATE_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_TASK_DATE_IS_EMPTY_MSG);
 		}
-		LocalDate currentDateTime = LocalDate.parse(dateTime);
+		LocalDateTime currentDateTime = LocalDateTime.parse(dateTime);
 		log.info("getAgedTasksList() is under execution... ");
 		try {
 			List<Task> taskList = taskService.getAgedTasks(currentDateTime);
