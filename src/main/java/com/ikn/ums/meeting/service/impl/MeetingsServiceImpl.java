@@ -2,7 +2,6 @@ package com.ikn.ums.meeting.service.impl;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -21,9 +20,8 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ikn.ums.meeting.dto.MeetingDto;
 import com.ikn.ums.meeting.entity.AttendanceInterval;
@@ -59,6 +57,9 @@ public class MeetingsServiceImpl implements MeetingService {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private Environment env;
 	
 	long secondsDifference = 0;
 
@@ -297,12 +298,12 @@ public class MeetingsServiceImpl implements MeetingService {
 			attendeeList.add(attendee);
 		}
 		// add organizer also as an attendee
-//		Attendee organizerAsAnAttendee = new Attendee();
-//		organizerAsAnAttendee.setEmail(meetingModel.getOrganizerEmailId().toLowerCase());
-//		organizerAsAnAttendee.setEmailId(meetingModel.getOrganizerEmailId().toLowerCase());
-//		organizerAsAnAttendee.setType("Required");
-//		organizerAsAnAttendee.setStatus("Accepted");
-//		attendeeList.add(organizerAsAnAttendee);
+		Attendee organizerAsAnAttendee = new Attendee();
+		organizerAsAnAttendee.setEmail(meetingModel.getOrganizerEmailId().toLowerCase());
+		organizerAsAnAttendee.setEmailId(meetingModel.getOrganizerEmailId().toLowerCase());
+		organizerAsAnAttendee.setType("Required");
+		organizerAsAnAttendee.setStatus("Accepted");
+		attendeeList.add(organizerAsAnAttendee);
 		// set remaining props
 		modelMapper.map(meetingModel, meeting);
 		meeting.setEventId("UMS MANUAL MEETING " + new Random(9999999).nextInt());
@@ -322,6 +323,38 @@ public class MeetingsServiceImpl implements MeetingService {
         secondsDifference = secondsDifference+duration.getSeconds();
         String meetingDuration = getMeetingDuration(secondsDifference);
         meeting.setActualMeetingDuration(meetingDuration);
+        //create Attendance report, attendance record and attendance intervals
+        //for each attendee create an interval for meeting
+        List<AttendanceInterval> attIntervalList = new ArrayList<>();
+        for(int i = 0; i< attendeeList.size(); i++) {
+        	AttendanceInterval attInterval = new AttendanceInterval();
+        	attInterval.setAttendeeDurationInSeconds((int)secondsDifference);
+        	attInterval.setJoinDateTime(meeting.getStartDateTime().toString());
+        	attInterval.setLeaveDateTime(meeting.getEndDateTime().toString());
+        	attIntervalList.add(attInterval);
+        }
+        //create attendance records
+        Iterator<Attendee> attItr = attendeeList.iterator();
+        List<AttendanceRecord> attRecordList = new ArrayList<>();
+        while(attItr.hasNext()) {
+        	Attendee attendee = attItr.next();
+        	AttendanceRecord attRecord = new AttendanceRecord();
+        	attRecord.setEmailAddress(attendee.getEmail());
+        	attRecord.setMeetingRole("Presenter");
+        	attRecord.setTotalAttendanceInSeconds((int)secondsDifference);
+        	attRecord.setAttendanceIntervals(attIntervalList);
+        	attRecordList.add(attRecord);
+        }
+        //create attendance report of meeting
+        List<AttendanceReport> attReportList = new ArrayList<>();
+        AttendanceReport attReport = new AttendanceReport();
+        attReport.setTotalParticipantCount(Integer.toString(attendeeList.size()));
+        attReport.setMeetingStartDateTime(meeting.getStartDateTime().toString());
+        attReport.setMeetingEndDateTime(meeting.getEndDateTime().toString());
+        attReport.setAttendanceRecords(attRecordList);
+        attReportList.add(attReport);
+        //attach the report to meeting
+        meeting.setAttendanceReport(attReportList);
 		Meeting createdMeeting = meetingRepository.save(meeting);
 		if(createdMeeting != null) {
 			if(!createdMeeting.getCreatedByEmailId().equalsIgnoreCase(createdMeeting.getOrganizerEmailId())) {
@@ -332,7 +365,7 @@ public class MeetingsServiceImpl implements MeetingService {
 				"MeetingTitle - "+createdMeeting.getSubject()+". \r\n \r\n"+
 				"Please be informed that a meeting has been created on your behalf by "+createdMeeting.getCreatedBy()+" ("+createdMeeting.getCreatedByEmailId()+"). \r\n \r\n"+
 				"Please click the below link for further details. \r\n"+
-				"http://132.145.186.188:4200/#/meetings"+" \r\n \r\n";
+				env.getProperty("default.domain.url")+"#/meetings"+" \r\n \r\n";
 				emailService.sendMail(createdMeeting.getOrganizerEmailId(), subject, emailBody, false);
 			}
 		}

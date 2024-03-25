@@ -19,6 +19,7 @@ import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,9 @@ public class TaskServiceImpl implements TaskService {
 
 	@Autowired
 	private ModelMapper mapper;
+	
+	@Autowired
+	private Environment env;
 
 	// @Autowired
 	// private DiscoveryClient discoveryClient;
@@ -102,7 +106,7 @@ public class TaskServiceImpl implements TaskService {
 						"Task Title - "+createdTask.getTaskTitle()+". \r\n \r\n"+
 						"Please be informed that a task has been created on your behalf by "+createdTask.getCreatedBy()+" ("+createdTask.getCreatedByEmailId()+"). \r\n \r\n"+
 						"Please click the below link for further details. \r\n"+
-						"http://132.145.186.188:4200/#/task"+" \r\n \r\n";
+						env.getProperty("default.domain.url")+"#/task"+" \r\n \r\n";
 						emailService.sendMail(createdTask.getEmailId(), subject, emailBody, false);
 					}
 				}
@@ -189,7 +193,7 @@ public class TaskServiceImpl implements TaskService {
 					"Task Title - "+modifiedtask.getTaskTitle()+". \r\n \r\n"+
 					"Please be informed that a task has been updated on your behalf by "+modifiedtask.getModifiedBy()+" ("+modifiedtask.getModifiedByEmailId()+"). \r\n \r\n"+
 					"Please click the below link for further details. \r\n"+
-					"http://132.145.186.188:4200/#/task"+" \r\n \r\n";
+					env.getProperty("default.domain.url")+"#/task"+" \r\n \r\n";
 					emailService.sendMail(new String[] {modifiedtask.getTaskOwner()}, subject, emailBody, false);
 				}
 			}else {
@@ -203,7 +207,7 @@ public class TaskServiceImpl implements TaskService {
 				"Task Title - "+modifiedtask.getTaskTitle()+". \r\n \r\n"+
 				"Please be informed that a task has been updated on your behalf by "+modifiedtask.getModifiedBy()+" ("+modifiedtask.getModifiedByEmailId()+"). \r\n \r\n"+
 				"Please click the below link for further details. \r\n"+
-				"http://132.145.186.188:4200/#/task"+" \r\n \r\n";
+				env.getProperty("default.domain.url")+"#/task"+" \r\n \r\n";
 				emailService.sendMail(new String[] {modifiedtask.getEmailId()}, subject, emailBody, false);
 			}
 		  }

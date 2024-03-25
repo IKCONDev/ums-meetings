@@ -1,5 +1,9 @@
 server:
   port: 9021
+  
+default:
+  domain:
+    url: http://132.145.196.4:4200/
 
 logging.level:
   '[org.hibernate.sql]': DEBUG
