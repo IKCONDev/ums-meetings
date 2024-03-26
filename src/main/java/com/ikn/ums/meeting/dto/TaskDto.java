@@ -35,6 +35,8 @@ public class TaskDto implements Serializable {
 	private LocalDateTime plannedEndDate;
 
 	private String taskOwner;
+	
+	private String taskReviewer;
 
 	private String status;
 

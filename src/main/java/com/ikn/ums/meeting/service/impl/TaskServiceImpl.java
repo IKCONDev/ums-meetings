@@ -113,6 +113,8 @@ public class TaskServiceImpl implements TaskService {
 		
 		// send email to task Owner
 		sendEmailToTaskOwner(createdTask, true);
+		//send email to Task reviewer
+		sendEmailToTaskReviewer(createdTask, true,null);
 		mapper.map(createdTask, taskDto);
 		// send notification to task owner
 		/*
@@ -121,15 +123,28 @@ public class TaskServiceImpl implements TaskService {
 		 * ERR_MEETINGS_NOTIFICATION_SERVICE_NOTFOUND_CODE,
 		 * ErrorCodeMessages.ERR_MEETINGS_ENTITY_NOTFOUND_MSG); }
 		 */
-		EmployeeVO  employee = restTemplate.getForObject("http://UMS-EMPLOYEE-SERVICE/employees/"+saveTask.getEmailId(), EmployeeVO.class);
+		//send noti to task owner
+		EmployeeVO  taskOrganizer = getEmployeeDetails(saveTask.getEmailId());
 		Notification notification = new Notification();
-		notification.setMessage("The task " + createdTask.getTaskId() + " has been assigned to you by "+employee.getFirstName()+" "+employee.getLastName()+".");
+		notification.setMessage("The task " + createdTask.getTaskId() + " has been assigned to you by "+taskOrganizer.getFirstName()+" "+taskOrganizer.getLastName()+".");
 		notification.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
 		notification.setNotificationTo(createdTask.getTaskOwner());
 		notification.setEmailId(createdTask.getEmailId());
 		notificationService.createNotification(notification);
+		
+		//send noti to task reviewer
+		Notification notification1 = new Notification();
+		notification1.setMessage("You have been assigned as the reviewer for task "+createdTask.getTaskId());
+		notification1.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
+		notification1.setNotificationTo(saveTask.getTaskReviewer());
+		notification1.setEmailId(createdTask.getEmailId());
+		notificationService.createNotification(notification1);
 		log.info("saveTask() is executed Successfully");
 		return taskDto;
+	}
+	
+	private EmployeeVO getEmployeeDetails(String emailId) {
+		return restTemplate.getForObject("http://UMS-EMPLOYEE-SERVICE/employees/"+emailId, EmployeeVO.class);
 	}
 
 	@Override
@@ -155,7 +170,7 @@ public class TaskServiceImpl implements TaskService {
 		TaskDto resultDto = new TaskDto();
 		mapper.map(entity, task);
 		Task updatetask = taskRepository.findById(task.getTaskId()).get();
-		var dbTaskOwner = updatetask.getTaskOwner();
+		var dbTaskReviewer = updatetask.getTaskReviewer();
 		updatetask.setTaskTitle(task.getTaskTitle());
 		updatetask.setTaskDescription(task.getTaskDescription());
 		updatetask.setStartDate(task.getStartDate());
@@ -163,6 +178,7 @@ public class TaskServiceImpl implements TaskService {
 		updatetask.setTaskPriority(task.getTaskPriority());
 		updatetask.setActionItemId(task.getActionItemId());
 		updatetask.setTaskOwner(task.getTaskOwner());
+		updatetask.setTaskReviewer(task.getTaskReviewer());
 		updatetask.setStatus(task.getStatus());
 		updatetask.setPlannedStartDate(task.getPlannedStartDate());
 		updatetask.setPlannedEndDate(task.getPlannedEndDate());
@@ -231,9 +247,31 @@ public class TaskServiceImpl implements TaskService {
 					notification.setNotificationTo(modifiedtask.getTaskOwner());
 					notification.setEmailId(modifiedtask.getModifiedByEmailId());
 					notificationService.createNotification(notification);
+					
+					//send noti to old task reviewer that he/she has been removed as the reviewer for the task
+					if(!dbTaskReviewer.equalsIgnoreCase(updatetask.getTaskReviewer())) {
+						Notification notification2 = new Notification();
+						notification2.setMessage("You have been removed as the reviewer for task "+updatetask.getTaskId());
+						notification2.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
+						notification2.setNotificationTo(dbTaskReviewer);
+						notification2.setEmailId(modifiedtask.getModifiedByEmailId());
+						notificationService.createNotification(notification2);
+						
+						//send noti to new task reviewer
+						Notification notification3 = new Notification();
+						notification3.setMessage("You have been assigned as the reviewer for task "+updatetask.getTaskId());
+						notification3.setModuleType(MeetingConstants.MODULE_TYPE_TASK);
+						notification3.setNotificationTo(modifiedtask.getTaskOwner());
+						notification3.setEmailId(modifiedtask.getModifiedByEmailId());
+						notificationService.createNotification(notification3);
+						
+						//send email to new Task reviewer as the task has been updated
+						sendEmailToTaskReviewer(modifiedtask, false, dbTaskReviewer);
+					}else {
+						sendEmailToTaskReviewer(modifiedtask, false, dbTaskReviewer);
+					}
 			}
 		}).start();
-		
 		// send email to task owner
 		sendEmailToTaskOwner(modifiedtask, false);
 		mapper.map(modifiedtask, resultDto);
@@ -622,14 +660,26 @@ public class TaskServiceImpl implements TaskService {
 					actionItem = optionalActionItem.get();
 				}
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE MMMM dd hh:mm a");
+				String formattedEndDateTime = null;
+				String formattedStartDateTime = null;
+				 String formattedPlannedEndDateTime = null;
+				 String formattedPlannedStartDateTime = null;
 				LocalDateTime timestamp = task.getPlannedStartDate();
-		        String formattedPlannedStartDateTime = timestamp.format(formatter);
+		        if(timestamp != null) {
+		        	 formattedPlannedStartDateTime = timestamp.format(formatter);
+		        }
 		        LocalDateTime timestamp1 = task.getPlannedEndDate();
-		        String formattedPlannedEndDateTime = timestamp1.format(formatter);
+		        if(timestamp1 != null) {
+		        	formattedPlannedEndDateTime = timestamp1.format(formatter);
+		        }
 		        LocalDateTime timestamp2 = task.getStartDate();
-		        String formattedStartDateTime = timestamp2.format(formatter);
+		        if(timestamp2 != null) {
+		        	 formattedStartDateTime = timestamp2.format(formatter);
+		        }
 		        LocalDateTime timestamp3 = task.getStartDate();
-		        String formattedEndDateTime = timestamp3.format(formatter);
+		        if(timestamp3 != null) {
+		        	 formattedEndDateTime = timestamp3.format(formatter);
+		        }
 		       // var message = String.valueOf(isNew).equals("true")?"assigned to you.":"updated.";
 				emailBuilder.append("<b>Meeting ID</b> - " + actionItem.getMeetingId() + "<br/>"
 						+ "<b>Action Item ID</b> - " + task.getActionItemId() + "<br/>" + "<b>Task ID</b> - "
@@ -666,6 +716,119 @@ public class TaskServiceImpl implements TaskService {
 			}
 		}).start();
 		log.info("sendEmailToTaskOwner() executed successfully");
+
+	}
+	
+	private void sendEmailToPreviousTaskReviewer(String previousTaskReviewer, Task task) {
+		log.info("sendEmailToPreviousTaskReviewer() entered with args: previousTaskReviewer");
+		// send email to task owner
+		log.info("sendEmailToPreviousTaskReviewer() is under execution...");
+		StringBuilder emailBuilder = new StringBuilder();
+		ActionItem actionItem = new ActionItem();
+		Optional<ActionItem> optionalActionItem = actionItemService.getActionItemById(task.getActionItemId());
+		if (optionalActionItem.isPresent()) {
+			actionItem = optionalActionItem.get();
+		}
+		String subject = "Task Reviewer Updated !";
+		emailBuilder.append("<b>Meeting ID</b> - " + actionItem.getMeetingId() + "<br/>" + "<b>Action Item ID</b> - "
+				+ task.getActionItemId() + "<br/>" + "<b>Task ID</b> - " + task.getTaskId() + "<br/>"
+				+ "<b>Task Title</b> - " + task.getTaskTitle() + "<br/><br/>"
+				+ "You have been removed as the task reviewer for Task " + task.getTaskId()+".");
+		emailService.sendMail(previousTaskReviewer, subject, emailBuilder.toString(), true);
+		log.info("sendEmailToPreviousTaskReviewer() executed successfully");
+	}
+	
+	private void sendEmailToTaskReviewer(Task task, boolean isNew, String oldReviewer) {
+		log.info("sendEmailToTaskReviewer() entered with args - taskObject, isNew? : " + isNew);
+		// send email to task owner
+		log.info("sendEmailToTaskReviewer() is under execution...");
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				String to = task.getTaskReviewer();
+				String subject = null;
+				if (isNew) {
+					subject = "Task Assigned For Review !";
+				} else {
+					if(!oldReviewer.equalsIgnoreCase(task.getTaskReviewer())) {
+						subject = "Task Assigned For Review !";
+					}else {
+						subject = "Task Updated For Review !";
+					}
+				}
+				StringBuilder emailBuilder = new StringBuilder();
+				ActionItem actionItem = new ActionItem();
+				Optional<ActionItem> optionalActionItem = actionItemService.getActionItemById(task.getActionItemId());
+				if (optionalActionItem.isPresent()) {
+					actionItem = optionalActionItem.get();
+				}
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE MMMM dd hh:mm a");
+				String formattedEndDateTime = null;
+				String formattedStartDateTime = null;
+				 String formattedPlannedEndDateTime = null;
+				 String formattedPlannedStartDateTime = null;
+				LocalDateTime timestamp = task.getPlannedStartDate();
+		        if(timestamp != null) {
+		        	 formattedPlannedStartDateTime = timestamp.format(formatter);
+		        }
+		        LocalDateTime timestamp1 = task.getPlannedEndDate();
+		        if(timestamp1 != null) {
+		        	formattedPlannedEndDateTime = timestamp1.format(formatter);
+		        }
+		        LocalDateTime timestamp2 = task.getStartDate();
+		        if(timestamp2 != null) {
+		        	 formattedStartDateTime = timestamp2.format(formatter);
+		        }
+		        LocalDateTime timestamp3 = task.getStartDate();
+		        if(timestamp3 != null) {
+		        	 formattedEndDateTime = timestamp3.format(formatter);
+		        }
+		       // var message = String.valueOf(isNew).equals("true")?"assigned to you.":"updated.";
+				emailBuilder.append("<b>Meeting ID</b> - " + actionItem.getMeetingId() + "<br/>"
+						+ "<b>Action Item ID</b> - " + task.getActionItemId() + "<br/>" + "<b>Task ID</b> - "
+						+ task.getTaskId() + "<br/>" + "<b>Task Title</b> - " + task.getTaskTitle()
+						+ "<br/><br/>");
+				if(!isNew) {
+					if(!oldReviewer.equalsIgnoreCase(task.getTaskReviewer())) {
+						//send email to old reviewer
+						sendEmailToPreviousTaskReviewer(oldReviewer, task);
+						emailBuilder.append("You have been added as the task reviewer for Task "+task.getTaskId()+ " Please see the details below.<br/><br/>"
+								+ "<table width='100%' border='1' align='center'>" + "<tr>"
+								+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
+								+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() +"<br/><b>Reviewer</b> : "+task.getTaskReviewer()+"</td>"
+								+ "<td><b>Priority</b> : " + task.getTaskPriority() + "</td>" + "</tr>" + "<tr>");
+					}else {
+						emailBuilder.append("The task you're assigned to review has been updated. Please see the details below.<br/><br/>"
+								+ "<table width='100%' border='1' align='center'>" + "<tr>"
+								+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
+								+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() +"<br/><b>Reviewer</b> : "+task.getTaskReviewer()+"</td>"
+								+ "<td><b>Priority</b> : " + task.getTaskPriority() + "</td>" + "</tr>" + "<tr>");
+					}
+				}else {
+					emailBuilder.append("You have been added as the task reviewer for Task "+task.getTaskId()+" Please see the details below.<br/><br/>"
+							+ "<table width='100%' border='1' align='center'>" + "<tr>"
+							+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
+							+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() +"<br/><b>Reviewer</b> : "+task.getTaskReviewer()+"</td>"
+							+ "<td><b>Priority</b> : " + task.getTaskPriority() + "</td>" + "</tr>" + "<tr>");
+				}
+				if (task.getStartDate() == null) {
+					emailBuilder.append("<td><b>Planned Start Date</b> : " + formattedPlannedStartDateTime + "</td>"
+							+ "<td><b>Planned Due Date</b> : " + formattedPlannedEndDateTime + "</td>"
+							+ "<td><b>Status</b> : " + task.getStatus() + "</td>" + "</tr>" + "</table><br/>");
+
+				} else {
+					emailBuilder.append("<td><b>Start Date</b> : " + formattedStartDateTime + "</td>"
+							+ "<td><b>Due Date</b> : " + formattedEndDateTime + "</td>" + "<td><b>Status</b> : "
+							+ task.getStatus() + "</td>" + "</tr>" + "</table><br/>");
+
+				}
+
+				log.info("sendEmailToTaskReviewer(): Task email sent to " + task.getTaskReviewer() + " sucessfully");
+				//emailService.sendMail(to, subject, emailBuilder.toString(), true);
+				emailService.sendMail(to, subject, emailBuilder.toString(), true);
+			}
+		}).start();
+		log.info("sendEmailToTaskReviewer() executed successfully");
 
 	}
 

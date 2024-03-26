@@ -52,6 +52,9 @@ public class Task {
 
 	@Column(name = "taskOwner", nullable = false)
 	private String taskOwner;
+	
+	@Column(name = "taskReviewer", nullable = false)
+	private String taskReviewer;
 
 	@Column(name = "status", nullable = true)
 	private String status;
