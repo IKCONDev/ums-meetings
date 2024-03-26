@@ -25,6 +25,7 @@ public class MeetingDto implements Serializable {
 	private String originalEndTimeZone;
 	private String subject;
 	private String type;
+	private String bodyPreview;
 	private String occurrenceId;
 	private LocalDateTime startDateTime;
 	private LocalDateTime endDateTime;

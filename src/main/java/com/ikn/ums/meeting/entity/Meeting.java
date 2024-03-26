@@ -48,6 +48,9 @@ public class Meeting {
 
 	@Column(name = "meetingType")
 	private String type;
+	
+	@Column(name = "bodyPreview", nullable = true, length = 10000)
+	private String bodyPreview;
 
 	@Column(name = "meetingOccurrenceId")
 	private String occurrenceId;
