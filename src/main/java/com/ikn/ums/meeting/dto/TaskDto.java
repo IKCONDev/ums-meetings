@@ -41,6 +41,8 @@ public class TaskDto implements Serializable {
 	private String status;
 
 	private Integer actionItemId;
+	
+	private Long meetingId;
 
 	private String emailId;
 

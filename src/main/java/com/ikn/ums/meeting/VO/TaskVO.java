@@ -23,6 +23,8 @@ public class TaskVO {
 	private String status;
 
 	private Integer actionItemId;
+	
+	private Long meetingId;
 
 	private String assignee;
 

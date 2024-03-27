@@ -59,8 +59,11 @@ public class Task {
 	@Column(name = "status", nullable = true)
 	private String status;
 
-	@Column(name = "actionItemId", nullable = false)
+	@Column(name = "actionItemId", nullable = true)
 	private Integer actionItemId;
+	
+	@Column(name = "meetingId", nullable = true)
+	private Long meetingId;
 
 	@Column(name = "user_id", nullable = false)
 	private String emailId;
