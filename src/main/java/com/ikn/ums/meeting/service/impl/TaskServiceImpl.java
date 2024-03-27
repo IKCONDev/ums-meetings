@@ -9,6 +9,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -499,6 +500,7 @@ public class TaskServiceImpl implements TaskService {
 		// String newformattedDateTimeInIST = formattedDateTimeInIST.replace("am",
 		// "AM").replace("pm", "PM");
 		String subject = meeting.getSubject() + "/" + "MOM";
+		actionItemBuilder.append("</br/>");
 		actionItemBuilder.append("<b>" + "Title - " + "</b>" + meeting.getSubject() + "<br/>");
 		actionItemBuilder.append("<b>" + "Organizer - " + "</b>" + meeting.getOrganizerName() + "<br/>");
 		actionItemBuilder.append("<b>" + "Date & Time - " + "</b>" + formattedDateTimeInIST + "<br/>");
@@ -622,6 +624,8 @@ public class TaskServiceImpl implements TaskService {
 		actionItemBuilder.append("<br/>");
 		actionItemBuilder.append("<b>").append("Thanks & Regards").append("<br/>");
 		actionItemBuilder.append(meeting.getOrganizerName() + "</b>" + "<br/><br/>");
+		//remove nulls from list if any
+		mergedEmailList.removeAll(Collections.singleton(null));
 		String[] convertedMergeList = mergedEmailList.toArray(new String[0]);
 		emailService.sendMail(convertedMergeList, subject, actionItemBuilder.toString(), true);
 		int count = 0;
