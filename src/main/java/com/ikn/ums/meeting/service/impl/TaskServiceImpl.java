@@ -709,7 +709,7 @@ public class TaskServiceImpl implements TaskService {
 
 				} else {
 					emailBuilder.append("<td><b>Start Date</b> : " + formattedStartDateTime + "</td>"
-							+ "<td><b>Due Date</b> : " + formattedEndDateTime + "</td>" + "<td><b>Status</b> : "
+							+ "<td><b>End Date</b> : " + formattedEndDateTime + "</td>" + "<td><b>Status</b> : "
 							+ task.getStatus() + "</td>" + "</tr>" + "</table><br/>");
 
 				}
@@ -817,12 +817,12 @@ public class TaskServiceImpl implements TaskService {
 				}
 				if (task.getStartDate() == null) {
 					emailBuilder.append("<td><b>Planned Start Date</b> : " + formattedPlannedStartDateTime + "</td>"
-							+ "<td><b>Planned Due Date</b> : " + formattedPlannedEndDateTime + "</td>"
+							+ "<td><b>Planned End Date</b> : " + formattedPlannedEndDateTime + "</td>"
 							+ "<td><b>Status</b> : " + task.getStatus() + "</td>" + "</tr>" + "</table><br/>");
 
 				} else {
 					emailBuilder.append("<td><b>Start Date</b> : " + formattedStartDateTime + "</td>"
-							+ "<td><b>Due Date</b> : " + formattedEndDateTime + "</td>" + "<td><b>Status</b> : "
+							+ "<td><b>End Date</b> : " + formattedEndDateTime + "</td>" + "<td><b>Status</b> : "
 							+ task.getStatus() + "</td>" + "</tr>" + "</table><br/>");
 
 				}
