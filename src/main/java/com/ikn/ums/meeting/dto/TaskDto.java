@@ -1,12 +1,7 @@
 package com.ikn.ums.meeting.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 

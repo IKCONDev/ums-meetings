@@ -1,6 +1,5 @@
 package com.ikn.ums.meeting.dto;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package com.ikn.ums.meeting.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
