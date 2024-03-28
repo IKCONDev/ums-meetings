@@ -693,18 +693,18 @@ public class TaskServiceImpl implements TaskService {
 					emailBuilder.append("A task has been updated. <br/><br/>"
 							+ "<table width='100%' border='1' align='center'>" + "<tr>"
 							+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
-							+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() + "</td>"
+							+ task.getTaskOwner() + "</td>" +  "<td><b>Organizer</b> : " + task.getEmailId() +"<br/><b>Reviewer</b> : "+task.getTaskReviewer()+"</td>"
 							+ "<td><b>Priority</b> : " + task.getTaskPriority() + "</td>" + "</tr>" + "<tr>");
 				}else {
 					emailBuilder.append("A task has been assigned to you. <br/><br/>"
 							+ "<table width='100%' border='1' align='center'>" + "<tr>"
 							+ "<th colspan='3'>Task Details</th>" + "</tr>" + "<tr>" + "<td><b>Assignee</b> : "
-							+ task.getTaskOwner() + "</td>" + "<td><b>Organizer</b> : " + task.getEmailId() + "</td>"
+							+ task.getTaskOwner() + "</td>" +  "<td><b>Organizer</b> : " + task.getEmailId() +"<br/><b>Reviewer</b> : "+task.getTaskReviewer()+"</td>"
 							+ "<td><b>Priority</b> : " + task.getTaskPriority() + "</td>" + "</tr>" + "<tr>");
 				}
 				if (task.getStartDate() == null) {
 					emailBuilder.append("<td><b>Planned Start Date</b> : " + formattedPlannedStartDateTime + "</td>"
-							+ "<td><b>Planned Due Date</b> : " + formattedPlannedEndDateTime + "</td>"
+							+ "<td><b>Planned End Date</b> : " + formattedPlannedEndDateTime + "</td>"
 							+ "<td><b>Status</b> : " + task.getStatus() + "</td>" + "</tr>" + "</table><br/>");
 
 				} else {
